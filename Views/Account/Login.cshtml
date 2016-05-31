@@ -1,0 +1,266 @@
+﻿@model MyOnlineClinic.Web.Models.LoginViewModel
+@{
+    ViewBag.Title = "Entrar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+
+
+<div class="clearfix"></div>
+<div class="loginarea">
+    <div class="container">
+        <div class="row">
+            <div class="innerbody_area login_bg">
+                <div class="col-sm-6">
+@using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                        {
+    @Html.AntiForgeryToken()
+    <span class="text-danger">@TempData["ErrorMessage"]</span>
+    <span class="text-success">@ViewBag.SuccessMsg</span>
+    @Html.ValidationSummary(true)
+
+                    <div class="loginleft_col">
+                        <h2>Existing Users Login</h2>
+                        <div class="login_inputarea">
+                            <div class="input_bx">
+                                <span class="input_icon"><i class="fa fa-envelope"></i></span>
+                                @Html.TextBoxFor(m => m.Username, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Username)
+                                @*<input type="text" placeholder="Enter your email ID">*@
+                            </div>
+                        </div>
+
+                        <div class="login_inputarea">
+                            <div class="input_bx">
+                                <span class="input_icon"><i class="fa fa-lock"></i></span>
+                                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Password)
+                                @*<input type="password" placeholder="password">*@
+                            </div>
+                        </div>
+
+                        <div class="login_inputarea">
+                            <div class="input_bx">
+                                <div class="chack checkboxes">
+                                    @*<input type="checkbox" class="css-checkbox">*@
+                                    @Html.CheckBoxFor(m => m.RememberMe) 
+                                    @*<label> Remember me</label>*@
+                                    <label class="css-label">Remember me </label>
+                                </div>
+
+                                <div class="for_got">
+                                    <a href="#">Forgot password?</a>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        <div class="login_inputarea">
+                            <div class="input_bx">
+                                <div class="data_centerd">
+                                    <input type="submit" value="Submit" class="btn btn-sm"> 
+                                    @*<input type="submit" value="Login" class="">*@
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+}
+                </div>
+
+
+                <div class="col-sm-6">
+                    <div class="logion">
+                        <h2>For New Account</h2>
+                        For new account you will be able to<br>
+                        create directly by clicking here.
+
+
+                        <div class="frtsds"> <a class="" href="/shopbook/users/register">Register now</a></div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clearfix"></div>
+<div class="footer_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <div data-effect="slide-left">
+                    <div class="footer_col">
+                        <h5>Address</h5>
+                        <div class="footer_address">
+                            <ul>
+                                <li>
+                                    <span class="address_icon"><i class="fa fa-map-marker"></i></span>
+                                    <span class="address_text">
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et.
+                                    </span>
+                                </li>
+
+                                <li>
+                                    <span class="address_icon"><i class="fa fa-phone-square"></i></span>
+                                    <span class="address_text">
+                                        1300 900 863
+                                    </span>
+                                </li>
+
+                                <li>
+                                    <span class="address_icon"><i class="fa fa-envelope"></i></span>
+                                    <span class="address_text">
+                                        <a href=""> Lorem ipsum dolor sit amet, consectetur </a>
+                                    </span>
+                                </li>
+                            </ul>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-4">
+                <div class="footer_col">
+                    <h5>Contact us</h5>
+
+                    <div class="footer_form">
+                        <ul>
+                            <li><input type="text" placeholder="Name"></li>
+                            <li><input type="text" placeholder="Name"></li>
+                            <li> <textarea placeholder="Message"></textarea>  </li>
+                            <li><input type="submit" value="Submit"> </li>
+
+                        </ul>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+            <div class="col-sm-4">
+                <div data-effect="slide-right">
+                    <div class="footer_col">
+                        <h5>App is no available</h5>
+
+                        <div class="footer_logo">
+                            <ul>
+                                <li> <img src="/images/footerlogo1.png" alt="img"> </li>
+                                <li> <img src="/images/footerlogo1.png" alt="img"> </li>
+                            </ul>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="copyright"><i class="fa fa-copyright"></i> lorem ipsum </div>
+
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+
+@*<div class="clearfix"></div>
+<div class="container">
+    <div class="home_registerarea">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="registration_heading">
+                    <h2>Login</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div data-effect="slide-left">
+                    <div class="register_fieldarea">
+                        <span class="field_heading"> Login your account </span>
+                        @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <span class="text-danger">@TempData["ErrorMessage"]</span>
+                            <span class="text-success">@ViewBag.SuccessMsg</span>
+                            @Html.ValidationSummary(true)
+                            <ul>
+                                <li>
+                                    @Html.TextBoxFor(m => m.Username, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.Username)
+                                </li>
+                                <li>
+                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.Password)
+                                </li>
+                                <li>
+                                    @Html.CheckBoxFor(m => m.RememberMe) <label> Remember me</label>
+                                </li>
+                                <li><input type="submit" value="Submit" class="btn btn-sm">  </li>
+                            </ul>
+                            @*<fieldset>
+                                <section>
+                                    <div class="form-group">
+                                        <label class="label">UserName</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-user"></i>
+                                            @Html.TextBoxFor(m => m.Username, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.Username)
+                                        </label>
+                                    </div>
+                                </section>
+                                <section>
+                                    <div class="form-group">
+                                        <label class="label">Password</label>
+                                        <label class="input">
+                                            <i class="icon-append fa fa-lock"></i>
+                                            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(m => m.Password)
+                                        </label>
+                                    </div>
+                                </section>
+                               
+                                <section>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            @Html.CheckBoxFor(m => m.RememberMe) <label> Remember me</label>
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <section>
+                                    <button class="btn btn-base btn-icon btn-icon-right btn-sign-in pull-right" type="submit">
+                                        <span>Login</span>
+                                    </button>
+                                </section>
+                            </fieldset>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>*@
+

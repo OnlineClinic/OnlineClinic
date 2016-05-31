@@ -1,0 +1,27 @@
+﻿@model List<MyOnlineClinic.Web.Models.ClassifiedCategoryViewModel>
+
+@foreach (var item in Model)
+{
+    var imagename=item.CategoryName.Replace(" ",string.Empty);
+    <div class="col-lg-3 classified-div">
+        <div class="classified">
+            <div class="cat-div">
+                <img src="/images/category/@(imagename).png" style="height: 45px;"/>
+                <span class="cat-title"><a href="/classified?cat=@item.CategoryName"> @item.CategoryName</a></span>
+                <span class="cat-count"> @item.AdsCount ads</span>
+            </div>
+
+            <div class="scat-div">
+                    @foreach (var child in item.subcategory)
+                    {
+                        <p>
+                            @*@child.SubCategoryId*@
+                            <span class="scat-title"><a href="/classified?scat=@child.SubCategoryName"> @child.SubCategoryName</a></span>
+                            <span class="pull-right scat-count"> @child.AdsCount</span>
+                        </p>
+
+                    }
+            </div>
+        </div>
+    </div>
+}

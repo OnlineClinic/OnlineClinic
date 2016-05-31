@@ -1,0 +1,372 @@
+﻿@model MyOnlineClinic.Web.Models.HomeVisitModel
+@{
+    ViewBag.Title = "HomeVisit";
+    Layout = "~/Areas/Clinic/Views/Shared/_ClinicLayout.cshtml";
+}
+@using JQueryUIHelpers;
+@*@using Share.Bonnet.AjaxDropDownList;
+    @Scripts.Render("~/bundles/bonnet")*@
+
+<script src="~/scripts/jquery.plugin.js"></script>
+<script src="~/scripts/jquery.datepick.js"></script>
+<link href="~/Scripts/jquery.datepick.css" rel="stylesheet" />
+
+<script src="~/AdminAssets/js/common.js"></script>
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
+<script type="text/javascript" src="https://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerwithlabel/src/markerwithlabel.js"></script>
+<script src="~/AdminAssets/js/validator/validator.js"></script>
+<div class="right_col" role="main">
+    <div class="">
+        <div class="page-title">
+            <div class="title_left">
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Home Visit</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                            </li>
+                            <li>
+                                <a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        @using (Html.BeginForm("HomeVisit", "Patient", FormMethod.Post, new { id = "FrmSubmit", @class = "form-horizontal form-label-left" }))
+                        {
+
+                            @Html.HiddenFor(x => x.PatientId)
+                            <fieldset id="fldAvabilityMember" style="border:groove; display:block; margin-top:10px;" class="fieldset">
+                                <legend class="prople" style="width: 14%; color: #0aa49c;">Patient Summary</legend>
+                                <div id="divbox_memberDetail">
+                                    <div class="item form-group col-sm-3">
+                                        <label class="" for="name">
+                                            Patient Name
+                                        </label>
+                                        <div class="">
+                                            <div style="border: 1px solid #c3c4c4; padding: 4px;">
+                                                @(Model.FirstName + " " + Model.Surname)
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="item form-group col-sm-4">
+                                        <label class="" for="name">
+                                            Address
+                                        </label>
+                                        <div class="">
+                                            <div style="border: 1px solid #c3c4c4; padding: 4px; ">
+                                                @*@(Model.Address1 + " " + Model.Address2)*@
+                                                <input type="text" id="txtLocation" class="text_input_area" placeholder="Location"
+                                                       style="width: 98%;" onkeydown="OnKeyLocation()" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="item form-group col-sm-4">
+                                        <label class="" for="name">
+                                            Country
+                                        </label>
+                                        <div class="">
+                                            <div style="border: 1px solid #c3c4c4; padding: 4px; ">
+                                                @Model.CountryName
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    @*<div class="item form-group col-sm-3">
+                                                          <label class="" for="name">
+                                                              State
+                                                          </label>
+                                                          <div class="">
+                                                              <div>
+                                                                  @Html.DropDownListFor(model => model.State, new SelectList(Model.StateList, "Id", "StateName"), "--Select State--",
+                                        new { @class = "form-control text_row" },
+                                          Ajax.UpdateActionFor(
+                                           model => model.City,
+                                              new AjaxUpdateOptions
+                                              {
+                                                  DisableTargetWhenEmpty = true,
+                                                  Url = Url.Action("GetCityInState", "Home", new { @area = "" })
+                                              }
+                                              ))
+                                                                  @Html.ValidationMessageFor(m => m.State)
+                                                              </div>
+                                                          </div>
+                                                      </div>
+                                                      <div class="item form-group col-sm-4">
+                                                          <label class="" for="name">
+                                                              City
+                                                          </label>
+                                                          <div class="">
+                                                              <div>
+                                                                  @Html.DropDownListFor(x => x.City, new SelectList(Model.CityList, "LookUpCityId", "LookUpCityName"), "---Select City---", new { @class = "form-control col-md-7 col-xs-12 text_row", required = "required" })
+                                                              </div>
+                                                          </div>
+                                                      </div>
+                                                      <div class="item form-group col-sm-4">
+                                                          <label class="" for="name">
+                                                              PostCode
+                                                          </label>
+                                                          <div class="">
+                                                              <div>
+                                                                  @Html.TextBoxFor(x => x.PostCode, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "Problem", placeholder = "Enter PostCode", required = "required" })
+                                                              </div>
+                                                          </div>
+                                                      </div>*@
+                                </div>
+                            </fieldset>
+                            <fieldset id="fldAvability" style="border:groove; display:block; margin-top:10px;" class="fieldset">
+                                <legend class="prople" style="width: 20%; color: #0aa49c;">Create Job For Home Visit</legend>
+                                <div id="divbox">
+                                    <div class="item form-group col-sm-3">
+                                        <label class="" for="name">
+                                            Severity of Problem <span class="required">*</span>
+                                        </label>
+                                        <div class="">
+                                            @Html.DropDownList("ddlSeverity", new List<SelectListItem>
+                                        {
+                                            new SelectListItem{ Text="1 - Mild", Value = "1 - Mild" },
+                                            new SelectListItem{ Text="2 - Moderate", Value = "2 - Moderate" },
+                                            new SelectListItem{ Text="3 - Quite Severe", Value = "3 - Quite Severe" },
+                                            new SelectListItem{ Text="4 - Severe", Value = "4 - Severe" },
+                                            new SelectListItem{ Text="5 - Intense", Value = "5 - Intense" },
+                                            }, new { @class = "form-control col-md-7 col-xs-12 text_row", required = "required", name = "ddlSeverity" })
+                                            @*@Html.TextBoxFor(x => x.DoctorFullName, new { @class = "form-control col-md-7 col-xs-12" })*@
+                                        </div>
+                                    </div>
+                                    <div class="item form-group col-sm-3">
+                                        <label class="" for="name">
+                                            Triage Category <span class="required">*</span>
+                                        </label>
+                                        <div class="">
+                                            @Html.DropDownList("ddlTriageCategory", new List<SelectListItem>
+                                        {
+                                            new SelectListItem{ Text="Select", Value = "0" },
+                                            new SelectListItem{ Text="Cat 1 (000)", Value = "Cat 1 (000)" },
+                                            new SelectListItem{ Text="Cat 2 (Priority)", Value = "Cat 2 (Priority)" },
+                                            new SelectListItem{ Text="Cat 3", Value = "Cat 3" },
+                                            }, new { @class = "form-control col-md-7 col-xs-12 text_row", required = "required", name = "ddlTriageCategory" })
+                                        </div>
+                                    </div>
+                                    <div class="item form-group col-sm-3">
+                                        <label class="" for="name">
+                                            Reason For Contact<span class="required">*</span>
+                                        </label>
+                                        <div class="">
+                                            @Html.TextBoxFor(x => x.Problem, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "Problem", placeholder = "Enter Reason For Contact", required = "required" })
+                                        </div>
+                                    </div>
+                                    <div class="item form-group col-sm-3">
+                                        <label class="" for="name">
+                                            Regular GP?
+                                        </label>
+                                        <div class="">
+                                            @Html.DropDownList("ddlRegularGP", new List<SelectListItem>
+                                        {
+                                            new SelectListItem{ Text="Select", Value = "0" },
+                                            new SelectListItem{ Text="Yes", Value = "1" },
+                                            new SelectListItem{ Text="No", Value = "2" },
+                                            }, new { @class = "form-control col-md-7 col-xs-12 text_row", required = "required" })
+                                        </div>
+                                    </div>
+                                    <div class="item form-group col-sm-3">
+                                        <label class="" for="name">
+                                            Consult Date <span class="required">*</span>
+                                        </label>
+                                        <div class="">
+
+                                            @Html.TextBoxFor(x => x.AppointmentDateLocal, new { @class = "date-picker form-control col-md-7 col-xs-12", name = "AppointmentDateLocal", placeholder = "Enter Appointment Date", required = "required", type = "date" })
+                                            @*@Html.JQueryUI().DatepickerFor(x => x.AppointmentDateLocal, new { @class = "date-picker form-control col-md-7 col-xs-12", name = "AppointmentDateLocal", placeholder = "Enter Appointment Date", required = "required" }).DateFormat("dd/MM/yyyy")*@
+                                            @*@Html.ValidationMessage("Error")*@
+                                        </div>
+                                    </div>
+                                    <div class="item form-group col-sm-3">
+                                        <label class="" for="name">
+                                            Consult Time <span class="required">*</span>
+                                        </label>
+                                        <div class="">
+                                            <div style="float: left; width: 30.5%; margin-right: 10px;">
+                                                @Html.DropDownList("FromHour", new List<SelectListItem>
+                {
+                    new SelectListItem{ Text="Hour", Value = "" },
+                    new SelectListItem{ Text="1", Value = "01" },
+                    new SelectListItem{ Text="2", Value = "02" },
+                    new SelectListItem{ Text="3", Value = "03" },
+                    new SelectListItem{ Text="4", Value = "04" },
+                    new SelectListItem{ Text="5", Value = "05" },
+                    new SelectListItem{ Text="6", Value = "06" },
+                    new SelectListItem{ Text="7", Value = "07" },
+                    new SelectListItem{ Text="8", Value = "08" },
+                    new SelectListItem{ Text="9", Value = "09" },
+                    new SelectListItem{ Text="10", Value = "10" },
+                    new SelectListItem{ Text="11", Value = "11" },
+                    new SelectListItem{ Text="12", Value = "12" },
+                    }, new { @class = "form-control col-md-7 col-xs-12 text_row", required = "required" })
+                                            </div>
+                                            <div style="float: left; width: 30.5%; margin-right: 8px; margin-left: 4px;">
+                                                @Html.DropDownList("FromMin", new List<SelectListItem>
+                {
+                    new SelectListItem{ Text="Min", Value = "" },
+                    new SelectListItem{ Text="00", Value = "00" },
+                    new SelectListItem{ Text="15", Value = "15" },
+                    new SelectListItem{ Text="30", Value = "30" },
+                    new SelectListItem{ Text="45", Value = "45" },
+                    }, new { @class = "form-control col-md-7 col-xs-12 text_row", required = "required" })
+                                            </div>
+                                            <div style="float: right; width: 30.5%; margin-top: -44px;">
+                                                @Html.DropDownList("FromAMPM", new List<SelectListItem>
+                {
+                    new SelectListItem{ Text="AM", Value = "AM" },
+                    new SelectListItem{ Text="PM", Value = "PM" },
+                    }, new { @class = "form-control col-md-7 col-xs-12 text_row", required = "required" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" id="hdnSelectedDate" />
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-offset-4 col-md-12 ">
+                                        <button type="button" id="btnCancel" class="btn btn-primary">Cancel</button>
+                                        <button type="submit" id="send" class="btn btn-success">Submit</button>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            <input type="hidden" id="hidCityName" name="hidCityName" />
+                            <input type="hidden" id="hidStateName" name="hidStateName" />
+                            <input type="hidden" id="hidPostCode" name="hidPostCode" />
+                            <input type="hidden" id="hidlatitude" name="hidlatitude" />
+                            <input type="hidden" id="hidlongitude" name="hidlongitude" />
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="float: left; width: 100%">
+            <table width="100%">
+                <tr>
+                    <td>
+                        <div id="map_canvas_key" style="display: none;">
+                        </div>
+                        <div id="map_canvas" style="height: 440px; width: 98%;">
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+</div>
+<script src="~/AdminAssets/js/jquery.min.js"></script>
+<script>
+    var datePickerJquery = jQuery.noConflict();
+    $(document).ready(function () {
+        //$('#AppointmentDateLocal').datepick({ dateFormat: 'dd/mm/yyyy', maxDate: 0 });
+        //$('#AppointmentDateLocal').datepick({ dateFormat: 'dd/mm/yyyy', minDate: 0 });
+        $('form').submit(function (e) {
+            e.preventDefault();
+            var submit = true;
+            // evaluate the form using generic validaing
+            if (!validator.checkAll($(this))) {
+                submit = false;
+            }
+            if (submit)
+                this.submit();
+            return false;
+        });
+
+    });
+    $('#btnCancel').click(function () {
+        window.location = "/Clinic/Patient/FindPatient";
+    })
+    $("#send").on("click", function () {
+        //var selectedDate = document.getElementById('hdnSelectedDate').value;
+        //var selectedDateTime = selectedDate + " " + lnkValue;
+        //document.getElementById('AppointmentDateTime').value = selectedDateTime;
+        if (confirm("Are you sure you want to book this appointment")) {
+            var frmClinicVisit = $('#FrmSubmit');
+
+            if (frmClinicVisit != null) {
+                frmClinicVisit.submit();
+            }
+            //document.getElementById('FrmSubmit').submit();
+        }
+    });
+</script>
+
+<script type="text/javascript">
+    function OnKeyLocation() {
+        var input = document.getElementById('txtLocation');
+        //var input = document.getElementById('searchTextField');
+        var options = {
+            //types: ['(cities)'],
+            //types: ['(regions)'],
+            componentRestrictions: { country: 'au' }
+        };
+        Initialize(input, options);
+    }
+
+    function Initialize(input, options) {
+        var mapOptions = {
+            center: new google.maps.LatLng(-33.865143, 151.209900),
+            zoom: 4,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        var map = new google.maps.Map(document.getElementById('map_canvas_key'), mapOptions);
+
+        var autocomplete = new google.maps.places.Autocomplete(input, options);
+        autocomplete.bindTo('bounds', map);
+
+        google.maps.event.addListener(autocomplete, 'place_changed', function () {
+
+            var place = autocomplete.getPlace();
+            var StateName = $('#hidStateName');
+            var CityName = $('#hidCityName');
+            var PostCode = $('#hidPostCode');
+            var latitude = $('#hidlatitude');
+            var longitude = $('#hidlongitude');
+            var addressArray = place.address_components;
+            console.log(addressArray);
+            latitude.val(place.geometry.location.lat());
+            longitude.val(place.geometry.location.lng());
+            for (var i = 0; i < addressArray.length; i++) {
+                var typeArray = addressArray[i].types;
+                var flagtype = 0;
+                //var flag = 0;
+                for (var j = 0; j < typeArray.length; j++) {
+                    //console.log(typeArray[j]);
+                    if (typeArray[j] == "administrative_area_level_1") {
+                        console.log("A : " + addressArray[i].long_name);
+                        StateName.val(addressArray[i].long_name);
+                    }
+                    if (typeArray[j] == "locality") {
+                        console.log("City : " + addressArray[i].long_name);
+                        CityName.val(addressArray[i].long_name);
+                    }
+                    if (typeArray[j] == "postal_code") {
+                        console.log("postal_code : " + addressArray[i].long_name);
+                        PostCode.val(addressArray[i].long_name);
+                    }
+                }
+            }
+
+
+            if (place.geometry.viewport) {
+                map.fitBounds(place.geometry.viewport);
+            } else {
+                map.setCenter(place.geometry.location);
+                map.setZoom(17);
+            }
+        });
+    }
+
+    google.maps.event.addDomListener(window, 'load', Initialize);
+
+</script>

@@ -1,0 +1,626 @@
+﻿@model List<MyOnlineClinic.Web.Models.RequestPrescriptionViewModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "/Areas/Patients/Views/Shared/_PatientPartial.cshtml";
+}
+@using JQueryUIHelpers;
+@using Share.Bonnet.AjaxDropDownList;
+@Scripts.Render("~/bundles/bonnet")
+<style>
+    body.MyCapitalize {
+        overflow-x: hidden;
+    }
+
+    td {
+        color: black;
+        vertical-align: central;
+        font-size: 14px;
+        text-align: left;
+    }
+
+        td > img {
+            padding: 0px;
+            margin: 0px;
+            text-align: left;
+        }
+
+    .sorting, .sorting_asc, .sorting_desc {
+        background: none;
+    }
+
+    table#example thead th {
+        font-size: 14px;
+    }
+
+    table#example tbody td {
+        text-align: center;
+    }
+
+    /* Tabs panel */
+    .tabbable-panel {
+        border: 1px solid #eee;
+        padding: 10px;
+    }
+
+    /* Default mode */
+    .tabbable-line > .nav-tabs {
+        border: none;
+        margin: 0px;
+    }
+
+        .tabbable-line > .nav-tabs > li {
+            margin-right: 2px;
+        }
+
+            .tabbable-line > .nav-tabs > li > a {
+                border: 0;
+                margin-right: 0;
+                color: #737373;
+            }
+
+                .tabbable-line > .nav-tabs > li > a > i {
+                    color: #a6a6a6;
+                }
+
+            .tabbable-line > .nav-tabs > li.open, .tabbable-line > .nav-tabs > li:hover {
+                border-bottom: 4px solid #fbcdcf;
+            }
+
+                .tabbable-line > .nav-tabs > li.open > a, .tabbable-line > .nav-tabs > li:hover > a {
+                    border: 0;
+                    background: none !important;
+                    color: #333333;
+                }
+
+                    .tabbable-line > .nav-tabs > li.open > a > i, .tabbable-line > .nav-tabs > li:hover > a > i {
+                        color: #a6a6a6;
+                    }
+
+                .tabbable-line > .nav-tabs > li.open .dropdown-menu, .tabbable-line > .nav-tabs > li:hover .dropdown-menu {
+                    margin-top: 0px;
+                }
+
+            .tabbable-line > .nav-tabs > li.active {
+                border-bottom: 4px solid #f3565d;
+                position: relative;
+            }
+
+                .tabbable-line > .nav-tabs > li.active > a {
+                    border: 0;
+                    color: #333333;
+                }
+
+                    .tabbable-line > .nav-tabs > li.active > a > i {
+                        color: #404040;
+                    }
+
+    .tabbable-line > .tab-content {
+        margin-top: -3px;
+        background-color: #fff;
+        border: 0;
+        border-top: 1px solid #eee;
+        padding: 49px 0;
+        width: 92%;
+        margin: 0px auto;
+    }
+
+    .portlet .tabbable-line > .tab-content {
+        padding-bottom: 0;
+    }
+
+    .modal-backdrop.in {
+        filter: alpha(opacity=50);
+        opacity: .5;
+        z-index: 0;
+    }
+</style>
+<style>
+    article {
+        border: 2px solid #E6E9ED;
+        padding: 20px 0px;
+    }
+
+    .search-result .thumbnail {
+        border-radius: 50%;
+        width: 180px;
+        height: 180px;
+        margin-bottom: 0px;
+        margin: auto;
+    }
+
+        .search-result .thumbnail img {
+            width: 100%;
+            height: 100%;
+        }
+
+    .search-result:first-child {
+        margin-top: 0 !important;
+    }
+
+    .search-result {
+        margin-top: 20px;
+    }
+
+        .search-result .col-md-2 {
+            border-right: 1px dotted #ccc;
+            min-height: 140px;
+        }
+
+        .search-result ul {
+            padding-left: 0 !important;
+            list-style: none;
+            font-size: 20px;
+        }
+
+            .search-result ul li {
+                font: 400 normal .85em "Roboto",Arial,Verdana,sans-serif;
+                line-height: 30px;
+            }
+
+                .search-result ul li i {
+                    padding-right: 5px;
+                }
+
+        .search-result .col-md-7 {
+            position: relative;
+        }
+
+        .search-result h3 {
+            font: 500 normal 1.375em "Roboto",Arial,Verdana,sans-serif;
+            margin-top: 0 !important;
+            margin-bottom: 10px !important;
+        }
+
+            .search-result h3 > a, .search-result i {
+                color: #248dc1 !important;
+            }
+
+        .search-result p {
+            font: normal normal 1.125em "Roboto",Arial,Verdana,sans-serif;
+        }
+
+        .search-result span.plus {
+            position: absolute;
+            right: 20px;
+            top: 126px;
+        }
+
+            .search-result span.plus a {
+                background-color: #248dc1;
+                padding: 5px 5px 3px 5px;
+            }
+
+                .search-result span.plus a:hover {
+                    background-color: #414141;
+                }
+
+                .search-result span.plus a i {
+                    color: #fff !important;
+                }
+
+        .search-result span.border {
+            display: block;
+            width: 97%;
+            margin: 0 15px;
+            border-bottom: 1px dotted #ccc;
+        }
+
+    body {
+        margin: 0px;
+    }
+
+    a:link {
+        color: #000;
+        font-size: 1.1em;
+        font-weight: 600;
+        font-family: arial, helvetica, sans-serif;
+        text-decoration: none;
+    }
+
+    a:visited {
+        color: #000;
+        font-size: 1.1em;
+        font-weight: 600;
+        font-family: arial, helvetica, sans-serif;
+        text-decoration: none;
+    }
+
+    a:hover {
+        color: #000;
+        font-size: 1.1em;
+        font-weight: 600;
+        font-family: arial, helvetica, sans-serif;
+        text-decoration: none;
+    }
+
+    a:active {
+        color: #000;
+        font-size: 1.1em;
+        font-weight: 600;
+        font-family: arial, helvetica, sans-serif;
+        text-decoration: none;
+    }
+
+    a img {
+        border: none;
+    }
+
+    .spinner {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        margin-left: -50px; /* half width of the spinner gif */
+        margin-top: -50px; /* half height of the spinner gif */
+        text-align: center;
+        z-index: 1234;
+        overflow: auto;
+        width: 100px; /* width of the spinner gif */
+        height: 102px; /*hight of the spinner gif +2px to fix IE8 issue */
+    }
+</style>
+
+<div class="right_col" role="main">
+    <div class="">
+        <div class="page-title">
+            <div class="title_left">
+            </div>
+            <div class="title_right pull-right">
+
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h2 class="default-title text-center" style="color: #5CCAC4; font-weight: 700; font-size: 25px; ">My Medications </h2>
+                        </div>
+                        @Html.HiddenFor(x => x.FirstOrDefault().PatientId);
+                    </div>
+                    <div class="x_content">
+                        <table id="example" class="table table-striped responsive-utilities jambo_table" style="width: 92%; margin: 0px auto; border: 1px solid #000; float: none;">
+                            <thead>
+                                <tr>
+
+                                    <th>Nr</th>
+                                    <th>Name</th>
+                                    <th>Strenght</th>
+                                    <th>Dose</th>
+                                    <th>Frequency</th>
+                                    <th>Rout</th>
+                                    <th>Frequency</th>
+                                    <th>Quantity</th>
+                                    <th>NoNeeded</th>
+
+                                    <th>
+                                        Select
+                                        <input type="checkbox" id="selecctall">
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{ int count = 1;}
+                                @foreach (var item in Model)
+                                {
+
+                                    <tr>
+
+                                        <td>@count</td>
+                                        <td>@item.AmtMedicationName</td>
+                                        <td>@item.strenght</td>
+                                        <td>@item.Dose</td>
+                                        <td>@item.Frequency</td>
+                                        <td>@item.Rout</td>
+                                        <td>@item.quantity</td>
+                                        <td>@item.NoNeeded</td>
+                                        <td>@item.PRN</td>
+                                        <td class="table-icons" style="width:110px!important;">
+                                            <input type="checkbox" class="checkbox1" name="UserApproval" value="@item.PatientMedicationHistoryId">
+
+                                        </td>
+
+                                    </tr>
+                                    count = count + 1;
+                                }
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+            <br />
+            <br />
+            <br />
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <h3 style=" text-align: center; font-size: 25px; color: #5CCAC4; font-weight: 700;">Find Doctors</h3>
+
+                <div class="tabbable-panel">
+                    <div class="tabbable-line">
+                        <ul class="nav nav-tabs pull-right ">
+                            <li class="active">
+                                <a href="#Treating" id="treatingdoctors" data-toggle="tab">
+                                    Treating Doctors
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#Other" data-toggle="tab">
+                                    Other Doctors
+                                </a>
+                            </li>
+
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="Treating">
+                                <p>
+                                    <div id="dvDoctorList">
+                                    </div>
+
+                                </p>
+
+                            </div>
+                            <div class="tab-pane" id="Other">
+                                <p>
+
+                                    <input type="text" id="doctorname" class="form-control col-md-7 col-xs-12 text_row" placeholder="Doctor Name" />
+
+                                    <button type="button" id="btnsearchother" class="btn btn-primary Book pull-right">Search</button>
+
+                                    <div id="dvOtherDoctorList">
+                                    </div>
+                                </p>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="basicModalHome" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog ">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">
+                    <label id="lblTitle">Request Script</label>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div id="CreateEditForm">
+                    <label>Are You Really Want to Request Script</label>
+                    <input type="hidden" id="hdnDoctorId" />
+                    <input type="hidden" id="hdnAppointmentDatelocal" />
+                </div>
+                <div class="modal-footer">
+                    <div class="form-group">
+                        <div>
+                            <input type="text" name="ActivateIds" id="ActivateIds" style="display: none" />
+                            <ul class="list-inline">
+
+                                <li><button type="button" id="btnRequest" class="btn btn-primary Book appointmentwhentimegiven">Request</button></li>
+                                <li><button id="send" type="submit" class="btn btn-success">Cancel</button></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<script src="~/AdminAssets/js/datatables/js/jquery.js"></script>
+<script src="~/UserAssets/js/jquery-1.9.1.js"></script>
+<script src="~/AdminAssets/js/datatables/js/jquery.dataTables.js"></script>
+
+<link href="~/AdminAssets/css/datatables/css/jquery.dataTables.css" rel="stylesheet" />
+
+<script src="~/AdminAssets/js/bootstrap.min.js"></script>
+<script>
+
+    var htmlString = {
+
+        dvDoctorHtmlString: '<article class="search-result row">' +
+        '<div class="col-xs-12 col-sm-12 col-md-3">' +
+            '<a href="#" title="Lorem ipsum" class="">' + '<img src="¶Avtar" height="150" width="150" alt=""></a>' +
+       '</div>' +
+
+        '<div class="col-xs-12 col-sm-12 col-md-3">' +
+            '<ul class="meta-search">' +
+               ' <li>' + '<i class="glyphicon glyphicon-pencil">' + '</i>' + ' <span>¶Doctorname</span>' + '</li>' +
+
+                   ' <li>' + '<i class="glyphicon glyphicon-pencil">' + '</i>' + ' <span>Clinic : ¶ClinicName</span>' + '</li>' +
+
+           ' </ul>' +
+       ' </div>' +
+       ' <div class="col-xs-12 col-sm-12 col-md-6 excerpet">' +
+            '<h3>' + '<a href="#" title="">Description</a>' + '</h3>' +
+            '<p>' +
+
+           ' </p>' +
+            '<span class="plus">' + '<button type="submit" value="¶Value" data-role="¶DoctorId" data-id="¶SubProfession" class="btn btn-success book-appointment requestscript" >' + 'Request Script' + '</button>' +
+
+
+        '</div>' +
+        '<span class="clearfix borda">' + '</span>' +
+    '</article>'
+    }
+
+
+    $(document).ready(function () {
+        var oTable = $('#example').dataTable({
+            "bProcessing": true,
+            "iDisplayLength": 10,
+            "bPaginate": true,
+            "sPaginationType": "full_numbers",
+            "bSortable": false
+        });
+        $('[data-toggle="tooltip"]').tooltip();
+        $("#btnNew").click(function () {
+            window.location.href = "/admin/City/add";
+        });
+
+        var favorite = [];
+        $("#selecctall").click(function (event) {  //on click
+            if (this.checked) {
+                $("input[name='UserApproval']").each(function () { //loop through each checkbox
+                    if (this.checked !== true) {
+                        this.checked = true;  //select all checkboxes with class "checkbox1"
+                        favorite.push($(this).val());
+                    }
+                });
+            } else {
+                $("input[name='UserApproval']").each(function () { //loop through each checkbox
+                    this.checked = false; //deselect all checkboxes with class "checkbox1"
+                    favorite.pop($(this).val());
+                });
+            }
+
+            $("#ActivateIds").val(favorite);
+            alert($("#ActivateIds").val());
+
+        });
+
+         $(document).on('click', "input[name='UserApproval']", function (event) {
+
+            var id = $(this).attr('data-role');
+           
+            favorite.push($(this).val());
+            if (this.checked == true && id == 'True') {
+                //$("#serviceIds").val(favorite);
+            }
+            else if (this.checked == true && id == 'False') {
+                //favorite.pop();
+                $("#ActivateIds").val(favorite);
+            }
+            else if (this.checked == false) {
+                favorite.pop($(this).val());
+                $("#ActivateIds").val('');
+                $("#serviceIds").val('');
+            }
+            alert($("#ActivateIds").val());
+        });
+    });
+
+
+
+
+    $(document).on('click', '#treatingdoctors', function () {
+        var dvAppendString = htmlString.dvDoctorHtmlString;
+
+        var dvDoctorList = $('#dvDoctorList');
+        dvDoctorList.html('');
+
+
+        $.ajax({
+            type: 'GET',
+            url: '/Patients/RequestPrescriptions/FindTreatingDoctors',
+            dataType: 'json',
+            async: false,
+            data: {
+
+            },
+            success: function (data) {
+                console.log(data);
+                $.each(data, function (key, value) {
+
+                    var appendString = dvAppendString.replace('¶Value', "Request Prescriptions");
+                    appendString = appendString.replace('¶Doctorname', value.DoctorName);
+                    appendString = appendString.replace('¶ClinicName', value.ClinicName);
+                    appendString = appendString.replace('¶DoctorId', value.DoctorId);
+                    appendString = appendString.replace('dvDoctorId', 'dvDoctorId' + value.DoctorId);
+                    dvDoctorList.append(appendString);
+                });
+
+            },
+            error: function (ex) {
+            }
+        });
+    });
+
+
+    $(document).on('click', '#btnsearchother', function () {
+        var dvAppendString = htmlString.dvDoctorHtmlString;
+
+        var dvOtherDoctorList = $('#dvOtherDoctorList');
+        dvOtherDoctorList.html('');
+
+
+        $.ajax({
+            type: 'GET',
+            url: '/Patients/RequestPrescriptions/FindOthersDoctors',
+            dataType: 'json',
+            async: false,
+            data: {
+                name: $("#doctorname").val()
+            },
+            success: function (data) {
+                console.log(data);
+                $.each(data, function (key, value) {
+
+                    var appendString = dvAppendString.replace('¶Value', "Request Prescriptions");
+                    appendString = appendString.replace('¶Doctorname', value.DoctorName);
+                    appendString = appendString.replace('¶ClinicName', value.OrganizatioName);
+                    appendString = appendString.replace('¶DoctorId', value.DoctorId);
+                    appendString = appendString.replace('dvDoctorId', 'dvDoctorId' + value.DoctorId);
+                    dvOtherDoctorList.append(appendString);
+                });
+
+            },
+            error: function (ex) {
+            }
+        });
+    });
+
+    $(document).on('click', '.requestscript', function () {
+        var hdnDoctorId = document.getElementById('hdnDoctorId');
+
+        hdnDoctorId.value = $(this).attr('data-role');
+
+        var options = {
+            "backdrop": "static"
+        };
+
+        $('#basicModalHome').modal(options);
+
+
+    });
+
+    $(document).on('click', '#btnRequest', function () {
+
+        $.ajax({
+            type: 'POST',
+            url: '/Patients/RequestPrescriptions/AddRequestedPrescription',
+            dataType: 'json',
+
+            data: {
+                MedicaineId: $("#ActivateIds").val(),
+                Doctorid: $("#hdnDoctorId").val()
+
+            },
+            success: function (data) {
+
+                var newUrl = '@Url.Action("PayWithCreditCard/")';
+
+                window.location.href = newUrl;
+            },
+            error: function (ex) {
+            }
+        });
+    });
+
+
+
+
+
+
+</script>

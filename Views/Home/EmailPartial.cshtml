@@ -1,0 +1,63 @@
+﻿@model MyOnlineClinic.Web.Models.MailViewModel
+@using CaptchaMvc.HtmlHelpers
+@using CaptchaMvc;
+
+<style>
+    textarea {
+        resize: none;
+    }
+
+    .form-horizontal .form-group {
+        text-align: left;
+    }
+</style>
+@using (Html.BeginForm("Email", "Home", FormMethod.Post, new { @class = "form-horizontal text-left" }))
+{
+    <h3>Enviar Email</h3>
+    <p><b>Preencha os dados</b></p>
+    <div class="form-group text-left">
+        <label class="col-md-2">Nome *</label>
+        <div class="col-md-9">
+            @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+            @Html.ValidationMessageFor(x => x.Name)
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2">Empresa</label>
+        <div class="col-md-9">
+            @Html.TextBoxFor(x => x.Empressa, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group text-left">
+        <label class="col-md-2">Tel/TM </label>
+        <div class="col-md-9">
+            @Html.TextBoxFor(x => x.Telephone, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2">Email *</label>
+        <div class="col-md-9">
+            @Html.TextBoxFor(x => x.Email, new { @class = "form-control" })
+            @Html.ValidationMessageFor(x => x.Email)
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-md-2">Comentários</label>
+        <div class="col-md-9">
+            @Html.TextAreaFor(x => x.Comments, new { @class = "form-control" ,style="width:100%;"})
+            @Html.ValidationMessageFor(x => x.Comments)
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-9">
+            @Html.MathCaptcha("Novo Captcha", "Resposta")
+            @ViewBag.ErrMessage
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-9">
+            <button type="submit" class="btn btn-primary btn-lg">Enviar</button>           
+        </div>
+    </div>
+}

@@ -1,0 +1,163 @@
+﻿@model IEnumerable<MyOnlineClinic.Web.Models.EventViewModel>
+@using System.Web.Configuration
+@{
+    var siteUrl = WebConfigurationManager.AppSettings["SiteUrl"];
+}
+@if (Model != null && Model.Count() > 0)
+{
+    <div class="row">
+        <div class="col-md-12">
+            @{
+    int count = 0;
+    foreach (var item in Model)
+    {
+
+        var newsPhotos = string.Empty;
+        if (item.EzPhoto != null)
+        {
+            newsPhotos = item.EzPhoto.FixedSizePath;
+        }
+        var eventImageUrl = "/images/noImage.jpg";
+        if (newsPhotos != null)
+        {
+            eventImageUrl = newsPhotos;
+        }
+        <div style="float:left;width:@((count==0 || count==3)?"100%":"50%")">
+            <div class="wp-block article list">
+                <div class="article-image">
+                    @if (item.EzPhoto != null)
+                    {<img src="@siteUrl@eventImageUrl" alt="@item.Title">}
+                    else
+                    {<img src="@siteUrl@eventImageUrl" alt="@item.Title">}
+                </div>
+                <div class="wp-block-body">
+                    <h4 class="article-label text-caps red">@item.CategoryName</h4>
+                    <h3 class="title">
+                        <a href="http://www.events-zone.com/eventos/@item.SlugTitle" target="_blank">@item.Title</a>
+                    </h3>
+                    <p>
+                        @Html.Raw(item.Summary) <small><a href="http://www.events-zone.com/eventos/@item.SlugTitle" target="_blank" title="Continue reading">Ler Mais..</a></small>
+                    </p>
+                </div>
+            </div>
+        </div>
+        if (count == 0 || count == 2)
+        {
+            <div style="clear:both;"></div>
+        }
+
+        @*if (count == 1 || count == 2)
+            {
+                <div class="wp-block article list">
+                    <div class="article-image">
+                        @if (item.EzPhoto != null)
+                        {<img src="@eventImageUrl" style="height:200px;width:250px;" alt="@item.Title">}
+                        else
+                        {<img src="@eventImageUrl" style="height:200px;width:250px;" alt="@item.Title">}
+                    </div>
+                    <div class="wp-block-body">
+                        <h4 class="article-label text-caps red">@item.CategoryName</h4>
+                        <h3 class="title">
+                            <a href="" hidefocus="true">@item.Title</a>
+                        </h3>
+                        <p>
+                            @item.Summary <small><a href="#" title="Continue reading">[...]</a></small>
+                        </p>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="wp-block article list">
+                    <div class="article-image">
+                        @if (item.EzPhoto != null)
+                        {<img src="@eventImageUrl" style="height:240px;width:373px;" alt="@item.Title">}
+                        else
+                        {<img src="@eventImageUrl" style="height:240px;width:373px;" alt="@item.Title">}
+                    </div>
+                    <div class="wp-block-body">
+                        <h4 class="article-label text-caps red">@item.CategoryName</h4>
+                        <h3 class="title">
+                            <a href="" hidefocus="true">@item.Title</a>
+                        </h3>
+                        <p>
+                            @item.Summary <small><a href="#" title="Continue reading">[...]</a></small>
+                        </p>
+                    </div>
+                </div>
+            }*@
+        count = count + 1;
+    }
+            }
+        </div>
+    </div>
+}
+    @*<div class="row">
+            <div class="col-md-12">
+                <div class="wp-block article list">
+                    <div class="article-image">
+                        <img src="images/prv/magazine/magazine-small-6.jpg" alt="">
+                    </div>
+                    <div class="wp-block-body">
+                        <h4 class="article-label text-caps red">TV shows</h4>
+                        <h3 class="title">
+                            <a href="" hidefocus="true">Adipiscing in tempus ut ultrices laoreet taciti himenaeos vivamus</a>
+                        </h3>
+                        <p>
+                            There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form <small><a href="#" title="Continue reading">[...]</a></small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="wp-block article grid">
+                    <div class="article-image">
+                        <img src="images/prv/magazine/magazine-small-7.jpg" alt="">
+                        <h4 class="image-title text-caps yellow">Big Bang Theory</h4>
+                    </div>
+                    <span class="article-category">Fashion news</span>
+                    <h3 class="title">
+                        <a href="">Fortitor Posuere & Praesent Metus</a>
+                    </h3>
+                    <p>
+                        Laoreet dolore magna aliquam erat are esrseiiqetuer ipisci nibh euismod is tincidunt ut amat volutpat.Ut wisi enim ad minim ipiscing.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="wp-block article grid">
+                    <div class="article-image">
+                        <img src="images/prv/magazine/magazine-small-8.jpg" alt="">
+                        <h4 class="image-title text-caps orange">Fresh Prince</h4>
+                    </div>
+                    <span class="article-category">Fashion news</span>
+                    <h3 class="title">
+                        <a href="">Fortitor Posuere & Praesent Metus</a>
+                    </h3>
+                    <p>
+                        Laoreet dolore magna aliquam erat are esrseiiqetuer ipisci nibh euismod is tincidunt ut amat volutpat.Ut wisi enim ad minim ipiscing.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="wp-block article list">
+                    <div class="article-image">
+                        <img src="images/prv/magazine/magazine-small-1.jpg" alt="">
+                    </div>
+                    <div class="wp-block-body">
+                        <h4 class="article-label text-caps red">TV shows</h4>
+                        <h3 class="title">
+                            <a href="" hidefocus="true">Adipiscing in tempus ut ultrices laoreet taciti himenaeos vivamus</a>
+                        </h3>
+                        <p>
+                            There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form <small><a href="#" title="Continue reading">[...]</a></small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>*@

@@ -1,0 +1,359 @@
+﻿@model MyOnlineClinic.Web.Models.DoctorAvailabilityModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<style>
+    .sorting, .sorting_asc, .sorting_desc {
+        background: none;
+    }
+    .col-md-12.seven_layer {
+        margin-top: 15px;
+    }
+    ul.nav.nav-tabs {
+        width: 94%;
+        margin-left: 34px;
+    }
+</style>
+<section class="content-header" style="margin-top:45px;">
+    <h1 class="underline62">
+        Doctor Availability
+    </h1>
+    <ol class="breadcrumb">
+        <li style="margin-right: 5px !important;">
+            @*<a href="add staff.html">*@
+            <button type="button" id="btnNew" class="btn btn-primary btn-sm">New</button>
+            @*<button type="submit" class="btn btn-success new">New</button>*@
+            @*</a>*@
+        </li>
+    </ol>
+</section>
+<div class="container-fulid">
+    <div class="row profile">
+        <div class="col-md-2 col-md-offset-5">
+            <div class="profile-sidebar">
+                <!-- SIDEBAR USERPIC -->
+                <div class="profile-userpic">
+                    <img src="@Model.ProfilePic" class="img-responsive" alt="" style="width:120px; height:120px;">
+                </div>
+                <!-- END SIDEBAR USERPIC -->
+                <!-- SIDEBAR USER TITLE -->
+                <div class="profile-usertitle">
+                    <div class="profile-usertitle-name">
+                        @Model.FullName
+                    </div>
+                    <div class="profile-usertitle-job">
+                        @Model.OrgName
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clearfix"></div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="tabbable-panel" style="margin-top:20px;">
+                <div class="tabbable-line">
+                    <ul class="nav nav-tabs ">
+                        <li class="active">
+                            <a href="#tab_default_1" data-toggle="tab">
+                                Video Consult
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#tab_default_2" data-toggle="tab">
+                                Clinic Visit
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#tab_default_3" data-toggle="tab">
+                                Home Visit
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <input type="hidden" name="DoctorId" id="DoctorId" value="@ViewBag.DoctorId" />
+                        <div class="tab-pane active" id="tab_default_1">
+                            @if (Model.Type1 != null)
+                            {
+                                
+                                <div class="col-md-12">
+                                    <div class="col-md-12 seven_layer">
+                                        <div class="table-responsive data">
+                                            @if (Model.Type1.Count > 0)
+                                        {
+                                        <table id="mytable" class="table table-hover table-bordered" style="margin-top:8px;">
+                                            <thead style="color:#fff;">
+                                                <tr>
+                                                    <th colspan="2" class="top">From Date</th>
+                                                    <th class="top">To Date</th>
+                                                    <th class="top">Time Zone</th>
+                                                    <th class="top"><span>Action</span></th>
+                                                </tr>
+                                            </thead>
+                                            @foreach (var item in Model.Type1)
+                                                {
+                                                <tbody>
+                                                    <tr class="info" data-toggle="collapse" id="row1" data-target=".row1">
+                                                        <td>
+                                                            <span style="cursor:pointer;" id="span_@item.AvailabilityId" onclick='showdetail( @item.AvailabilityId);' class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                                            @*<i class="glyphicon glyphicon-plus" style="cursor:pointer;"></i>*@
+                                                        </td>
+                                                        <td>@Convert.ToDateTime(item.FromDateLocal).ToString("dd MMM yyyy")</td>
+                                                        <td>@Convert.ToDateTime(item.ToDateLocal).ToString("dd MMM yyyy")</td>
+                                                        <td>@item.TimeZone</td>
+                                                        <td>
+
+                                                            <ul class="list-inline" style="position:relative;top:10px;">
+                                                                <li><p data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit"><a href="#"><button class="btn btn-primary btn-xs edit"><span class="glyphicon glyphicon-pencil"></span></button></a></p></li>
+                                                                <li>
+                                                                    <p data-placement="top" data-toggle="tooltip" title="" data-original-title="Delete"><a href="#"><button class="btn btn-info btn-xs edit"><span class="glyphicon glyphicon-trash"></span></button></a></p><!--</li-->
+                                                                </li>
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                                <tbody id="HTMLt_@item.AvailabilityId"></tbody>
+                                                }
+                                        </table>
+                                        }
+                                        else
+                                        {
+                                        <div style="text-align: center; float: left; clear: both; width: 99%; border: solid 1px; margin: 4px; padding: 5px;">
+                                            Still Video Consult Availability is not Added.
+                                        </div>
+                                        }
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        <div class="tab-pane" id="tab_default_2">
+                            @if (Model.Type2 != null)
+                            {
+                                <div class="col-md-12">
+                                    <div class="col-md-12 seven_layer">
+                                        <div class="table-responsive data">
+                                            @if (Model.Type2.Count > 0)
+                                        {
+                                        <table id="mytable" class="table table-hover table-bordered" style="margin-top:8px;">
+                                            <thead style="color:#fff;">
+                                                <tr>
+                                                    <th colspan="2" class="top">From Date</th>
+                                                    <th class="top">To Date</th>
+                                                    <th class="top">Time Zone</th>
+                                                    <th class="top"><span>Action</span></th>
+                                                </tr>
+                                            </thead>
+                                            @foreach (var item in Model.Type2)
+                                                {
+                                                <tbody>
+                                                    <tr class="info" data-toggle="collapse" id="row2" data-target=".row2">
+                                                        <td>
+                                                            <span style="cursor:pointer;" id="span_@item.AvailabilityId" onclick='showdetail( @item.AvailabilityId);' class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                                                            @*<i class="glyphicon glyphicon-plus" style="cursor:pointer;"></i>*@
+                                                        </td>
+                                                        <td>@Convert.ToDateTime(item.FromDateLocal).ToString("dd MMM yyyy")</td>
+                                                        <td>@Convert.ToDateTime(item.ToDateLocal).ToString("dd MMM yyyy")</td>
+                                                        <td>E. Australia Standard Time</td>
+                                                        <td>
+                                                            <ul class="list-inline" style="position:relative;top:10px;">
+                                                                <li><p data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit"><a href="#"><button class="btn btn-primary btn-xs edit"><span class="glyphicon glyphicon-pencil"></span></button></a></p></li>
+                                                                <li>
+                                                                    <p data-placement="top" data-toggle="tooltip" title="" data-original-title="Delete"><a href="#"><button class="btn btn-info btn-xs edit"><span class="glyphicon glyphicon-trash"></span></button></a></p><!--</li-->
+                                                                </li>
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                                <tbody id="HTMLt_@item.AvailabilityId"></tbody>
+                                                }
+                                        </table>
+                                        }
+                                        else
+                                        {
+                                        <div style="text-align: center; float: left; clear: both; width: 99%; border: solid 1px; margin: 4px; padding: 5px;">
+                                            Still Clinic Visit Availability is not Added.
+                                        </div>
+                                        }
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        <div class="tab-pane" id="tab_default_3">
+                            @if (Model.Type3 != null)
+                            {
+                                <div class="col-md-12">
+                                    <div class="col-md-12 seven_layer">
+                                        <div class="table-responsive data">
+                                            @if (Model.Type3.Count > 0)
+                                        {
+                                        <table id="mytable" class="table table-hover table-bordered" style="margin-top:8px;">
+                                            <thead style="color:#fff;">
+                                                <tr>
+                                                    <th colspan="2" class="top">From Date</th>
+                                                    <th class="top">To Date</th>
+                                                    <th class="top"><span>Action</span></th>
+                                                </tr>
+                                            </thead>
+                                            @foreach (var item in Model.Type3)
+                                                {
+                                                <tbody>
+                                                    <tr class="info" data-toggle="collapse" id="row3" data-target=".row3">
+                                                        <td><span style="cursor:pointer;" id="span_@item.AvailabilityId" onclick='showdetail( @item.AvailabilityId);' class="glyphicon glyphicon-plus" aria-hidden="true"></span></td>
+                                                        <td>@Convert.ToDateTime(item.FromDateLocal).ToString("dd MMM yyyy")</td>
+                                                        <td>@Convert.ToDateTime(item.ToDateLocal).ToString("dd MMM yyyy")</td>
+                                                        <td>
+                                                            <ul class="list-inline" style="position:relative;top:10px;">
+                                                                <li><p data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit"><a href="#"><button class="btn btn-primary btn-xs edit"><span class="glyphicon glyphicon-pencil"></span></button></a></p></li>
+                                                                <li>
+                                                                    <p data-placement="top" data-toggle="tooltip" title="" data-original-title="Delete"><a href="#"><button class="btn btn-info btn-xs edit"><span class="glyphicon glyphicon-trash"></span></button></a></p><!--</li-->
+                                                                </li>
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                                <tbody id="HTMLt_@item.AvailabilityId"></tbody>
+                                                }
+                                        </table>
+                                        }
+                                        else
+                                        {
+                                        <div style="text-align: center; float: left; clear: both; width: 99%; border: solid 1px; margin: 4px; padding: 5px;">
+                                            Still Home Visit Availability is not Added.
+                                        </div>
+                                        }
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="ViewAvailability" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">
+                    <label id="lblTitle">Availabilities</label>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div id="CreateEditForm">
+                    <input type="hidden" id="hidavid" />
+                    arbsahnb
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.mod-al-dialog -->
+</div>
+@*<tr class="info collapse row1">
+        <td colspan="2">16 May 2016</td>
+        <td>6:00 PM-8:00 PM</td>
+        <td>E. Australia Standard Time</td>
+        <td>
+            <ul class="list-inline" style="position:relative;top:10px;">
+                <li><p data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit"><a href="#"><button class="btn btn-primary btn-xs edit"><span class="glyphicon glyphicon-pencil"></span></button></a></p></li>
+                <li>
+                    <p data-placement="top" data-toggle="tooltip" title="" data-original-title="Delete"><a href="#"><button class="btn btn-info btn-xs edit"><span class="glyphicon glyphicon-trash"></span></button></a></p><!--</li-->
+                </li>
+            </ul>
+        </td>
+    </tr>*@
+<script src="~/AdminAssets/js/datatables/js/jquery.dataTables.js"></script>
+<script>
+    function showdetail(id) {
+        var str = document.getElementById('HTMLt_' + id).innerHTML;
+        $.ajax({
+            type: 'GET',
+            url: '/Admin/DoctorAvailability/GetAvailabilityByAvailabilityId',
+            dataType: 'json',
+            data: { id: id },
+            success: function (data) {
+                //str += "<tbody><tr><td colspan='5'><table id='example3' class='table table-striped responsive-utilities jambo_table'>";
+                //str += "<tr>";
+                $.each(data, function (key, value) {
+                    for (var i = 0; i < value.length; i++) {
+                        str += "<tr class='info'><td colspan='2'>" + value[i].Startdate + "</td><td>" + value[i].Time + "</td><td colspan='2'>" + value[i].TimeZone + "</td></tr>";
+                    }
+                });
+                //str += "</table></td></tr></tbody>";
+                document.getElementById('HTMLt_' + id).innerHTML = str;
+                var spanid = $("#span_" + id);
+                spanid.attr('class', 'glyphicon glyphicon-minus');
+                spanid.attr('onclick', 'hidedetail(' + id + ')');
+
+            },
+            error: function (ex) {
+                alert("error");
+            }
+        });
+    }
+    function hidedetail(id) {
+        document.getElementById('HTMLt_' + id).innerHTML = "";
+        //$("#HTMLt_"+id).slideToggle();
+        var spanid = $("#span_" + id);
+        spanid.attr('class', 'glyphicon glyphicon-plus');
+        spanid.attr('onclick', 'showdetail(' + id + ')');
+    }
+
+    $(".btnViewAvailability").click(function () {
+        var hidavid = document.getElementById('hidavid');
+        hidavid.value = $(this).attr('data-role');
+        var options = {
+            "backdrop": "static"
+        };
+        $('#ViewAvailability').modal(options);
+    });
+
+    $("#btnNew").click(function () {
+        var hdndoctorid = document.getElementById("DoctorId");
+        window.location.href = "/admin/DoctorAvailability/AddAvailability/" + hdndoctorid.value;
+    });
+
+    $(document).ready(function () {
+        var oTable = $('#example').dataTable({
+            "bProcessing": true,
+            "iDisplayLength": 10,
+            "bPaginate": true,
+            "sPaginationType": "full_numbers"
+        });
+        var oTable = $('#example1').dataTable({
+            "bProcessing": true,
+            "iDisplayLength": 10,
+            "bPaginate": true,
+            "sPaginationType": "full_numbers"
+        });
+        var oTable = $('#example2').dataTable({
+            "bProcessing": true,
+            "iDisplayLength": 10,
+            "bPaginate": true,
+            "sPaginationType": "full_numbers"
+        });
+        var oTable = $('#example3').dataTable({
+            "bProcessing": true,
+            "iDisplayLength": 10,
+            "bPaginate": true,
+            "sPaginationType": "full_numbers"
+        });
+        $('[data-toggle="tooltip"]').tooltip();
+
+        $("#btnBack").on("click", function () {
+            window.history.back();
+        });
+    });
+</script>

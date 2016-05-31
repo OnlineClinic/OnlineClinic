@@ -1,0 +1,522 @@
+﻿@model MyOnlineClinic.Web.Models.DoctorAvailabilityModel
+@{
+    ViewBag.Title = "AddAvailability";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+@using JQueryUIHelpers;
+@using Share.Bonnet.AjaxDropDownList;
+@Scripts.Render("~/bundles/bonnet")
+
+<script src="/scripts/jquery.plugin.js"></script>
+<script src="/scripts/jquery.datepick.js"></script>
+<link href="~/Scripts/jquery.datepick.css" rel="stylesheet" />
+
+<div class="right_col" role="main">
+    <div class="">
+
+        <div class="clearfix"></div>
+        <div class="row" style="margin-top:20px; margin-bottom:20px;">
+            <div class="col-md-1">
+                <img src=@Model.ProfilePic height="100" width="100" class="img-circle" />
+            </div>
+            <div class="col-md-4" style="margin-top: 10px; color: black; margin-left: 25px;">
+                <b> @Model.FullName</b><br />
+                <b> @Model.OrgName</b>
+            </div>
+        </div>
+        @using (Html.BeginForm("AddAvailability", "DoctorAvailability", FormMethod.Post, new { @class = "form-horizontal form-label-left", enctype = "multipart/form-data" }))
+        {
+            <span class="text-danger">@TempData["ErrorMessage"]</span>
+            <input type="hidden" id="hdntimezone" name="hdntimezone" value="" />
+            @Html.HiddenFor(m => m.DoctorID)
+            @Html.ValidationSummary(true)
+            <div class="row">
+                <div class="col-sm-12 col-xs-12">
+                    <div class="col-sm-12 col-xs-12">
+                        <div class="prople">
+                            <h2>Add Doctor Availability </h2>
+                        </div>
+                        <div class="x_content">
+                            <br />
+                            <div class=" col-sm-4 col-xs-12">
+                                @Html.DropDownListFor(model => model.AppointmentType, Model.AppointmentTypeList, new { @class = "form-control col-md-7 col-xs-12 text_row", required = "required" })
+                            </div>
+                            <div class=" col-sm-4 col-xs-12">
+                                @Html.DropDownListFor(x => x.ClinicID, new SelectList(Model.Clinics, "ClinicID", "ClinicName", Model.ClinicID), "---Select Clinic---", new { @class = "form-control col-md-7 col-xs-12 text_row" })
+                            </div>
+                            <div id="boxHome" class="col-sm-12 col-xs-12">
+                                <div class="col-sm-3 col-xs-12">
+                                    @Html.DropDownListFor(model => model.CountryId, new SelectList(Model.CountryList, "CountryId", "CountryName"), "--Select Country--", new { @class = "form-control text_row" },
+                                    Ajax.UpdateActionFor(
+                                     model => model.State,
+                                        new AjaxUpdateOptions
+                                        {
+                                            DisableTargetWhenEmpty = true,
+                                            Url = Url.Action("GetStateInCountry", "Home", new { @area = "" })
+                                        }
+                                        ))
+                                    @Html.ValidationMessageFor(m => m.CountryId)
+                                </div>
+                                <div class="col-sm-3 col-xs-12 ">
+                                    @Html.DropDownListFor(model => model.State, new SelectList(Model.StateList, "Id", "StateName"), "--Select State--",
+                                    new { @class = "form-control text_row" },
+                                    Ajax.UpdateActionFor(
+                                     model => model.City,
+                                        new AjaxUpdateOptions
+                                        {
+                                            DisableTargetWhenEmpty = true,
+                                            Url = Url.Action("GetCityInState", "Home", new { @area = "" })
+                                        }
+                                        ))
+                                </div>
+
+                                <div class="col-sm-3 col-xs-12">
+                                    @Html.DropDownListFor(x => x.City, new SelectList(Model.CityList, "LookUpCityId", "LookUpCityName"), "---Select City---", new { @class = "form-control col-md-7 col-xs-12 text_row" })
+
+                                </div>
+                                <div class="col-sm-3 col-xs-12">
+                                    @Html.TextBoxFor(x => x.PostCode, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "PostCode"})
+
+                                </div>
+
+                            </div>
+                            @*<div id="boxVideoClinic">*@
+                            <div class=" col-sm-12 col-xs-12" id="divTimezone">
+                                @Html.DropDownListFor(x => x.TimeZoneId, ViewBag.TimeZone as IEnumerable<SelectListItem>, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "TimeZoneId", required = "required" })
+                            </div>
+                            <div class=" col-sm-6 col-xs-12">
+                                @Html.JQueryUI().DatepickerFor(x => x.FromDateLocal, new { @class = "date-picker form-control col-md-7 col-xs-12 text_row", name = "FromDate",  @onchange = "fixtodate();", required = "required" }).DateFormat("MM/dd/yyyy")
+                            </div>
+                            <div class=" col-sm-6 col-xs-12">
+                                @Html.JQueryUI().DatepickerFor(x => x.ToDateLocal, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "ToDate", required = "required" }).DateFormat("MM/dd/yyyy")
+                            </div>
+                            <div class=" col-sm-6 col-xs-12">
+                                <div style="float: left; width: 30.5%; margin-right: 10px;">
+                                    @Html.DropDownList("FromHour", new List<SelectListItem>
+                                    {
+                                        new SelectListItem{ Text="Hour", Value = "" },
+                                        new SelectListItem{ Text="01", Value = "01" },
+                                        new SelectListItem{ Text="02", Value = "02" },
+                                        new SelectListItem{ Text="03", Value = "03" },
+                                        new SelectListItem{ Text="04", Value = "04" },
+                                        new SelectListItem{ Text="05", Value = "05" },
+                                        new SelectListItem{ Text="06", Value = "06" },
+                                        new SelectListItem{ Text="07", Value = "07" },
+                                        new SelectListItem{ Text="08", Value = "08" },
+                                        new SelectListItem{ Text="09", Value = "09" },
+                                        new SelectListItem{ Text="10", Value = "10" },
+                                        new SelectListItem{ Text="11", Value = "11" },
+                                        new SelectListItem{ Text="12", Value = "12" },
+                                     }, new { @class = "form-control col-md-7 col-xs-12 text_row", required = "required" })
+                                </div>
+                                <div style="float: left; width: 30.5%; margin-right: 8px; margin-left: 4px;">
+                                    @Html.DropDownList("FromMin", new List<SelectListItem>
+                                    {
+                                        new SelectListItem{ Text="Min", Value = "" },
+                                        new SelectListItem{ Text="00", Value = "00" },
+                                        new SelectListItem{ Text="15", Value = "15" },
+                                        new SelectListItem{ Text="30", Value = "30" },
+                                        new SelectListItem{ Text="45", Value = "45" },
+                                     }, new { @class = "form-control col-md-7 col-xs-12 text_row", required = "required" })
+                                </div>
+                                <div style="float: right; width: 30.5%;">
+                                    @Html.DropDownList("FromAMPM", new List<SelectListItem>
+                                    {
+                                        new SelectListItem{ Text="AM", Value = "AM" },
+                                        new SelectListItem{ Text="PM", Value = "PM" },
+                                     }, new { @class = "form-control col-md-7 col-xs-12 text_row", required = "required" })
+                                </div>
+                            </div>
+                            <div class=" col-sm-6 col-xs-12">
+                                @*@Html.TextBoxFor(x => x.ToTime, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "ToTime", placeholder = "To Time", required = "required" })*@
+                                <div style="float: left; width: 30.5%; margin-right: 10px;">
+                                    @*@Html.TextBoxFor(x => x.FromTime, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "FromTime", placeholder = "From Time", required = "required" })*@
+                                    @Html.DropDownList("ToHour", new List<SelectListItem>
+                                    {
+                                        new SelectListItem{ Text="Hour", Value = "" },
+                                        new SelectListItem{ Text="01", Value = "01" },
+                                        new SelectListItem{ Text="02", Value = "02" },
+                                        new SelectListItem{ Text="03", Value = "03" },
+                                        new SelectListItem{ Text="04", Value = "04" },
+                                        new SelectListItem{ Text="05", Value = "05" },
+                                        new SelectListItem{ Text="06", Value = "06" },
+                                        new SelectListItem{ Text="07", Value = "07" },
+                                        new SelectListItem{ Text="08", Value = "08" },
+                                        new SelectListItem{ Text="09", Value = "09" },
+                                        new SelectListItem{ Text="10", Value = "10" },
+                                        new SelectListItem{ Text="11", Value = "11" },
+                                        new SelectListItem{ Text="12", Value = "12" },
+                                     }, new { @class = "form-control col-md-7 col-xs-12 text_row", required = "required" })
+                                </div>
+                                <div style="float: left; width: 30.5%; margin-right: 8px; margin-left: 4px;">
+                                    @Html.DropDownList("ToMin", new List<SelectListItem>
+                                    {
+                                        new SelectListItem{ Text="Min", Value = "" },
+                                        new SelectListItem{ Text="00", Value = "00" },
+                                        new SelectListItem{ Text="15", Value = "15" },
+                                        new SelectListItem{ Text="30", Value = "30" },
+                                        new SelectListItem{ Text="45", Value = "45" },
+                                     }, new { @class = "form-control col-md-7 col-xs-12 text_row", required = "required" })
+                                </div>
+                                <div style="float: right; width: 30.5%;">
+                                    @Html.DropDownList("ToAMPM", new List<SelectListItem>
+                                    {
+                                        new SelectListItem{ Text="AM", Value = "AM" },
+                                        new SelectListItem{ Text="PM", Value = "PM" },
+                                     }, new { @class = "form-control col-md-7 col-xs-12 text_row", required = "required" })
+                                </div>
+                            </div>
+
+                            <div class=" col-sm-12 col-xs-12">
+                                <div class="col-sm-2 col-xs-12">
+                                    <button type="button" class="btn btn-primary" onclick='Checkdays()'>Select Days</button>
+                                </div>
+                                <div class="col-sm-9 col-xs-12" id="divdaybox" style="display:none;">
+                                    @foreach (var item in Model.WeekDay)
+                                    {
+                                        <input type="checkbox" name="WeekDay" value="@(Model.WeekDay.ToList().IndexOf(item))">@item
+                                    }
+                                    <input type="text" name="DayIds" id="DayIds" style="display: none" />
+                                </div>
+                                @*<div class=" col-sm-4 col-xs-12">
+                                        @Html.TextBoxFor(x => x.FaxNumber, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "Fax Number", placeholder = "Fax Number", required = "required", type = "number" })
+                                    </div>*@
+                                @*<div class=" col-sm-4 col-xs-12">
+                                        @Html.DropDownListFor(x => x.TimeZoneId, ViewBag.TimeZone as IEnumerable<SelectListItem>, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "TimeZoneId", required = "required" })
+                                    </div>*@
+                            </div>
+                            @*</div>*@
+
+                            <div class="ln_solid"></div>
+                            <div class="form-group">
+                                <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+                                    <button type="button" id="btnCancel" class="btn btn-primary">Cancel</button>
+                                    <button type="button" id="btnAdd" onclick="addrow()" class="btn btn-success">Add</button>
+                                    <button type="submit" id="btnSubmit" class="btn btn-success">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <input type="hidden" name="Counter" id="Counter" value="" />
+            </div>
+
+            <div style="display:none;" id="avlist">
+                <div class='x_content'>
+                    <table id='example' class='table table-striped responsive-utilities jambo_table'>
+                        <thead>
+                            <tr>
+                                <th>City/Suburb/PostCode</th>
+                                <th>Form Date</th>
+                                <th>To Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="HTMLtr"></tbody>
+                    </table>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+                        <button type="submit" id="btnSubmit1" class="btn btn-success">Submit</button>
+                    </div>
+                </div>
+            </div>
+        }
+        @*@using (Html.BeginForm("YesClick", "DoctorAvailability", FormMethod.Post))
+            {
+                <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog">
+
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                <h4 class="modal-title">
+                                    <label id="lblTitle">Doctor Availability</label>
+                                </h4>
+                            </div>
+                            <div class="modal-body">
+                                <div id="CreateEditForm">
+                                    <label>Are you sure to Replace Doctor Availability</label>
+                                    <input type="text" name="serviceIds" id="serviceIds" style="display: none" />
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                    <button type="submit" class="btn btn-primary">Ok</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- /.modal-content -->
+                    </div>
+                    <!-- /.modal-dialog -->
+                </div>
+            }*@
+    </div>
+</div>
+<script src="~/AdminAssets/js/validator/validator.js"></script>
+<script>
+
+    $(document).ready(function () {
+
+        //$('#FromDateLocal').datepick({ minDate: 0 });
+        //$('#ToDateLocal').datepick({ minDate: 0 });
+        var currentDateTime = new Date();
+        var year = currentDateTime.getFullYear();
+        var month = currentDateTime.getMonth();
+        var date = currentDateTime.getDate();
+        $('#FromDateLocal').datepick({ dateFormat: 'mm/dd/yyyy', minDate: new Date(year, month, date) });
+        $('#ToDateLocal').datepick({ dateFormat: 'mm/dd/yyyy', minDate: new Date(year, month, date) });
+
+        //$('#FromDateLocal').datepick();
+        //$('#ToDateLocal').datepick();
+
+        var value = $('#AppointmentType').val();
+        $("#btnAdd").hide();
+        var boxHome = $("#boxHome");
+        boxHome.css("display", "none");
+        $('#ClinicID').show();
+
+        var oTable = $('#example').dataTable({
+            "bProcessing": true,
+            "iDisplayLength": 10,
+            "bPaginate": true,
+            "sPaginationType": "full_numbers"
+        });
+    });
+    $("#AppointmentType").change(function () {
+        var value = $('#AppointmentType').val();
+        if (value == 2) {
+            $("#btnAdd").hide();
+            $('#ClinicID').show();
+            var ddlClinicId = $("#ClinicID");
+            ddlClinicId.attr("required", "required");
+            var boxvideovclinic = $("#divTimezone");
+            var boxHome = $("#boxHome");
+            boxvideovclinic.css("display", "block");
+            boxHome.css("display", "none");
+        }
+        else if (value == 3) {
+            $("#btnAdd").show();
+            $("#btnSubmit").hide();
+            $('#ClinicID').hide();
+            var ddlCountry = $("#CountryId");
+            var ddlState = $("#State");
+            var ddlCity = $("#City");
+            var txtpostcode = $("#PostCode");
+            ddlCountry.attr("required", "required");
+            ddlState.attr("required", "required");
+            ddlCity.attr("required", "required");
+            txtpostcode.attr("required", "required");
+            var ddlTimeZoneId = $("#TimeZoneId");
+            ddlTimeZoneId.attr("disabled", false);
+            var boxvideovclinic = $("#divTimezone");
+            var boxHome = $("#boxHome");
+            boxvideovclinic.css("display", "none");
+            boxHome.css("display", "block");
+            $('#ClinicID').hide();
+        }
+        else {
+            $("#btnAdd").hide();
+            $("#btnSubmit").show();
+            $('#ClinicID').hide();
+            var boxvideovclinic = $("#divTimezone");
+            var boxHome = $("#boxHome");
+            boxvideovclinic.css("display", "block");
+            boxHome.css("display", "none");
+        }
+
+    });
+    $("#ClinicID").change(function () {
+        if ($("#ClinicID").val() != "") {
+            $.ajax({
+                type: 'GET',
+                url: '/Admin/DoctorAvailability/GetTimezoneOfClinics',
+                dataType: 'json',
+                data: { id: $("#ClinicID").val() },
+                success: function (data) {                    
+                    var selectedText = data.TimeZoneString;
+                    $('#hdntimezone').val(data.TimeZone);
+                    $('#TimeZoneId option').map(function () {
+                        if ($(this).val() == selectedText) {
+                            $('#hdntimezone').val($(this).val());
+                            return this;
+                        }
+                    }).attr('selected', 'selected');
+                    var ddlTimeZoneId = $("#TimeZoneId");
+                    ddlTimeZoneId.attr("disabled", true);
+                },
+                error: function (ex) {
+                    alert("error");
+                }
+            });
+        }
+        else {
+            var ddlTimeZoneId = $("#TimeZoneId");
+            ddlTimeZoneId.attr("disabled", false);
+        }
+    });
+
+    $('#btnCancel').click(function () {
+        var hdndoctorid = document.getElementById("DoctorID");
+        window.location.href = "/admin/DoctorAvailability/index/" + hdndoctorid.value;
+    })
+    //$("#btnDelete").click(function () {
+    //    var options = {
+    //        "backdrop": "static"
+    //    };
+    //    $('#basicModal').modal(options);
+    //});
+    $(document).ready(function () {
+
+        // initialize the validator function
+        validator.message['date'] = 'not a real date';
+
+        // validate a field on "blur" event, a 'select' on 'change' event & a '.reuired' classed multifield on 'keyup':
+        $('form')
+            .on('blur', 'input[required], input.optional, select.required', validator.checkField)
+            .on('change', 'select.required', validator.checkField)
+            .on('keypress', 'input[required][pattern]', validator.keypress);
+
+        $('.multi.required')
+            .on('keyup blur', 'input', function () {
+                validator.checkField.apply($(this).siblings().last()[0]);
+            });
+
+        $('form').submit(function (e) {
+            e.preventDefault();
+            var submit = true;
+            // evaluate the form using generic validaing
+            if (!validator.checkAll($(this))) {
+                submit = false;
+            }
+            if (submit)
+                this.submit();
+            return false;
+        });
+    });
+
+    var favorite = [];
+    $("input[name='WeekDay']").on("click", function () {
+        if (this.checked == true) {
+            favorite.push($(this).val());
+        }
+        else {
+            favorite.pop();
+        }
+        $("#DayIds").val(favorite);
+
+    });
+
+    function Checkdays() {
+        var daybox = document.getElementById("divdaybox");
+        var fdate = document.getElementById("FromDateLocal").value;
+        var tdate = document.getElementById("ToDateLocal").value;
+        fdate = fdate.split(/\//);
+        fdate = [fdate[1], fdate[0], fdate[2]].join('/');
+        tdate = tdate.split(/\//);
+        tdate = [tdate[1], tdate[0], tdate[2]].join('/');
+        var one_day = 1000 * 60 * 60 * 24;
+        var x = fdate.split("/");
+        var y = tdate.split("/");
+        var date1 = new Date(x[2], (x[1] - 1), x[0]);
+        var date2 = new Date(y[2], (y[1] - 1), y[0])
+        var month1 = x[1] - 1;
+        var month2 = y[1] - 1;
+        _Diff = Math.ceil((date2.getTime() - date1.getTime()) / (one_day));
+        if (_Diff > 7) {
+            daybox.style.display = "block";
+        }
+        else {
+            daybox.style.display = "none";
+        }
+    }
+    function addrow() {
+        var DoctorID = $("#DoctorID");
+        var ddlCountry = $("#CountryId");
+        var ddlState = $("#State");
+        var ddlCity = $("#City");
+        var txtpostcode = $("#PostCode");
+        var FromdateLocal = $("#FromDateLocal");
+        var FromHour = $("#FromHour");
+        var FromMin = $("#FromMin");
+        var FromAMPM = $("#FromAMPM");
+        var TodateLocal = $("#ToDateLocal");
+        var ToHour = $("#ToHour");
+        var ToMin = $("#ToMin");
+        var ToAMPM = $("#ToAMPM");
+        var DayIds = $("#DayIds");
+        if (ddlCountry.val() != "" && ddlState.val() != "" && ddlCity.val() != "" && txtpostcode.val() != "" && FromHour.val() != "" && FromMin.val() != "" && ToHour.val() != "" && ToMin.val() != "") {
+            var fromdate = FromdateLocal.val() + ' ' + FromHour.val() + ':' + FromMin.val() + ' ' + FromAMPM.val();
+            var todate = TodateLocal.val() + ' ' + ToHour.val() + ':' + ToMin.val() + ' ' + ToAMPM.val();
+            var State = $("#State option:selected").text();
+            var city = $("#City option:selected").text();
+            var StateId = $("#State").val();
+            var CityId = $("#City").val();
+            var CountryId = $("#CountryId").val();
+            var hPostcode = $("#PostCode").val();
+
+            var locationdtl = city + " /" + State + " /" + $("#PostCode").val();
+            var counter = 0;
+            var str = document.getElementById('HTMLtr').innerHTML;
+            if (str == "") {
+                counter = 1
+                document.getElementById("Counter").value = 1;
+            }
+            else {
+                var cval = document.getElementById("Counter").value;
+                document.getElementById("Counter").value = Math.abs(cval) + 1;
+                counter = document.getElementById("Counter").value;
+            }
+            var Flag = 0;
+            $.ajax({
+                type: 'GET',
+                url: '/Admin/DoctorAvailability/GetAvailabilityByTypeId',
+                dataType: 'json',
+                data: { id: $("#AppointmentType").val(), fdate: fromdate, tdate: todate, doctorid: DoctorID.val() },
+                success: function (data) {
+                    var count = data.length;
+                    if (count > 0) {
+                        alert("This Availability Date and Time is already Availabile.!");
+                    }
+                    else {
+                        if (counter > 1) {
+                            for (var i = 1; i <= counter; i++) {
+                                if (fromdate == $('#fromdate' + i).val() || todate == $('#todate' + i).val()) {
+                                    Flag = 1;
+                                }
+                            }
+                        }
+                        if (Flag != 0) {
+                            alert("This Availability Date and Time is already Added in below.!");
+                        }
+                        else {
+                            str += "<tr id='tr" + counter + "'><td>" + locationdtl + "</td><td>" + fromdate + "</td><input type='hidden' name='fromdate" + counter + "' id='fromdate" + counter + "' value='" + fromdate + "' /><input type='hidden' name='FromdateLocal" + counter + "' id='FromdateLocal" + counter + "' value='" + FromdateLocal.val() + "' /><input type='hidden' name='FromHour" + counter + "' id='FromHour" + counter + "' value='" + FromHour.val() + "' /><input type='hidden' name='FromMin" + counter + "' id='FromMin" + counter + "' value='" + FromMin.val() + "' /><input type='hidden' name='FromAMPM" + counter + "' id='FromAMPM" + counter + "' value='" + FromAMPM.val() + "' /><td>" + todate + "</td>\
+<td><span class='glyphicon glyphicon-remove' aria-hidden='true' onclick='removetr("+'"' +counter +'"' +")'></span></td>\
+<input type='hidden' name='todate" + counter + "' id='todate" + counter + "' value='" + todate + "' /><input type='hidden' name='TodateLocal" + counter + "' id='TodateLocal" + counter + "' value='" + TodateLocal.val() + "' /><input type='hidden' name='ToHour" + counter + "' id='ToHour" + counter + "' value='" + ToHour.val() + "' /><input type='hidden' name='ToMin" + counter + "' id='ToMin" + counter + "' value='" + ToMin.val() + "' /><input type='hidden' name='ToAMPM" + counter + "' id='ToAMPM" + counter + "' value='" + ToAMPM.val() + "' /><input type='hidden' name='cityId" + counter + "' id='cityId" + counter + "' value='" + CityId + "' /><input type='hidden' name='stateId" + counter + "' id='stateId" + counter + "' value='" + StateId + "' /><input type='hidden' name='countryId" + counter + "' id='countryId" + counter + "' value='" + CountryId + "' /><input type='hidden' name='hidPostcode" + counter + "' id='hidPostcode" + counter + "' value='" + hPostcode + "' /><input type='hidden' name='DayIds" + counter + "' id='DayIds" + counter + "' value='" + DayIds.val() + "' /></tr>";
+                            document.getElementById('HTMLtr').innerHTML = str;
+                            var avlist = $("#avlist");
+                            avlist.css("display", "block");
+                        }
+                    }
+                },
+                error: function (ex) {
+                    alert("error");
+                }
+            });
+
+        }
+    }
+
+    function removetr(id) {
+        if (confirm("Are you sure to Remove this Availabile.!")) {
+            $("#tr" + id).remove();
+        }
+    }
+
+    function fixtodate() {
+        var FromdateLocal = $("#FromDateLocal");
+        $('#ToDateLocal').datepick({ dateFormat: 'mm/dd/yyyy', minDate: new Date(year, month, date) });
+    }
+</script>

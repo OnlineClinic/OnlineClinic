@@ -1,0 +1,672 @@
+﻿@model MyOnlineClinic.Web.Models.RegisterViewModel
+@{
+    ViewBag.Title = "UpdatePatientProfile";
+    Layout = "/Areas/Patients/Views/Shared/_PatientPartial.cshtml";
+}
+
+<script src="~/AdminAssets/js/jquery.min.js"></script>
+<script src="~/AdminAssets/js/bootstrap.min.js"></script>
+<script src="/scripts/jquery.plugin.js"></script>
+<script src="/scripts/jquery.datepick.js"></script>
+<link href="~/Scripts/jquery.datepick.css" rel="stylesheet" />
+@using JQueryUIHelpers;
+@using Share.Bonnet.AjaxDropDownList;
+@Scripts.Render("~/bundles/bonnet")
+<style>
+    /********************************************************************/
+    /*** PANEL SUCCESS ***/
+    .with-nav-tabs.panel-success .nav-tabs > li > a,
+    .with-nav-tabs.panel-success .nav-tabs > li > a:hover,
+    .with-nav-tabs.panel-success .nav-tabs > li > a:focus {
+        color: #3c763d;
+    }
+
+        .with-nav-tabs.panel-success .nav-tabs > .open > a,
+        .with-nav-tabs.panel-success .nav-tabs > .open > a:hover,
+        .with-nav-tabs.panel-success .nav-tabs > .open > a:focus,
+        .with-nav-tabs.panel-success .nav-tabs > li > a:hover,
+        .with-nav-tabs.panel-success .nav-tabs > li > a:focus {
+            color: #3c763d;
+            background-color: #d6e9c6;
+            border-color: transparent;
+        }
+
+    .with-nav-tabs.panel-success .nav-tabs > li.active > a,
+    .with-nav-tabs.panel-success .nav-tabs > li.active > a:hover,
+    .with-nav-tabs.panel-success .nav-tabs > li.active > a:focus {
+        color: #3c763d;
+        background-color: #fff;
+        border-color: #d6e9c6;
+        border-bottom-color: transparent;
+    }
+
+    .with-nav-tabs.panel-success .nav-tabs > li.dropdown .dropdown-menu {
+        background-color: #dff0d8;
+        border-color: #d6e9c6;
+    }
+
+        .with-nav-tabs.panel-success .nav-tabs > li.dropdown .dropdown-menu > li > a {
+            color: #3c763d;
+        }
+
+            .with-nav-tabs.panel-success .nav-tabs > li.dropdown .dropdown-menu > li > a:hover,
+            .with-nav-tabs.panel-success .nav-tabs > li.dropdown .dropdown-menu > li > a:focus {
+                background-color: #d6e9c6;
+            }
+
+        .with-nav-tabs.panel-success .nav-tabs > li.dropdown .dropdown-menu > .active > a,
+        .with-nav-tabs.panel-success .nav-tabs > li.dropdown .dropdown-menu > .active > a:hover,
+        .with-nav-tabs.panel-success .nav-tabs > li.dropdown .dropdown-menu > .active > a:focus {
+            color: #fff;
+            background-color: #3c763d;
+        }
+
+    .panel-success > .panel-heading {
+        color: #5CCAC4;
+        background-color: #5CCAC5;
+        border-color: #5CCAC5;
+    }
+</style>
+<div id="NewConsultation">
+    <h3 class="from_title">My Profile</h3>
+    <div class="container-fluid">
+        <div class="row table">
+            <div class="content_boxs" style=" height: auto; width: 99%; ">
+                <div align="left">
+                    <div class="from_box">
+                        <div class="tab-content">
+                            <div class="x_panel">
+                                <div class="col-md-12" style="width: 136%;margin-left: -77px;">
+                                    <div class="panel with-nav-tabs panel-success">
+                                        <div class="panel-heading">
+                                            <ul class="nav nav-tabs">
+                                                <li class="active"><a href="#tab1MyProfile" data-toggle="tab">My Profile</a></li>
+                                                <li><a href="#tab2MyAccount" data-toggle="tab">My Account</a></li>
+                                                <li><a href="#tab3MyFee" data-toggle="tab">My Consult Fee</a></li>
+                                                <li><a href="#tab4Mymebership" data-toggle="tab">My Memebership</a></li>
+
+                                            </ul>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="tab-content">
+
+                                                <div class="tab-pane fade in active" id="tab1MyProfile">
+                                                    @using (Html.BeginForm("UpdateProfile", "DashBoard", FormMethod.Post, new { @class = "form-horizontal form-label-left", enctype = "multipart/form-data" }))
+                                                    {
+                                                        <fieldset>
+
+                                                            @Html.HiddenFor(m => m.MemberId);
+                                                            @Html.HiddenFor(m => m.LoginId);
+
+
+
+                                                            <fieldset style="border:groove" class="fieldset">
+
+                                                                <legend class="prople" style="width:22%;margin-left:11px; color: #0aa49c">Personal Details</legend>
+                                                                <div class="x_content">
+                                                                    <div class="col-md-4">
+                                                                        <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                                                            <label class=" col-sm-4">Title:</label>
+
+                                                                            @Html.DropDownListFor(x => x.TitleId, new SelectList(Model.TitleList, "TitleId", "TitleName"), "---Select Title---", new { @class = "form-control col-md-7 col-xs-12 text_row", required = "required" })
+
+                                                                        </div>
+                                                                        <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                                                            <label>First Name:</label>
+                                                                            @Html.TextBoxFor(x => x.FirstName, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "FirstName", placeholder = "First Name*", required = "required" })
+
+                                                                        </div>
+                                                                        <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                                                            <label>Middle Name:</label>
+                                                                            @Html.TextBoxFor(x => x.MiddleName, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "MiddleName", placeholder = "Middle Name" })
+                                                                        </div>
+                                                                        <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                                                            <label>Last Name:</label>
+                                                                            @Html.TextBoxFor(x => x.SurName, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "SurName", placeholder = " Last Name*", required = "required" })
+                                                                        </div>
+                                                                        <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                                                            <label>DOB:</label>
+
+                                                                            @Html.TextBoxFor(x => x.DOB, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "DOB", placeholder = "Date of Birth*", required = "required" })
+
+
+                                                                        </div>
+                                                                        <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                                                            <label>Gender:</label>
+
+                                                                            @Html.DropDownListFor(x => x.GenderId, new SelectList(Model.GenderList, "GenderId", "GenderName"), "---Select Gender---", new { @class = "form-control col-md-7 col-xs-12 text_row", required = "required" })
+
+                                                                        </div>
+
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                                                            <label>Phone No:</label>
+
+                                                                            @Html.TextBoxFor(x => x.PhoneNumber, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "PhoneNumber", placeholder = "Phone Number*", maxlength = "15", required = "required", onkeypress = "return isNumber(event)" })
+
+                                                                        </div>
+
+                                                                        <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                                                            <label>Mobile No:</label>
+                                                                            @Html.TextBoxFor(x => x.MobileNumber, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "MobileNumber", placeholder = "Mobile Number*", maxlength = "15", required = "required", onkeypress = "return isNumber(event)" })
+
+                                                                        </div>
+
+                                                                        <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                                                            <label>Fax No:</label>
+                                                                            @Html.TextBoxFor(x => x.FaxNumber, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "FaxNumber", placeholder = " Fax Number", onkeypress = "return isNumber(event)" })
+                                                                        </div>
+                                                                        <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                                                            <label>E-Mail:</label>
+
+                                                                            @Html.TextBoxFor(x => x.Email, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "Email", placeholder = " Email Address*", required = "required", type = "email", @readonly = "readonly" })
+                                                                            @Html.ValidationMessage("Email")
+                                                                        </div>
+                                                                        <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                                                            <label>Address 1:</label>
+                                                                            @Html.TextBoxFor(x => x.Address1, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "Address1", placeholder = " Address1* ", required = "required" })
+
+                                                                        </div>
+
+
+
+                                                                        <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                                                            <label>Address 2:</label>
+                                                                            @Html.TextBoxFor(x => x.Address2, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "Address2", placeholder = " Address2 " })
+
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-4">
+                                                                        <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                                                            <label>Language Spoken:</label>
+
+                                                                            @Html.TextBoxFor(x => x.LanguageSpoken, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "LanguageSpoken", placeholder = "Spoken Language*", required = "required" })
+
+
+                                                                        </div>
+                                                                        <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                                                            <label>Country:</label>
+
+                                                                            @Html.DropDownListFor(model => model.CountryId, new SelectList(Model.CountryList, "CountryId", "CountryName"), "--Select Country--",
+                     new { @class = "form-control text_row" },
+                        Ajax.UpdateActionFor(
+                         model => model.State,
+                            new AjaxUpdateOptions
+                            {
+                                DisableTargetWhenEmpty = true,
+                                Url = Url.Action("GetStateInCountry", "Home", new { @area = "" })
+                            }
+                            ))
+                                                                            @Html.ValidationMessageFor(m => m.CountryId)
+                                                                        </div>
+
+                                                                        <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                                                            <label>State:</label>
+                                                                            @Html.DropDownListFor(model => model.State, new SelectList(Model.StateList, "Id", "StateName"), "--Select State--",
+                      new { @class = "form-control text_row" },
+                        Ajax.UpdateActionFor(
+                         model => model.City,
+                            new AjaxUpdateOptions
+                            {
+                                DisableTargetWhenEmpty = true,
+                                Url = Url.Action("GetCityInState", "Home", new { @area = "" })
+                            }
+                            ))
+                                                                            @Html.ValidationMessageFor(m => m.State)
+
+                                                                        </div>
+                                                                        <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                                                            <label>City:</label>
+
+                                                                            @Html.DropDownListFor(x => x.City, new SelectList(Model.CityList, "LookUpCityId", "LookUpCityName"), "---Select City---", new { @class = "form-control col-md-7 col-xs-12 text_row", required = "required" })
+
+                                                                        </div>
+                                                                        <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                                                            <label>Post Code:</label>
+
+                                                                            @Html.TextBoxFor(x => x.PostCode, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "PostCode", placeholder = " Postcode*", required = "required", onkeypress = "return isNumber(event)" })
+
+                                                                        </div>
+                                                                        <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                                                            <label>Time Zone:</label>
+
+                                                                            @Html.DropDownListFor(x => x.TimeZoneId, ViewBag.TimeZone as IEnumerable<SelectListItem>, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "TimeZoneId", required = "required" })
+
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                            </fieldset>
+                                                            <fieldset style="border:groove" class="fieldset">
+
+                                                                <legend class="prople" style="width:26%;margin-left:11px; color: #0aa49c">Professional Details</legend>
+                                                                <div class="x_content">
+
+                                                                    <div class="col-md-8" style="padding-bottom:10px;">
+
+                                                                        <div class="row" style="margin-right: -35px;margin-left: -1px;">
+
+                                                                            <div class="col-md-6" style="padding-left:0px;">
+                                                                                <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                                                                    <label>Profession Type:</label>
+
+                                                                                    @Html.DropDownListFor(model => model.Profession, new SelectList(Model.ProfessionTypes, "Id", "ProfessionName"), "Select Profession Type",
+                                   new { @class = "form-control text_row", required = "required" },
+                                                Ajax.UpdateActionFor(
+                                                 model => model.ProfessionCategory,
+
+                                                    new AjaxUpdateOptions
+                                                    {
+                                                        DisableTargetWhenEmpty = true,
+                                                        Url = Url.Action("GetSubCategoryInProfession", "Home", new { @area = "" })
+                                                    }
+                                                    ))
+
+
+
+                                                                                </div>
+                                                                                <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                                                                    <label>Profession Sub Category:</label>
+                                                                                    @Html.DropDownListFor(model => model.ProfessionCategory, new SelectList(Model.ProfessionSubType, "SubId", "ProfessionSub"), "Select Profession Sub Category", new { @class = "form-control col-md-7 col-xs-12 text_row", required = "required" })
+
+                                                                                </div>
+                                                                                <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                                                                    <label>Interest Area:</label>
+
+                                                                                    @Html.TextBoxFor(x => x.IntrestArea, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "IntrestArea", placeholder = "Area of Interest*", required = "required" })
+
+                                                                                </div>
+                                                                                <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                                                                    <label>Qualification:</label>
+                                                                                    @Html.TextBoxFor(x => x.qualification, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "Qualification", placeholder = "Qualification" })
+                                                                                </div>
+                                                                                <div class=" col-sm-12 col-xs-12 form-group has-feedback">
+                                                                                    <label>AHPRA No:</label>
+
+                                                                                    @Html.TextBoxFor(x => x.AHPRANo, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "AHPRANo", placeholder = " AHPRA No.*", required = "required" })
+
+                                                                                </div>
+                                                                                <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                                                                    <label>Video Provider No:</label>
+
+                                                                                    @Html.TextBoxFor(x => x.VideoProviderNo, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "ProviderNo", placeholder = "Provider No. For Video Consult*", required = "required" })
+
+                                                                                </div>
+
+                                                                            </div>
+                                                                            <div class="col-md-6" style="padding-right:0px;">
+
+                                                                                <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                                                                    <label>Home Visit Provider No:</label>
+
+                                                                                    @Html.TextBoxFor(x => x.HomeVisitProviderNo, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "ProviderNo", placeholder = "Provider No. For Home Visit*", required = "required" })
+
+                                                                                </div>
+
+
+                                                                                <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                                                                    <label>Prescriber No:</label>
+                                                                                    @Html.TextBoxFor(x => x.PrescriberNo, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "PrescriberNo", placeholder = "Prescriber No.*", required = "required" })
+
+                                                                                </div>
+                                                                                <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                                                                    <label>Doctor Profile:</label>
+
+                                                                                    @Html.TextAreaFor(x => x.DoctorProfile, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "DoctorProfile", placeholder = "Doctor Profile.*", required = "required" })
+
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+
+                                                                    </div>
+
+
+
+                                                                </div>
+
+                                                            </fieldset>
+
+
+                                                            <button type="submit" class="btn btn-success">Submit</button>
+
+                                                        </fieldset>
+                                                    }
+                                                </div>
+                                                <div class="tab-pane fade" id="tab2MyAccount">
+                                                    <fieldset style="border:groove" class="fieldset">
+
+                                                        <legend class="prople" style="width: 17%; color: #0aa49c">Account Details</legend>
+
+                                                        <div class="x_content">
+                                                            <div class="row">
+                                                                <div class="col-sm-4">
+
+
+
+                                                                    <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                                                        <label>Bank Name</label>
+                                                                        <input id="txtBankmae" class="form-control col-md-7 col-xs-12 text_row" type="text" name="txtBankmae" />
+                                                                    </div>
+
+
+                                                                    <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                                                        <label>Account Name</label>
+                                                                        <input id="txtaccount" class="form-control col-md-7 col-xs-12 text_row" type="text" name="txtaccount" />
+
+                                                                    </div>
+                                                                    <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                                                        <label>BSB</label>
+                                                                        <input id="txtbsb" class="form-control col-md-7 col-xs-12 text_row" type="text" name="txtbsb" />
+                                                                    </div>
+
+
+                                                                    <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                                                        <label>Account Number</label>
+                                                                        <input id="txtaccountnumber" class="form-control col-md-7 col-xs-12 text_row" type="text" name="txtaccountnumber" />
+
+                                                                    </div>
+
+
+
+                                                                    <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                                                        <label>Paypel Email Id</label>
+                                                                        <input id="txtid" class="form-control col-md-7 col-xs-12 text_row" type="email" name="txtid" />
+
+                                                                    </div>
+
+
+                                                                </div>
+
+
+
+
+
+                                                            </div>
+
+
+
+                                                        </div>
+                                                        <button type="submit" id="bank" class="btn btn-success">Submit</button>
+                                                    </fieldset>
+                                                </div>
+                                                <div class="tab-pane fade" id="tab3MyFee">
+                                                    <fieldset style="border:groove" class="fieldset">
+
+                                                        <legend class="prople" style="width: 21%; color: #0aa49c">Consult Fees Details</legend>
+
+                                                        <div class="x_content">
+                                                            <div class="row">
+                                                                <div class="col-sm-4">
+                                                                    <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                                                        <h4 style="color: darkslategrey;">
+                                                                            Telemedicine Fees :
+                                                                        </h4>
+                                                                    </div>
+
+                                                                    <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                                                        <label>Currency Code:</label>
+                                                                        @Html.DropDownListFor(x => x.TMACurrencyType, new SelectList(ViewBag.CurrencyCode, "Value", "Text"), new { @class = "form-control col-md-7 col-xs-12 text_row", required = "required" })
+
+                                                                    </div>
+                                                                    <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                                                        <label>Statdard Consult Fee:</label>
+                                                                        <input id="tmastandardFee" class="form-control col-md-7 col-xs-12 text_row" type="text" name="tmastandardFee" />
+                                                                    </div>
+
+
+                                                                    <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                                                        <label>Long Consult Fee:</label>
+                                                                        <input id="tmalongfee" class="form-control col-md-7 col-xs-12 text_row" type="text" name="tmalongfee" />
+
+                                                                    </div>
+                                                                    <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                                                        <label>Very Long Consult Fee:</label>
+                                                                        <input id="tmaverylong" class="form-control col-md-7 col-xs-12 text_row" type="text" name="tmaverylong" />
+                                                                    </div>
+
+                                                                </div>
+
+                                                                <div class="col-sm-4">
+                                                                    <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                                                        <h4 style="color: darkslategrey;">Clinic Visit Fees :</h4>
+                                                                    </div>
+
+
+                                                                    <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                                                        <label>Long Consult Fee:</label>
+                                                                        <input id="clinicfee" class="form-control col-md-7 col-xs-12 text_row" type="text" name="clinicfee" />
+                                                                    </div>
+                                                                    <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                                                        <label>Very Long Consult Fee:</label>
+                                                                        <input id="cliniclong" class="form-control col-md-7 col-xs-12 text_row" type="text" name="cliniclong" />
+                                                                    </div>
+
+
+                                                                </div>
+
+                                                                <div class="col-sm-4">
+                                                                    <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                                                        <h4 style="color: darkslategrey;">
+                                                                            Prescription  :
+                                                                        </h4>
+                                                                    </div>
+                                                                    <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                                                        <label>Repeat Prescription:</label>
+                                                                        <input id="tmaRepeate" class="form-control col-md-7 col-xs-12 text_row" type="text" name="tmaRepeate" />
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+
+
+
+                                                        </div>
+                                                        <button type="submit" id="fee" class="btn btn-success">Submit</button>
+                                                    </fieldset>
+                                                </div>
+                                                <div class="tab-pane fade" id="tab4Mymebership">
+
+                                                    <fieldset style="border:groove" class="fieldset">
+
+                                                        <legend class="prople" style="width: 17%; color: #0aa49c">My Membership</legend>
+
+                                                        <div class="x_content">
+                                                            <div class="row">
+                                                                <div class="col-sm-4">
+
+
+
+                                                                    <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                                                        <label>Name</label>
+                                                                        @Model.FirstName @Model.SurName
+                                                                    </div>
+
+
+                                                                    <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                                                        <label>Payment Type</label>
+
+                                                                        @Model.paymentType
+                                                                    </div>
+                                                                    <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                                                        <label>Membership Start Date</label>
+                                                                        @if(Model.membership !=null)
+                                                                        { 
+                                                                        @Convert.ToDateTime(Model.membership.StartDate).ToString("dd/MM/yyy  tt")
+                                                                        }
+                                                                    </div>
+
+
+                                                                    <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                                                        <label>Membership End Date</label>
+@if(Model.membership !=null)
+                                                                        {
+                                                                        @Convert.ToDateTime(Model.membership.EndDate).ToString("dd/MM/yyy  tt")
+}
+
+                                                                    </div>
+                                    @using (Html.BeginForm("Membership", "Dashboard", FormMethod.Post, new { @class = "form-horizontal form-label-left"}))
+                                                                    {
+                                                                    <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                                                        <label>Voucher No</label>
+                                                                        @Html.TextBoxFor(x => x.VoucherNo, new { @class = "form-control col-md-7 col-xs-12", name = "VoucherNo", placeholder = "Enter Voucher No", required = "required" })
+                                                                    </div>
+
+
+                                                                    <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                                                        <button type="submit" class="btn btn-success">Submit</button>
+                                                                    </div>
+                                                                    }
+
+                                                                    @*<div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                                                            <label>Your Plan</label>
+
+
+                                                                        </div>*@
+
+
+                                                                </div>
+
+
+
+
+
+                                                            </div>
+
+
+
+                                                        </div>
+
+                                                    </fieldset>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        $('#DOB').datepick({ dateFormat: 'dd/mm/yyyy' });
+
+
+
+    });
+
+    $('#fee').click(function () {
+
+        $.ajax({
+            type: "POST",
+            url: '/doctor/DashBoard/ConsultFee',
+            data: {
+
+                TMAStatdardFee: $('#tmastandardFee').val(),
+                TMALongFee: $('#tmalongfee').val(),
+                TMAVeryLongFee: $('#tmaverylong').val(),
+                TMACurrencyType: $('#TMACurrencyType').val(),
+                ClinicLongFee: $('#clinicfee').val(),
+                ClinicVeryLongFee: $('#cliniclong').val(),
+                tmaRepeatPrescription: $('#tmaRepeate').val(),
+                MemberId: $('#MemberId').val()
+            },
+            datatype: "json",
+            success: function (data) {
+                $('#tmastandardFee').val() = data.TMAStatdardFee,
+                 $('#tmalongfee').val() = data.TMALongFee,
+               $('#tmaverylong').val() = data.TMAVeryLongFee,
+                $('#TMACurrencyType').val() = data.TMACurrencyType,
+                $('#clinicfee').val() = data.ClinicLongFee,
+                $('#cliniclong').val() = data.ClinicVeryLongFee,
+                 $('#tmaRepeate').val() = data.tmaRepeatPrescription
+
+            },
+            error: function () {
+
+            }
+        });
+    });
+
+    $('#bank').click(function () {
+
+        $.ajax({
+            type: "POST",
+            url: '/doctor/DashBoard/AccountDetails',
+            data: {
+
+                BankName: $('#txtBankmae').val(),
+                AccountName: $('#txtaccount').val(),
+                Bsb: $('#txtbsb').val(),
+                AccountNumber: $('#txtaccountnumber').val(),
+                PaypelEmailId: $('#txtid').val(),
+                LoginId: $('#LoginId').val()
+
+            },
+            datatype: "json",
+            success: function (data) {
+
+
+            },
+            error: function () {
+
+            }
+        });
+    });
+
+    $(document).ready(function () {
+        $.ajax({
+            type: 'GET',
+            url: '/doctor/DashBoard/GetAccountDetails',
+            dataType: "json",
+            async: false,
+            data: {
+                LoginId: $('#LoginId').val()
+            },
+            success: function (data) {
+
+                $('#txtBankmae').val(data[0].BankName),
+                 $('#txtaccount').val(data[0].AccountName),
+                $('#txtbsb').val(data[0].Bsb),
+                 $('#txtaccountnumber').val(data[0].AccountNumber),
+                $('#txtid').val(data[0].PaypelEmailId)
+
+            }
+
+        });
+    });
+
+    $(document).ready(function () {
+        $.ajax({
+            type: 'GET',
+            url: '/doctor/DashBoard/GetConsultFee',
+            dataType: "json",
+            async: false,
+            data: {
+                id: $('#MemberId').val()
+            },
+            success: function (data) {
+                console.log(data);
+                $('#tmastandardFee').val(data[0].StatdardFee),
+                  $('#tmalongfee').val(data[0].LongFee),
+                $('#tmaverylong').val(data[0].VeryLongFee),
+                 $('#TMACurrencyType').val(data[0].CurrencyType),
+                 $('#clinicfee').val(data[1].LongFee),
+                 $('#cliniclong').val(data[1].VeryLongFee)
+
+
+
+            }
+
+        });
+    });
+</script>

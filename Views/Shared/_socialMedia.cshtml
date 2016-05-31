@@ -1,0 +1,15 @@
+﻿@model IEnumerable<MyOnlineClinic.Entity.SocialMedia>
+@{
+    var siteUrl = System.Web.Configuration.WebConfigurationManager.AppSettings["SiteUrl"];
+}
+<div class="footer-social social-icons">  
+    @foreach (var image in Model)
+    {
+        if (image.ShowIcon == true)
+        {           
+                <a href="@image.Url" target="_blank">
+                    <img src="@siteUrl@image.ServiceIcon" alt="@image.Title">
+                </a>                     
+        }
+    }
+</div>

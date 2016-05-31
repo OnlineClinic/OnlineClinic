@@ -1,0 +1,104 @@
+﻿@model List<MyOnlineClinic.Web.Models.DeviceViewModel>
+@{
+    ViewBag.Title = "Assign";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="right_col" role="main">
+    <div class="">
+        <div class="page-title">
+            <div class="title_left">
+            </div>
+            <div class="title_right pull-right">
+                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search for...">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">Go!</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="row">
+                        <div class="col-sm-7">
+                            <h2 class="default-title" style=" color: #0aa49c">Assigned Device </h2>
+                        </div>
+                        <div class="col-sm-5 text-right">
+
+                            <button type="button" id="btnDelete" class="btn btn-primary btn-sm">
+                                Assign New Device
+                            </button>
+                           
+                            <button type="button" id="btnBack" class="btn btn-primary btn-sm">Back</button>
+                        </div>
+                    </div>
+                    <div class="x_content">
+                        <table id="example" class="table table-striped responsive-utilities jambo_table">
+                            <thead>
+                                <tr>
+
+                                    <th>No.</th>
+                                    <th>Device Logo</th>
+                                    <th>Patient Name</th>
+                                    <th>Email</th>
+                                    <th>Device Name</th>
+                                    <th>Device Number</th>
+                                    <th>Assined Date</th>
+                                   
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{ int count = 1;}
+                                @foreach (var item in Model)
+                                {
+
+                                    <tr>
+                                        <td>@count</td>
+                                        <td><img src="@item.deviceLogo" height="25" width="25" /></td>
+
+                                        <td>@item.PatientName @item.PatientSurName</td>
+                                        <td>@item.PatientEmail</td>
+                                        <td>@item.DeviceName</td>
+                                        <td>@item.AssgienddeviceNumber</td>
+                                        <td>@Convert.ToDateTime(item.AssigenDate).ToString("dd-MMM-yyyy")</td>
+                                       
+                                    </tr>
+                                    count = count + 1;
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <br />
+            <br />
+        </div>
+    </div>
+</div>
+
+<script src="~/AdminAssets/js/datatables/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+        var oTable = $('#example').dataTable({
+            "bProcessing": true,
+            "iDisplayLength": 10,
+            "bPaginate": true,
+            "sPaginationType": "full_numbers",
+            "bSort": false
+        });
+        $('[data-toggle="tooltip"]').tooltip();
+        $("#btnDelete").click(function () {
+            window.location.href = "/admin/ManageDevice/Assign";
+        });
+    })
+
+
+</script>
+
+

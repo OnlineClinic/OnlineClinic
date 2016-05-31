@@ -1,0 +1,196 @@
+﻿@model MyOnlineClinic.Web.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Register";
+}
+
+<div class="container">
+    <div class="col-md-8" id="main">
+        <section class="slice bg-white">
+            <div class="wp-section">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8 col-md-offset-0 col-sm-6 col-sm-offset-3">
+                            <h2>Criar novo Registo no PortugalBiz</h2>
+                            <p>
+                                Os serviços do portal PortugalBiz permitem o registo de dois tipos de perfis, um
+                                para particulares e outro para empresas. Ambos os perfis podem usufruir dos
+                                <b>serviços e aplicações grátis</b>, assim como subscrever outros sujeitos a taxas de
+                                ativação. No entanto poderão haver alguns serviços ou aplicações que se destinem
+                                apenas às empresas.
+                            </p>
+                            <ul class="mb-15">
+                                <li><strong>Particular</strong>: perfil privado</li>
+                                <li><strong>Empresas</strong>: perfil público exibido no directório de empresas</li>
+                            </ul>
+                            <div class="wp-block default user-form no-margin">
+
+                                <div class="form-header">
+                                    <h2>Registar novo Utlizador</h2>
+                                </div>
+                                <div class="form-body">
+
+                                    @using (Html.BeginForm("Register", "Account", FormMethod.Post, new {@class = "sky-form", role = "form", id = "frmRegister"}))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <div class="form-group" id="Message" style="display: none;">
+                                            <div class="col-md-offset-3 col-md-12">
+                                                <label style="color: red;">@ViewBag.Message</label>
+                                            </div>
+                                        </div>
+                                        <fieldset class="no-padding">
+                                            <section>
+                                                <div class="row">
+                                                    <div class="col-xs-6">
+                                                        <div class="form-group">
+                                                            <label class="label">Nome*</label>
+                                                            <label class="input">
+                                                                <i class="icon-append fa fa-user"></i>
+                                                                @Html.TextBoxFor(m => m.FullName)
+                                                                <b class="tooltip tooltip-bottom-right">Needed to enter the website</b>
+                                                                @Html.ValidationMessageFor(x => x.FullName)
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="label">Uitlizador</label>
+                                                            <label class="input">
+                                                                <i class="icon-append fa fa-lock"></i>
+                                                                @Html.TextBoxFor(m => m.UserName)
+                                                                <b class="tooltip tooltip-bottom-right">Needed to enter the website</b>
+                                                                @Html.ValidationMessageFor(x => x.UserName)
+                                                            </label>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="label">Password*</label>
+                                                            <label class="input">
+                                                                <i class="icon-append fa fa-lock"></i>
+                                                                @Html.PasswordFor(m => m.Password)
+                                                                <b class="tooltip tooltip-bottom-right">Needed to verify your account</b>
+                                                                @Html.ValidationMessageFor(x => x.Password)
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                    <section class="col-xs-6">
+                                                        <label class="label">Pepetir Password</label>
+                                                        <label class="input">
+                                                            <i class="icon-append fa fa-user"></i>
+                                                            @Html.PasswordFor(m => m.ConfirmPassword)
+                                                            @Html.ValidationMessageFor(x => x.ConfirmPassword)
+                                                        </label>
+                                                    </section>
+                                                </div>
+                                            </section>
+                                            <hr>
+                                            <section>
+
+                                                <div class="row">
+                                                    <div class="col-xs-6">
+                                                        <div class="form-group">
+                                                            <div class="form-group">
+                                                                <label class="label">E-mail</label>
+                                                                <label class="input">
+                                                                    <i class="icon-append fa fa-envelope-o"></i>
+                                                                    @Html.TextBoxFor(m => m.Email)
+                                                                    <b class="tooltip tooltip-bottom-right">Needed to verify your account</b>
+                                                                    @Html.ValidationMessageFor(x => x.Email)
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <section class="col-xs-6">
+                                                        <label class="label">Perfil*</label>
+                                                        <label class="input">
+                                                            <i class="icon-append fa fa-user"></i>
+                                                            <label class="select">
+                                                                @Html.DropDownListFor(x => x.RoleId, new SelectList(Model.RoleList, "LookUpRoleId", "LookUpRoleName"), "---Escolher Perfil---")
+                                                                <i></i>
+                                                                @Html.ValidationMessageFor(x => x.RoleId)
+                                                            </label>
+                                                        </label>
+                                                    </section>
+                                                </div>
+                                                <div class="row">
+                                                    <section class="col-xs-6">
+                                                        <label class="label">NIF / NIPC*</label>
+                                                        <label class="input">
+                                                            <i class="icon-append fa fa-building"></i>
+                                                            @Html.TextBoxFor(x => x.TaxId) NIF se for particular; NIPC se for empresa
+                                                            <br/>
+                                                            @Html.ValidationMessageFor(x => x.TaxId)
+                                                        </label>
+                                                    </section>
+                                                </div>
+                                            </section>
+                                            <hr>
+                                            <section>
+
+                                                <div class="row">
+                                                    <div class="col-xs-9">
+                                                        <div class="form-group">
+                                                            <div class="form-group">
+
+                                                                @Html.CheckBoxFor(m => m.Accept)
+                                                                <label>Li e aceito as <a href="/Condicoes">condições de utilização</a> deste site.</label>
+                                                                @Html.ValidationMessageFor(x => x.Accept)
+                                                                <br/>
+                                                                @Html.CheckBoxFor(m => m.Newsletter)
+                                                                <label>Desejo receber a Newsletter informativa com períodos de envio nunca inferiores a 15 dias.</label>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <br/>
+                                                    <div class="col-md-3">
+                                                        <button type="submit" class="btn btn-base btn-icon btn-icon-right btn-sign-in pull-right">
+                                                            <span>Seguinte</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </section>
+                                        </fieldset>
+                                    }
+
+                                </div>
+                                <div class="form-footer">
+                                    <p>
+                                        jã tem conta? <a href="/Account/Login">Entrar aqui.</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+    <div class="col-md-4" id="sidebar">
+        @{Html.RenderAction("Banner", "Home", new { @page = "LOGIN", @bannerType = "RightSide1" });}
+        <br />
+        @{Html.RenderAction("Banner", "Home", new { @page = "LOGIN", @bannerType = "RightSide2" });}
+        <br />
+        @{Html.RenderAction("Banner", "Home", new { @page = "RECEITAS", @bannerType = "RightSide3" });}
+        <br />
+        @{Html.RenderAction("Banner", "Home", new { @page = "RECEITAS", @bannerType = "RightSide4" });}
+    </div>
+    @*<div class="col-md-4">
+        @{Html.RenderAction("Banner", "Home");}
+
+    </div>*@
+</div>
+<script>
+    $(document).ready(function () {
+        if ('@ViewBag.Message' != '') {
+            $("#Message").show();
+        }
+        else { $("#Message").hide(); }
+        });
+</script>

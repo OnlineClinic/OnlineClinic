@@ -1,0 +1,644 @@
+﻿@model MyOnlineClinic.Web.Models.ClinicModel
+@{
+    ViewBag.Title = "Add";
+    Layout = "~/Areas/Organizations/Views/Shared/_OrganizationLayout.cshtml";
+}
+@using JQueryUIHelpers;
+@using Share.Bonnet.AjaxDropDownList;
+@Scripts.Render("~/bundles/bonnet")
+<script src="/scripts/jquery.plugin.js"></script>
+<script src="/scripts/jquery.datepick.js"></script>
+<link href="~/Scripts/jquery.datepick.css" rel="stylesheet" />
+<section class="content">
+    <h1 class="underline3">
+        Create Clinic
+    </h1>
+
+    <div class="row" style="margin-top:20px;">
+        <div class="col-md-12">
+            <nav class="navbar navbar-inverse navbar-fixed">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <div>
+                        <div class="collapse navbar-collapse" id="myNavbar">
+                            <ul class="nav navbar-nav">
+                                <li class="active"><a href="#Information">Clinic Details</a></li>
+                                <li><a href="#Admin">Clinic Admin Details</a></li>
+                                <li><a href="#Payment">Payment Details</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+</section>
+@using (Html.BeginForm("Add", "Clinics", FormMethod.Post, new { @class = "form-horizontal form-label-left", enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(m => m.ClinicId)
+    @Html.HiddenFor(m => m.LoginId)
+    <div class="row" id="Information">
+        <div class="section-head text-center" style="margin-top:-60px;"><h3><span class="frist"> </span>Clinic Details<span class="second"> </span></h3></div>
+        <div class="col-md-12">
+            <div class="col-md-12 fifteen_layer">
+                <div class="col-md-6">
+                    <div class="col-md-12">
+                        <div class="form-horizontal">
+                            @*<div class="form-group role">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Organisation:</label>
+                                <div class="col-sm-6">
+                                    @Html.DropDownListFor(x => x.OrganizationId, new SelectList(Model.OrganizationList, "OrganizationId", "OrganizationName"), "---Select Organization---", new { @class = "form-control col-md-7 col-xs-12", required = "required" })
+                                </div>
+                            </div>*@
+                            <div class="form-group role">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Clinic Name:</label>
+                                <div class="col-sm-6">
+                                    @Html.TextBoxFor(x => x.ClinicName, new { @class = "form-control col-md-7 col-xs-12", name = "ClinicName", placeholder = "Enter clinic name", required = "required" })
+                                </div>
+                            </div>
+                            <div class="form-group role" style="display:none">
+                                <label for="inputEmail3" class="col-sm-4 control-label"></label>
+                                <div class="col-sm-6">
+                                    <label id="lblmsg" class="form-control col-md-7 col-xs-12 red">ClinicName is Already Available</label>
+                                </div>
+                            </div>
+                            <div class="col-md-9 col-sm-12 col-xs-12">
+                                
+                            </div>
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Address 1:</label>
+                                <div class="col-sm-6">
+                                    @Html.TextBoxFor(x => x.Address1, new { @class = "form-control col-md-7 col-xs-12", name = "Address1", placeholder = "Enter address1", required = "required" })
+                                </div>
+                            </div>
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Address 2:</label>
+                                <div class="col-sm-6">
+                                    @Html.TextBoxFor(x => x.Address2, new { @class = "form-control col-md-7 col-xs-12", name = "Address2", placeholder = "Enter address2" })
+
+                                </div>
+                            </div>
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Phone Number:</label>
+                                <div class="col-sm-6">
+                                    @Html.TextBoxFor(x => x.PhoneNumber, new { @class = "form-control col-md-7 col-xs-12", name = "PhoneNumber", placeholder = "Enter Phone", onkeypress = "return isNumber(event)" })
+                                </div>
+                            </div>
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Fax Number:</label>
+                                <div class="col-sm-6">
+                                    @Html.TextBoxFor(x => x.FaxNumber, new { @class = "form-control col-md-7 col-xs-12", name = "FaxNumber", placeholder = " Enter Fax Number", onkeypress = "return isNumber(event)" })
+                                </div>
+                            </div>
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-4 control-label">PKI Medicare Certificate No.:</label>
+                                <div class="col-sm-6">
+                                    @Html.TextBoxFor(x => x.PKIMedicareCertificateNo, new { @class = "form-control col-md-7 col-xs-12", name = "PKIMedicareCertificateNo"})
+                                </div>
+                            </div>
+
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-4 control-label"></label>
+                                <div class="col-sm-6">
+                                    <label id="lblmsg1" class="form-control col-md-7 col-xs-12 red" style="display:none">PKI Medicare No is Already Available</label>
+                                </div>
+                            </div>                   
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="col-md-12">
+                        <div class="form-horizontal">
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Country:</label>
+                                <div class="col-sm-6">
+
+                                    @Html.DropDownListFor(x => x.Country, new SelectList(Model.Countries, "CountryId", "CountryName"), "--Select Country--", new { @class = "form-control col-md-7 col-xs-12", required = "required" },
+                        Ajax.UpdateActionFor(
+                         model => model.State,
+                            new AjaxUpdateOptions
+                            {
+                                DisableTargetWhenEmpty = true,
+                                Url = Url.Action("GetStateInCountry", "Home", new { @area = "" })
+                            }
+                            ))
+                                    @Html.ValidationMessageFor(m => m.Country)
+                                    @*@Html.DropDownListFor(x => x.ClinicUser.CountryId, new SelectList(Model.Countries, "CountryId", "CountryName"), "---Select Country---", new { @class = "form-control col-md-7 col-xs-12", required = "required" })*@
+                                </div>
+                            </div>
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-4 control-label">State:</label>
+                                <div class="col-sm-6">
+
+                                    @Html.DropDownListFor(x => x.State, new SelectList(Model.States, "Id", "StateName"), "--Select State--", new { @class = "form-control", @id = "State" },
+                                            Ajax.UpdateActionFor(
+                                             model => model.City,
+                                                new AjaxUpdateOptions
+                                                {
+                                                    DisableTargetWhenEmpty = true,
+                                                    Url = Url.Action("GetCityInState", "Home", new { @area = "" })
+                                                }
+                            ))
+                                    @Html.ValidationMessageFor(m => m.State)
+                                </div>
+                            </div>
+
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-4 control-label">City:</label>
+                                <div class="col-sm-6">
+                                    @Html.DropDownListFor(x => x.City, new SelectList(Model.Cities, "LookUpCityId", "LookUpCityName"), "---Select City---", new { @class = "form-control col-md-7 col-xs-12", @id = "City", required = "required" })
+                                </div>
+                            </div>
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Post Code:</label>
+                                <div class="col-sm-6">
+                                    @Html.TextBoxFor(x => x.PostCode, new { @class = "form-control col-md-7 col-xs-12", name = "PostCode", placeholder = " Enter Postcode", onkeypress = "return isNumber(event)" })
+                                </div>
+                            </div>
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Time Zone:</label>
+                                <div class="col-sm-6">
+                                    @Html.DropDownListFor(x => x.TimeZone, ViewBag.TimeZones as IEnumerable<SelectListItem>, new { @class = "form-control col-md-7 col-xs-12" })
+                                </div>
+                            </div>
+
+                           
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Logo:</label>
+                                <div class="col-sm-6" style="margin-top: 9px; margin-left: 8px;">
+                                    <img src="@Model.ClinicLogo" id="ImgOrganizationLogo" height="25" width="25" />
+                                    Logo
+                                    <input type="file" name="OrganizationLogo" id="OrganizationLogo" onchange="ShowPreviewOrg(this)" />
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" id="Admin">
+        <div class="section-head text-center"><h3><span class="frist"> </span>Clinic Admin Details<span class="second"> </span></h3></div>
+        <div class="col-md-12">
+            <div class="col-md-12 fifteen_layer">
+                <div class="col-md-6">
+                    <div class="col-md-12">
+                        <div class="form-horizontal">
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Title:</label>
+                                <div class="col-sm-6">
+                                    @Html.DropDownListFor(x => x.ClinicUser.Titleid, new SelectList(Model.TitleList, "TitleId", "TitleName"), "---Select Title---", new { @class = "form-control col-md-7 col-xs-12", required = "required" })
+
+                                </div>
+                            </div>
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-4 control-label">First Name:</label>
+                                <div class="col-sm-6">
+                                    @Html.TextBoxFor(x => x.ClinicUser.FirstName, new { @class = "form-control col-md-7 col-xs-12", name = "FirstName", placeholder = "First name", required = "required" })
+                                </div>
+                            </div>
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Middle Name:</label>
+                                <div class="col-sm-6">
+                                    @Html.TextBoxFor(x => x.ClinicUser.MiddleName, new { @class = "form-control col-md-7 col-xs-12", name = "FirstName", placeholder = "Middle name" })
+                                </div>
+                            </div>
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Last Name:</label>
+                                <div class="col-sm-6">
+                                    @Html.TextBoxFor(x => x.ClinicUser.SurName, new { @class = "form-control col-md-7 col-xs-12", name = "LastName", placeholder = "Last name", required = "required" })
+                                </div>
+                            </div>
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Email:-</label>
+                                <div class="col-sm-6">
+                                    @{
+    if (Model.ClinicId > 0 && Model.ClinicUser.Email != null)
+    {
+        @Html.TextBoxFor(x => x.ClinicUser.Email, new { @class = "form-control col-md-7 col-xs-12", name = "Email", placeholder = "Email", required = "required", type = "email", @readonly = "readonly" })
+
+    }
+    else
+    {
+        @Html.TextBoxFor(x => x.ClinicUser.Email, new { @class = "form-control col-md-7 col-xs-12", name = "Email", placeholder = "Email", required = "required", type = "email" })
+
+    }
+                                    }
+                                </div>
+                            </div>
+                            <div id="lblmsg" class="form-group role" style="margin-top:-3px; display:none">
+                                <label for="inputEmail3" class="col-sm-4 control-label"></label>
+                                <div class="col-sm-6">
+                                    <label>Email is already Exists</label>
+                                </div>
+                            </div>
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Phone Number:</label>
+                                <div class="col-sm-6">
+                                    @Html.TextBoxFor(x => x.ClinicUser.PhoneNumber, new { @class = "form-control col-md-7 col-xs-12", name = "PhoneNumber", placeholder = " Phone Number", required = "required", onkeypress = "return isNumber(event)" })
+                                </div>
+                            </div>
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Fax Number:</label>
+                                <div class="col-sm-6">
+                                    @Html.TextBoxFor(x => x.ClinicUser.FaxNumber, new { @class = "form-control col-md-7 col-xs-12", name = "FaxNumber", placeholder = " Fax Number", required = "required", onkeypress = "return isNumber(event)" })
+                                </div>
+                            </div>
+
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Address 1:</label>
+                                <div class="col-sm-6">
+                                    @Html.TextBoxFor(x => x.ClinicUser.Address1, new { @class = "form-control col-md-7 col-xs-12", name = "Address1", placeholder = " Address1", required = "required" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="col-md-12">
+                        <div class="form-horizontal">
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Address 2:</label>
+                                <div class="col-sm-6">
+                                    @Html.TextBoxFor(x => x.ClinicUser.Address2, new { @class = "form-control col-md-7 col-xs-12", name = "Address2", placeholder = "Address2", required = "required" })
+                                </div>
+                            </div>
+
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Country:</label>
+                                <div class="col-sm-6">
+                                    @Html.DropDownListFor(x => x.ClinicUser.CountryId, new SelectList(Model.Countries, "CountryId", "CountryName"), "--Select Country--", new { @class = "form-control col-md-7 col-xs-12", @id = "Country", required = "required" },
+                        Ajax.UpdateActionFor(
+              model => model.ClinicUser.State1,
+                            new AjaxUpdateOptions
+                            {
+                                DisableTargetWhenEmpty = true,
+                                Url = Url.Action("GetStateInCountry", "Home", new { @area = "" })
+                            }
+                            ))
+                                    @Html.ValidationMessageFor(m => m.ClinicUser.CountryId)
+                                    @*@Html.DropDownListFor(x => x.ClinicUser.CountryId, new SelectList(Model.Countries, "CountryId", "CountryName"), "---Select Country---", new { @class = "form-control col-md-7 col-xs-12", required = "required" })*@
+                                </div>
+                            </div>
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-4 control-label">State:</label>
+                                <div class="col-sm-6">
+
+                                    @Html.DropDownListFor(x => x.ClinicUser.State, new SelectList(Model.States, "Id", "StateName"), "--Select State--", new { @class = "form-control", @id = "State1" },
+                                            Ajax.UpdateActionFor(
+                                             model => model.ClinicUser.City1,
+                                                new AjaxUpdateOptions
+                                                {
+                                                    DisableTargetWhenEmpty = true,
+                                                    Url = Url.Action("GetCityInState", "Home", new { @area = "" })
+                                                }
+                            ))
+                                    @Html.ValidationMessageFor(m => m.State)
+                                </div>
+                            </div>
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-4 control-label">City:</label>
+                                <div class="col-sm-6">
+                                    @Html.DropDownListFor(x => x.ClinicUser.City, new SelectList(Model.Cities, "LookUpCityId", "LookUpCityName"), "---Select City---", new { @class = "form-control col-md-7 col-xs-12", @id = "City1", required = "required" })
+                                </div>
+                            </div>
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Post Code:</label>
+                                <div class="col-sm-6">
+                                    @Html.TextBoxFor(x => x.ClinicUser.PostCode, new { @class = "form-control col-md-7 col-xs-12", name = "PostCode", placeholder = "Enter Postcode", required = "required" })
+                                </div>
+                            </div>
+
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Date of Birth:</label>
+                                <div class="col-sm-6">
+                                    @Html.TextBoxFor(x => x.ClinicUser.DOB, new { @class = "form-control col-md-7 col-xs-12", name = "DOB", placeholder = "Enter date of birth", required = "required" })
+                                </div>
+                            </div>
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Time Zone:</label>
+                                <div class="col-sm-6">
+                                    @Html.DropDownListFor(x => x.ClinicUser.TimeZoneId, ViewBag.Timezone as IEnumerable<SelectListItem>, new { @class = "form-control col-md-7 col-xs-12", name = "Timezone" })
+                                </div>
+                            </div>
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Logo:</label>
+                                <div class="col-sm-6" style="margin-top: 9px; margin-left: 8px;">
+                                    <img src="@Model.ClinicUser.ProfilePic" id="ImgOrganizationLogo" height="25" width="25" />
+                                    Profile Pic
+                                    <input type="file" name="ProfilePic" id="ProfilePic" onchange="ShowPreviewOrg(this)" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" id="Payment">
+        <div class="section-head text-center"><h3><span class="frist"> </span>Payment Details<span class="second"> </span></h3></div>
+        <div class="col-md-12">
+            <div class="col-md-12 fifteen_layer">
+                <div class="col-md-6">
+                    <div class="col-md-12">
+                        <div class="form-horizontal">
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-5 control-label">Financial Institution Name:</label>
+                                <div class="col-sm-6">
+                                    @Html.TextBoxFor(x => x.Paymentdetail.FinancialInstitution, new { @class = "form-control col-md-7 col-xs-12", name = "DOB", placeholder = "Financial institution Name:" })
+                                </div>
+                            </div>
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-5 control-label">Account Holder Name:</label>
+                                <div class="col-sm-6">
+                                    @Html.TextBoxFor(x => x.Paymentdetail.AccountHolder, new { @class = "form-control col-md-7 col-xs-12", name = "DOB", placeholder = "Account holder Name:" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="col-md-12">
+                        <div class="form-horizontal">
+
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-5 control-label">BSB:</label>
+                                <div class="col-sm-6">
+                                    @Html.TextBoxFor(x => x.Paymentdetail.BSB, new { @class = "form-control col-md-7 col-xs-12", name = "DOB", placeholder = "BSB:" })
+                                </div>
+                            </div>
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-5 control-label">Account Number:</label>
+                                <div class="col-sm-6">
+                                    @Html.TextBoxFor(x => x.Paymentdetail.AccountNumber, new { @class = "form-control col-md-7 col-xs-12", name = "DOB", placeholder = "Account Number:" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="ln_solid"></div>
+    <div class="row" style="margin-top:34px; margin-bottom:10px;">
+        <div class="col-md-12">
+            <div class="form-group">
+                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3" style="text-align:center;">
+                    <button type="submit" class="btn btn-primary">Cancel</button>
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a id="back-to-top" href="#" class="btn btn-primary btn-lg back-to-top" role="button" title="Click to return on the top page" data-toggle="tooltip" data-placement="left"><span class="glyphicon glyphicon-chevron-up"></span></a>
+}
+
+@if (Model.ClinicUserList != null)
+{
+    <table id="example" class="table table-striped responsive-utilities jambo_table">
+        <thead>
+            <tr>
+                <th>
+                    <input type="checkbox" id="selecctall">
+                </th>
+                <th>Nr</th>
+                <th>User Name</th>
+                <th>Email</th>
+                <th>TimeZone</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{ int count = 1;}
+            @foreach (var items in Model.ClinicUserList)
+            {
+
+                <tr>
+                    <td class="table-icons" style="width:110px!important;">
+                        <input type="checkbox" class="checkbox1" name="UserApproval" value=@items.UserId>
+                        @if (items.IsActive)
+                        {<span class="glyphicon glyphicon-ok-circle green" aria-hidden="true" data-toggle="tooltip" data-placement="left" title="Active"></span>}
+                        else
+                        {<span class="glyphicon glyphicon-remove-circle red" aria-hidden="true" data-toggle="tooltip" data-placement="left" title="Active"></span>}
+                        <a href="/admin/Organization/EditOrganizarionUser/@items.UserId" data-toggle="tooltip" data-placement="left" title="Edit"> <span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                    </td>
+                    <td>@count</td>
+                    <td>@items.FirstName @items.SurName</td>
+                    <td>@items.Email</td>
+                    <td>@items.TimeZoneId</td>
+                </tr>
+                        count = count + 1;
+            }
+        </tbody>
+    </table>
+}
+<script src="/AdminAssets/js/validator/validator.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#lblmsg").hide();
+        $("#lblmsg1").hide();
+    });
+</script>
+<script>
+        $('#btnCancel').click(function () {
+            window.location = "/admin/Clinic/index";
+        })
+
+        $(document).ready(function () {
+
+            $(document).ready(function () {
+                $('#ClinicUser_DOB').datepick({ dateFormat: 'dd-mm-yyyy', maxDate: 0 });
+               
+                //$("#ClinicUser_DOB").keyup(function () {
+                //    if (e.keyCode != 8) {
+                //        if ($(this).val().length == 2) {
+                //            $(this).val($(this).val() + "/");
+                //        }
+                //        else if ($(this).val().length == 5) {
+                //            $(this).val($(this).val() + "/");
+                //        }
+                //        else if ($(this).val().length > 10) {
+                //            return false;
+                //        }
+                //    }
+                //});
+            });
+            //$("#lblmsg").hide();
+            if ('@ViewBag.ErrorMessage' != '') {
+                $("#msg").append("<div class='alert alert-danger'><p>" + '@ViewBag.ErrorMessage' + "</p></div>").delaye(5000).fade();
+
+            }
+            $('#ClinicName').blur(function () {
+
+                $.ajax({
+                    type: "get",
+                    url: '/Organizations/Clinic/getClinicName',
+                    data: ({ ClinicName: $('#ClinicName').val() }),
+                    datatype: "json",
+                    success: function (data) {
+                        // alert("done");
+                        console.log(data);
+                        if (data) {
+                            $("#lblmsg").show();
+                            //$("#msg").append("<div class='alert alert-danger'><p>" + "PKI Medicare No is Already Available" + "</p></div>").delaye(5000).fade();
+                        }
+                        else {
+                            $("#lblmsg").hide();
+                        }
+                    },
+                    error: function () {
+
+                    }
+                });
+            });
+            // initialize the validator function
+            validator.message['date'] = 'not a real date';
+
+            // validate a field on "blur" event, a 'select' on 'change' event & a '.reuired' classed multifield on 'keyup':
+            $('form')
+                .on('blur', 'input[required], input.optional, select.required', validator.checkField)
+                .on('change', 'select.required', validator.checkField)
+                .on('keypress', 'input[required][pattern]', validator.keypress);
+
+            $('.multi.required')
+                .on('keyup blur', 'input', function () {
+                    validator.checkField.apply($(this).siblings().last()[0]);
+                });
+
+            // bind the validation to the form submit event
+            //$('#send').click('submit');//.prop('disabled', true);
+
+            $('form').submit(function (e) {
+                e.preventDefault();
+                var submit = true;
+                // evaluate the form using generic validaing
+                if (!validator.checkAll($(this))) {
+                    submit = false;
+                }
+
+                if (submit)
+                    this.submit();
+                return false;
+            });
+
+            /* FOR DEMO ONLY */
+            $('#vfields').change(function () {
+                $('form').toggleClass('mode2');
+            }).prop('checked', false);
+
+            $('#alerts').change(function () {
+                validator.defaults.alerts = (this.checked) ? false : true;
+                if (this.checked)
+                    $('form .alert').remove();
+            }).prop('checked', false)
+        });
+
+        $('#PKIMedicareCertificateNo').blur(function () {
+
+            $.ajax({
+                type: "get",
+                url: '/Admin/Clinic/getPKIMedicareNo',
+                data: ({ Name: $('#PKIMedicareCertificateNo').val() }),
+                datatype: "json",
+                success: function (data) {
+                    // alert("done");
+                   // console.log(data);
+                    if (data) {
+                       // $("#lblmsg1").show();
+                        //$("#msg").append("<div class='alert alert-danger'><p>" + "PKI Medicare No is Already Available" + "</p></div>").delaye(5000).fade();
+
+                    }
+                    else {
+                        $("#lblmsg1").hide();
+                    }
+                },
+                error: function () {
+
+                }
+            });
+        });
+        $('#ClinicUser_Email').blur(function () {
+
+            $.ajax({
+                type: "get",
+                url: '/Admin/Doctor/EmailAvailability',
+                data: ({ Email: $('#ClinicUser_Email').val() }),
+                datatype: "json",
+                success: function (data) {
+                    // alert("done");
+                    console.log(data);
+                    if (data) {
+                        $("#lblmsg").show();
+                        //$("#msg").append("<div class='alert alert-danger'><p>" + "PKI Medicare No is Already Available" + "</p></div>").delaye(5000).fade();
+
+                    }
+                    else {
+
+                        $("#lblmsg").hide();
+                    }
+                },
+                error: function () {
+
+                }
+            });
+        });
+        function isNumber(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            return true;
+        }
+        function ShowPreview(input) {
+            if (input.files && input.files[0]) {
+                var ImageDir = new FileReader();
+                ImageDir.onload = function (e) {
+                    $('#imgProfilePic').attr('src', e.target.result);
+                }
+                ImageDir.readAsDataURL(input.files[0]);
+            }
+        }
+        function ShowPreviewClinic(input) {
+            if (input.files && input.files[0]) {
+                var ImageDir = new FileReader();
+                ImageDir.onload = function (e) {
+                    $('#cliniclogo').attr('src', e.target.result);
+                }
+                ImageDir.readAsDataURL(input.files[0]);
+            }
+        }
+        $(document).ready(function () {
+            $(window).scroll(function () {
+                if ($(this).scrollTop() > 50) {
+                    $('#back-to-top').fadeIn();
+                } else {
+                    $('#back-to-top').fadeOut();
+                }
+            });
+            // scroll body to 0px on click
+            $('#back-to-top').click(function () {
+                $('#back-to-top').tooltip('hide');
+                $('body,html').animate({
+                    scrollTop: 0
+                }, 800);
+                return false;
+            });
+
+            $('#back-to-top').tooltip('show');
+
+        });
+</script>

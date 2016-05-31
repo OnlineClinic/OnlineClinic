@@ -1,0 +1,963 @@
+﻿@model List<MyOnlineClinic.Web.Models.AppointmentViewModel>
+@{
+    ViewBag.Title = "Index";
+    //Layout = "~/Areas/Doctor/Views/Shared/_DoctorPartial.cshtml";
+}
+<style>
+    #updateProgressDiv {
+        display: none;
+        position: absolute;
+        top: 0%;
+        left: 0%;
+        width: 100%;
+        height: 100%;
+        background-color: black;
+        -moz-opacity: 0.8;
+        filter: alpha(opacity=40);
+        opacity: 0.7;
+        xindex: -1;
+    }
+
+    .white_content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-top: -50px;
+        margin-left: -50px;
+        width: 100px;
+        height: 100px;
+    }
+
+    .MyCapitalize {
+        text-transform: capitalize !important;
+    }
+
+    .pdtl {
+        text-align: left !important;
+    }
+
+    .w1_icon, .m1_icon, .m3_icon, .today_icon1 {
+        background: none repeat scroll 0 0 #8bf6f2;
+        /* border: 2px solid #5bc9c3; */
+        border-radius: 2px;
+        box-shadow: 1px 2px 2px -2px #858585;
+        color: #000;
+        float: none;
+        font-size: 13px;
+        line-height: 15px;
+        padding: 3px 10px;
+    }
+
+    .pastcal_bx2 a.active {
+        display: inline-block;
+        height: 30px;
+        line-height: 27px;
+        width: 160px;
+        background: none repeat scroll 0 0 #5ccac4;
+        /* border: 2px solid #5bc9c3; */
+        color: #fff;
+    }
+
+    .cancel_btn_1:hover {
+        background: #5ccac4;
+        color: #fff;
+        box-shadow: inset 0 0 5px 5px #2aa19a;
+    }
+
+    .cancel_btn_1 {
+        background: #979797;
+        border: 0 none;
+        cursor: pointer;
+        float: right;
+        padding: 7px 22px;
+        color: #fff;
+        border-radius: 5px;
+        box-shadow: inset 0 0 5px 5px #5c5959;
+        font-family: trebuchet ms;
+        font-size: 15px;
+        font-weight: bold;
+        margin-left: 10px;
+        text-align: center;
+    }
+
+    .msg_li {
+        background: #fafafa;
+        background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJod…EiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+        background: -moz-linear-gradient(top, #fafafa 12%, #e9e9e9 52%, #d3d3d3 93%);
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(12%,#fafafa), color-stop(52%,#e9e9e9), color-stop(93%,#d3d3d3));
+        background: -webkit-linear-gradient(top, #fafafa 12%,#e9e9e9 52%,#d3d3d3 93%);
+        background: -o-linear-gradient(top, #fafafa 12%,#e9e9e9 52%,#d3d3d3 93%);
+        background: -ms-linear-gradient(top, #fafafa 12%,#e9e9e9 52%,#d3d3d3 93%);
+        background: linear-gradient(to bottom, #fafafa 12%,#e9e9e9 52%,#d3d3d3 93%);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fafafa', endColorstr='#d3d3d3',GradientType=0 );
+        -webkit-box-shadow: 0 8px 3px -5px #858585;
+        -moz-box-shadow: 0 8px 3px -5px #858585;
+        box-shadow: 0 8px 3px -5px #858585;
+        border: 1px solid #CCCCCC;
+        border-radius: 8px;
+        box-shadow: 0 8px 3px -5px #858585;
+        display: block;
+        line-height: 22px;
+        padding: 10px 15px;
+        margin: 8px 0px;
+    }
+
+    .futureConsults_bx .msg_li {
+        float: left;
+        width: 100%;
+        box-sizing: border-box;
+        background: none repeat scroll 0 0 #fff;
+    }
+
+    .msg_bx {
+        clear: left;
+        display: block;
+    }
+
+    .clinical_DashBoard_btn > a:hover {
+        background: none repeat scroll 0 0 #42d2cb;
+    }
+
+    .clinical_beshboard_btn3, .clinical_beshboard_btn3 a {
+        width: 150px;
+    }
+
+    .clinical_DashBoard_btn > a {
+        background: none repeat scroll 0 0 #5f5f5f;
+        border-radius: 3px;
+        box-sizing: border-box;
+        color: #fff;
+        float: right;
+        font-size: 14px;
+        width: 190px;
+        padding: 8px 15px;
+        text-align: center;
+    }
+    .male_mx_bx {
+        background: none repeat scroll 0 0 #979797;
+        border-radius: 3px;
+        box-sizing: border-box;
+        color: #fff;
+        float: right;
+        font-weight: 600;
+        line-height: 38px;
+        text-align: center;
+        width: 55px;
+    }
+    user agent stylesheet div {
+        display: block;
+    }
+    .date_time_caln_btn {
+        background: none repeat scroll 0 0 #979797;
+        border-radius: 3px;
+        box-sizing: border-box;
+        color: #fff;
+        float: right;
+        font-size: 14px;
+        line-height: 15px;
+        margin: 0 10px;
+        padding: 4px 0;
+        text-align: center;
+        width: 127px;
+    }
+    user agent stylesheet div {
+        display: block;
+    }
+    .patinet_num_tx {
+        float: left;
+        font-size: 18px;
+        font-weight: 600;
+        margin: 7px 0;
+        white-space: nowrap;
+    }
+    user agent stylesheet div {
+        display: block;
+    }
+    :host {
+        display: inline-block;
+        width: -webkit-fill-available;
+        overflow: hidden;
+        text-align: initial;
+        white-space: nowrap;
+    }
+
+    user agent stylesheet marquee {
+        display: inline-block;
+    }
+    .clinical_DashBoard_btn {
+        color: #fff;
+        float: right;
+        height: 40px;
+        margin-right: 10px;
+        width: 190px;
+    }
+    .modal-backdrop.in
+    {
+        z-index:0 !important;
+    }
+</style>
+<style type="text/css">
+    #boxes {
+        font-family: Arial, sans-serif;
+        list-style-type: none;
+        margin: 0px;
+        padding: 0px;
+        width: 100%;
+    }
+
+        #boxes li {
+            cursor: move;
+            position: relative;
+            float: left;
+            margin: 0.5% 0 0 0.5%; /*width: 280px;*/
+            height: 190px;
+            padding: 0px;
+        }
+
+    .box2_2 {
+        width: 49.3%;
+    }
+
+    .box1_1 {
+        width: 99%;
+    }
+
+    .box4_4 {
+        width: 24.4%;
+    }
+
+    .iapp_icon {
+        background: url(images/aaple_icon.png);
+    }
+
+    .aapp_icon {
+        background: url(images/andriod_icon.png);
+    }
+</style>
+<style type="text/css">
+    .clsimgbtn {
+        top: 4px;
+        position: relative;
+    }
+
+    samp {
+        position: relative;
+    }
+
+        samp:after {
+            content: '<>';
+            font: 11px "Consolas", monospace;
+            color: #aaa;
+            -webkit-transform: rotate(90deg);
+            -moz-transform: rotate(90deg);
+            -ms-transform: rotate(90deg);
+            transform: rotate(90deg);
+            right: 14px;
+            top: 2px;
+            padding: 0 0 2px;
+            border-bottom: 1px solid #ddd;
+            position: absolute;
+            pointer-events: none;
+        }
+
+        samp:before {
+            content: '';
+            right: 6px;
+            top: 0px;
+            width: 40px;
+            background: #f8f8f8;
+            position: absolute;
+            pointer-events: none;
+            display: block;
+        }
+
+    select {
+        padding: 3px;
+        margin: 0;
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        border-radius: 4px;
+        -webkit-box-shadow: 0 3px 0 #ccc, 0 -1px #fff inset;
+        -moz-box-shadow: 0 3px 0 #ccc, 0 -1px #fff inset;
+        box-shadow: 0 3px 0 #ccc, 0 -1px #fff inset;
+        background: #f8f8f8;
+        color: #111;
+        border: none;
+        outline: none;
+        display: inline-block;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        cursor: pointer;
+        width: 200px;
+    }
+
+    .model {
+        z-index: 1000000 !important;
+    }
+
+    a {
+        color: #000;
+    }
+
+    .empty td {
+        border-style: none;
+        border-width: 0px;
+        background-color: #ffffdd;
+    }
+
+    .accordian_body {
+        padding: 10px !important;
+    }
+
+    .modalPopup {
+        background-color: #696969;
+        filter: alpha(opacity=40);
+        opacity: 0.7;
+        z-index: 100002 !important;
+    }
+
+    .btnNewButton {
+        background-color: #f54343;
+        border: 1px solid white;
+        border-radius: 10px;
+        color: White;
+        float: right;
+        font-weight: bold;
+        height: 30px;
+        margin-right: 40px;
+        width: auto;
+    }
+
+    .rel1 {
+        position: relative;
+    }
+
+
+
+    .cal_bx_top {
+        width: 100% !important;
+    }
+
+        .cal_bx_top table {
+            margin-left: 250px;
+        }
+
+    .td_1 {
+        display: inline-block;
+        float: none !important;
+        width: auto !important;
+    }
+
+    .text_input {
+        border: 1px solid #b2c4d4;
+        border-radius: 3px;
+        box-shadow: 0 2px 3px #e4eaee;
+        box-sizing: border-box;
+        margin-bottom: 5px;
+        padding: 5px;
+        width: 100%;
+    }
+
+    .w1_icon, .m1_icon, .m3_icon, .today_icon1 {
+        font-size: 17px;
+        margin-left: 0.5%;
+    }
+
+    .pastcal_bx2 a {
+        display: inline-block;
+        height: 30px;
+        line-height: 27px;
+        width: 180px;
+    }
+
+    .pastcal_bx3 a {
+        width: 280px;
+    }
+
+    .clinical_beshboard_btn2, .clinical_beshboard_btn2 a {
+        width: 100px;
+    }
+
+    .clinical_beshboard_btn3, .clinical_beshboard_btn3 a {
+        width: 150px;
+    }
+
+    .from_title {
+        background: url("../images/title_sd.png") no-repeat scroll center bottom rgba(0, 0, 0, 0);
+        color: rgb(92, 202, 196);
+        float: left;
+        font-family: helvetica;
+        font-size: 25px;
+        font-weight: bold;
+        padding-bottom: 25px;
+        text-align: center;
+        width: 100%;
+    }
+
+    .pastcal_bx2 {
+        display: block;
+        float: none;
+        margin: 1% auto;
+        text-align: center;
+        width: 100%;
+    }
+
+    .clinical_DashBoard_btn a.done_ico {
+        background: #FFFF5a;
+        color: #000;
+    }
+</style>
+
+
+
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xs-offset-0 col-sm-offset-0 toppad" style="margin-top:0px;margin-left: -10px;">
+    <div class="panel panel-info doctor">
+        <div class="panel-heading">
+            <h3 class="panel-title">My Future Consults</h3>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class=" col-md-11 col-lg-11" style="margin-left:42px;">
+                    <div class="tabbable-panel">
+                        <div class="tabbable-line">
+                            <ul class="nav nav-tabs" style="background: #08A39B !important;">
+                                <li class="active" style="margin-left:45px;">
+                                    <a href="#tab_default_1" data-toggle="tab">
+                                        Future Video Consults
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#tab_default_2" data-toggle="tab">
+                                        Future Clinic Visit Consults
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#tab_default_3" data-toggle="tab">
+                                        Future Home Visit Consults
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="col-md-12 fifth layer" style="margin-top:16px;">
+                                <div class="form-group">
+                                    <div class="col-md-12 col-sm-12 col-xs-12" style="text-align:center;">
+                                        <button type="submit" id="ContentPlaceHolder1_lnkToday" class="btn btn-success today">Today</button>
+                                        <button type="submit" id="ContentPlaceHolder1_lnkWeek" class="btn btn-success today">Week</button>
+                                        <button type="submit" id="ContentPlaceHolder1_lnkMonth" class="btn btn-success today">Month</button>
+                                        <button type="submit" id="ContentPlaceHolder1_lnkAll" class="btn btn-success today">All</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 fifth layer" style="margin-top:20px;">
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control" id="ContentPlaceHolder1_txtfrom" placeholder="From Date">
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control" id="ContentPlaceHolder1_txt_todate" placeholder="To Date">
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control" id="ContentPlaceHolder1_txtpatientname" placeholder="Patient Name">
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-3 pull-right" style="text-align:center;">
+                                        <button type="submit" id="ContentPlaceHolder1_Button2" class="btn btn-primary">Submit</button>
+                                        <button type="submit" id="ContentPlaceHolder1_Button3" class="btn btn-success">Reset</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="tab_default_1">
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                           
+                                          @foreach (var item in Model)
+                                           {
+                                            <div class="col-md-12 future">
+                                                <div class="col-md-6" style="margin-bottom:13px;">
+                                                    <p><h3 class="Name">@item.PatientName</h3></p>
+                                                    <p class="text">Your next patient at 8:00PM on 05/05/2016.</p>
+                                                    <p class="text"><b>Status</b> : @item.AppointmentStatusName</p>
+                                                </div>
+                                                <div class="col-md-3 pull-right" style="margin-bottom:13px;">
+                                                    <button type="button" class="btn btn-danger cancel">Cancel This Appointment</button>
+                                                </div>
+                                            </div>
+                                          }
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="tab_default_2">
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                           
+                                           
+                                            <div class="col-md-12 future">
+                                                <div class="col-md-6" style="margin-bottom:13px;">
+                                                    <p><h3 class="Name">Mrs. Emily Case</h3></p>
+                                                    <p class="text">Your next patient at 8:00PM on 05/05/2016.</p>
+                                                    <p class="text"><b>Status</b> : Approved</p>
+                                                </div>
+                                                <div class="col-md-3 pull-right" style="margin-bottom:13px;">
+                                                    <button type="button" class="btn btn-danger cancel">Cancel This Appointment</button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="tab_default_3">
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                                                                    
+                                            <div class="col-md-12 future">
+                                                <div class="col-md-6" style="margin-bottom:13px;">
+                                                    <p><h3 class="Name">Mrs. Emily Case</h3></p>
+                                                    <p class="text">Your next patient at 8:00PM on 05/05/2016.</p>
+                                                    <p class="text"><b>Status</b> : Approved</p>
+                                                </div>
+                                                <div class="col-md-3 pull-right" style="margin-bottom:13px;">
+                                                    <button type="button" class="btn btn-danger cancel">Cancel This Appointment</button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="content-wrapper">
+    @*<div class="dhe-example-section" id="ex-1-2">
+        <div class="col-sm-12">
+            <div class="from_title" style="margin-top:18px;">
+                My Future Consults
+            </div>
+            <div class="patient_form_box futureConsults_bx" style="width:100%;">
+                <div style="border: 1px solid #cdcdcd; float: none !important; margin: 1% auto; width: 99%;
+                        clear: left; display: block; padding: 0.5%;" class="tr_box" align="center">
+                    <div class="pastcal_bx2 pastcal_bx3">
+                        <a id="ContentPlaceHolder1_A1" class="today_icon1 " href="javascript:__doPostBack(&#39;ctl00$ContentPlaceHolder1$A1&#39;,&#39;&#39;)">My Future Telemedicine Consults</a>
+                        <a id="ContentPlaceHolder1_A2" class="w1_icon" href="javascript:__doPostBack(&#39;ctl00$ContentPlaceHolder1$A2&#39;,&#39;&#39;)">
+                            My Future Home Visit Consults
+                        </a>
+                    </div>
+                    <div class="pastcal_bx2">
+                        <a id="ContentPlaceHolder1_lnkToday" class="today_icon1 ">Today</a><a id="ContentPlaceHolder1_lnkWeek" class="w1_icon">
+                            Week
+                        </a><a id="ContentPlaceHolder1_lnkMonth" class="m1_icon">Month</a><a id="ContentPlaceHolder1_lnkAll" class="m3_icon active">
+                            All
+                        </a>
+                    </div>
+                    <div>
+                        <div class="td_1" style="width: 85px !important;">
+                            <span class="lbl_text">
+                                From Date<span class="red"></span>:
+                            </span>
+                        </div>
+                        <div class="input_box1" style="width: 100px; background: transparent none repeat scroll 0% 0%;
+                                float: none ! important; display: inline-block;">
+                            <input name="ctl00$ContentPlaceHolder1$txtfrom" type="text" id="ContentPlaceHolder1_txtfrom" class="text_input" onkeypress="return false;">
+
+                        </div>
+                        <div class="td_1" style="width: 85px !important;">
+                            <span class="lbl_text">
+                                <span class="lbl_text">
+                                    To Date<span class="red"></span>:
+                                </span>
+                            </span>
+                        </div>
+                        <div class="input_box1" style="width: 100px; background: transparent none repeat scroll 0% 0%;
+                                float: none ! important; display: inline-block;">
+                            <input name="ctl00$ContentPlaceHolder1$txt_todate" type="text" id="ContentPlaceHolder1_txt_todate" class="text_input" onkeypress="return false;">
+
+                        </div>
+                        <div class="td_1" style="width: 98px !important;">
+                            <span class="lbl_text">Patient Name :</span>
+                        </div>
+                        <div class="input_box1" style="width: 100px; background: transparent none repeat scroll 0% 0%;
+                                float: none ! important; display: inline-block;">
+                            <input name="ctl00$ContentPlaceHolder1$txtpatientname" type="text" id="ContentPlaceHolder1_txtpatientname" class="text_input">
+                        </div>
+                        <div class="td_1">
+                            <input type="submit" name="ctl00$ContentPlaceHolder1$Button2" value="Submit" id="ContentPlaceHolder1_Button2" class="cancel_btn_1" style="margin-left: 10px; margin-top: 3px; float: none">
+                            <input type="submit" name="ctl00$ContentPlaceHolder1$Button3" value="Reset" id="ContentPlaceHolder1_Button3" class="cancel_btn_1" style="margin-left: 10px; margin-top: 3px; float: none">
+                        </div>
+                    </div>
+                </div>
+                <div class="msg_list" style="width: 98%; overflow: scroll; height: 480px;">
+                    @foreach (var item in Model)
+                    {
+                    <div class="msg_bx">
+                        <div class="msg_li">
+                            <div class="patinet_num_tx">
+                                <a id="ContentPlaceHolder1_rptFuture_LinkButton3_0" class="aspNetDisabled">@item.PatientName</a>
+                                (F-25)
+                                <br>
+                                <div style="float: left; font-size: 14px;">
+                                    <span id="ContentPlaceHolder1_rptFuture_lbstatus_0">@item.AppointmentStatusName</span>
+
+                                </div>
+
+                            </div>
+                            <div class="call_icon" style="margin-top: 9px;">
+
+                            </div>
+                            <div class="call_icon" style="margin: 9px 10px 0 0;">
+
+                            </div>
+                            <div class="clinical_DashBoard_btn clinical_beshboard_btn2" style="margin-top: 9px;">
+
+
+                                <a id="lnkIamDone" class="done_ico" data-role="@item.AppointmentId" data-id="@item.IsSoapNotesAdded" data-status="@item.AppointmentStatus">I Am Done</a>
+                            </div>
+                            <div class="clinical_DashBoard_btn clinical_beshboard_btn3" style="margin-top: 9px;">
+                                <a id="ContentPlaceHolder1_rptFuture_lnkClinicalDashboard_0">Clinical Dashboard</a>
+                            </div>
+                            <div class="date_time_caln_btn" style="width: 105px; margin:9px 5px 0 0;">
+                                <span id="ContentPlaceHolder1_rptFuture_lblDate_0">@Convert.ToDateTime(item.AppointmentDateUtc).ToString("dd/MM/yyyy")</span>
+                                <span>
+                                    @Convert.ToDateTime(item.AppointmentDateUtc).ToString("HH:mm tt")
+                                </span>
+                            </div>
+                            <div class="male_mx_bx" style="margin-top: 9px;display: none;">
+                                F-25
+                            </div>
+
+
+                            <div class="male_mx_bx" style="margin-right: 6px; margin-top: 9px; font-weight: normal;
+                                            line-height: 38px; width: 200px;display:none;">
+                                <span id="ContentPlaceHolder1_rptFuture_lblremaningtime_0"></span>
+                            </div>
+
+                            <div class="male_mx_bx" style="width:200px; text-align:center;line-height: 20px;margin-top: 9px;margin-right: 5px;font-weight:normal">
+                                <div style="width:66px;float:left;text-align:center">
+                                    Day<br>
+                                    <span id="ContentPlaceHolder1_rptFuture_day_0">00</span>
+                                </div>
+                                <div style="width:66px;float:left;text-align:center">
+                                    Hours<br>
+                                    <span id="ContentPlaceHolder1_rptFuture_hours_0">00</span>
+                                </div>
+                                <div style="width:66px;float:left;text-align:center">
+                                    Minutes<br>
+                                    <span id="ContentPlaceHolder1_rptFuture_min_0">00</span>
+                                </div>
+                            </div>
+                            <div id="ContentPlaceHolder1_rptFuture_DivProblem_0" class="clinical_DashBoard_btn male_mx_bx" style="width:160px;text-align:center;line-height:38px ;margin-top:9px;margin-right:5px;font-weight:normal;display:none;">
+                                <span id="ContentPlaceHolder1_rptFuture_lblproblem_0"></span>
+
+                            </div>
+                            <div class="clinical_DashBoard_btn male_mx_bx" style="width:180px; text-align:center;line-height:38px ;margin-top: 9px;margin-right: 5px;font-weight:normal">
+                                <marquee behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();"> @item.Address1 @item.Address2 @item.CountryName</marquee>
+
+                            </div>
+                        </div>
+                        <div class="productDetail" id="3713">
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>*@
+</div>
+
+
+<div class="modal fade" id="appointmentModel" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog" style="margin:12% auto;">
+        <div class="modal-content" style="width:500px;margin-left:10%;">
+            <div class="modal-header" style="padding: 15px 0px 5px 0px; background-color: #f5f5f5; border-radius:5px;">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title text-center">
+                    <label id="lblTitle">Choose Status</label>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div id="CreateEditForm">
+                    <a class="btn btn-default btn-block consult abc" style="color:black" data-role="@((int)MyOnlineClinic.Entity.AppointmentStatus.Completed)">Completed</a>
+                    <a class="btn btn-default btn-block consult abc" style="color:black" data-role="@((int)MyOnlineClinic.Entity.AppointmentStatus.NotCompleted)">Not Completed</a>
+                    <a class="btn btn-default btn-block consult abc" style="color:black" data-role="@((int)MyOnlineClinic.Entity.AppointmentStatus.NotRespondedByPatient)">Not Responded By Patient</a>
+                    <input type="hidden" id="hdnStatusId" />
+                    <input type="hidden" id="hdnConsultType" />
+                    <input type="hidden" id="hdnAppType" />
+                    <input type="hidden" id="hdnAppStatus" />
+                    <input type="hidden" id="hdnIssoap" />
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="SoapModel" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog" style="margin:12% auto;">
+        <div class="modal-content" style="width:900px;margin-left:10%;">
+            <div class="modal-header" style="padding: 15px 0px 5px 0px; background-color: #f5f5f5; border-radius:5px;">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title text-center">
+                    <label id="lblTitle">New Consultation</label>
+                </h4>
+            </div>
+            <div class="modal-body">
+
+                <h3 class="from_title">New Consultation</h3>
+                <div class="container-fluid">
+                    <div class="row table">
+                        <div class="content_boxs" style="overflow-y: scroll; height: 420px; width: 99%; overflow-x: hidden;">
+                            <div align="left">
+                                <div class="from_box">
+                                    <fieldset>
+                                        <div class="tr_box">
+                                            <div class="td_1">
+                                                <span class="lbl_text">
+                                                    Reason for Contact
+                                                    :
+                                                </span>
+                                            </div>
+                                            <div class="input_box1">
+                                                <input name="" type="text" id="ReasonId" class="text_input">
+                                            </div>
+                                            <span id="" style="color:Red;font-weight:bold;display:inline-block;margin-top:6px;margin-left:155px;visibility:hidden;">Please enter reason for contact</span>
+                                        </div>
+                                        <div class="tr_box">
+                                            <div class="td_1">
+                                                <span class="lbl_text">
+                                                    Diagnosis:
+                                                </span>
+                                            </div>
+                                            <div class="input_box1 rel1">
+                                                <input name="" type="text" id="DiagnosisId" class="text_input" autocomplete="off">
+                                                <input type="hidden" name="" id="">
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <legend style="border: none; margin: 10px;">
+                                        <span class="heading">
+                                            Notes : (SOAP)
+                                        </span>
+                                    </legend>
+                                    <fieldset>
+                                        <div class="tr_box">
+                                            <div class="td_1">
+                                                <span class="lbl_text">
+                                                    Subjective:
+                                                </span>
+                                            </div>
+                                            <div class="input_box1 consultarea">
+                                                <textarea name="" rows="2" cols="20" id="SubjectiveId" class="text_input post_area2" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 48px;"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="tr_box">
+                                            <div class="td_1">
+                                                <span class="lbl_text">
+                                                    Objective:
+                                                </span>
+                                            </div>
+                                            <div class="input_box1 consultarea">
+                                                <textarea name="" rows="2" cols="20" id="ObjectiveId" class="text_input post_area2" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 48px;"></textarea>
+                                            </div>
+                                        </div>
+                                        <input type="hidden" id="hdnAppointmentId" />
+                                        <div class="tr_box">
+                                            <div class="td_1">
+                                                <span class="lbl_text">
+                                                    Assessment:
+                                                </span>
+                                            </div>
+                                            <div class="input_box1 consultarea">
+                                                <textarea name="" rows="2" cols="20" id="AssessmentId" class="text_input post_area2" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 48px;"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="tr_box">
+                                            <div class="td_1">
+                                                <span class="lbl_text">
+                                                    Plan:
+                                                </span>
+                                            </div>
+                                            <div class="input_box1 consultarea">
+                                                <textarea name="" rows="2" cols="20" id="PlanId" class="text_input post_area2" style="overflow: hidden; word-wrap: break-word; resize: horizontal; height: 48px;"></textarea>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <input class="btn btn-default pull-right personal" type="submit" id="savenewconsult" value="Save">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<script src="/AdminAssets/js/jquery.min.js"></script>
+<script src="/AdminAssets/js/bootstrap.min.js"></script>
+
+
+<script>
+    
+
+    $(".done_ico").click(function () {
+        var hdnAppType = document.getElementById('hdnAppType');
+        hdnAppType.value = $(this).attr('data-role');
+        var hdnAppStatus = document.getElementById('hdnAppStatus');
+        hdnAppStatus.value = $(this).attr('data-status');
+        var hdnIssoap = document.getElementById('hdnIssoap');
+        hdnIssoap.value = $(this).attr('data-id');
+        var hdnAppointmentId = document.getElementById('hdnAppointmentId');
+        hdnAppointmentId.value = $(this).attr('data-role');
+
+        if (hdnAppStatus.value == "2" && hdnIssoap.value == "False") {
+
+
+            var options = {
+                "backdrop": "static"
+            };
+            $('#SoapModel').modal(options);
+
+        }
+        else {
+            var options = {
+                "backdrop": "static"
+            };
+            $('#appointmentModel').modal(options);
+        }
+    });
+
+    
+</script>
+<script src="~/Scripts/jquery-2.1.4.min.js"></script>
+<script src="~/Scripts/notify.min.js"></script>
+<script>    
+    var notifyAlert = $.noConflict();
+    $('#savenewconsult').click(function () {
+
+        $.ajax({
+            type: "POST",
+            url: '/doctor/DoctorFutureConsult/SaveNewConsult',
+            data: {
+
+                DiagnosisId: 1,
+                ReasonForContact: $('#ReasonId').val(),
+                Subjective: $('#SubjectiveId').val(),
+                Objective: $('#ObjectiveId').val(),
+                Assessment: $('#AssessmentId').val(),
+                Plans: $('#PlanId').val(),
+                AppointmentId: hdnAppointmentId.value
+            },
+            datatype: "json",
+            success: function (data) {
+
+                $('#SoapModel').modal('hide');
+
+                if (data != null) {
+                    if (data.success) {
+                        notifyAlert.notify(data.message, "success");
+                    }
+                    else {
+                        notifyAlert.notify("Error Occuured", "error");
+                    }
+                }
+
+            },
+            error: function () {
+
+            }
+        });
+    });
+
+
+
+    $('.abc').click(function () {
+
+        var hdnConsultType = document.getElementById('hdnConsultType');
+        hdnConsultType.value = $(this).attr('data-role');
+
+        $.ajax({
+            type: "POST",
+            url: '/doctor/DoctorFutureConsult/UpdateStatus',
+            data: {
+                StatusId: hdnConsultType.value,
+                appId: hdnAppType.value
+
+            },
+            datatype: "json",
+            success: function (data) {
+
+                $('#appointmentModel').modal('hide');
+
+                if (data != null) {
+                    if (data.success) {
+                        notifyAlert.notify(data.message, "success");
+                    }
+                    else {
+                        notifyAlert.notify("Error Occuured", "error");
+                    }
+                }
+
+            },
+            error: function () {
+
+            }
+        });
+    });
+
+    $('#savenewconsult').click(function () {
+
+        $.ajax({
+            type: "GET",
+            url: '/doctor/DoctorFutureConsult/SaveNewConsult',
+            data: {
+
+
+            },
+            datatype: "json",
+            success: function (data) {
+
+                $('#SoapModel').modal('hide');
+
+                if (data != null) {
+                    if (data.success) {
+                        notifyAlert.notify(data.message, "success");
+                    }
+                    else {
+                        notifyAlert.notify("Error Occuured", "error");
+                    }
+                }
+
+            },
+            error: function () {
+
+            }
+        });
+    });
+</script>
+
+
+
+
+

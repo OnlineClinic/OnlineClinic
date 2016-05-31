@@ -1,0 +1,234 @@
+﻿<style>
+    .currentPage {
+        background-color: #72A1C8;
+    }
+    .currentPage a {
+        color: white;
+    }
+        .currentPage a:hover {
+            color: #337ab7;
+        }
+
+</style>
+
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingOne">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                    Administração
+                </a>
+            </h4>
+        </div>
+        <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+            <div class="panel-body">
+                <ul class="nav sub-nav">
+                    <li role="presentation"><a href="/admin/AdminAccount/Index">Admin Login/Access</a></li>
+                    <li role="presentation"><a href="/admin/dashboard/service">Serviços</a></li>
+                    <li role="presentation"><a href="/admin/dashboard/serviceprice">Preços Serviços</a></li>
+                    <li role="presentation"><a href="/admin/PaymentMethod/Index">Pagamentos</a></li>
+                    <li role="presentation"><a href="/admin/ProvidedServices/Index">Outros Serviços</a></li>  
+                    <li role="presentation"><a href="/admin/SocialMedia">Social Media</a></li>          
+                    <li role="presentation"><a href="/admin/dashboard/banner">Publicidade</a></li>
+                    <li role="presentation"><a href="/admin/dashboard/release">Comunicados</a></li>       
+                    <li role="presentation"><a href="/admin/AdminFaq/Index">FAQs</a></li> 
+                    <li role="presentation"><a href="/admin/Mercado/Index">Mercado</a></li> 
+                    <li role="presentation"><a href="/admin/Comments/Index">Comments</a></li> 
+                    <li role="presentation"><a href="/Admin/Subscription">Subscriptions</a></li>                     
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingTwo">
+            <h4 class="panel-title">
+                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    Utilizadores e Perfis
+                </a>
+            </h4>
+        </div>
+        <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+            <div class="panel-body">
+                <ul class="nav sub-nav">
+                    <li role="presentation" class="active"><a href="/Admin/ServicePayment/Index">Contas Correntes</a></li>
+                    @*<li role="presentation"><a href="/admin/dashboard/ApproveUser">Utilizadores</a></li>*@
+                    <li role="presentation"><a href="/admin/Dashboard/ManageUsers">Perfis de Particulares</a></li>
+                    <li role="presentation"><a href="/admin/Dashboard/Companies">Empresas</a></li>
+                    <li role="presentation"><a href="/admin/ActivitiesAndSector/Index">Atividades e Setores</a></li>                  
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingThree">
+            <h4 class="panel-title">
+                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    Classificados
+                </a>
+            </h4>
+        </div>
+        <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+            <div class="panel-body">
+                <ul class="nav sub-nav">
+                    <li role="presentation"><a href="/admin/classified">Classificados</a></li>
+                    <li role="presentation" class="active"><a href="/admin/Classified/AdsToApprove">Classificados para Aprovar</a></li>
+                    @*<li role="presentation" class="active"><a href="/admin/Classified/ApprovedAds">Approve Classified</a></li>*@
+                    <li role="presentation"><a href="#">Classificados Expirados</a></li>
+                   
+                    <li role="presentation" class="active"><a href="/admin/Classified/FeatureAds">Classificados em Destaque </a></li>
+                    <li role="presentation"><a href="/admin/ClassifiedCategory/Index">Categorias de Classificados </a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingFour">
+            <h4 class="panel-title">
+                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                    News
+                </a>
+            </h4>
+        </div>
+        <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
+            <div class="panel-body">
+                <ul class="nav sub-nav">
+                    <li role="presentation"><a href="/admin/News/Index">Notícias</a></li>
+                    <li role="presentation"><a href="/admin/News/NewsComments">Notícias Comentários</a></li>
+                    <li role="presentation"><a href="/admin/NewsCategory/Index">News Category</a></li>
+                    @*<li role="presentation"><a href="/admin/NewsCategory/Index">Notícias Comentários</a></li>*@
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingFive">
+            <h4 class="panel-title">
+                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                    Events
+                </a>
+            </h4>
+        </div>
+        <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive">
+            <div class="panel-body">
+                <ul class="nav sub-nav">
+                    <li role="presentation"><a href="/admin/EventCategory/Index">Event Category</a></li>
+                    <li role="presentation"><a href="/admin/Event/Index">Eventos</a></li>
+                    <li role="presentation"><a href="/admin/EventComments/Index">Eventos Comentários</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingSix">
+            <h4 class="panel-title">
+                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                    Games
+                </a>
+            </h4>
+        </div>
+        <div id="collapseSix" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSix">
+            <div class="panel-body">
+                <ul class="nav sub-nav">
+                    <li role="presentation"><a href="/admin/FlashGames/FlashGames">Jogos Flash</a></li>
+                    <li role="presentation"><a href="/admin/FlashGames/GamesCategories">Categorias Jogos</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingSeven">
+            <h4 class="panel-title">
+                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+                    Artist
+                </a>
+            </h4>
+        </div>
+        <div id="collapseSeven" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingSeven">
+            <div class="panel-body">
+                <ul class="nav sub-nav">
+                    <li role="presentation"><a href="/admin/AdminArtist/Index">Artistas e Bandas</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingEight">
+            <h4 class="panel-title">
+                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
+                    Recipes
+                </a>
+            </h4>
+        </div>
+        <div id="collapseEight" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingEight">
+            <div class="panel-body">
+                <ul class="nav sub-nav">
+                    <li role="presentation"><a href="/admin/AdminRecipes/Index">Receitas</a></li>
+                    <li role="presentation"><a href="/admin/AdminRecipes/RecipesCategory">Recipe Category</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingNine">
+            <h4 class="panel-title">
+                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseNine" aria-expanded="false" aria-controls="collapseNine">
+                    Pages
+                </a>
+            </h4>
+        </div>
+        <div id="collapseNine" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingNine">
+            <div class="panel-body">
+                <ul class="nav sub-nav">
+                    <li role="presentation"><a href="/admin/PageCMS/Index">Páginas</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="headingTen">
+            <h4 class="panel-title">
+                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseTen" aria-expanded="false" aria-controls="collapseTen">
+                    Location
+                </a>
+            </h4>
+        </div>
+        <div id="collapseTen" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTen">
+            <div class="panel-body">
+                <ul class="nav sub-nav">
+                    @*<li role="presentation" class="active"><a href="/Admin/Location/cities">Fregusia</a></li>
+                   <li role="presentation"><a href="/admin/Location/Concelhos">Concelhos</a></li>*@
+                    <li role="presentation"><a href="/admin/Location/Distrito">Distrito</a></li>
+                    <li role="presentation"><a href="/admin/Location/Countries">Country</a></li>
+                   @* <li role="presentation"><a href="/admin/Dashboard/ManageCompanyUsers">Empresas</a></li>
+    <li role="presentation"><a href="/admin/ActivitiesAndSector/Index">Atividades e Setores</a></li>*@
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+   //find exact match that contains the text exactly
+    $.expr[':'].containsexactly = function (obj, index, meta, stack) {
+        return $(obj).text() === meta[3];
+    };
+
+    $(document).ready(function () {
+        //Current menu should be set to each controller action that has the url of the active anchor
+        var menuText = '@ViewBag.CurrentMenu';
+        InitializeLeftMenu(menuText);
+    })
+
+    function InitializeLeftMenu(menuText)
+    {
+        $("#accordion .in").removeClass("in");
+        $(".panel-title a").addClass('collapsed');
+        var menuItem = $("#accordion a:containsexactly('" + menuText + "')");
+        menuItem.parent().addClass("currentPage");
+        menuItem.closest("div.panel-collapse").addClass("in");
+        menuItem.closest("div.panel-collapse").prev().find('a').toggleClass('collapsed');
+    }
+
+
+</script>

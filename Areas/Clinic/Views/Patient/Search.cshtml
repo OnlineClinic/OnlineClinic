@@ -1,0 +1,636 @@
+﻿@model MyOnlineClinic.Web.Models.SearchViewModel
+@{
+    ViewBag.Title = "BookAppointment";
+    Layout = "~/Areas/Clinic/Views/Shared/_ClinicLayout.cshtml";
+}
+@using JQueryUIHelpers;
+@using Share.Bonnet.AjaxDropDownList;
+@Scripts.Render("~/bundles/bonnet")
+
+<script src="/scripts/jquery.plugin.js"></script>
+<script src="/scripts/jquery.datepick.js"></script>
+<link href="~/Scripts/jquery.datepick.css" rel="stylesheet" />
+
+<div class="right_col" role="main">
+    <div class="">
+        <div class="page-title">
+            <div class="title_left">
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Book Appointment</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                            </li>
+                            <li>
+                                <a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        @using (Html.BeginForm("Search", "Patient", FormMethod.Post, new {id="FrmSubmit", @class = "form-horizontal form-label-left" }))
+                        {
+                            @Html.HiddenFor(m => m.PatientId)
+
+
+                            <div class="item form-group" style="display:none;">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">
+                                    Consult Type <span class="required">*</span>
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    @*@Html.DropDownListFor(model => model.AppointmentType, Model.AppointmentTypeList, new { @class = "form-control", required = "required" })*@
+                                    @Html.HiddenFor(model => model.AppointmentType)
+                                </div>
+                            </div>
+
+                            <div id="divbox">
+                                <div class="item form-group col-sm-3">
+                                    <label class="" for="name">
+                                        Doctor Name <span class="required">*</span>
+                                    </label>
+                                    <div class="">
+                                        @Html.TextBoxFor(x => x.DoctorFullName, new { @class = "form-control col-md-7 col-xs-12" })
+                                    </div>
+                                </div>
+
+
+                                <div class="item form-group col-sm-3 consult">
+                                    <label class="" for="name">
+                                        Consultation Type <span class="required">*</span>
+                                    </label>
+                                    <div class="">
+                                        @Html.DropDownListFor(model => model.ConsultType, Model.ProfessionList, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="item form-group col-sm-3 clinic">
+                                    <label class="" for="name">
+                                        Clinic  <span class="required">*</span>
+                                    </label>
+                                    <div class="">
+
+                                        @Html.DropDownListFor(model => model.Clinicid, new SelectList(Model.ClinicList, "ClinicId", "ClinicName"), new { @class = "form-control col-md-7 col-xs-12" })
+                                    </div>
+                                </div>
+                                <div class="item form-group col-sm-3 professiontype">
+                                    <label class="" for="name">
+                                        Profession  <span class="required">*</span>
+                                    </label>
+                                    <div class="">
+
+                                        @Html.DropDownListFor(model => model.ProfessionType, new SelectList(Model.ProfessionTypes, "Id", "ProfessionName"), "--Select Profession--", new { @class = "form-control col-md-7 col-xs-12", })
+                                    </div>
+                                </div>
+                                <div class="item form-group col-sm-3">
+                                    <label class="" for="name">
+                                        Profession Sub  <span class="required">*</span>
+                                    </label>
+                                    <div class="">
+
+                                        @Html.DropDownListFor(model => model.ProfessionSub, new SelectList(Model.ProfessionSubList, "SubId", "ProfessionSub"), new { @class = "form-control col-md-7 col-xs-12" })
+                                    </div>
+                                </div>
+                                <div class="item form-group col-sm-3">
+                                    <label class="" for="name">
+                                        Country <span class="required">*</span>
+                                    </label>
+                                    <div class="">
+                                        @Html.DropDownListFor(model => model.countryid, new SelectList(Model.CountryList, "CountryId", "CountryName"), "--Select Country--",
+                                        new { @class = "form-control text_row" },
+                        Ajax.UpdateActionFor(
+                         model => model.stateid,
+                            new AjaxUpdateOptions
+                            {
+                                DisableTargetWhenEmpty = true,
+                                Url = Url.Action("GetStateInCountry", "Home", new { @area = "" })
+                            }
+                            ))
+                                    </div>
+                                </div>
+
+                                <div class="item form-group col-sm-3">
+                                    <label class="" for="name">
+                                        State <span class="required">*</span>
+                                    </label>
+                                    <div class="">
+                                        @Html.DropDownListFor(model => model.stateid, new SelectList(Model.StateList, "Id", "StateName"), "--Select State--",
+                                new { @class = "form-control text_row" },
+                        Ajax.UpdateActionFor(
+                  model => model.cityid,
+                            new AjaxUpdateOptions
+                            {
+                                DisableTargetWhenEmpty = true,
+                                Url = Url.Action("GetCityInState", "Home", new { @area = "" })
+                            }
+                            ))
+                                    </div>
+                                </div>
+
+                                <div class="item form-group col-sm-3">
+                                    <label class="" for="name">
+                                        City <span class="required">*</span>
+                                    </label>
+                                    <div class="">
+                                        @Html.DropDownListFor(x => x.cityid, new SelectList(Model.CityList, "LookUpCityId", "LookUpCityName"), "---Select City---", new { @class = "form-control col-md-7 col-xs-12 text_row" })
+                                    </div>
+                                </div>
+                                <div class="item form-group col-sm-3">
+                                    <label class="" for="name">
+                                        Consult Date <span class="required">*</span>
+                                    </label>
+                                    <div class="">
+                                        @Html.JQueryUI().DatepickerFor(x => x.AppointmentDateLocal, new { @class = "date-picker form-control col-md-7 col-xs-12", name = "AppointmentDateLocal", placeholder = "Enter Appointment Date", required = "required" }).DateFormat("dd/MM/yyyy")
+                                        @Html.ValidationMessage("Error")
+                                     </div>
+                                </div>
+
+                                <div class="item form-group col-sm-3">
+                                    <label class="" for="name">
+                                        Consult Time <span class="required">*</span>
+                                    </label>
+                                    <div class="">
+                                        <div style="float: left; width: 30.5%; margin-right: 10px;">
+                                            @*@Html.TextBoxFor(x => x.FromTime, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "FromTime", placeholder = "From Time", required = "required" })*@
+                                            @Html.DropDownList("FromHour", new List<SelectListItem>
+                {
+                    new SelectListItem{ Text="Hour", Value = "" },
+                    new SelectListItem{ Text="1", Value = "01" },
+                    new SelectListItem{ Text="2", Value = "02" },
+                    new SelectListItem{ Text="3", Value = "03" },
+                    new SelectListItem{ Text="4", Value = "04" },
+                    new SelectListItem{ Text="5", Value = "05" },
+                    new SelectListItem{ Text="6", Value = "06" },
+                    new SelectListItem{ Text="7", Value = "07" },
+                    new SelectListItem{ Text="8", Value = "08" },
+                    new SelectListItem{ Text="9", Value = "09" },
+                    new SelectListItem{ Text="10", Value = "10" },
+                    new SelectListItem{ Text="11", Value = "11" },
+                    new SelectListItem{ Text="12", Value = "12" },
+                    }, new { @class = "form-control col-md-7 col-xs-12 text_row", required = "required" })
+                                        </div>
+                                        <div style="float: left; width: 30.5%; margin-right: 8px; margin-left: 4px;">
+                                            @Html.DropDownList("FromMin", new List<SelectListItem>
+                {
+                    new SelectListItem{ Text="Min", Value = "" },
+                    new SelectListItem{ Text="00", Value = "00" },
+                    new SelectListItem{ Text="15", Value = "15" },
+                    new SelectListItem{ Text="30", Value = "30" },
+                    new SelectListItem{ Text="45", Value = "45" },
+                    }, new { @class = "form-control col-md-7 col-xs-12 text_row", required = "required" })
+                                        </div>
+                                        <div style="float: right; width: 30.5%; margin-top: -44px;">
+                                            @Html.DropDownList("FromAMPM", new List<SelectListItem>
+                {
+                    new SelectListItem{ Text="AM", Value = "AM" },
+                    new SelectListItem{ Text="PM", Value = "PM" },
+                    }, new { @class = "form-control col-md-7 col-xs-12 text_row", required = "required" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="item form-group col-sm-3">
+                                    <label class="" for="name">
+                                        Postcode <span class="required">*</span>
+                                    </label>
+                                    <div class="">
+                                        @Html.TextBoxFor(x => x.postcode, new { @class = "form-control col-md-7 col-xs-12" })
+                                    </div>
+                                </div>
+                                <div class="item form-group col-sm-3">
+                                    <label class="" for="name">
+                                        Language <span class="required">*</span>
+                                    </label>
+                                    <div class="">
+                                        @Html.TextBoxFor(x => x.language, new { @class = "form-control col-md-7 col-xs-12" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-offset-4 col-md-12 ">
+                                        <button type="button" id="btnCancel" class="btn btn-primary">Cancel</button>
+                                        <button id="send" type="submit" class="btn btn-success">Search</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            @*<div id="homevisit">
+                                <button id="gp" type="button" class="btn btn-success homevisit" style="width: 15%;margin-left: 33%;">
+                                    GP
+                                </button><br />
+                                <button id="gp" type="button" class="btn btn-success homevisit" style="width: 15%;margin-left: 33%;">
+                                    Allied Health
+                                </button>
+                            </div>*@
+
+                        }
+                        @Html.Partial("_SearchList", Model)
+                    </div>
+
+
+                   
+                </div>
+                
+                <div id="dvAvabiltityChart" style="width:100%; float:left; height:30%;">
+                    <table id="tblAvabiltityChart"></table>
+                </div>
+              
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="timeZoneModel" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog" style="margin:12% auto;">
+        <div class="modal-content" style="width:500px;margin-left:10%;">
+            <div class="modal-header" style="padding: 15px 0px 5px 0px; background-color: #f5f5f5; border-radius:5px;">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="margin-top: -12px;">×</button>
+                <h4 class="modal-title text-center">
+                    <label id="lblTitle">Select Patient TimeZone</label>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div id="CreateEditForm">
+                </div>
+                <div class="modal-footer text-center">
+                    @Html.DropDownListFor(x => x.Timezone, ViewBag.TimeZone as IEnumerable<SelectListItem>, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "TimeZoneId", required = "required" })
+                </div>
+                <div style="text-align:center;">
+                    <button id="btnGo" type="button" class="btn btn-default btn-md">Go</button>
+                    <input type="hidden" id="hdmTimezone" />
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog ">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">
+                    <label id="lblTitle">Book an appointment</label>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div id="CreateEditForm">
+                    <a class="btn btn-default btn-block consult" style="color: black;" data-role="@((int)MyOnlineClinic.Entity.ConsultTime.StandardConsult)">Standard Consult(< 15 Min) </a>
+                    <a class="btn btn-default btn-block consult" style="color: black;" data-role="@((int)MyOnlineClinic.Entity.ConsultTime.LongConsult)">Long Consult(< 30 Min)</a>
+                    <a class="btn btn-default btn-block consult" style="color: black;" data-role="@((int)MyOnlineClinic.Entity.ConsultTime.VeryLongConsult)">Very Long Consult(< 45 Min)</a>
+
+                    <input type="hidden" id="hdnDoctorId" />
+                    <input type="hidden" id="hdnConsultType" />
+                </div>
+
+            </div>
+        </div>
+
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+<div class="modal fade" id="basicModalHome" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog ">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">
+                    <label id="lblTitle">Book an Appointment</label>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div id="CreateEditForm">
+                    <label>Are You Really Want to Book an Appointment</label>
+                    <input type="hidden" id="hdnDoctorId" />
+                </div>
+                <div class="modal-footer">
+                    <div class="form-group">
+                        <div>
+                            <ul class="list-inline">
+                                <li><button type="button" id="btnCancel" class="btn btn-primary Book">Book</button></li>
+                                <li><button id="send" type="submit" class="btn btn-success">Cancel</button></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#AppointmentDateLocal').datepick({ dateFormat: 'dd/mm/yyyy' });
+
+
+        var options = {
+            "backdrop": "static"
+        };
+
+        $('#appointmentType').modal(options);
+
+        $(".appointmenttype").on("click", function () {
+
+            var HdnAppointmentType = document.getElementById('HdnAppointmentType');
+            HdnAppointmentType.value = $(this).attr('data-role');
+            alert(HdnAppointmentType.value);
+            $('#appointmentType').modal('hide');
+            var options = {
+                "backdrop": "static"
+            };
+
+            var options = {
+                "backdrop": "static"
+            };
+
+            $('#timeZoneModel').modal(options);
+        });
+
+        $("#btnGo").click(function () {
+            var timeZoneValue = $('#Timezone').val();
+
+            var hdmTimezone = document.getElementById('TimeZoneValue');
+            hdmTimezone.value = timeZoneValue;
+            $('#timeZoneModel').hide();
+
+
+        });
+
+        $("#ProfessionSub").empty();
+        $("#ProfessionSub").append($("<option></option>").val('').html('---Profession Sub Type---'));
+
+
+
+
+
+    });
+
+    $("#ProfessionType").change(function () {
+        $("#ProfessionSub").empty();
+
+        $.ajax({
+            type: 'GET',
+            url: '/Patients/BookAppointment/GetProfessionSubTypes',
+            dataType: 'json',
+            data: { id: $("#ProfessionType").val() },
+            success: function (data) {
+                $.each(data, function (key, value) {
+                    $("#ProfessionSub").append($("<option></option>").val(value.SubId).html(value.ProfessionSub));
+                });
+            },
+            error: function (ex) {
+            }
+        });
+    });
+
+
+    $("#ConsultType").change(function () {
+        var value = $('#ConsultType').val();
+        if (value != 4) {
+            $('.clinic').hide();
+            $(".professiontype").hide();
+        }
+        else {
+            $('.clinic').show();
+            $(".professiontype").show();
+
+
+        }
+    });
+
+    $("#ConsultType").change(function () {
+        $("#ProfessionSub").empty();
+
+        $.ajax({
+            type: 'GET',
+            url: '/Patients/BookAppointment/GetProfessionSubTypes',
+            dataType: 'json',
+            data: { id: $("#ConsultType").val() },
+            success: function (data) {
+                $.each(data, function (key, value) {
+
+                    $("#ProfessionSub").append($("<option></option>").val(value.SubId).html(value.ProfessionSub));
+                });
+            },
+            error: function (ex) {
+            }
+        });
+    });
+
+    $(document).ready(function () {
+        $(".btn-success").on("click", function () {
+
+            var options = {
+                "backdrop": "static"
+            };
+
+            $('#basicModal').modal(options);
+        });
+    });
+
+
+
+    var htmlString = {
+
+        dvDoctorHtmlString: '<article class="search-result row">' +
+        '<div class="col-xs-12 col-sm-12 col-md-3">' +
+            '<a href="#" title="Lorem ipsum" class="">' + '<img src="" height="150" width="150" alt=""></a>' +
+       '</div>' +
+
+        '<div class="col-xs-12 col-sm-12 col-md-3">' +
+            '<ul class="meta-search">' +
+               ' <li>' + '<i class="glyphicon glyphicon-pencil">' + '</i>' + ' <span>¶Doctorname</span>' + '</li>' +
+
+           ' </ul>' +
+       ' </div>' +
+       ' <div class="col-xs-12 col-sm-12 col-md-6 excerpet">' +
+            '<h3>' + '<a href="#" title="">Description</a>' + '</h3>' +
+            '<p>' +
+                '¶DoctorProfile' +
+           ' </p>' +
+            '<span class="plus">' + '<button type="submit" value="¶Value" data-role="¶DoctorId" data-id="¶SubProfession" class="btn btn-success book-appointment SearchDoctor" >' + 'Book Appointment' + '</button>' +
+            '<button type="submit" value="¶Value" data-role="¶DoctorAvalId" data-id="¶SubProfession" class="btn btn-success book-appointment CheckAval" >' + 'Check Avialblity' + '</button>' + '</span>' +
+
+        '</div>' +
+        '<span class="clearfix borda">' + '</span>' +
+    '</article>',
+
+
+
+        dvChartDoctorHtml: '<table style="width:100%;"><tr><th>Time</th><th>¶DoctorName<input type="hidden" value="¶DoctorId"></th></tr></table>',
+
+        dvChartDoctorAvability: '<tr><td style="width:11%;text-align:center;"><a class="lnkTime" href="javascript:;" data-role="¶DoctId">¶Time</a></td><td style="width:85%;"></td></tr>'
+    }
+
+    $(".consult").click(function () {
+
+        var dvAppendString = htmlString.dvDoctorHtmlString;
+
+        var dvDoctorList = $('#dvDoctorList');
+        dvDoctorList.html('');
+        var hdnConsultType = document.getElementById('hdnConsultType');
+        hdnConsultType.value = $(this).attr('data-role');
+        $('#basicModal').modal('hide');
+        var options = {
+            "backdrop": "static"
+        };
+
+        $.ajax({
+            type: 'GET',
+            url: '/Patients/BookAppointment/Search',
+            dataType: 'json',
+            data: {
+                countryid: $('#countryid').val(),
+                cityid: $('#cityid').val(),
+                stateid: $('#stateid').val(),
+                Clinicid: $('#Clinicid').val(),
+                ProfessionType: $('#ProfessionType').val(),
+                ProfessionSub: $('#ProfessionSub').val(),
+                language: $('#language').val(),
+                postcode: $('#postcode').val(),
+                AppointmentType: $('#AppointmentType').val(),
+                DoctorFullName: $('#DoctorFullName').val(),
+                AppointmentDateLocal: $('#AppointmentDateLocal').val(),
+                ConsultType: hdnConsultType.value,
+                FromTime: $('#FromHour').val(),
+                ToTime: $('#FromMin').val(),
+                FromAMPM: $('#FromAMPM').val()
+            },
+            success: function (data) {
+                console.log(data);
+                $.each(data, function (key, value) {
+                    console.log(value.FirstName);
+                    var appendString = dvAppendString.replace('¶Value', "Book an Appointment");
+                    appendString = appendString.replace('¶DoctorId', value.MemberId);
+                    appendString = appendString.replace('¶DoctorAvalId', value.MemberId);
+                    appendString = appendString.replace('¶SubProfession', value.ProfessionCategory);
+                    appendString = appendString.replace('¶Doctorname', value.FirstName);
+                    appendString = appendString.replace('¶DoctorProfile', value.postcode);
+                    appendString = appendString.replace('dvDoctorId', 'dvDoctorId' + value.MemberId);
+                    dvDoctorList.append(appendString);
+                });
+
+
+            },
+            error: function (ex) {
+            }
+        });
+
+
+
+
+    });
+    $(document).on('click', '.SearchDoctor', function () {
+        var hdnDoctorId = document.getElementById('hdnDoctorId');
+        hdnDoctorId.value = $(this).attr('data-role');
+
+        var options = {
+            "backdrop": "static"
+        };
+
+        $('#basicModalHome').modal(options);
+
+
+    });
+
+    var newUrl = '@Url.Action("BookAppointment/")';
+    $(".Book").click(function () {
+
+
+        $.ajax({
+            type: 'GET',
+            url: '/Patients/BookAppointment/Book',
+            dataType: 'json',
+            data: {
+                countryid: $('#countryid').val(),
+                cityid: $('#cityid').val(),
+                stateid: $('#stateid').val(),
+                Clinicid: $('#Clinicid').val(),
+                ProfessionType: $('#ProfessionType').val(),
+                ProfessionSub: $('#ProfessionSub').val(),
+                language: $('#language').val(),
+                postcode: $('#postcode').val(),
+                AppointmentType: $('#AppointmentType').val(),
+                DoctorFullName: $('#DoctorFullName').val(),
+                AppointmentDateLocal: $('#AppointmentDateLocal').val(),
+                ConsultType: hdnConsultType.value,
+                FromTime: $('#FromHour').val(),
+                ToTime: $('#FromMin').val(),
+                FromAMPM: $('#FromAMPM').val(),
+                HdnDoctorId: $('#hdnDoctorId').val(),
+                HIddenAppointmentType: $('#HdnAppointmentType').val()
+
+            },
+            success: function (data) {
+                console.log(newUrl);
+                console.log(data);
+                // window.location.href = newUrl;
+
+            },
+            error: function (ex) {
+            }
+        });
+    });
+
+
+    $(document).on('click', '.CheckAval', function () {
+
+        var hdnDocid = document.getElementById('hdnDocid');
+        hdnDocid.value = $(this).attr('data-role');
+
+        var options = {
+            "backdrop": "static"
+        };
+
+        $('#DoctorAvialibility').modal(options);
+
+        $.ajax({
+            type: 'GET',
+            url: '/Patients/BookAppointment/CheckAvailability',
+            dataType: 'json',
+            data: {
+                Id: hdnDocid.value
+            },
+            success: function (data) {
+
+                console.log(data);
+
+
+            },
+            error: function (ex) {
+            }
+        });
+    });
+
+    $("#send").on("click", function () {
+        document.getElementById('FrmSubmit').submit();
+    });
+
+    function reload1() {
+        location.reload();
+    }
+
+</script>
+
+<script src="/AdminAssets/js/validator/validator.js"></script>
+
+
+

@@ -1,0 +1,63 @@
+﻿@model IEnumerable<MyOnlineClinic.Entity.CompanyInIndustry>
+<section class="slice bg-white">
+    <div class="wp-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8">
+                    <div class="row">
+                        <div class="col-md-8">
+                            @if (Model.Any())
+                            {
+                                <h2 style="text-transform:none !important;">
+                                    Directório de Empresas @if (!string.IsNullOrEmpty(ViewBag.Country))
+                                    {@ViewBag.Country} @if (!string.IsNullOrEmpty(ViewBag.distrito))
+                                    {@ViewBag.distrito}
+                                </h2>
+                                <div class="row mb-20">
+                                    @foreach (var item in Model)
+                                    {
+                                        <div class="col-md-6">
+                                            <a href="/Home/Empresas?country=@ViewBag.Country&industry=@item.IndustryName&distrito=@ViewBag.distrito">
+                                                @item.IndustryName (@item.CompanyCount)
+                                            </a>
+                                        </div>
+                                    }
+                                </div>
+                            }
+                            else
+                            { <p style="color:red;font-size:16px;">Oops, Sem resultados para esta pesquisa</p>}
+                        </div>
+                        <div class="col-sm-4">
+                            @{Html.RenderAction("GetHumor", "Home", new { @position = "top", take = 2, @sponsered=false });}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h3 style="text-transform:none !important;">
+                                Empresas em destaque
+                            </h3>
+                            <div class="row">
+                                @{Html.RenderAction("GetFeaturedCompanies", "Home");}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 faq-banner">
+                    <div class="script-banner">
+                        @{Html.RenderAction("Banner", "Home", new { @page = "INÍCIO", @bannerType = "RightSide1" });}
+
+                        @{Html.RenderAction("Banner", "Home", new { @page = "INÍCIO", @bannerType = "RightSide2" });}
+
+                        <div class="section-title-wr">
+                            <h3 class="section-title left"><span>MERCADO</span></h3>
+                        </div>
+
+                        <div class="mb-20">
+                            @{Html.RenderAction("Mercado", "Home");}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

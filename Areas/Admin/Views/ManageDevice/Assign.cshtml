@@ -1,0 +1,306 @@
+﻿@model MyOnlineClinic.Web.Models.DeviceViewModel
+@{
+    ViewBag.Title = "Add";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<script src="/scripts/jquery.plugin.js"></script>
+<script src="/scripts/jquery.datepick.js"></script>
+<link href="~/Scripts/jquery.datepick.css" rel="stylesheet" />
+<div class="right_col" role="main">
+    <div class="">
+        <div class="page-title">
+            <div class="title_left">
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Assign Device</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                            </li>
+                            <li>
+                                <a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    @using (Html.BeginForm("Assign", "ManageDevice", FormMethod.Post, new { @class = "form-horizontal form-label-left", enctype = "multipart/form-data" }))
+                    {
+                        @Html.HiddenFor(m => m.DeviceId)
+
+                        @Html.HiddenFor(m => m.PatientId)
+
+                        <div class="x_content">
+                            <div class="item form-group">
+                                <label class="col-sm-12 col-xs-12 form-group has-feedback" for="name">
+                                    Device Name<span class="required">*</span>
+                                </label>
+                                <div class="col-sm-4">
+                                    @Html.TextBoxFor(x => x.DeviceName, new { @class = "form-control col-md-7 col-xs-12", name = "DeviceDetails", placeholder = "Device Name", required = "required" })
+                                    <div id="DvDevcieName" style="width:100%; ">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="x_content">
+                            <div class="item form-group">
+                                <label class="col-sm-12 col-xs-12 form-group has-feedback" for="name">
+                                    Patient Name<span class="required">*</span>
+                                </label>
+                                <div class="col-sm-4">
+                                    @Html.TextBoxFor(x => x.Name, new { @class = "form-control col-md-7 col-xs-12", name = "DeviceDetails", placeholder = "Patient Name", required = "required" })
+                                    <div id="DvPatientName" style="width:100%; ">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="x_content">
+                            <div class="item form-group">
+                                <label class="col-sm-12 col-xs-12 form-group has-feedback" for="name">
+                                    Device Number<span class="required">*</span>
+                                </label>
+                                <div class="col-sm-4">
+                                    @Html.TextBoxFor(x => x.DeviceNumber, new { @class = "form-control col-md-7 col-xs-12", name = "Email", placeholder = "Email", required = "required" })
+                                    <div id="DvDevcieNumber" style="width:100%; ">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="x_content">
+                            <div class="item form-group">
+                                <label class="col-sm-12 col-xs-12 form-group has-feedback" for="name">
+                                    Email<span class="required">*</span>
+                                </label>
+                                <div class="col-sm-4">
+                                    @Html.TextBoxFor(x => x.Email, new { @class = "form-control col-md-7 col-xs-12", name = "Email", placeholder = "Email", required = "required" })
+                                    <div id="DvEmail" style="width:100%; ">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="x_content">
+                            <div class="item form-group">
+                                <label class="col-sm-12 col-xs-12 form-group has-feedback" for="name">
+                                    Assigen Date<span class="required">*</span>
+                                </label>
+                                <div class="col-sm-4">
+                                    @Html.TextBoxFor(x => x.AssigenDate, new { @class = "form-control col-md-7 col-xs-12", name = "DOB", placeholder = "Date of Birth*", required = "required" })
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ln_solid"></div>
+                        <div class="form-group">
+                            <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+                                <button type="button" id="btnCancel" class="btn btn-primary">Cancel</button>
+
+                                <button type="submit" id="btnSubmit" class="btn btn-success">Submit</button>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    jQuery(document).ready(function () {
+        $(document).ready(function () {
+            $('#AssigenDate').datepick({ dateFormat: 'dd-mm-yyyy' });
+         
+        });
+
+        
+    });
+
+    var DeviceName = '@Url.Action("GetDeviceList/")';
+    $('#DeviceName').autocomplete({
+        source: function (request, response) {
+            $.ajax({
+                url: DeviceName,
+                data: { query: request.term },
+                dataType: 'json',
+                type: 'GET',
+                success: function (data) {
+
+                    response($.map(data, function (item) {
+                        return {
+
+                            label: item.DeviceName,
+                            value: item.PatientDeviceId
+
+                        }
+                    }));
+                },
+                error: function myfunction(err) {
+                    console.log("error: autocomplete")
+                    console.log(err);
+                }
+            })
+        },
+        select: function (event, ui) {
+            $('#DeviceName').val(ui.item.label);
+            $('#PatientDeviceId').val(ui.item.value);
+
+            var DvDevcieName = $('#DvDevcieName');
+            var appendString = '<div <input type="hidden" id="hidDeviceId' + ui.item.value +
+                '" name="hidDeviceId' + ui.item.label + '" DeviceId="' + ui.item.value + '"/></div>';
+
+            DvDevcieName.append(appendString);
+           
+            $('#DeviceId').val(ui.item.value);
+
+
+
+            return false;
+        },
+        minLength: 0
+
+    }).focus(function () {
+        $(this).autocomplete("search", "");
+    });
+
+    var Patient = '@Url.Action("GetPatientList/")';
+    $('#Name').autocomplete({
+        source: function (request, response) {
+            $.ajax({
+                url: Patient,
+                data: { query: request.term },
+                dataType: 'json',
+                type: 'GET',
+                success: function (data) {
+
+                    response($.map(data, function (item) {
+                        return {
+
+                            label: item.FirstName,
+                            value: item.MemberId
+
+                        }
+                    }));
+                },
+                error: function myfunction(err) {
+                    console.log("error: autocomplete")
+                    console.log(err);
+                }
+            })
+        },
+        select: function (event, ui) {
+            $('#Name').val(ui.item.label);
+            $('#MemberId').val(ui.item.value);
+            var DvPatientName = $('#DvPatientName');
+            var appendString = '<div <input type="hidden" id="hidDeviceId' + ui.item.value +
+                '" name="hidDeviceId' + ui.item.label + '" DeviceId="' + ui.item.value + '"/></div>';
+            alert(DvPatientName);
+            DvPatientName.append(appendString);
+
+            $('#PatientId').val(ui.item.value);
+            return false;
+        },
+        minLength: 0
+
+    }).focus(function () {
+        $(this).autocomplete("search", "");
+    });
+
+    var Email = '@Url.Action("GetPatientList/")';
+    $('#Email').autocomplete({
+        source: function (request, response) {
+            $.ajax({
+                url: Email,
+                data: { query: request.term },
+                dataType: 'json',
+                type: 'GET',
+                success: function (data) {
+
+                    response($.map(data, function (item) {
+                        return {
+
+                            label: item.Email,
+                            value: item.MemberId
+
+                        }
+                    }));
+                },
+                error: function myfunction(err) {
+                    console.log("error: autocomplete")
+                    console.log(err);
+                }
+            })
+        },
+        select: function (event, ui) {
+            $('#Email').val(ui.item.label);
+            $('#MemberId').val(ui.item.value);
+            var DvEmail = $('#DvEmail');
+            var appendString = '<div <input type="hidden" id="hidDeviceId' + ui.item.value +
+                '" name="hidDeviceId' + ui.item.label + '" DeviceId="' + ui.item.value + '"/></div>';
+            alert(DvEmail);
+            DvEmail.append(appendString);
+            $('#PatientId').val(ui.item.value);
+            return false;
+        },
+        minLength: 0
+
+    }).focus(function () {
+        $(this).autocomplete("search", "");
+    });
+
+    var DeviceNumber = '@Url.Action("GetDeviceList/")';
+    $('#DeviceNumber').autocomplete({
+        source: function (request, response) {
+            $.ajax({
+                url: DeviceNumber,
+                data: { query: request.term },
+                dataType: 'json',
+                type: 'GET',
+                success: function (data) {
+
+                    response($.map(data, function (item) {
+                        return {
+
+                            label: item.DeviceNumber,
+                            value: item.PatientDeviceId
+
+                        }
+                    }));
+                },
+                error: function myfunction(err) {
+                    console.log("error: autocomplete")
+                    console.log(err);
+                }
+            })
+        },
+        select: function (event, ui) {
+            $('#DeviceNumber').val(ui.item.label);
+            $('#PatientDeviceId').val(ui.item.value);
+
+            var DvDevcieNumber = $('#DvDevcieNumber');
+            var appendString = '<div <input type="hidden" id="hidDeviceId' + ui.item.value +
+                '" name="hidDeviceId' + ui.item.label + '" DeviceId="' + ui.item.value + '"/></div>';
+            alert(DvDevcieNumber);
+            DvDevcieNumber.append(appendString);
+            $('#DeviceId').val(ui.item.value);  
+            return false;
+        },
+        minLength: 0
+
+    }).focus(function () {
+        $(this).autocomplete("search", "");
+    });
+</script>

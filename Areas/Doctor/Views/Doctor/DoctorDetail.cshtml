@@ -1,0 +1,300 @@
+﻿@model MyOnlineClinic.Web.Models.RegisterViewModel
+@{
+    ViewBag.Title = "DoctorDetail";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+@using JQueryUIHelpers;
+<div class="right_col" role="main">
+    <div class="">
+
+        <div class="clearfix"></div>
+
+        <div class="row">
+            <div class="col-md-12 col-xs-12">
+
+                <div class="x_panel">
+                    @*<div class="x_title">*@
+                        @*<div class="col-md-6"><h2><small>Oragnization information</small></h2></div>
+                        <div class="col-md-6"><h2><small>Organization admin information</small></h2></div>*@
+                        <div class="clearfix"></div>
+                        <div class="form-horizontal form-label-left">
+
+                            <div class="col-md-6 col-xs-12">
+                                <div class="form-horizontal form-label-left">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class="col-md-4 col-sm-4 col-xs-12">
+                                            
+                                            <img src="~/images/loginbg.png" height="100" width="100" class="img-circle" />
+                                            @*<img src="@Model.ProfilePic" height="100" width="100" class="img-circle" />*@
+                                        </label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                           <div style="padding-top:45px;font-size:18px;">
+                                               @*@Model.FullName*@    
+                                            </div>                                   
+                                        </div>
+                                    </div>
+                                    <fieldset style="border:groove" class="fieldset">
+
+                                        <legend class="prople" style="width:27.5%;">Personal Details</legend>
+                                        <div class="item form-group">
+                                            <label class="col-md-4 col-sm-4 col-xs-12">
+                                                DOB:
+                                            </label>
+                                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                                @Model.DOB
+                                                @*@Model.FirstName  @Model.MiddleName  @Model.SurName*@
+                                            </div>
+                                        </div>
+                                        <div class="item form-group">
+                                            <label class="col-md-4 col-sm-4 col-xs-12">
+                                                Gender:
+                                            </label>
+                                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                                @Model.Gender
+                                                @*@Model.FirstName  @Model.MiddleName  @Model.SurName*@
+                                            </div>
+                                        </div>
+                                        <div class="item form-group">
+                                            <label class="col-md-4 col-sm-4 col-xs-12">
+                                                Mail ID:
+                                            </label>
+                                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                                @Model.Email
+                                                @*@Model.FirstName  @Model.MiddleName  @Model.SurName*@
+                                            </div>
+                                        </div>
+                                        <div class="item form-group">
+                                            <label class="col-md-4 col-sm-4 col-xs-12">
+                                                Home Phone:
+                                            </label>
+                                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                                @if (Model.PhoneNumber != "0-")
+                                                { 
+                                                @Model.PhoneNumber
+                                                }
+                                                @*@Model.FirstName  @Model.MiddleName  @Model.SurName*@
+                                            </div>
+                                        </div>
+                                        <div class="item form-group">
+                                            <label class="col-md-4 col-sm-4 col-xs-12">
+                                                Mobile Number:
+                                            </label>
+                                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                                @Model.MobileNumber
+                                                @*@Model.FirstName  @Model.MiddleName  @Model.SurName*@
+                                            </div>
+                                        </div>
+                                        <div class="item form-group">
+                                            <label class="col-md-4 col-sm-4 col-xs-12">
+                                                Fax Number:
+                                            </label>
+                                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                                @Model.FaxNumber
+                                                @*@Model.FirstName  @Model.MiddleName  @Model.SurName*@
+                                            </div>
+                                        </div>
+                                        <div class="item form-group">
+                                            <label class="col-md-4 col-sm-4 col-xs-12">
+                                                Address Line1:
+                                            </label>
+                                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                                @Model.Address1
+                                            </div>
+                                        </div>
+                                        <div class="item form-group">
+                                            <label class="col-md-4 col-sm-4 col-xs-12">
+                                                Address Line2:
+                                            </label>
+                                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                                @Model.Address2
+                                            </div>
+                                        </div>
+                                        <div class="item form-group">
+                                            <label class="col-md-4 col-sm-4 col-xs-12">
+                                                Suburb/City:
+                                            </label>
+                                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                                @Model.CityName
+                                            </div>
+                                        </div>
+                                        <div class="item form-group">
+                                            <label class="col-md-4 col-sm-4 col-xs-12">
+                                                State:
+                                            </label>
+                                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                                @Model.StateName
+                                            </div>
+                                        </div>
+                                        <div class="item form-group">
+                                            <label class="col-md-4 col-sm-4 col-xs-12">
+                                                Country:
+                                            </label>
+                                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                                @Model.CountryName
+                                            </div>
+                                        </div>
+                                        <div class="item form-group">
+                                            <label class="col-md-4 col-sm-4 col-xs-12">
+                                                Post code:
+                                            </label>
+                                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                                @Model.PostCode
+                                            </div>
+                                        </div>
+                                        <div class="item form-group">
+                                            <label class="col-md-4 col-sm-4 col-xs-12">
+                                                Time Zone :
+                                            </label>
+                                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                                @Model.Timezone
+                                            </div>
+                                        </div> </fieldset>
+</div>
+                            </div>
+                            <div class="col-md-6 col-xs-12">
+                                <div class="form-horizontal form-label-left">
+                                    <fieldset style="border:groove" class="fieldset">
+
+                                        <legend class="prople" style="width:33.5%;">Organization Details</legend>
+                                        <div class="item form-group">
+
+                                            <label class="col-md-4 col-sm-4 col-xs-12">
+                                                Organization Name:
+                                            </label>
+                                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                                @Model.organizationName
+                                            </div>
+
+                                            @*<label class="col-md-4 col-sm-4 col-xs-12">
+                    @Model.OrganizationAddress
+                </label>*@
+                                        </div>
+                                        <div class="item form-group">
+                                            <label class="col-md-4 col-sm-4 col-xs-12">
+                                                Organization Address:
+                                            </label>
+                                            <div class="col-md-8 col-sm-8 col-xs-12">
+                                                @Model.OrganizationAddress
+                                            </div>
+
+                                        </div> </fieldset>
+</div>
+                                <fieldset style="border:groove" class="fieldset">
+
+                                    <legend class="prople" style="width:22%;">Clinic Details</legend>
+                                    <div class="item form-group">
+                                        <label class="col-md-4 col-sm-4 col-xs-12">
+                                            Clinic Name:
+                                        </label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            gfdgd  @Model.ClinicName
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class="col-md-4 col-sm-4 col-xs-12">
+                                            Clinic Address:
+                                        </label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            @Model.ClinicAddress
+                                        </div>
+                                    </div>
+
+
+                                    <div class="item form-group">
+                                        <label class="col-md-4 col-sm-4 col-xs-12">
+                                            LanguageSpoken:
+                                        </label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            @Model.LanguageSpoken
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class="col-md-4 col-sm-4 col-xs-12">
+                                            ProfessionCategory:
+                                        </label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            @Model.ProfessionCategory
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class="col-md-4 col-sm-4 col-xs-12">
+                                            Area Of Intrest:
+                                        </label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            @Model.IntrestArea
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class="col-md-4 col-sm-4 col-xs-12">
+                                            Qualification:
+                                        </label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            @Model.qualification
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class="col-md-4 col-sm-4 col-xs-12">
+                                            AHPRA No:
+                                        </label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            @Model.AHPRANo
+                                        </div>
+                                    </div>
+@for (int i = 0; i < Model.clinicProviderlist.Count;i++)
+                                        {
+                                    <div class="item form-group">
+                                        
+                                        <label class="col-md-4 col-sm-4 col-xs-12">
+                                            Provider No @Model.clinicProviderlist[i].ClinicName :
+                                        </label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            @Model.clinicProviderlist[i].ClinicVoucherNo
+                                        </div>
+                                        
+                                    </div>
+}
+                                    <div class="item form-group">
+                                        <label class="col-md-4 col-sm-4 col-xs-12">
+                                            Prescriber No:
+                                        </label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            @Model.PrescriberNo
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class="col-md-4 col-sm-4 col-xs-12">
+                                            Profile:
+                                        </label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            @Model.DoctorProfile
+                                        </div>
+                                    </div> </fieldset>
+</div>
+                            </div>
+
+                          
+                            <div class="form-group">
+                                <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-9">
+                                    <button type="submit" class="btn btn-primary" onclick="window.history.back()">Back</button>             
+                                &nbsp;
+                                    <a class="btn btn-primary" href="/Doctor/Doctor/add/@Model.MemberId">Edit</></a>
+                                   
+                                </div>
+                            </div>
+                        @*</div>*@
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+

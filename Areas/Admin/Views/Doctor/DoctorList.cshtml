@@ -1,0 +1,651 @@
+﻿@model MyOnlineClinic.Web.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<style>
+    div.dataTables_paginate {
+        float: right;
+        /*margin: 50px;*/
+    }
+
+    .sorting, .sorting_asc, .sorting_desc {
+        background: none;
+    }
+
+    div {
+        text-transform: capitalize;
+    }
+
+    .col-md-4.fifth.layer {
+        padding: 11px;
+        background: rgb(8, 163, 155);
+        box-shadow: 1px 3px 5px #888888;
+        border-radius: 7px;
+    }
+</style>
+@using MyOnlineClinic.Entity;
+@using MyOnlineClinic.Web.Helper;
+@using MyOnlineClinic.Web.Models;
+@{
+    var usermodel = ViewBag.LoginUserModel as LoginUserViewModel;
+}
+<section class="content-header" style="margin-top:45PX;">
+    <h1 class="underline22">
+        Doctors List
+    </h1>
+    <ol class="breadcrumb">
+        @if (MyOnlineClinic.Web.Helper.PermissionHelper.CheckPermission("Add Doctors", (int)MyOnlineClinic.Entity.ModuleNames.ManageDoctors, usermodel.LoginId))
+        {
+
+            <li style="margin-right: -10px !important;"><button id="btnNew" type="button" class="btn btn-success new">Add New Doctor</button></li>
+        }
+        @if (MyOnlineClinic.Web.Helper.PermissionHelper.CheckPermission("Active/Inactive Doctors", (int)MyOnlineClinic.Entity.ModuleNames.ManageDoctors, usermodel.LoginId))
+        {
+            <li style="margin-right: -10px !important;"><button type="button" id="btnActivate" class="btn btn-success new">Active</button></li>
+            <li style="margin-right: -10px !important;"><button type="button" id="btnDelete" class="btn btn-success new">Inactive</button></li>
+        }
+        <li style="margin-right: 5px !important;"><button type="button" id="btnBack" class="btn btn-success new">Back</button></li>
+    </ol>
+</section>
+<div class="row">
+    @{MyOnlineClinic.Web.Models.SearchParametersViewModel objSearchModel = new MyOnlineClinic.Web.Models.SearchParametersViewModel();
+    objSearchModel.ActionName = "DoctorList";
+    objSearchModel.ControllerName = "Doctor";
+    objSearchModel.AreaName = "Admin";
+    objSearchModel.ShowDoctorName = true;
+    objSearchModel.ShowOrganizationName = true;
+    objSearchModel.ShowClinicName = true;
+    objSearchModel.ShowCity = false;
+    objSearchModel.ShowOrgadmin = false;
+    objSearchModel.ShowClinicadmin = false;
+    objSearchModel.ShowCountry = true;
+    objSearchModel.ShowState = true;
+    objSearchModel.ShowOrgType = false;
+    objSearchModel.ShowEmail = true;
+    objSearchModel.ShowDoctorName = true;
+    objSearchModel.ShowPatientName = false;
+    objSearchModel.PageTitle = "Doctor List";
+    objSearchModel.ShowPostCode = true;
+    objSearchModel.ShowActiveStatus = true;
+    }
+    @{Html.RenderPartial("_SearchPartial", objSearchModel);}
+</div>
+<div class="row" style="margin-top:10px;">
+    <div class="col-md-12">
+        <div class="col-md-4 fifth layer">
+            <div id="tab" class="btn-group btn-group-justified" data-toggle="buttons-radio" style=" margin-left: -10px;">
+                @if (MyOnlineClinic.Web.Helper.PermissionHelper.CheckPermission("View Approved Doctors", (int)MyOnlineClinic.Entity.ModuleNames.ManageDoctors, usermodel.LoginId))
+                {
+                    <div class="col-md-3">
+                        <a href="#Approved" id="btnapproved" class="btn btn-large btn-success active" data-toggle="tab">Approved Doctors</a>
+                    </div>
+                }
+
+                @if (MyOnlineClinic.Web.Helper.PermissionHelper.CheckPermission("View Recently Registered Doctors", (int)MyOnlineClinic.Entity.ModuleNames.ManageDoctors, usermodel.LoginId))
+                {
+                    <div class="col-md-4" style="margin-left:55px;">
+                        <a href="#Recently" class="btn btn-large btn-success" id="btnRecently" data-toggle="tab">Recently Registered Doctors</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="tab-content">
+    @if (MyOnlineClinic.Web.Helper.PermissionHelper.CheckPermission("View Recently Registered Doctors", (int)MyOnlineClinic.Entity.ModuleNames.ManageDoctors, usermodel.LoginId))
+    {
+        <div class="tab-pane" id="Recently">
+            <div class="container-fulid">
+                <div class="row">
+                    <div class="col-md-12 seven_layer">
+                        <div class="table-responsive data page" style="margin-top:0px !important;">
+                            <table id="mytable1" class="table table-hover table-bordered">
+                                <thead style="color:#fff;">
+                                    <tr>
+                                        <th class="top">Profile Pic</th>
+                                        <th class="top">Doctor Name</th>
+                                        <th class="top"> Organisation Name</th>
+                                        <th class="top">Email</th>
+                                        <th class="top">Last Updated</th>
+                                        @if (ViewBag.message == true)
+                                    {
+                                        <th class="top">Assign Voucher</th>
+                                    }
+                                    else
+                                    {
+
+                                    }
+                                        <th class="top">Status</th>
+                                        <th class="top"><input type="checkbox" id="selecctall1" style="box-shadow:none !important;" /><span style="margin-left:3px;">Action</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @{ int count = 1;}
+                                    @for (int i = 0; i < Model.RecentlyDoctors.Count; i++)
+                                {
+                                    <tr class="info" style="text-align:center !important;">
+                                        <td><img class="img-circle img-responsive" style="width:40px; height:40px;margin:0px auto;" src="@Model.RecentlyDoctors[i].ProfilePic" /></td>
+                                        <td class="capitalize_first_letter">@Model.RecentlyDoctors[i].FullName</td>
+                                        <td class="capitalize_first_letter">@Model.RecentlyDoctors[i].organizationName</td>
+                                        <td>@Model.RecentlyDoctors[i].Email</td>
+                                        <td>
+                                            @Model.RecentlyDoctors[i].TimeZoneDisplayName<br />@Model.RecentlyDoctors[i].LastUpdateDateInString
+                                        </td>
+                                        @if (Model.RecentlyDoctors[i].VoucherId > 0)
+                                        {
+                                    <td id="@Model.RecentlyDoctors[i].MemberId">
+                                        <input type="hidden" id="@("hdnVoucherIdInList" + Model.RecentlyDoctors[i].VoucherId)" />
+                                        <a href="#">
+                                            <img id="@("img_" + Model.RecentlyDoctors[i].MemberId)" class="timeid" src="~/AdminAssets/images/Voucher.png" height="37" width="37"
+                                                 data-id="@Model.RecentlyDoctors[i].VoucherId" data-memberid="@Model.RecentlyDoctors[i].MemberId" />
+                                        </a>
+                                        @Html.DropDownList("ValidityMonth_" + Model.RecentlyDoctors[i].MemberId, new List<SelectListItem>
+                                        { new SelectListItem { Text = "1 Month", Value = "1"},
+                                            new SelectListItem { Text = "3 Month", Value = "3"},
+                                          new SelectListItem { Text = "6 Month", Value = "6"},
+                                          new SelectListItem { Text = "9 Month", Value = "9"},
+                                          new SelectListItem { Text = "12 Month", Value = "12"}
+                                          }, "Select Month")
+
+                                    </td>
+                                        }
+                                        <td style="vertical-align:middle;">
+                                            <div class="btn-group btn-toggle">
+                                                @*@if (Model.RecentlyDoctors[i].IsActive)
+                                                    {
+                                                        <button class="btn btn-xs btn-default" id="on">ON</button>
+                                                        <button class="btn btn-xs btn-default">OFF</button>
+
+                                                    }
+                                                    else
+                                                    {*@
+                                                <button class="btn btn-xs">ON</button>
+                                                <button class="btn btn-xs btn-danger" id="off">OFF</button>
+                                                @*}*@
+                                            </div>
+                                        </td>
+                                        <td>
+
+                                            <ul class="list-inline" style="position:relative;top:10px;">
+                                                @if (MyOnlineClinic.Web.Helper.PermissionHelper.CheckPermission("Active/Inactive Doctors", (int)MyOnlineClinic.Entity.ModuleNames.ManageDoctors, usermodel.LoginId))
+                                                {
+                                            <li><input type="checkbox" class="checkthis" id="selecctall" name="UserApproval" style="width: 24px; height: 23px; box-shadow: none !important;" data-role=@Model.RecentlyDoctors[i].IsActive value=@Model.RecentlyDoctors[i].MemberId /></li>
+                                                }
+                                                <li>
+                                                    <p data-placement="top" data-toggle="tooltip" title="Assign Voucher">
+                                                        <a href="/Admin/Voucher/VoucherAssign">
+                                                            <button class="btn btn-info btn-xs edit"><i class="fa fa-calendar" aria-hidden="true"></i></button>
+                                                        </a>
+                                                    </p>
+                                                </li>
+                                                @if (MyOnlineClinic.Web.Helper.PermissionHelper.CheckPermission("Edit Doctors", (int)MyOnlineClinic.Entity.ModuleNames.ManageDoctors, usermodel.LoginId))
+                                                {
+                                            <li><p data-placement="top" data-toggle="tooltip" title="Edit"><a href="/Admin/Doctor/Add/@Model.RecentlyDoctors[i].MemberId"><button class="btn btn-primary btn-xs edit"><span class="glyphicon glyphicon-pencil"></span></button></a></p></li>
+                                                }
+                                                @if (MyOnlineClinic.Web.Helper.PermissionHelper.CheckPermission("View Doctor Details", (int)MyOnlineClinic.Entity.ModuleNames.ManageDoctors, usermodel.LoginId))
+                                                {
+                                            <li><p data-placement="top" data-toggle="tooltip" title="Details"><a href="/Admin/Doctor/DoctorDetail/@Model.RecentlyDoctors[i].MemberId"><button class="btn btn-info btn-xs edit"><span class="glyphicon glyphicon-info-sign"></span></button></a></p></li>
+                                                }
+                                            </ul>
+
+                                            @*<input type="checkbox" class="checkbox1" name="UserApproval" data-role=@Model.RecentlyDoctors[i].IsActive value=@Model.RecentlyDoctors[i].MemberId>
+                                                @if (modelPermission != null)
+                                                {
+                                                    foreach (var permission in modelPermission)
+                                                    {
+                                                        if (permission.ModuleId == 8 && permission.PermissionId == 30)
+                                                        {
+                                                            <a href="/Admin/Doctor/Add/@Model.RecentlyDoctors[i].MemberId" data-toggle="tooltip" data-placement="left" title="Edit"> <span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                                                        }
+                                                        if (permission.ModuleId == 8 && permission.PermissionId == 31)
+                                                        {
+                                                            <a href="/Admin/Doctor/DoctorDetail/@Model.RecentlyDoctors[i].MemberId" data-toggle="tooltip" data-placement="left" title="Details"> <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span></a>
+                                                        }
+                                                    }
+                                                }*@
+
+                                            @*<a href="/admin/DoctorAvailability/index/@Model.RecentlyDoctors[i].MemberId" data-toggle="tooltip" data-placement="left" title="Set Availability"><span class="glyphicon glyphicon-time" aria-hidden="true"></span></a>*@
+
+                                            @*<a href="/Admin/Doctor/DoctorMembership/@Model.RecentlyDoctors[i].MemberId" data-toggle="tooltip" data-placement="left" title="Membership"> <span class="glyphicon glyphicon-user" aria-hidden="true"></span></a>*@
+                                        </td>
+
+                                    </tr>
+                                                count = count + 1;
+                                }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    @if (MyOnlineClinic.Web.Helper.PermissionHelper.CheckPermission("View Approved Doctors", (int)MyOnlineClinic.Entity.ModuleNames.ManageDoctors, usermodel.LoginId))
+    {
+        <div class="tab-pane active" id="Approved">
+            <div class="container-fulid">
+                <div class="row">
+                    <div class="col-md-12 seven_layer">
+                        <div class="table-responsive data">
+                            <table id="mytable" class="table table-hover table-bordered">
+                                <thead style="color:#fff;">
+                                    <tr>
+                                        <th class="top">Profile Pic</th>
+                                        <th class="top">Doctor Name</th>
+                                        <th class="top"> Organisation Name</th>
+                                        <th class="top">Email</th>
+                                        <th class="top">Last Updated</th>
+                                        @if (ViewBag.message == true)
+                                        {
+                                            <th class="top">Assign Voucher</th>
+                                        }
+                                        else
+                                        {
+
+                                        }
+                                        <th class="top">Status</th>
+                                        <th class="top"><input type="checkbox" id="selecctall" style="box-shadow:none !important;" /><span style="margin-left:3px;">Action</span></th>
+                                        @*<th class="top">
+
+                                        <input type="checkbox" id="selecctall" /><span style="margin-left:3px;">Action</span>
+                                        </th>*@
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{ int count1 = 1;}
+                                    @for (int i = 0; i < Model.ActivateDoctors.Count; i++)
+                                    {
+                                        <tr class="info">
+
+                                            <td><img class="img-circle img-responsive" style="width:40px; height:40px;margin:0px auto;" src="@Model.ActivateDoctors[i].ProfilePic" /></td>
+                                            <td class="capitalize_first_letter">@Model.ActivateDoctors[i].FullName</td>
+                                            <td class="capitalize_first_letter">@Model.ActivateDoctors[i].organizationName</td>
+                                            <td>@Model.ActivateDoctors[i].Email</td>
+                                            <td>
+                                                @Model.ActivateDoctors[i].TimeZoneDisplayName<br />@Model.ActivateDoctors[i].LastUpdateDateInString
+                                            </td>
+                                            @if (Model.ActivateDoctors[i].VoucherId > 0)
+                                            {
+                                                <td id="@Model.ActivateDoctors[i].MemberId">
+                                                    <input type="hidden" id="@("hdnVoucherIdInList" + Model.ActivateDoctors[i].VoucherId)" />
+                                                    <a href="#">
+                                                        <img id="@("img_" + Model.ActivateDoctors[i].MemberId)" class="timeid" src="~/AdminAssets/images/Voucher.png" height="37" width="37"
+                                                             data-id="@Model.ActivateDoctors[i].VoucherId" data-memberid="@Model.ActivateDoctors[i].MemberId" />
+                                                    </a>
+                                                    @Html.DropDownList("ValidityMonth_" + Model.ActivateDoctors[i].MemberId, new List<SelectListItem>
+                                        { new SelectListItem { Text = "1 Month", Value = "1"},
+                                            new SelectListItem { Text = "3 Month", Value = "3"},
+                                          new SelectListItem { Text = "6 Month", Value = "6"},
+                                          new SelectListItem { Text = "9 Month", Value = "9"},
+                                          new SelectListItem { Text = "12 Month", Value = "12"}
+                                          }, "Select Month")
+
+                                                </td>
+                                            }
+                                            <td>
+
+                                                <div class="btn-group btn-toggle">
+                                                    @if (Model.ActivateDoctors[i].IsActive)
+                                                    {
+                                                        <button class="btn btn-xs btn-primary" id="on">ON</button>
+                                                        <button class="btn btn-xs btn-default ">OFF</button>
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <button class="btn btn-xs btn-default">ON</button>
+                                                        <button class="btn btn-xs btn-danger" id="off">OFF</button>
+                                                    }
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <ul class="list-inline" style="position:relative;top:10px;">
+                                                    @if (MyOnlineClinic.Web.Helper.PermissionHelper.CheckPermission("Active/Inactive Doctors", (int)MyOnlineClinic.Entity.ModuleNames.ManageDoctors, usermodel.LoginId))
+                                                    {
+                                                        <li>
+                                                            <input type="checkbox" id="selecctall" class="checkthis" name="UserApproval" style="width: 24px; height: 23px; box-shadow: none !important;" data-role=@Model.ActivateDoctors[i].IsActive value=@Model.ActivateDoctors[i].MemberId />
+                                                        </li>
+                                                    }
+                                                    @if (MyOnlineClinic.Web.Helper.PermissionHelper.CheckPermission("Edit Doctors", (int)MyOnlineClinic.Entity.ModuleNames.ManageDoctors, usermodel.LoginId))
+                                                    {
+                                                        <li><p data-placement="top" data-toggle="tooltip" title="Edit"><a href="/Admin/Doctor/Add/@Model.ActivateDoctors[i].MemberId"><button class="btn btn-primary btn-xs edit"><span class="glyphicon glyphicon-pencil"></span></button></a></p></li>
+                                                    }
+
+                                                    @if (MyOnlineClinic.Web.Helper.PermissionHelper.CheckPermission("View Doctor Details", (int)MyOnlineClinic.Entity.ModuleNames.ManageDoctors, usermodel.LoginId))
+                                                    {
+                                                        <li><p data-placement="top" data-toggle="tooltip" title="Details"><a href="/Admin/Doctor/DoctorDetail/@Model.ActivateDoctors[i].MemberId"><button class="btn btn-info btn-xs edit"><span class="glyphicon glyphicon-info-sign"></span></button></a></p></li>
+                                                    }
+                                                    @if (MyOnlineClinic.Web.Helper.PermissionHelper.CheckPermission("Set Availability", (int)MyOnlineClinic.Entity.ModuleNames.ManageDoctors, usermodel.LoginId))
+                                                    {
+                                                        <li><p data-placement="top" data-toggle="tooltip" title="Set Availability"><a href="/admin/DoctorAvailability/index/@Model.ActivateDoctors[i].MemberId"><button class="btn btn-info btn-xs edit"><span class="glyphicon glyphicon-time"></span></button></a></p></li>
+                                                    }
+                                                    @if (MyOnlineClinic.Web.Helper.PermissionHelper.CheckPermission("Add Membership", (int)MyOnlineClinic.Entity.ModuleNames.ManageDoctors, usermodel.LoginId))
+                                                    {
+                                                        <li><p data-placement="top" data-toggle="tooltip" title="Membership"><a href="/Admin/Doctor/DoctorMembership/@Model.ActivateDoctors[i].LoginId"><button class="btn btn-info btn-xs edit"><i class="fa fa-calendar" aria-hidden="true"></i></button></a></p></li>
+                                                    }
+                                                    @if (MyOnlineClinic.Web.Helper.PermissionHelper.CheckPermission("View Doctor Patients List", (int)MyOnlineClinic.Entity.ModuleNames.ManageDoctors, usermodel.LoginId))
+                                                    {
+                                                        <li><p data-placement="top" data-toggle="tooltip" title="Patients List"><a href="/Admin/Doctor/MyPatient/@Model.ActivateDoctors[i].MemberId"><button class="btn btn-info btn-xs edit"><span class="glyphicon glyphicon-user"></span></button></a></p></li>
+                                                    }
+                                                </ul>
+
+                                            </td>
+
+                                        </tr>
+                                                    count1 = count1 + 1;
+
+
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <br />
+                <br />
+                <br />
+            </div>
+        </div>
+    }
+</div>
+@using (Html.BeginForm("Delete", "Doctor", FormMethod.Post))
+{
+    <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">
+                        <label id="lblTitle">Inactive Doctor</label>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div id="CreateEditForm">
+                        <label>Are you sure to Inactive this Doctor</label>
+                        <input type="text" name="serviceIds" id="serviceIds" style="display: none" />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Ok</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+}
+
+@using (Html.BeginForm("Acitvate", "Doctor", FormMethod.Post))
+{
+    <div class="modal fade" id="ActivateModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">
+                        <label id="lblTitle">Activate Doctor </label>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div id="CreateEditForm">
+                        <label>Are you sure to activate this Doctor</label>
+                        <input type="text" name="ActivateIds" id="ActivateIds" style="display: none" />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Ok</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+}
+
+<div class="modal fade" id="Vouchermodel" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">
+                    <label id="lblTitle">Assign Voucher</label>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div id="CreateEditForm">
+                    <label>Are you sure you want to assign this voucher?</label>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                    <a href="javascript:;" class="btn btn-primary assign">Yes</a>
+                    <input type="hidden" id="hdnMemberId" />
+                    <input type="hidden" id="hdnMonth" />
+                    <input type="hidden" id="hdnVoucherId" />
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.mod-al-dialog -->
+</div>
+<script src="~/AdminAssets/js/datatables/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+
+        @*if ('@ViewBag.message' = true) {
+            $("#msg").append("<div class='alert alert-danger'><p>" + '@ViewBag.ErrorMessage' + "</p></div>").delaye(5000).fade();
+        }*@
+        $(".timeid").removeAttr("onclick");
+
+
+        var oTable = $('#mytable1').dataTable({
+            "bProcessing": true,
+            "iDisplayLength": 5,
+            "bPaginate": true,
+            "bInfo": false,
+            "bLengthChange": false,
+            "sPaginationType": "full_numbers",
+            "order": [[4, "desc"]]
+        });
+        var oTable = $('#mytable').dataTable({
+            "bProcessing": true,
+            "iDisplayLength": 5,
+            "bPaginate": true,
+            "bInfo": false,
+            "bLengthChange": false,
+            "sPaginationType": "full_numbers",
+            "order": [[4, "desc"]]
+        });
+
+
+
+        $('[data-toggle="tooltip"]').tooltip();
+
+
+        $("#btnAddNewUsers").click(function () {
+            window.location.href = "/admin/DashBoard/RegisterPatientByAdmin";
+        });
+        $("#btnNew").click(function () {
+            window.location.href = "/Admin/Doctor/add";
+        });
+        DisableButton();
+        var favorite = [];
+        $("#selecctall").click(function (event) {  //on click
+            if (this.checked) {
+                $("input[name='UserApproval']").each(function () { //loop through each checkbox
+                    if (this.checked !== true) {
+                        this.checked = true;  //select all checkboxes with class "checkbox1"
+                        favorite.push($(this).val());
+                    }
+                });
+            } else {
+                $("input[name='UserApproval']").each(function () { //loop through each checkbox
+                    this.checked = false; //deselect all checkboxes with class "checkbox1"
+                    favorite.pop($(this).val());
+                });
+            }
+            $("#serviceIds").val(favorite);
+            $("#ActivateIds").val(favorite);
+            DisableButton();
+        });
+        $(document).on('click', "input[name='UserApproval']", function (event) {
+
+            //$("input[name='UserApproval']").on("click", function () {
+
+        //$("input[name='UserApproval']").on("click", function () {
+
+        // $(document).on('click', "input[name='UserApproval']", function (event) {
+
+
+            var id = $(this).attr('data-role');
+            favorite.push($(this).val());
+            if (this.checked == true && id == 'True') {
+                $("#serviceIds").val(favorite);
+            }
+            else if (this.checked == true && id == 'False') {
+                //favorite.pop();
+                $("#ActivateIds").val(favorite);
+            }
+            else if (this.checked == false) {
+                favorite.pop($(this).val());
+                $("#ActivateIds").val('');
+                $("#serviceIds").val('');
+            }
+            DisableButton();
+        });
+
+        $("#btnDelete").click(function () {
+            var options = {
+                "backdrop": "static"
+            };
+            $('#basicModal').modal(options);
+        });
+        $("#btnActivate").click(function () {
+            var options = {
+                "backdrop": "static"
+            };
+            $('#ActivateModal').modal(options);
+        });
+        $(".searchclass").click(function () {
+            var searchForm = document.getElementById('searchForm');
+            searchForm.submit();
+        });
+        $(document).on('click', '.timeid', function () {
+            var imgId = this.id;
+            var VoucherId = $('#' + imgId).attr('data-id');
+            var MemeberId = $('#' + imgId).attr('data-memberid');
+            var ddlId = 'ValidityMonth_' + MemeberId;
+            var ddl = $("#ValidityMonth_" + MemeberId).val();
+            if (ddl == '' || ddl == '0') {
+                alert('Please select month');
+                $('#' + ddlId).focus();
+                return;
+            }
+            var hdnMemberId = document.getElementById('hdnMemberId');
+            hdnMemberId.value = MemeberId;
+
+            var hdnMonth = document.getElementById('hdnMonth');
+            hdnMonth.value = ddl;
+
+            var hdnVoucherId = document.getElementById('hdnVoucherId');
+            hdnVoucherId.value = VoucherId;
+            var options = {
+                "backdrop": "static"
+            };
+            $('#Vouchermodel').modal(options);
+        });
+        $("#btnBack").on("click", function () {
+            window.history.back();
+        });
+
+        //$('#ValidityMonth').change(function () {
+        //    var MonthId = $('#ValidityMonth').val();
+        //});
+        $(".assign").click(function () {
+
+            var hdnMemberId = document.getElementById('hdnMemberId');
+            var hdnMonth = document.getElementById('hdnMonth');
+            var hdnVoucherId = document.getElementById('hdnVoucherId');
+
+            $.ajax({
+                type: "POST",
+                url: '/admin/Voucher/DoctorVoucher',
+                data: ({ Memberid: hdnMemberId.value, Month: hdnMonth.value, VoucherID: hdnVoucherId.value }),
+                dataType: "Json",
+                success: function (data) {
+                    $("#Vouchermodel").hide();
+                    //alert("Successfully Assigned");
+                    window.location = '/Admin/Voucher/VoucherAssign';
+                },
+                error: function () {
+                    alert('Error occured');
+                }
+            });
+
+        });
+    });
+    $("#timeid").on("click", function () {
+        $('#AvailTime').show();
+    });
+    function DisableButton() {
+        if ($("#serviceIds").val() == '') {
+            $("#btnDelete").attr('disabled', 'disabled');
+        }
+        else {
+            $("#btnDelete").removeAttr('disabled', 'disabled');
+        }
+        if ($("#ActivateIds").val() == '') {
+            $("#btnActivate").attr('disabled', 'disabled');
+        }
+        else {
+            $("#btnActivate").removeAttr('disabled', 'disabled');
+        }
+    }
+    //$('.btn-toggle').click(function () {
+    //    $(this).find('.btn').toggleClass('active');
+
+    //    if ($(this).find('.btn-primary').size() > 0) {
+    //        $(this).find('.btn').toggleClass('btn-primary');
+    //    }
+    //    if ($(this).find('.btn-danger').size() > 0) {
+    //        $(this).find('.btn').toggleClass('btn-danger');
+    //    }
+    //    if ($(this).find('.btn-success').size() > 0) {
+    //        $(this).find('.btn').toggleClass('btn-success');
+    //    }
+    //    if ($(this).find('.btn-info').size() > 0) {
+    //        $(this).find('.btn').toggleClass('btn-info');
+    //    }
+
+    //    $(this).find('.btn').toggleClass('btn-default');
+    //});
+
+
+    $('#btnapproved').click(function () {
+        $('#btnapproved').css('background-color', '#ECF0F5');
+        $('#btnapproved').css('color', '#222222');
+        $('#btnRecently').css('background-color', '#222222');
+        $('#btnRecently').css('color', '#fff');
+
+    });
+    $('#btnRecently').click(function () {
+        $('#btnRecently').css('background-color', '#ECF0F5');
+        $('#btnRecently').css('color', '#222222');
+        $('#btnapproved').css('background-color', '#222222');
+        $('#btnapproved').css('color', '#fff');
+
+    });
+
+
+</script>

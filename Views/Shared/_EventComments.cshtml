@@ -1,0 +1,32 @@
+﻿@model IEnumerable<MyOnlineClinic.Web.Models.EventCommentsViewModel>
+
+@if (Model == null)
+{
+    return;
+}
+else
+{
+    <div class="col-md-12">
+        <div class="widget-recent widget-recent-comments light-gray ba">
+            <div class="inner p-15">
+                <ul>
+                    @foreach (var item in Model)
+                    {
+                        var comments = item.Comment.Length > 50 ? item.Comment.Substring(0,50) + "..." : item.Comment;
+                        var userPhotos = item.UserAvatar;
+                        var userImageUrl = "/images/noImage.jpg";
+                        if (userPhotos != null)
+                        {
+                            userImageUrl = userPhotos;
+                        }
+                        <li class="clearfix">
+                            <a href="#" class="post-thumb" hidefocus="true"><img src=@userImageUrl alt=""></a>
+                            <span class="comment-author"><a href="#">@item.UserName</a></span>
+                            <span class="comment-entry">@comments <a href="#">Ler Mais..</a></span>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+}

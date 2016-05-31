@@ -1,0 +1,413 @@
+﻿
+@{
+    ViewBag.Title = "PatientDashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
+<!-- Bootstrap -->
+@*<link href="css/bootstrap.css" rel="stylesheet" />
+<link href="css/style.css" rel="stylesheet" />
+<link href="css/slimmenu.css" rel="stylesheet" />
+<link href="css/flexslider.css" rel="stylesheet" />
+<link href="css/owl.carousel.min.css" type="text/css" rel="stylesheet" />
+<link href="css/owl.theme.default.min.css" type="text/css" rel="stylesheet" />*@
+@using MyOnlineClinic.Web.Models;
+@{
+    var usermodel = ViewBag.LoginUserModel as LoginUserViewModel;
+}
+<div class="dashboard_wrapper">
+    <div class="container dashboard_bg">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="profilebody_topnav">My Account  &gt;&gt;  Personal Details </div>
+            </div>
+        </div>
+    </div>
+    <div class="container dashboard_bg">
+        <div class="row">
+            <div class="profileimg_area">
+                <div class="col-sm-3">
+                    <div class="profileimg_arealeft">
+                        <div class="profileimg">
+                            @*<img alt="" src="/images/profileimg.png">*@
+                            <img src="~/images/testimonialclient.jpg" />
+                        </div>
+
+                        <div class="profilename_area">
+                           
+                            <span>@if (usermodel != null)
+{ @usermodel.FullName} </span>
+
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-sm-9">
+                    <div class="dashbord_bannernav">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a data-toggle="tab" href="#home">Personal Details </a> </li>
+                            <li><a data-toggle="tab" href="#menu1">Lorem Ipsum </a> </li>
+                            <li><a data-toggle="tab" href="#menu2">Lorem Ipsum</a> </li>
+                            <li><a data-toggle="tab" href="#menu3">Lorem Ipsum </a> </li>
+                            <li><a data-toggle="tab" href="#menu4">Lorem Ipsum</a> </li>
+
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container dashboard_bg">
+        <div class="row">
+            <div class="profilebody_midarea">
+                <div class="col-sm-3">
+                    <div class="profilebody_leftcol">
+                        <div class="profilebodycol_heading">
+                            Account Dashboard
+                        </div>
+
+                        <div class="dashbord_leftnav">
+                            <ul>
+                                <li class="active"><a href="/comp83/shopbook/site/users/myaccount"><i class="fa fa-user dashbordnav_icon"></i>Information</a> </li>
+                                <li><a href="#"><i class="fa fa-list dashbordnav_icon"></i> Orders</a></li>
+                                <li><a href="#"><i class="fa fa-credit-card dashbordnav_icon"></i> Payment Transaction</a> </li>
+                                <li><a href="#"><i class="fa fa-share-alt dashbordnav_icon"></i> Share</a>  </li>
+                                <li><a href="#"><i class="fa fa-heart dashbordnav_icon"></i> Wishlist</a> </li>
+                                <li><a href="#"><i class="fa fa-truck dashbordnav_icon"></i> Shipping &amp; Delivery</a>   </li>
+
+
+                            </ul>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-9">
+                    <div class="profilebody_rightcol">
+                        <div class="profilebodycol_heading">
+                            Shopper Information
+
+                            <div class="topheading_btnarea">
+                                <a class="editbtn" href="/comp83/shopbook/site/users/editProfile"><i class="fa fa-edit"></i> Edit</a>
+                            </div>
+
+                        </div>
+                        <div class="tab-content">
+                            <div id="home" class="tab-pane fade in active">
+
+                                <div class="col-sm-4">
+                                    <div class="dashbord_cta">
+                                        <div class="dashbord_ctaicon">
+                                            <i class="fa fa-user"></i>
+                                        </div>
+
+                                        <div class="dashbord_ctatext">
+                                            <span class="dashbord_ctaheading">My Account</span>
+                                            Lorem Ipsum is simply dummy text of the printing.
+
+                                        </div>
+
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="dashbord_cta">
+                                        <div class="dashbord_ctaicon">
+                                            <i class="fa fa-user-md"></i>
+                                        </div>
+
+                                        <div class="dashbord_ctatext">
+                                            <span class="dashbord_ctaheading">Professional Profile</span>
+                                            Lorem Ipsum is simply dummy text of the printing.
+
+                                        </div>
+
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="dashbord_cta">
+                                        <div class="dashbord_ctaicon">
+                                            <i class="fa fa-usd"></i>
+                                        </div>
+
+                                        <div class="dashbord_ctatext">
+                                            <span class="dashbord_ctaheading">Consultation Fees</span>
+                                            Lorem Ipsum is simply dummy text of the printing.
+
+                                        </div>
+
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="dashbord_cta">
+                                        <div class="dashbord_ctaicon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+
+                                        <div class="dashbord_ctatext">
+                                            <span class="dashbord_ctaheading">Schedule</span>
+                                            Lorem Ipsum is simply dummy text of the printing.
+
+                                        </div>
+
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="dashbord_cta">
+                                        <div class="dashbord_ctaicon">
+                                            <i class="fa fa-usd"></i>
+                                        </div>
+
+                                        <div class="dashbord_ctatext">
+                                            <span class="dashbord_ctaheading">Consultation Fees</span>
+                                            Lorem Ipsum is simply dummy text of the printing.
+
+                                        </div>
+
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="dashbord_cta">
+                                        <div class="dashbord_ctaicon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+
+                                        <div class="dashbord_ctatext">
+                                            <span class="dashbord_ctaheading">Schedule</span>
+                                            Lorem Ipsum is simply dummy text of the printing.
+
+                                        </div>
+
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+
+
+
+                            </div>
+
+                            <div id="menu1" class="tab-pane fade">
+
+
+
+                                <div class="col-sm-4">
+                                    <div class="dashbord_cta">
+                                        <div class="dashbord_ctaicon">
+                                            <i class="fa fa-usd"></i>
+                                        </div>
+
+                                        <div class="dashbord_ctatext">
+                                            <span class="dashbord_ctaheading">Consultation Fees</span>
+                                            Lorem Ipsum is simply dummy text of the printing.
+
+                                        </div>
+
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="dashbord_cta">
+                                        <div class="dashbord_ctaicon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+
+                                        <div class="dashbord_ctatext">
+                                            <span class="dashbord_ctaheading">Schedule</span>
+                                            Lorem Ipsum is simply dummy text of the printing.
+
+                                        </div>
+
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="dashbord_cta">
+                                        <div class="dashbord_ctaicon">
+                                            <i class="fa fa-usd"></i>
+                                        </div>
+
+                                        <div class="dashbord_ctatext">
+                                            <span class="dashbord_ctaheading">Consultation Fees</span>
+                                            Lorem Ipsum is simply dummy text of the printing.
+
+                                        </div>
+
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="dashbord_cta">
+                                        <div class="dashbord_ctaicon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+
+                                        <div class="dashbord_ctatext">
+                                            <span class="dashbord_ctaheading">Schedule</span>
+                                            Lorem Ipsum is simply dummy text of the printing.
+
+                                        </div>
+
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+
+
+
+                            </div>
+
+                            <div id="menu2" class="tab-pane fade">
+
+
+
+
+
+                                <div class="col-sm-4">
+                                    <div class="dashbord_cta">
+                                        <div class="dashbord_ctaicon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+
+                                        <div class="dashbord_ctatext">
+                                            <span class="dashbord_ctaheading">Schedule</span>
+                                            Lorem Ipsum is simply dummy text of the printing.
+
+                                        </div>
+
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="dashbord_cta">
+                                        <div class="dashbord_ctaicon">
+                                            <i class="fa fa-usd"></i>
+                                        </div>
+
+                                        <div class="dashbord_ctatext">
+                                            <span class="dashbord_ctaheading">Consultation Fees</span>
+                                            Lorem Ipsum is simply dummy text of the printing.
+
+                                        </div>
+
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="dashbord_cta">
+                                        <div class="dashbord_ctaicon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+
+                                        <div class="dashbord_ctatext">
+                                            <span class="dashbord_ctaheading">Schedule</span>
+                                            Lorem Ipsum is simply dummy text of the printing.
+
+                                        </div>
+
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+
+
+
+                            </div>
+
+                            <div id="menu3" class="tab-pane fade">
+
+
+
+                                <div class="col-sm-4">
+                                    <div class="dashbord_cta">
+                                        <div class="dashbord_ctaicon">
+                                            <i class="fa fa-usd"></i>
+                                        </div>
+
+                                        <div class="dashbord_ctatext">
+                                            <span class="dashbord_ctaheading">Consultation Fees</span>
+                                            Lorem Ipsum is simply dummy text of the printing.
+
+                                        </div>
+
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="dashbord_cta">
+                                        <div class="dashbord_ctaicon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+
+                                        <div class="dashbord_ctatext">
+                                            <span class="dashbord_ctaheading">Schedule</span>
+                                            Lorem Ipsum is simply dummy text of the printing.
+
+                                        </div>
+
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+
+
+
+                            </div>
+
+                            <div id="menu4" class="tab-pane fade">
+
+                                <div class="col-sm-4">
+                                    <div class="dashbord_cta">
+                                        <div class="dashbord_ctaicon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+
+                                        <div class="dashbord_ctatext">
+                                            <span class="dashbord_ctaheading">Schedule</span>
+                                            Lorem Ipsum is simply dummy text of the printing.
+
+                                        </div>
+
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <div class="dashbord_cta">
+                                        <div class="dashbord_ctaicon">
+                                            <i class="fa fa-usd"></i>
+                                        </div>
+
+                                        <div class="dashbord_ctatext">
+                                            <span class="dashbord_ctaheading">Consultation Fees</span>
+                                            Lorem Ipsum is simply dummy text of the printing.
+
+                                        </div>
+
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+@Html.Partial("_FooterPartial")

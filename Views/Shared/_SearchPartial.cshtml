@@ -1,0 +1,154 @@
+﻿@model MyOnlineClinic.Web.Models.SearchParametersViewModel
+@using JQueryUIHelpers;
+@using Share.Bonnet.AjaxDropDownList;
+@Scripts.Render("~/bundles/bonnet")
+<script src="/scripts/jquery.plugin.js"></script>
+<script src="/scripts/jquery.datepick.js"></script>
+<link href="~/Scripts/jquery.datepick.css" rel="stylesheet" />
+@using (Html.BeginForm(Model.ActionName, Model.ControllerName, FormMethod.Post, new { id = "searchForm"}))
+{
+    
+        
+    <div class="vouchers_area">
+        <ul class="search_item">
+            <li class="@(Model.ShowDoctorName == true ? "show item form-group" : "hide")">
+                @Html.TextBoxFor(x => x.DoctorName, new { @class = "form-control", placeholder = "Doctor Name" })
+            </li>
+            <li class="@(Model.ShowClinicName == true ? "show item form-group" : "hide")">@Html.TextBoxFor(x => x.ClinicName, new { @class = "form-control", placeholder = "Clinic Name" }) </li>
+            <li class="@(Model.ShowOrganizationName == true ? "show item form-group" : "hide")">
+                @Html.TextBoxFor(x => x.OrgName, new { @class = "form-control", placeholder = "Organisation Name" })
+            </li>
+          
+            <li class="@(Model.ShowStaffName == true ? "show item form-group" : "hide")">@Html.TextBoxFor(x => x.StaffName, new { @class = "form-control", placeholder = "Staff Name" }) </li>
+            <li class="@(Model.ShowRole == true ? "show item form-group" : "hide")">
+                @Html.TextBoxFor(x => x.RoleName, new { @class = "form-control", placeholder = "Role Name" })
+            </li>
+            @*@Html.DropDownListFor(x => x.Role, new List<SelectListItem>
+                                        {
+
+                                            new SelectListItem { Text = "OrgManagement", Value = "4" },
+                                            new SelectListItem { Text = "OrgAgent", Value = "1" },
+                                            new SelectListItem { Text = "OrgRoster", Value = "2" },
+                                            new SelectListItem { Text = "OrgNurse", Value = "3" },
+                                            new SelectListItem { Text = "OrgTechnicalIt", Value = "5" },
+                                          }, "Role Type", new { @class = "form-control" }) *@
+
+            <li class="@(Model.ShowOrgType == true ? "show item form-group" : "hide")">
+                @Html.DropDownListFor(model => model.OrgType, new SelectList(Model.OrganizationTypeList, "Id", "OrganizationTypeName"), "Select Organization Type", new { @class = "form-control", placeholder = "Clinic Name" })
+            </li>
+
+            <li class="@(Model.ShowOrgadmin == true ? "show item form-group" : "hide")">
+                @Html.TextBoxFor(x => x.AdminName, new { @class = "form-control", placeholder = "Organization Admin" })
+                @*@Html.DropDownListFor(x => x.OrgAdmin, new List<SelectListItem>
+                                        {
+                                           new SelectListItem { Text = "MocAdmin", Value = "1"},
+                                           new SelectListItem { Text = "OrgAdmin", Value = "4"},
+                                          }, "Select", new { @class = "form-control" })*@
+            </li>
+            <li class="@(Model.ShowClinicadmin == true ? "show item form-group" : "hide")">
+                @Html.TextBoxFor(x => x.ClinicAdminName, new { @class = "form-control", placeholder = "Clinic Admin" })
+                @*@Html.DropDownListFor(x => x.ClinicAdmin, new List<SelectListItem>
+                                        {
+                                            new SelectListItem { Text = "MocAdmin", Value = "1"},
+                                           new SelectListItem { Text = "ClinicAdmin", Value = "5"},
+                                          }, "Select", new { @class = "form-control" })*@
+            </li>
+            <li class="@(Model.ShowDeviceName == true ? "show item form-group" : "hide")">
+                @Html.TextBoxFor(x => x.DeviceName, new { @class = "form-control", placeholder = "Device Name" })
+            </li>
+            <li class="@(Model.ShowDeviceNumber == true ? "show item form-group" : "hide")">
+                @Html.TextBoxFor(x => x.DeviceNumber, new { @class = "form-control", placeholder = "Device Number" })
+            </li>
+            <li class="@(Model.ShowPatientName == true ? "show item form-group" : "hide")">
+                @Html.TextBoxFor(x => x.PatientName, new { @class = "form-control", placeholder = "Patient Name" })
+            </li>
+            <li class="@(Model.ShowEmail == true ? "show item form-group" : "hide")">
+                @Html.TextBoxFor(x => x.Email, new { @class = "form-control", placeholder = "Email Id"})
+            </li>
+
+            
+
+            @*<li class="@(Model.ShowPatientName == true ? "show item form-group" : "hide")">
+                @Html.TextBoxFor(x => x.PatientName, new { @class = "form-control", placeholder = "Patient Name" })
+            </li>*@
+
+            <li class="@(Model.ShowCountry == true ? "show item form-group" : "hide")">
+                @Html.DropDownListFor(model => model.CountryId, new SelectList(Model.CountryList, "CountryId", "CountryName"), "Select Country", new { @class = "form-control select" })
+            </li>
+
+            <li class="@(Model.ShowState == true ? "show item form-group" : "hide")">
+               @Html.DropDownListFor(model => model.StateId, new SelectList(Model.StateList, "Id", "StateName"), "Select State", new { @class = "form-control select" })
+            </li>
+
+            <li class="@(Model.ShowCity == true ? "show item form-group" : "hide")">
+                @Html.DropDownListFor(model => model.CityId, new SelectList(Model.CityList, "LookUpCityId", "LookUpCityName"), "Select City", new { @class = "form-control" })
+            </li>
+            <li class="@(Model.ShowPostCode == true ? "show item form-group" : "hide")">
+                @Html.TextBoxFor(x => x.PostCode, new { @class = "form-control", placeholder = "Post Code" })
+            </li>
+
+            <li class="@(Model.ShowAssignDate == true ? "show item form-group" : "hide")">
+                @Html.TextBoxFor(x => x.AssignDate, new { @class = "form-control", placeholder = "Assign Date" })
+            </li>
+            <li class="@(Model.ShowActiveStatus == true ? "show item form-group" : "hide")">
+                @Html.DropDownListFor(x => x.ActivationStatus, new List<SelectListItem>
+                                        {
+                                            new SelectListItem { Text = "Status Type", Value = "",Selected=true },
+                                            new SelectListItem { Text = "Active", Value = "1"},
+                                           new SelectListItem { Text = "Inactive", Value = "0"},
+
+                                          }, new { @class = "form-control" })
+            </li>
+            <li class="@(Model.ShowSearchDate == true ? "show item form-group" : "hide")">
+               @Html.TextBoxFor(x => x.SearchDate, new { @class = "form-control", placeholder = "Search Date" })
+            </li>
+            <li class="@(Model.ShowFromDate == true ? "show item form-group" : "hide")">
+               @Html.TextBoxFor(x => x.FromDate, new { @class = "form-control", placeholder = "From Date" })
+            </li>
+            <li class="@(Model.ShowToDate == true ? "show item form-group" : "hide")">
+                @Html.TextBoxFor(x => x.ToDate, new { @class = "form-control", placeholder = "To Date" })
+            </li>
+            <li class="@(Model.ShowAppointmentType == true ? "show item form-group" : "hide")">
+                @Html.DropDownListFor(x => x.AppointmentType, new List<SelectListItem>
+                                        {
+
+                                            new SelectListItem { Text = "VideoConsult", Value = "1" },
+                                            new SelectListItem { Text = "ClinicVisit", Value = "2" },
+                                            new SelectListItem { Text = "HomeVisit", Value = "3" },
+
+                                          }, "Appointment Type", new { @class = "form-control" })
+            </li>
+
+            <li class="@(Model.ShowAppointmentStatus == true ? "show item form-group" : "hide")">
+                @Html.DropDownListFor(x => x.AppointmentStatus, new List<SelectListItem>
+                                        {
+
+                                            new SelectListItem { Text = "Pending", Value = "1" },
+                                            new SelectListItem { Text = "Completed", Value = "2" },
+                                            new SelectListItem { Text = "Approved", Value = "3" },
+                                            new SelectListItem { Text = "Rejected", Value = "4" },
+
+                                          }, "Appointment Status", new { @class = "form-control" })
+            </li>
+            <li><span class="input-group-btn" id="input">
+    <button class="btn btn-default patient" type="submit" name="search"><i class="fa fa-search" style="color:#fff;"></i></button>
+</span></li>
+            </ul> 
+        </div>             
+                
+       
+}
+<script>
+    $(document).ready(function () {
+        $('#AssignDate').datepick({ dateFormat: 'dd/mm/yyyy' });
+        $('#AssignDate').val('');
+
+        $('#ToDate').datepick({ dateFormat: 'dd/mm/yyyy' });
+        $('#ToDate').val('');
+
+        $('#FromDate').datepick({ dateFormat: 'dd/mm/yyyy' });
+        $('#FromDate').val('');
+    });
+
+</script>
+

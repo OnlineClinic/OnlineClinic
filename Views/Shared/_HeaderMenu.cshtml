@@ -1,0 +1,17 @@
+﻿@{
+    var userLoginModel = ViewBag.LoginUserModel as MyOnlineClinic.Web.Models.LoginUserViewModel;
+}
+<div class="col-sm-4 header-icons text-right">
+    <div class="home-icon">
+        <a href="/admin/dashboard" title="Home">Home</a>
+    </div>
+    <div class="services-icon">
+        <a href="/admin/dashboard/MyProfile" title="My profile">My Profile</a>
+    </div>
+    <div class="help-icon" style="width:103px;">
+        <a href="/admin/dashboard/ChangePassword" title="Help">Change Password</a>
+    </div>
+    <div class="logout-icon">
+        <a href="~/Account/LogOff" title="Logout">Logout</a>
+    </div>
+</div>

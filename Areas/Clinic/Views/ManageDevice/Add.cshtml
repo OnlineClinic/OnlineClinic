@@ -1,0 +1,130 @@
+﻿@model MyOnlineClinic.Web.Models.DeviceViewModel
+@{
+    ViewBag.Title = "Add";
+    Layout = "~/Areas/Clinic/Views/Shared/_ClinicLayout.cshtml";
+}
+<section class="content-header staff">
+    <h1 class="underline19">
+        Add Device
+    </h1>
+</section>
+                        @using (Html.BeginForm("Add", "ManageDevice", FormMethod.Post, new { @class = "form-horizontal form-label-left", enctype = "multipart/form-data" }))
+                        {
+                            @Html.HiddenFor(m => m.PatientDeviceId)
+
+                          <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-7 first_layer">
+                <div class="form-horizontal" id="style-3">
+                    <div class="box-body">
+                        <div class="form-group role" style="margin-top:-3px;">
+                            <label for="inputEmail3" class="col-sm-4 control-label">Device Name:</label>
+                            <div class="col-sm-6">
+                                @Html.TextBoxFor(x => x.DeviceName, new { @class = "form-control ", name = "DeviceName", placeholder = "Enter Device Name", required = "required", id = "inputEmail3" })
+                            </div>
+                        </div>
+                        <div class="form-group role" style="margin-top:-3px;">
+                            <label for="inputEmail3" class="col-sm-4 control-label">Device Number:</label>
+                            <div class="col-sm-6">
+                                @Html.TextBoxFor(x => x.DeviceNumber, new { @class = "form-control ", name = "DeviceNumber", placeholder = "Enter Device Number", required = "required", id = "inputEmail3" })
+                                @Html.ValidationMessage("DeviceNumber")
+                            </div>
+                        </div>
+                        <div class="form-group role" style="margin-top:-3px;">
+                            <label for="inputEmail3" class="col-sm-4 control-label">Device Details:</label>
+                            <div class="col-sm-6">
+                                @Html.TextAreaFor(x => x.DeviceDetails, new { @class = "form-control ", name = "DeviceDetails", placeholder = "Enter Device Details", required = "required", rows = "3" })
+                            </div>
+                        </div>
+                        <div class="form-group role" style="margin-top:-3px;">
+                            <label for="inputEmail3" class="col-sm-4 control-label">Logo:</label>
+                            <div class="col-sm-6" style="margin-top: 9px; margin-left: 8px;">
+                                <img src="@Model.ProfilePic" id="imgProfilePic" />
+                                <input type="file" name="ProfilePic" id="ProfilePic" style="margin-left: 35px;margin-top: -23px;" onchange="ShowPreview(this)" />
+
+
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3" style="text-align:center;">
+                                <button type="submit" class="btn btn-primary">Cancel</button>
+                                <button type="submit" class="btn btn-success">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+                        }
+                  
+<script src="/AdminAssets/js/validator/validator.js"></script>
+<script>
+    $('#btnCancel').click(function () {
+        window.location = "/Clinic/ManageDevice/Index";
+    })
+
+    $(document).ready(function () {
+        $('.date-picker').daterangepicker({
+            singleDatePicker: true,
+            calender_style: "picker_4"
+        }, function (start, end, label) {
+
+        });
+    });
+    // initialize the validator function
+    validator.message['date'] = 'not a real date';
+
+    // validate a field on "blur" event, a 'select' on 'change' event & a '.reuired' classed multifield on 'keyup':
+    $('form')
+        .on('blur', 'input[required], input.optional, select.required', validator.checkField)
+        .on('change', 'select.required', validator.checkField)
+        .on('keypress', 'input[required][pattern]', validator.keypress);
+
+    $('.multi.required')
+        .on('keyup blur', 'input', function () {
+            validator.checkField.apply($(this).siblings().last()[0]);
+        });
+
+    // bind the validation to the form submit event
+    //$('#send').click('submit');//.prop('disabled', true);
+
+    $('form').submit(function (e) {
+        e.preventDefault();
+        var submit = true;
+        // evaluate the form using generic validaing
+        if (!validator.checkAll($(this))) {
+            submit = false;
+        }
+
+        if (submit)
+            this.submit();
+        return false;
+    });
+
+    /* FOR DEMO ONLY */
+    $('#vfields').change(function () {
+        $('form').toggleClass('mode2');
+    }).prop('checked', false);
+
+    $('#alerts').change(function () {
+        validator.defaults.alerts = (this.checked) ? false : true;
+        if (this.checked)
+            $('form .alert').remove();
+    }).prop('checked', false);
+
+    function ShowPreview(input) {
+        if (input.files && input.files[0]) {
+            var ImageDir = new FileReader();
+            ImageDir.onload = function (e) {
+                $('#imgProfilePic').attr('src', e.target.result);
+            }
+            ImageDir.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+
+
+

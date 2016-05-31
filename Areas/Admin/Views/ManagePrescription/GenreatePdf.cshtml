@@ -1,0 +1,43 @@
+﻿@model MyOnlineClinic.Web.Models.GenreatePdfViewModel
+@{
+    ViewBag.Title = "GenreatePdf";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>GenreatePdf</h2>
+
+<div class="row">
+    <div class="col-md-12">
+        <a href="/Home/DownloadView">Download Pdf</a>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Image</th>
+                    <th>Phone</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Lokendra Jain</td>
+                    <td><text>lokendra82@gmail.com</text></td>
+                    <td><img height="25" width="25" src="/Images/Calendar.png" /></td>
+                    <td>12345678910</td>
+                </tr>
+                <tr>
+                    <td>Piyush</td>
+                    <td><text>Piyush@gmail.com</text></td>
+                    <td><img height="25" width="25" src="/Images/Chat.png" /></td>
+                    <td>12345678910</td>
+                </tr>
+                <tr>
+                    <td>Dheeraj</td>
+                    <td><text>Dheeraj@gmail.com</text></td>
+                    <td><img height="25" width="25" src="/Images/Compas.png" /></td>
+                    <td>12345678910</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

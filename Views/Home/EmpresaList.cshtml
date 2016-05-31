@@ -1,0 +1,63 @@
+﻿@model PagedList.IPagedList<MyOnlineClinic.Entity.LookUpCompany>
+@using PagedList.Mvc
+<div class="container">
+    <div class="row">
+        <div class="col-md-8" id="main">
+            @if (Model.Count > 0)
+            {
+                <ul class="item-listing">
+                    @foreach (var item in Model)
+                    {
+                        var CompanyLogo = "/images/noImage.jpg";
+                        if (item.CompanyLogo != null)
+                        {
+                            CompanyLogo = item.CompanyLogo;
+                        }
+                        <li class="clearfix">
+                            <a href="/Home/EmpressaDetail?id=@item.LookUpCompanyId" class="post-thumb"><img src="@CompanyLogo" alt=" " /></a>
+                            <h3><a href="/Home/EmpressaDetail?id=@item.LookUpCompanyId">@item.LookUpCompanyName</a></h3>
+                            <h4>@item.Morada</h4>
+                            <p>@item.Localidade</p>
+                            <p>@item.CodPostal</p>
+                        </li>
+
+                    }
+                </ul>
+                <div class="row">
+                    <div class="col-md-12">
+                        @Html.PagedListPager(Model, Page => Url.Action("Empresas", new { Page, country = TempData["country"], industry = TempData["industry"] }))
+                    </div>
+                </div>
+            }
+            else
+            { <p style="color:red;">No record found</p> }
+        </div>
+
+        <div class="col-md-4" id="sidebar">
+            @{Html.RenderAction("Banner", "Home", new { @page = "INÍCIO", @bannerType = "RightSide1" });}
+
+            @{Html.RenderAction("Banner", "Home", new { @page = "INÍCIO", @bannerType = "RightSide2" });}
+
+
+            <!-- Category news 1 -->
+            <div class="section-title-wr">
+                <h3 class="section-title left"><span>MERCADO</span></h3>
+            </div>
+
+            <div class="mb-20">
+                @{Html.RenderAction("Mercado", "Home");}
+            </div>
+
+            <!-- Category news 2 -->
+            @*<div class="section-title-wr">
+                <h3 class="section-title left"><span>CLASSIFICADOS RECENTES</span></h3>
+            </div>
+            @{Html.RenderAction("RecentClassifieds", "Home");}*@
+            <div class="top-margin">
+                @{Html.RenderAction("Banner", "Home", new { @page = "INÍCIO", @bannerType = "RightSide3" });}
+
+                @{Html.RenderAction("Banner", "Home", new { @page = "INÍCIO", @bannerType = "RightSide4" });}
+            </div>
+        </div>
+    </div>
+</div>

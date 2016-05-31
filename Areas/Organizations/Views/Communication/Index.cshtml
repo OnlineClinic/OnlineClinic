@@ -1,0 +1,721 @@
+﻿@model MyOnlineClinic.Web.Models.CommunicationViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Organizations/Views/Shared/_OrganizationLayout.cshtml";
+}
+<section class="content-header" style="margin-top:45px;">
+    <h1 class="underline32">
+        Communications
+    </h1>
+    <ol class="breadcrumb">
+        <li style="margin-right: 5px !important;"><button type="button" id="btnBack" class="btn btn-success new">Back</button></li>
+    </ol>
+</section>
+<div class="container" style="width:1086px;">
+    <div class="row">
+        <div class="col-md-12 fifth layer">
+            @using (Html.BeginForm("Index", "Communication", FormMethod.Post, new { @class = "form-horizontal form-label-left" }))
+            {
+                <div class="col-md-3" style="margin-left:9%;">
+                    @Html.DropDownList("All", new List<SelectListItem>
+        {
+
+        new SelectListItem{ Text="All", Value = "All" },
+        new SelectListItem{ Text="Contact Us", Value = "Contact Us" },
+        new SelectListItem{ Text="Enquiries", Value = "Enquiries" },
+        new SelectListItem{ Text="Equipments Enquiry", Value = "Equipments Enquiry" },
+        new SelectListItem{ Text="Report a Problem", Value = "Report a Problem" },
+        new SelectListItem{ Text="Suggestions", Value = "Suggestions" },
+
+
+        }, "Source", new { @class = "form-control select", style = "margin-left:64%;", required = "required" })
+                </div>
+
+                <div class="col-md-3" style="margin-left: -40px;">
+
+                    @Html.DropDownList("Type", new List<SelectListItem>
+        {
+
+        new SelectListItem{ Text="All", Value = "All" },
+        new SelectListItem{ Text="Doctor", Value = "Doctor" },
+        new SelectListItem{ Text="Patient", Value = "Patient" },
+
+        }, "User", new { @class = "form-control select", style = "margin-left:70%;", required = "required" })
+                </div>
+                <span class="input-group-btn" id="input">
+                    <button class="btn btn-default list1" type="submit" name="search" style="width:13%;margin-left: 33%;"><i class="fa fa-search" style="color:#fff;"></i></button>
+                </span>
+            }
+        </div>
+    </div>
+</div>
+
+
+
+<div class="container-fulid">
+    <div class="row">
+        <div class="col-md-12 thirteen_layer">
+            <div class="table-responsive data">
+                @if (Model.Source == "All" || Model.Source == null)
+                {
+                    <table id="mytable" class="table table-hover table-bordered">
+                        <thead style="color:#fff;">
+                            <tr>
+                                <th class="top">No.</th>
+                                <th class="top">Name</th>
+                                <th class="top">Email</th>
+                                <th class="top">Message</th>
+                                <th class="top">Created Date</th>
+                                <th class="top">User</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+
+                            @{ int count = 1;}
+                            @foreach (var item in Model.AllList)
+                            {
+
+                                <tr class="info">
+                                    <td>@count</td>
+                                    @if (item.UserName != null)
+                                    {
+                                        <td>
+                                            @item.UserName
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>@item.ContactUsName</td>
+                                    }
+                                    @if (item.Email != null)
+                                    {
+                                        <td>
+                                            @item.Email
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>@item.ContactUsEmail</td>
+                                    }
+                                    @if (item.EquipmentName != null)
+                                    {
+                                        <td>
+                                            @item.EquipmentName
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>---NA-----</td>
+                                    }
+                                    @if (item.Message != null)
+                                    {
+                                        <td>
+                                            @item.Message
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>@item.ContactUsMessage</td>
+                                    }
+                                    @if (item.CreatedDate != null)
+                                    {
+                                        <td>
+                                            @Convert.ToDateTime(item.CreatedDate).ToString("dd/MM/yyyy")
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>@Convert.ToDateTime(item.ContactUsCreatedDate).ToString("dd/MM/yyyy")</td>
+                                    }
+                                    @if (item.UserType != null)
+                                    {
+                                        <td>
+                                            @item.UserType
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>@item.UserType</td>
+                                    }
+                                    @if (item.UserName != null)
+                                    {
+                                        <td>
+                                            Equpment Enquiry
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>Contact Us</td>
+                                    }
+
+
+
+                                </tr>
+                                    count = count + 1;
+                            }
+
+                        </tbody>
+                    </table>
+
+                }
+
+                @if (Model.Source == "Equipments Enquiry")
+                {
+                    <table id="mytable" class="table table-hover table-bordered">
+                        <thead style="color:#fff;">
+                            <tr>
+
+                                <th class="top">No.</th>
+                                <th class="top">Name</th>
+                                <th class="top">Email</th>
+                                <th class="top">Equipment Name</th>
+                                <th class="top">Message</th>
+                                <th class="top">Created Date</th>
+                                <th class="top">User</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+
+                            @{ int count = 1;}
+                            @foreach (var item in Model.EquipmentList)
+                            {
+
+                                <tr class="info">
+                                    <td>@count</td>
+                                    <td>@item.UserName</td>
+
+                                    <td>@item.Email</td>
+                                    <td>@item.EquipmentName</td>
+                                    <td>@item.Message</td>
+                                    <td>@Convert.ToDateTime(item.CreatedDate).ToString("dd/MM/yyyy")</td>
+                                    <td>@item.UserType</td>
+                                </tr>
+                                count = count + 1;
+                            }
+
+                        </tbody>
+                    </table>
+
+                }
+                @if (Model.Source == "Contact Us")
+                {
+                    <table id="mytable" class="table table-hover table-bordered">
+                        <thead style="color:#fff;">
+                            <tr>
+
+                                <th class="top">No.</th>
+                                <th class="top">Name</th>
+                                <th class="top">Email</th>
+                                <th class="top">Message</th>
+                                <th class="top">Created Date</th>
+                                <th class="top">User</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+
+
+                            @{ int count = 1;}
+                            @foreach (var item in Model.ContactList)
+                            {
+
+                                <tr class="info">
+                                    <td>@count</td>
+                                    <td>@item.ContactUsName</td>
+
+                                    <td>@item.ContactUsEmail</td>
+                                    <td>@item.ContactUsMessage</td>
+
+                                    <td>@Convert.ToDateTime(item.ContactUsCreatedDate).ToString("dd/MM/yyyy")</td>
+
+                                    <td><a data-role="@item.contactid" data-toggle="tooltip" data-placement="left" title="Reply" class="contact"> <i class="fa fa-reply" aria-hidden="true"></i></a></td>
+                                </tr>
+                                count = count + 1;
+                            }
+
+                        </tbody>
+                    </table>
+                }
+                @if (Model.Source == "Enquiries")
+                {
+                    <table id="mytable" class="table table-hover table-bordered">
+                        <thead style="color:#fff;">
+                            <tr>
+
+                                <th class="top">No.</th>
+                                <th class="top">Name</th>
+                                <th class="top">Email</th>
+                                <th class="top">Enquiries</th>
+                                <th class="top">Created Date</th>
+                                <th class="top">User</th>
+
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                }
+                @if (Model.Source == "Report a Problem")
+                {
+                    <table id="mytable" class="table table-hover table-bordered">
+                        <thead style="color:#fff;">
+                            <tr>
+
+                                <th class="top">No.</th>
+                                <th class="top">Name</th>
+                                <th class="top">Problem</th>
+                                <th class="top">Created Date</th>
+                                <th class="top">Reply</th>
+                                @*<th>User</th>*@
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{ int count = 1;}
+                            @foreach (var item in Model.Problemlist)
+                            {
+
+                                <tr class="info">
+                                    <td>@count</td>
+                                    <td>@item.UserName</td>
+
+
+                                    <td>@item.ReportProblemSubject</td>
+
+                                    <td>@Convert.ToDateTime(item.CreatedDate).ToString("dd/MM/yyyy")</td>
+                                    <td><a data-role="@item.ReportProblemId" data-toggle="tooltip" data-placement="left" title="Reply" class="link-reply"> <i class="fa fa-reply" aria-hidden="true"></i></a></td>
+                                    @*<td>@item.UserType</td>*@
+                                </tr>
+                                count = count + 1;
+                            }
+                        </tbody>
+                    </table>
+                }
+                @if (Model.Source == "Suggestions")
+                {
+                    <table id="mytable" class="table table-hover table-bordered">
+                        <thead style="color:#fff;">
+                            <tr>
+
+                                <th class="top">No.</th>
+                                <th class="top">Name</th>
+                                <th class="top">Email</th>
+                                <th class="top">Suggestion</th>
+                                <th class="top">Created Date</th>
+                                <th class="top">User</th>
+
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                }
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="ChatModel" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">
+                    <label id="lblTitle">Message</label>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div id="CreateEditForm">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    <input type="hidden" id="hdnReplyid" />
+
+                                    <input type="hidden" id="hdnContactReplyid" />
+                                    <span class="glyphicon glyphicon-comment"></span> Chat
+
+                                </div>
+                                <div class="panel-body">
+                                    <ul id="ulAdminReply" class="chat"></ul>
+                                </div>
+                                <div class="panel-footer">
+                                    <div class="input-group">
+                                        <input id="btn-input" type="text" class="form-control input-sm" placeholder="Type your message here..." />
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-warning btn-sm" id="btn-chat">
+                                                Send
+
+                                            </button>
+                                            <button class="btn btn-warning btn-sm" id="btn-contact">
+                                                Send
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+</div>
+<div class="modal fade" id="ChatModel" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">
+                    <label id="lblTitle">Message</label>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div id="CreateEditForm">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">
+                                    <input type="hidden" id="hdnReplyid" />
+
+                                    <input type="hidden" id="hdnContactReplyid" />
+                                    <span class="glyphicon glyphicon-comment"></span> Chat
+
+                                </div>
+                                <div class="panel-body">
+                                    <ul id="ulAdminReply" class="chat"></ul>
+                                </div>
+                                <div class="panel-footer">
+                                    <div class="input-group">
+                                        <input id="btn-input" type="text" class="form-control input-sm" placeholder="Type your message here..." />
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-warning btn-sm" id="btn-chat">
+                                                Send
+
+                                            </button>
+                                            <button class="btn btn-warning btn-sm" id="btn-contact">
+                                                Send
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+</div>
+<script id="templateAdmin" type="text/x-jquery-tmpl">
+    <li class="left clearfix">
+        <span class="chat-img pull-left">
+            <img src="http://placehold.it/50/55C1E7/fff&text=U" alt="User Avatar" class="img-circle" />
+        </span>
+        <div class="chat-body clearfix">
+            <div class="header">
+                <strong class="primary-font">Admin</strong> <small class="pull-right text-muted">
+                    <span class="glyphicon glyphicon-time"></span>12 mins ago
+                </small>
+            </div>
+            <p>
+                #Reply
+            </p>
+        </div>
+    </li>
+</script>
+<script id="templateUser" type="text/x-jquery-tmpl">
+    <li class="right clearfix">
+        <span class="chat-img pull-right">
+            <img src="http://placehold.it/50/FA6F57/fff&text=ME" alt="User Avatar" class="img-circle" />
+        </span>
+        <div class="chat-body clearfix">
+            <div class="header">
+                <small class=" text-muted"><span class="glyphicon glyphicon-time"></span>13 mins ago</small>
+                <strong class="pull-right primary-font">User</strong>
+            </div>
+            <p>
+                #Userreply
+            </p>
+        </div>
+    </li>
+</script>
+
+<script type="text/javascript">
+
+
+    $(".link-reply").click(function () {
+        var ulAdminReply = $('#ulAdminReply');
+        var hdnReplyid = document.getElementById('hdnReplyid');
+        hdnReplyid.value = $(this).attr('data-role');
+        ulAdminReply.html('');
+        var options = {
+            "backdrop": "static"
+        };
+        $('#ChatModel').modal(options);
+
+        $.ajax({
+            type: 'GET',
+            url: '/Organizations/Communication/GetAllReply',
+            dataType: 'json',
+
+            data: {
+
+                problemid: hdnReplyid.value
+
+
+            },
+            success: function (data) {
+                console.log(data);
+                var templateAdmin = $('#templateAdmin');
+                var templateUser = $('#templateUser');
+
+                var appendString = '';
+                //alert(data.length);
+                //if (data.length == 0) {
+                //    templateAdmin.html('');
+                //    templateUser.html('');
+                //    ulAdminReply.html('');
+                //}
+                $.each(data, function (key, value) {
+                    if (value.RoleType == 2) {
+                        appendString = templateUser.html();
+                        appendString = appendString.replace('#Userreply', value.Message);
+                        ulAdminReply.append(appendString);
+                    }
+                    if (value.RoleType == 3) {
+                        appendString = templateUser.html();
+                        appendString = appendString.replace('#Userreply', value.Message);
+                        ulAdminReply.append(appendString);
+                    }
+                    else if (value.RoleType == 1) {
+                        appendString = templateAdmin.html();
+                        appendString = appendString.replace('#Reply', value.Message);
+                        ulAdminReply.append(appendString);
+                    }
+
+                });
+
+            },
+            error: function (ex) {
+            }
+        });
+
+
+    });
+
+    $(".link-reply").click(function () {
+        $("#btn-chat").show();
+        $("#btn-contact").hide();
+    });
+
+    $(".contact").click(function () {
+        $("#btn-chat").hide();
+        $("#btn-contact").show();
+    });
+    $(document).on('click', '#btn-chat', function () {
+
+        $.ajax({
+            type: 'GET',
+            url: '/Organizations/Communication/Reply',
+            dataType: 'json',
+
+            data: {
+
+                reply: $("#btn-input").val(),
+                id: $("#hdnReplyid").val()
+
+            },
+            success: function (data) {
+                console.log(data);
+                $.ajax({
+                    type: 'GET',
+                    url: '/Organizations/Communication/GetReply',
+                    dataType: 'json',
+
+                    data: {
+
+                        Replyid: data.ReportProblemReplyId
+
+
+                    },
+                    success: function (data) {
+                        console.log(data);
+
+                        var templateAdmin = $('#templateAdmin');
+                        var templateUser = $('#templateUser');
+                        var ulAdminReply = $('#ulAdminReply');
+                        var appendString = '';
+
+                        $.each(data, function (key, value) {
+                            if (value.RoleType == 2) {
+                                appendString = templateUser.html();
+                                appendString = appendString.replace('#Userreply', value.Message);
+                                ulAdminReply.append(appendString);
+                            }
+                            if (value.RoleType == 3) {
+                                appendString = templateUser.html();
+                                appendString = appendString.replace('#Userreply', value.Message);
+                                ulAdminReply.append(appendString);
+                            }
+                            else if (value.RoleType == 1) {
+                                appendString = templateAdmin.html();
+                                appendString = appendString.replace('#Reply', value.Message);
+                                ulAdminReply.append(appendString);
+                            }
+                        });
+
+                    },
+
+                });
+
+            },
+            error: function (ex) {
+            }
+        });
+    });
+
+    $(".contact").click(function () {
+        var ulAdminReply = $('#ulAdminReply');
+        var hdnContactReplyid = document.getElementById('hdnContactReplyid');
+        hdnContactReplyid.value = $(this).attr('data-role');
+        ulAdminReply.html('');
+        var options = {
+            "backdrop": "static"
+        };
+        $('#ChatModel').modal(options);
+
+        $.ajax({
+            type: 'GET',
+            url: '/Organizations/Communication/GetContactAllReply',
+            dataType: 'json',
+
+            data: {
+
+                problemid: hdnContactReplyid.value
+
+
+            },
+            success: function (data) {
+                console.log(data);
+                var templateAdmin = $('#templateAdmin');
+                var templateUser = $('#templateUser');
+
+                var appendString = '';
+
+                $.each(data, function (key, value) {
+                    if (value.RoleType == 2) {
+                        appendString = templateUser.html();
+                        appendString = appendString.replace('#Userreply', value.Message);
+                        ulAdminReply.append(appendString);
+                    }
+                    if (value.RoleType == 3) {
+                        appendString = templateUser.html();
+                        appendString = appendString.replace('#Userreply', value.Message);
+                        ulAdminReply.append(appendString);
+                    }
+                    else if (value.RoleType == 1) {
+                        appendString = templateAdmin.html();
+                        appendString = appendString.replace('#Reply', value.Message);
+                        ulAdminReply.append(appendString);
+                    }
+                });
+
+            },
+            error: function (ex) {
+            }
+        });
+
+
+    });
+
+    $(document).on('click', '#btn-contact', function () {
+
+        $.ajax({
+            type: 'GET',
+            url: '/Organizations/Communication/ContactReply',
+            dataType: 'json',
+
+            data: {
+
+                reply: $("#btn-input").val(),
+                id: $("#hdnContactReplyid").val()
+
+            },
+            success: function (data) {
+                console.log(data);
+                $.ajax({
+                    type: 'GET',
+                    url: '/Doctor/DoctorMessage/GetContactReply',
+                    dataType: 'json',
+
+                    data: {
+
+                        Replyid: data.ContactReplyId
+
+
+                    },
+                    success: function (data) {
+                        console.log(data);
+
+                        var templateAdmin = $('#templateAdmin');
+                        var templateUser = $('#templateUser');
+                        var ulAdminReply = $('#ulAdminReply');
+                        var appendString = '';
+
+                        $.each(data, function (key, value) {
+                            if (value.RoleType == 2) {
+                                appendString = templateUser.html();
+                                appendString = appendString.replace('#Userreply', value.Message);
+                                ulAdminReply.append(appendString);
+                            }
+                            else if (value.RoleType == 1) {
+                                appendString = templateAdmin.html();
+                                appendString = appendString.replace('#Reply', value.Message);
+                                ulAdminReply.append(appendString);
+                            }
+                        });
+
+                    },
+
+                });
+
+            },
+            error: function (ex) {
+            }
+        });
+    });
+
+</script>
+<script src="~/AdminAssets/js/datatables/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+        var oTable = $('#example').dataTable({
+            "bProcessing": true,
+            "iDisplayLength": 10,
+            "bPaginate": true,
+            "sPaginationType": "full_numbers",
+            "bSort": false
+        });
+        $('[data-toggle="tooltip"]').tooltip();
+        $("#btnBack").click(function () {
+            window.location.href = "/Organizations/ManageDevice/add";
+        });
+        $("#btnActivate").click(function () {
+            window.location.href = "/Organizations/ManageDevice/Assign";
+        });
+    })
+</script>
+
+

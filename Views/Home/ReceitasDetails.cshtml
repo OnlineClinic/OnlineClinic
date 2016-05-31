@@ -1,0 +1,168 @@
+﻿@model MyOnlineClinic.Web.Models.RecipeViewModel
+<section class="slice">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="msg">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8" id="main">
+                <div class="row">
+                    <div class="col-sm-12 full-img">
+                        <img src="~/images/boacomida_hr.jpg" />
+                    </div>
+                </div>
+                <div class="navbar-collapse collapse inner-nav" style="margin-top:0px !important;">
+                    <ul class="nav navbar-nav navbar-left">
+                        @{
+                            foreach (var recCat in Model.CategoryList)
+                            {
+                                <li><a href="@Url.Action("receitas", "Home", new {@recipename = recCat.CategoryName})">@recCat.CategoryName</a></li>
+                            }
+                        }
+                    </ul>
+                </div>
+                <div class="row mt-20">
+                    <div class="col-md-6">
+                        <div class="recipe-detail-title">
+                            <strong> @Model.Title </strong>
+                        </div>
+                        <div>
+                            @if (!string.IsNullOrEmpty(Model.Avatar))
+                            {
+                            <img src="@Model.Avatar" class="img-responsive img-circle" style="height:50px;width:50px;" />
+                            }
+                            else
+                            {
+                            <img src="~/images/user-profile.jpg" class="img-responsive img-circle" style="height:50px;width:50px;" />
+                            }
+                        </div>
+                        <span>@Model.UserName</span>
+                    </div>
+                    <div class="col-md-6">
+                        @{
+                            string recipeImageUrl = string.Empty;
+                            if (Model.ImageName != null)
+                            {
+                                recipeImageUrl = "/UploadedFiles/RecepiesPhotos/Image/" + Model.ImageName.ImagePath;
+                            }
+                        <img alt="" src="@recipeImageUrl" class="img-responsive" />
+                        }
+                    </div>
+                </div>
+                <div class="row mt-20">
+                    <div class="col-md-6">
+                        <div class="section-title-wr">
+                            <h3 class="section-title left"><span>Ingredientes</span></h3>
+                        </div>
+                        @Html.Raw(Model.Ingredientes)
+                    </div>
+                    <div class="col-md-6">
+                        <div class="section-title-wr">
+                            <h3 class="section-title left"><span>Preparação</span></h3>
+                        </div>
+                        @Html.Raw(Model.Preparation)
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 mt-15 mb-15">
+                        <div class="panel-group" id="accordionThree">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" data-parent="#accordionThree" href="#collapse3a">
+                                            Comentários (@Model.CommentsList.Count())
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapse3a" class="panel-collapse collapse in">
+                                    <div class="panel-body">
+                                        <div class="col-md-12">
+                                            @{var count = 1;}
+                                            @foreach (var item in Model.CommentsList)
+                                            {
+                                                if (count > 1)
+                                                {
+                                                    <hr />
+                                                }
+                                                <div class="row mt-5">
+                                                    <div class="col-md-3">
+                                                        <strong>@item.Name</strong>
+                                                        <p>@item.CreatedDate.ToString("dd/MM/yyyy")</p>
+                                                    </div>
+                                                    <div class="col-md-9">
+                                                        @item.UserComments
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        @*<div>
+                        Galeria de imagens
+                    </div>
+                    <br />*@
+                        <a href="javascript: history.back(1)">‹ voltar</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 mt-15 mb-15">
+                        @{
+                            var commentModel = new MyOnlineClinic.Web.Models.CommentViewModel();
+                            commentModel.RedirectingActionName = "ReceitasDetails";
+                            commentModel.Section = "Receitas";
+                            commentModel.Title = Model.SlugTitle;
+                            commentModel.SectionId = Model.RecipeId;
+                            { Html.RenderPartial("CommentsPartial", commentModel); }
+                        }
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-4" id="sidebar">
+                @{Html.RenderAction("Banner", "Home", new { @page = "RECEITAS", @bannerType = "RightSide1" });}
+
+                @{Html.RenderAction("Banner", "Home", new { @page = "RECEITAS", @bannerType = "RightSide2" });}
+
+                @{Html.RenderAction("Banner", "Home", new { @page = "RECEITAS", @bannerType = "RightSide3" });}
+
+                @{Html.RenderAction("Banner", "Home", new { @page = "RECEITAS", @bannerType = "RightSide4" });}
+            </div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            if ('@ViewBag.Msg' != '') {
+                if ('@ViewBag.Msg' == 'Comentário enviado com sucesso.') {
+                    $(".msg").append("<div class='alert alert-success'>@ViewBag.Msg</div>");
+                    window.setTimeout(function () {
+                        $(".alert-success").fadeTo(500, 0).slideUp(500, function () {
+                            $(this).remove();
+                        });
+                    }, 5000);
+
+                }
+                else {
+                    $(".msg").append("<div class='alert alert-danger'>@ViewBag.Msg</div>");
+                    window.setTimeout(function () {
+                        $(".alert-danger").fadeTo(500, 0).slideUp(500, function () {
+                            $(this).remove();
+                        });
+                    }, 5000);
+                }
+            }
+
+        });
+    </script>
+</section>

@@ -1,0 +1,32 @@
+﻿@model PagedList.IPagedList<MyOnlineClinic.Web.Models.NewsViewModel>
+@using PagedList.Mvc
+<div class="row">
+    <div class="container">
+        <div class="col-md-8">
+            @if (ViewBag.NewsId == null || Convert.ToInt32(ViewBag.NewsId) == 0)
+            {
+                <img src="~/images/humor_hr.jpg" />
+            }
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-left">
+                    <li><a href="@Url.Action("humor", "Home", new { @category = "humor" })">humor</a></li>
+                    <li><a href="@Url.Action("humor", "Home", new { @subCategory = "Vídeos" })">Vídeos</a></li>
+                    <li><a href="@Url.Action("humor", "Home", new { @subCategory = "Música" })">Música</a></li>
+                    <li><a href="@Url.Action("humor", "Home", new { @subCategory = "Cartoons" })">Cartoons</a></li>
+                    <li><a href="@Url.Action("humor", "Home", new { @subCategory = "Anedotas" })">Anedotas</a></li>
+                </ul>
+            </div>
+            @if (ViewBag.NewsId == null || Convert.ToInt32(ViewBag.NewsId) == 0)
+            {
+               Html.RenderPartial("~/Views/Home/HumorNews.cshtml", Model);
+            }
+            else
+            {
+               Html.RenderPartial("~/Views/Home/_HumorDetail.cshtml", Model);
+            }
+        </div>
+        <div class="col-md-4">
+            @{Html.RenderAction("Banner", "Home");}
+        </div>
+    </div>
+</div>

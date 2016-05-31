@@ -1,0 +1,564 @@
+﻿@model MyOnlineClinic.Web.Models.ClinicModel
+@{
+    ViewBag.Title = "ClinicVisit";
+    Layout = "~/Areas/Clinic/Views/Shared/_ClinicLayout.cshtml";
+}
+
+<script src="~/AdminAssets/js/common.js"></script>
+<link href="~/AdminAssets/css/datatables/css/jquery.dataTables.css" rel="stylesheet" />
+<style type="text/css">
+    .tblClinicList td {
+        width: 50%;
+    }
+
+    .datepick {
+        max-width: 100%;
+    }
+
+    .datepick-month {
+        width: 100%;
+    }
+
+    .is-datepick {
+        margin: 10px 0;
+    }
+
+    .datepick-month td {
+        width: 36px;
+        height: 36px;
+    }
+
+        .datepick-month td a {
+            padding: 9px;
+        }
+
+        .datepick-month td span {
+            padding: 3px;
+        }
+
+        .datepick-month td .datepick-weekend {
+            background-color: #fff;
+        }
+
+
+    a.datepick-cmd {
+        height: 30px;
+        padding: 8px 10px;
+    }
+
+    .datepick-month-header {
+        height: 25px;
+    }
+
+        .datepick-month-header select {
+            height: 24px;
+        }
+
+    .dvSearch {
+        margin-top: 10px;
+    }
+
+        .dvSearch .btn {
+            background: #0aa49c;
+            border: 0px;
+        }
+
+    #dvChart table tr th {
+        background: #0aa49c;
+        padding: 10px 5px;
+        color: #fff;
+        border-right: 1px solid #fff;
+    }
+
+    #dvChart table tr td {
+        background: #808080;
+        padding: 10px 5px;
+        color: #fff;
+        border-bottom: 1px solid #fff;
+        border-right: 1px solid #fff;
+    }
+
+    .lnkTime {
+        color: white;
+        font-weight: bold;
+        border: 1px dotted white;
+        padding: 5px;
+        text-decoration: none;
+        background-color: #bdbdbd;
+    }
+
+        .lnkTime:hover {
+            color: white;
+            text-decoration: none;
+            background: #0aa49c;
+        }
+</style>
+<div class="right_col" role="main">
+    <div class="">
+        <div class="page-title">
+            <div class="title_left">
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Clinic Visit</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                            </li>
+                            <li>
+                                <a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        @using (Html.BeginForm("ClinicVisit", "Patient", FormMethod.Post, new { id = "frmClinicVisit", @class = "form-horizontal form-label-left" }))
+                        {
+                            <div style="display:none;" class="item form-group">
+                                <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">
+                                    OrganizationName
+                                </label>
+                                <div class="col-md-6 col-sm-6 col-xs-12">
+                                    @Html.TextBoxFor(x => x.OrganizationName, new { @class = "form-control col-md-7 col-xs-12", name = "OrganizationName", placeholder = "Search For Organization" })
+                                    @Html.HiddenFor(x => x.OrganizationId)
+                                    @Html.HiddenFor(x => x.PatientId)
+                                    @Html.HiddenFor(x => x.DoctorId)
+                                    @Html.HiddenFor(x => x.AppointmentDateTime)
+                                </div>
+                            </div>
+                            <fieldset id="fldClinicList" style="border:groove; display:none;" class="fieldset">
+                                <legend class="prople" style="width: 8%; color: #0aa49c">Clinic List</legend>
+                                @*<div class="col-md-offset-2 col-md-10">*@
+                                <div id="dvClinicList" class="item form-group">
+                                    <label class="control-label col-md-3 col-sm-3 col-xs-12" for="name">
+                                        Search Clinic Name
+                                    </label>
+                                    <div class="col-md-6 col-sm-6 col-xs-12">
+                                        @Html.TextBoxFor(x => x.ClinicName, new { @class = "form-control col-md-7 col-xs-12", name = "ClinicName", placeholder = "Search For Clinic" })
+                                        @Html.HiddenFor(x => x.ClinicId)
+                                    </div>
+                                </div>
+                                @*</div>*@
+                            </fieldset>
+                            <fieldset id="fldAvability" style="border:groove; display:block; margin-top:10px;" class="fieldset">
+                                <legend class="prople" style="width: 27%; color: #0aa49c;">Book Appointment For Clinic Visit</legend>
+                                <div id="dvAvability" class="item form-group" style="display:block;">
+                                    <div class="item form-group" style="    margin-left: 12px;font-size: 15px;">
+                                        <input type="radio" name="calendarView" class="calendarviewradio" value="1" checked="checked"> Day View
+                                        <span style="margin-left: 9px;"><input type="radio" name="calendarView" class="calendarviewradio" value="2">Week View</span>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div id="selectAppointmentDate" style="margin-bottom:10px;"></div>
+
+                                        @Html.DropDownListFor(x => x.ProfessionTypeId, new SelectList(Model.ProfessionTypesList, "Id", "ProfessionName"), "---Select Profession---", new { @class = "form-control col-md-7 col-xs-12 text_row" })
+                                        @Html.DropDownListFor(x => x.ProfessionSub, new SelectList(Model.ProfessionSubList, "SubId", "ProfessionSub"), new { @class = "form-control col-md-7 col-xs-12 text_row" })
+                                        <div id="dvDoctorList">
+                                        </div>
+                                        <div class="dvSearch text-center">
+                                            <button type="button" id="btnFindDoctor" class="btn btn-primary btn-md">Find</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <div id="dvChart" style=" height:510px; overflow:scroll; border-radius:5px;">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="hidden" id="hdnSelectedDate" />
+                            </fieldset>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+<script type="text/javascript" language="javscript">
+    $(document).ready(function () {
+
+        var professionString = 'profession';
+        var subProfessionString = 'subProfession';
+
+        var controlIds = {
+            txtOrganizationName: 'OrganizationName',
+            txtOrganizationNameRef: $('#OrganizationName'),
+
+            hdnOrganizationId: 'OrganizationId',
+            hdnOrganizationIdRef: $('#OrganizationId'),
+
+            fldClinicList: 'fldClinicList',
+            fldClinicListRef: $('#fldClinicList'),
+
+            txtClinicName: 'ClinicName',
+            txtClinicNameRef: $('#ClinicName'),
+
+            hdnClinicId: 'ClinicId',
+            hdnClinicIdRef: $('#ClinicId'),
+
+            dvDoctorList: 'dvDoctorList',
+            dvDoctorListRef: $('#dvDoctorList'),
+
+            ddlProfessionTypeId: 'ProfessionTypeId',
+            ddlProfessionTypeIdRef: $('#ProfessionTypeId'),
+
+            ddlProfessionSub: 'ProfessionSub',
+            ddlProfessionSubRef: $('#ProfessionSub'),
+
+            dvChart: 'dvChart',
+            dvChartRef: $('#dvChart')
+        }
+
+        var htmlString = {
+            dvDoctorHtmlString: '<div id="dvDoctorId">' +
+                              '<input type="checkbox" value="¶DoctorId" data-role="¶Profession" data-id="¶SubProfession">' +
+                               '&nbsp;¶DoctorName' +
+                               '</div>',
+            
+            dvChartDoctorHtml: '<table style="width:100%;"><tr><th>Time</th><th>¶DoctorName<input type="hidden" value="¶DoctorId"></th></tr></table>',
+
+            dvChartDoctorAvability: '<tr><td style="width:11%;text-align:center;"><a class="lnkTime" href="javascript:;" data-role="¶DoctId">¶Time</a></td><td style="width:85%;"></td></tr>'
+        }
+
+
+        
+        getDoctorList(controlIds.hdnClinicIdRef.val());
+
+        $('#' + controlIds.ddlProfessionTypeId).val('');
+        $('#' + controlIds.ddlProfessionTypeId).trigger('change');
+
+        $('#' + controlIds.txtOrganizationName).autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetOrganizationListForAppointment/")',
+                    data: { query: request.term },
+                    dataType: 'json',
+                    type: 'GET',
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return {
+                                label: item.OrganizationName,
+                                value: item.OrganizationId
+                            }
+                        }));
+                    },
+                    error: function myfunction(err) {
+                        console.log("error: autocomplete OrganizationName");
+                        console.log(err);
+                    }
+                })
+            },
+            select: function (event, ui) {
+               // controlIds.fldClinicListRef.css('display', 'block');
+                controlIds.txtOrganizationNameRef.val(ui.item.label);
+                controlIds.hdnOrganizationIdRef.val(ui.item.value);
+                controlIds.txtClinicNameRef.focus();
+                return false;
+            },
+            minLength: 0
+        }).focus(function () {
+            $(this).autocomplete("search", "");
+        });
+
+        $('#' + controlIds.txtClinicName).autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: '@Url.Action("GetClinicList/")',
+                    data: { id: $('#' + controlIds.hdnOrganizationId).val(), query: request.term },
+                    dataType: 'json',
+                    type: 'GET',
+                    success: function (data) {
+                        response($.map(data, function (item) {
+                            return {
+                                label: item.ClinicName,
+                                value: item.ClinicId
+                            }
+                        }));
+                    },
+                    error: function myfunction(err) {
+                        console.log("error: autocomplete Clinic");
+                        console.log(err);
+                    }
+                })
+            },
+            select: function (event, ui) {
+                var clinicId = ui.item.value;
+                controlIds.txtClinicNameRef.val(ui.item.label);
+                controlIds.hdnClinicIdRef.val(clinicId);
+                getDoctorList(clinicId);
+                $('#' + controlIds.ddlProfessionTypeId).val('');
+                $('#' + controlIds.ddlProfessionTypeId).trigger('change');
+                return false;
+            },
+            minLength: 0
+        }).focus(function () {
+            $(this).autocomplete("search", "");
+        });
+
+        $('#' + controlIds.ddlProfessionTypeId).change(function () {
+            var professionTypeId = controlIds.ddlProfessionTypeIdRef.val();
+
+            controlIds.ddlProfessionSubRef.empty();
+            controlIds.ddlProfessionSubRef.append($("<option></option>").val('').html('---Select Profession Sub---'));
+
+            if (professionTypeId != '' && Math.abs(professionTypeId) > 1) {
+                ajaxParam.url = '/Clinic/Patient/GetProfessionSubCategory';
+                ajaxParam.requestType = 'GET';
+                ajaxParam.dataType = 'json';
+                ajaxParam.data = { id: professionTypeId };
+                ajaxParam.successCallbackFunction = addItemsInSubProfession;
+                doAjax(ajaxParam);
+            }
+            else {
+                hideDivAndClearCheckboxes(professionString);
+            }
+        });
+
+        function addItemsInSubProfession(data) {
+            controlIds.ddlProfessionSubRef.empty();
+            controlIds.ddlProfessionSubRef.append($("<option></option>").val('').html('---Select Profession Sub---'));
+
+            $.each(data, function (key, value) {
+                controlIds.ddlProfessionSubRef.append($("<option></option>").val(value.SubId).html(value.ProfessionSub));
+            });
+
+            hideDivAndClearCheckboxes(professionString);
+        }
+
+        function hideDivAndClearCheckboxes(forType) {
+            var attrValue = forType == 'profession' ? 'data-role' : 'data-id';
+            var id = forType == 'profession' ? controlIds.ddlProfessionTypeIdRef.val() : controlIds.ddlProfessionSubRef.val();
+
+            $("#dvDoctorList input[type=checkbox]").each(function () {
+                var chkId = $(this).attr(attrValue);
+                var chkValue = $(this).attr('value');
+                var dvDoctorId = 'dvDoctorId' + chkValue.toString();
+                $('#' + dvDoctorId).css("display", "block");
+                if (chkId == null) chkId = '';
+
+                if (id != null && id != '') {
+                    if (id != chkId) {
+                        $(this).attr('checked', false);
+                        $('#' + dvDoctorId).css("display", "none");
+                    }
+                }
+            });
+        }
+
+        $('#' + controlIds.ddlProfessionSub).change(function () {
+            hideDivAndClearCheckboxes(subProfessionString);
+        });
+
+        $("#btnFindDoctor").click(function () {
+            if (validateSearch()) {
+                controlIds.dvChartRef.html('');
+
+                var selectedDates = '';
+                var dates = $('#selectAppointmentDate').multiDatesPicker('getDates');
+                var arrDates = dates.toString().split(',');
+
+                for (var i = 0; i < arrDates.length; i++) {
+                    var searchDateTime = new Date(arrDates[i]);
+                    var date = ('0' + searchDateTime.getDate()).slice(-2);
+                    var month = ("0" + (searchDateTime.getMonth() + 1)).slice(-2);
+                    var year = searchDateTime.getFullYear();
+                    var searchDate = date.toString() + "/" + month.toString() + '/' + year.toString();
+                    selectedDates += searchDate + '¶';
+                }
+                selectedDates = selectedDates.slice(0, -1);
+
+                document.getElementById('hdnSelectedDate').value = searchDate;
+                var selectedDocrorIds = getSelectedCheckBoxValue(controlIds.dvDoctorList);
+
+                $.ajax({
+                    type: 'GET',
+                    url: '/Clinic/Patient/GetAvabilityChart',
+                    dataType: 'json',
+                    data: { doctorIds: selectedDocrorIds, searchDate: selectedDates },
+                    success: function (data) {
+                        console.log(data);
+                        if (data != null) {
+                            for (var i = 0; i < data.data.length; i++) {
+                                var html = $('<div style="float:left;" id="dvRa' + i.toString() + '"></div>');
+                                controlIds.dvChartRef.append(html);
+                                for (var j = 0; j < data.data[i].length; j++) {
+                                    var appendString = htmlString.dvChartDoctorHtml;
+                                    appendString = appendString.replace('¶DoctorName', data.data[i][j].DoctorName + '  ' + data.data[i][j].Date);
+                                    appendString = appendString.replace('¶DoctorId', data.data[i][j].DoctorId);                                    
+                                    $('#dvRa' + i.toString()).append(appendString);
+                                    var innerText = '';
+                                    for (var k = 0; k < data.data[i][j].time.length; k++) {
+                                        appendString = htmlString.dvChartDoctorAvability;
+                                        appendString = appendString.replace("¶Time", data.data[i][j].time[k]);
+                                        appendString = appendString.replace("¶DoctId", data.data[i][j].DoctorId);
+                                        innerText += appendString;
+                                    }
+                                    innerText = '<table style="width:100%;">' + innerText + '</table>';
+                                    $('#dvRa' + i.toString()).append(innerText);
+                                   // controlIds.dvChartRef.append(innerText);
+                                }
+
+                            }
+                        }
+                    },
+                    error: function (ex) {
+                        console.log("error: btnFindDoctor Ajax Call");
+                        console.log(err);
+                    }
+                });
+            }
+        });
+
+        function getDoctorList(clinicId) {
+            var dvAppendString = htmlString.dvDoctorHtmlString;
+
+            var dvDoctorList = $('#dvDoctorList');
+            dvDoctorList.html('');
+
+            var actionUrl = '@Url.Action("GetDoctorList/")';
+
+            if (clinicId != '' && Math.abs(clinicId) > 0) {
+                $.ajax({
+                    type: 'GET',
+                    url: actionUrl,
+                    dataType: 'json',
+                    data: { clinicId: clinicId },
+                    success: function (data) {
+                        if (data.length > 0) {
+                            $('#dvAvability').css('display', 'block');
+                        }
+                        $.each(data, function (key, value) {
+                            var appendString = dvAppendString.replace('¶DoctorId', value.MemberId);
+                            appendString = appendString.replace('¶Profession', value.Profession);
+                            appendString = appendString.replace('¶SubProfession', value.ProfessionCategory);
+                            appendString = appendString.replace('¶DoctorName', value.FirstName);
+                            appendString = appendString.replace('dvDoctorId', 'dvDoctorId' + value.MemberId);
+                            dvDoctorList.append(appendString);
+                        });
+                    },
+                    error: function (ex) {
+                        console.log("error: getDoctorList")
+                        console.log(err);
+                    }
+                });
+            }
+        }
+
+        $(document).on('click', '.lnkTime', function () {
+            var lnkTime = $(this);
+            var doctorId = $(this).attr('data-role');
+            var lnkValue = lnkTime.html();
+            var selectedDate = document.getElementById('hdnSelectedDate').value;
+
+            var selectedDateTime = selectedDate + " " + lnkValue;
+            document.getElementById("DoctorId").value = doctorId;
+            document.getElementById('AppointmentDateTime').value = selectedDateTime;
+
+
+            if (confirm("Are you sure you want to book this appointment for " + selectedDateTime + "?")) {
+                var frmClinicVisit = $('#frmClinicVisit');
+
+                if (frmClinicVisit != null) {
+                    frmClinicVisit.submit();
+                }
+            }
+        });
+
+        $(".calendarviewradio").click(function () {
+            var calendarViewValue = parseInt($(this).val());
+            var selectAppointmentDate = $('#selectAppointmentDate');
+
+            if (calendarViewValue === 1) {
+                selectAppointmentDate.multiDatesPicker({ mode: 'daysRange', autoselectRange: [0, 1] });
+            }
+            else if (calendarViewValue === 2) {
+                selectAppointmentDate.multiDatesPicker({ mode: 'daysRange', autoselectRange: [0, 7] });
+            }
+        })
+    });
+
+    function validateCheckBox() {
+        var validate = false;
+        var dvDoctorList = document.getElementById('dvDoctorList');
+        var inputs = dvDoctorList.getElementsByTagName('input');
+
+        for (var i = 0; i < inputs.length; i++) {
+            if (inputs[i].type == 'checkbox' && inputs[i].checked) {
+                validate = true;
+                break;
+            }
+        }
+        return validate;
+    }
+
+    function validateSearch() {
+        var ddlProfessionTypeId = $('#ProfessionTypeId');
+        var ProfessionTypeId = ddlProfessionTypeId.val();
+
+        var selectedDate = $('#selectAppointmentDate').multiDatesPicker('getDates');
+
+        if (ProfessionTypeId == '' || Math.abs(ProfessionTypeId) == 0) {
+            alert('Please select ProfessionType');
+            return false;
+        }
+        else if (!validateCheckBox()) {
+            alert('Please select at least one doctor');
+            return false;
+        }
+        else if (selectedDate == '') {
+            alert('Please select date');
+            return false;
+        }
+        return true;
+    }
+</script>
+
+<script type="text/javascript" language="javascript">
+
+    var latestMDPver = $.ui.multiDatesPicker.version;
+    var lastMDPupdate = '2014-09-19';
+
+    $(function () {
+        $('#selectAppointmentDate').multiDatesPicker({ mode: 'daysRange', autoselectRange: [0, 1] });
+
+        // Version //
+        //$('title').append(' v' + latestMDPver);
+        $('.mdp-version').text('v' + latestMDPver);
+        $('#mdp-title').attr('title', 'last update: ' + lastMDPupdate);
+
+        // Documentation //
+        $('i:contains(type)').attr('title', '[Optional] accepted values are: "allowed" [default]; "disabled".');
+        $('i:contains(format)').attr('title', '[Optional] accepted values are: "string" [default]; "object".');
+        $('#how-to h4').each(function () {
+            var a = $(this).closest('li').attr('id');
+            $(this).wrap('<' + 'a href="#' + a + '"></' + 'a>');
+        });
+        $('#demos .demo').each(function () {
+            var id = $(this).find('.box').attr('id') + '-demo';
+            $(this).attr('id', id)
+                .find('h3').wrapInner('<' + 'a href="#' + id + '"></' + 'a>');
+        });
+
+        // Run Demos
+        $('.demo .code').each(function () {
+            eval($(this).attr('title', 'NEW: edit this code and test it!').text());
+            this.contentEditable = true;
+        }).focus(function () {
+            if (!$(this).next().hasClass('test'))
+                $(this)
+                    .after('<button class="test">test</button>')
+                    .next('.test').click(function () {
+                        $(this).closest('.demo').find('.hasDatepicker').multiDatesPicker('destroy');
+                        eval($(this).prev().text());
+                        $(this).remove();
+                    });
+        });
+    });
+</script>

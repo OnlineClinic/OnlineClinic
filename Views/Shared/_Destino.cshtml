@@ -1,0 +1,55 @@
+﻿@model IEnumerable<MyOnlineClinic.Web.Models.NewsViewModel>
+
+@if (Model.Count() > 0)
+{
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            var photoUrl = "/images/noImage.jpg";
+            if (item.Photo != null)
+            {
+                photoUrl = "/UploadedFiles/NewsPhoto/373x240/" + item.Photo.ImagePath;
+            }
+
+            if (item.Position == "bottom")
+            {
+                <div class="col-md-4">
+                    <div class="wp-block article grid">
+                        <div class="article-image home-img-height">
+                            @if (item.Photo != null)
+                            {<img src="@photoUrl" alt="@item.Title">}
+                            else
+                            {<img src="@photoUrl" height="240" width="373" alt="@item.Title">}
+                            <h4 class="image-title base-alt">@item.SubCategoryName</h4>
+                        </div>
+                        <h3 class="title">
+                            <a href="">@item.Title</a>
+                        </h3>
+                        @*<p>
+                            @item.Summary
+                        </p>*@
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="light-gray p-15 ba mb-20">
+                    <div class="wp-block article grid bb">
+                        <div class="article-image">
+                            <img src="@photoUrl" alt="">
+                        </div>
+                        <span class="article-category">@item.SubCategoryName</span>
+                        <h3 class="title">
+                            <a href="" hidefocus="true">@item.Title</a>
+                        </h3>
+                        @*<p>
+                            @item.Summary
+                        </p>*@
+                    </div>
+                </div>
+            }
+        }
+    </div>
+
+}
+

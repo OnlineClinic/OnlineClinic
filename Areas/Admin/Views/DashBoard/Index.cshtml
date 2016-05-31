@@ -1,0 +1,210 @@
+﻿@model MyOnlineClinic.Web.Models.DashboardViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+@using MyOnlineClinic.Web.Models;
+@{
+    var usermodel = ViewBag.LoginUserModel as LoginUserViewModel;
+}
+
+<!-- Small boxes (Stat box) -->
+<div class="container-fluid" style="margin-top: 60px;">
+    <div class="row">
+        <div class="col-lg-2 col-xs-6 total">
+            <!-- small box -->
+            <div class="small-box bg-green">
+                <div class="inner">
+                    <h3>@Model.OrganizationCount<sup style="font-size: 20px"></sup></h3>
+
+                    <p>Total Organisations</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-globe"></i>
+                </div>
+                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-lg-2 col-xs-6 total">
+            <!-- small box -->
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h3>@Model.ClinicCount</h3>
+
+                    <p>Total Clinics</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-plus-square"></i>
+                </div>
+                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+        <!-- ./col -->
+        <div class="col-lg-2 col-xs-6 total">
+            <!-- small box -->
+            <div class="small-box bg-yellow">
+                <div class="inner">
+                    <h3>@Model.PatientCount</h3>
+
+                    <p>Total Patients</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-user" aria-hidden="true"></i>
+                </div>
+                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-2 col-xs-6 total">
+            <!-- small box -->
+            <div class="small-box bg-red">
+                <div class="inner">
+                    <h3>@Model.DoctorCount</h3>
+
+                    <p>Total Doctors</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-user-md"></i>
+                </div>
+                <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <div class="col-lg-2 col-xs-6 total">
+            <!-- small box -->
+            <div class="small-box bg-red">
+                <div class="inner">
+                    <h3>@Model.AppointmentCount</h3>
+
+                        <p>Total Appointments</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                    </div>
+                    <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+            </div>
+            <!-- ./col -->
+        </div>
+    </div>
+    <!-- /.row -->
+    <!-- Main row -->
+    <div class="clearfix"></div>
+    <div class="container-fulid" id="layer">
+        <div class="row" id="layer1">
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                <a href="/Admin/Appointment/PendingAppointment">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-aqua"><i class="fa fa-calendar"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Appointments</span>
+
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                </a>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                <a href="javascript:;">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-red"><i class="fa fa-usd"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Payments</span>
+
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                </a>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+            <!-- fix for small devices only -->
+            <div class="clearfix visible-sm-block"></div>
+
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                <a href="javascript:;">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-green"><i class="fa fa-tasks"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Tasks</span>
+
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                </a>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+            <!-- /.col -->
+        </div>
+    </div>
+
+
+    <!-- /.row -->
+    <!-- Main row -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Website Stats</h3>
+
+
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <p class="text-center">
+                                <strong> 1 Apr, 2016 - 16 Apl, 2016</strong>
+                            </p>
+
+                            <div class="chart">
+                                <!-- Sales Chart Canvas -->
+                                <canvas id="salesChart" style="height: 180px;"></canvas>
+                            </div>
+                            <!-- /.chart-responsive -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-md-4">
+                            <p class="text-center">
+                                <strong>Website Stats</strong>
+                            </p>
+
+                            <div class="progress-group">
+                                <div class="progress sm" style=" float:left; width:7%; height: 17px;
+ margin-top: 4px;">
+                                    <div class="progress-bar progress-bar-aqua" style="width: 100%;background: #08A39B;"></div>
+                                </div>
+                            </div>
+                            <span class="progress-number" id="text">Total Patients</span>
+                        </div>
+                        <div class="progress-group">
+                            <div class="progress sm" style=" float:left; width:2%; height: 17px;
+ margin-top: 4px; margin-left: 15px;">
+                                <div class="progress-bar progress-bar-red" style="width: 100%; background: #008079;"></div>
+                            </div>
+                        </div>
+                        <span class="progress-number" id="text">Total Clinics</span>
+                    </div>
+
+
+
+
+                    <!-- /.progress-group -->
+                    <!-- /.progress-group -->
+                    <!-- /.progress-group -->
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- ./box-body -->
+        <!-- /.box-footer -->
+    </div>
+    <!-- /.box -->
+    <!-- /.row (main row) -->

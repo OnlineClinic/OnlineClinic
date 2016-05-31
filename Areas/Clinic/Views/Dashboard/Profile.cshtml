@@ -1,0 +1,237 @@
+﻿@model MyOnlineClinic.Web.Models.UserViewModel
+@using JQueryUIHelpers;
+@{
+    ViewBag.Title = "Profile";
+    Layout = "~/Areas/Clinic/Views/Shared/_ClinicLayout.cshtml";
+}
+<style>
+    table.table.table-user-information {
+        color: #fff !important;
+    }
+
+    .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+        border-top: 1px solid #f4f4f4 !important;
+    }
+
+    img.img-circle.img-responsive {
+        margin: 0px auto;
+        width: 120px;
+        height: 120px;
+    }
+</style>
+<section class="content-header" style="margin-top:45px;">
+    <h1 class="underline68">
+        Personal Details
+    </h1>
+</section>
+                        @using (Html.BeginForm("Profile", "DashBoard", FormMethod.Post, new { @class = "form-horizontal form-label-left", enctype = "multipart/form-data" }))
+                        {
+                            @Html.HiddenFor(m => m.MemberId)
+                            @Html.HiddenFor(m => m.LoginId)
+                            @Html.HiddenFor(m => m.ProfilePic)
+                             @Html.HiddenFor(m => m.LoginName)
+                            @Html.HiddenFor(m => m.EmailAddress)
+                          <div class="container-fulid">
+    <div class="row profile">
+        <div class="col-md-2 col-md-offset-5">
+            <div class="profile-sidebar">
+                <!-- SIDEBAR USERPIC -->
+                <div class="profile-userpic">
+                    <img src="@Model.ProfilePic" class="img-responsive img-circle" alt="">
+                </div>
+                <!-- END SIDEBAR USERPIC -->
+                <!-- SIDEBAR USER TITLE -->
+                <div class="profile-usertitle">
+                    <div class="profile-usertitle-name">
+                        @Model.FirstName
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clearfix"></div>
+<div class="col-md-12">
+    <div class="col-md-12 fifteen_layer" style="margin-top:10px;">
+        <div class="panel-body">
+            <div class="row">
+                <div class=" col-md-5 col-md-offset-3 ">
+                    <table class="table table-user-information" style="margin-left:40px;">
+                        <tbody>
+
+                            <tr>
+                                <td>User Name:</td>
+                                <td>@Model.LoginName</td>
+                            </tr>
+                            <tr>
+                                <td>Email:</td>
+                                <td>@Model.EmailAddress</td>
+                            </tr>
+
+                           
+                            <tr>
+                                <td>Phone No.:</td>
+                                <td>@Model.PhoneNumber</td>
+                            </tr>
+                            <tr>
+                                <td>Mobile No.:</td>
+                                <td>@Model.MobileNumber</td>
+                            </tr>
+                            <tr>
+                                <td>Fax Number:</td>
+                                <td>@Model.FaxNumber</td>
+                            </tr>
+                            <tr>
+                                <td>Post Code:</td>
+                                <td>@Model.PostCode</td>
+                            </tr>
+                            <tr>
+                                <td>Date of birth:</td>
+                                <td>
+                                    @Model.DOB
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Address 1:</td>
+                                <td>
+                                    @Model.Address1
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Address 2:</td>
+                                <td>
+                                    @Model.Address2
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Profile Pic:</td>
+                                <td>
+                                    <img src="@Model.ProfilePic" id="imgProfile" height="25" width="25" />
+                                    <input type="file" name="ProfilePic" id="ProfilePic" onchange="ShowPreview(this)" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-md-12" style="margin-top:20px; margin-bottom:20px;">
+        <div class="form-group">
+            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3" style="text-align:center;">
+                <button type="submit" id="btnCancel" class="btn btn-success">Cancel</button>
+                <button type="submit" id="send" class="btn btn-success">Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+                        }
+                   
+
+<script src="/AdminAssets/js/validator/validator.js"></script>
+<script>
+    $('#btnCancel').click(function () {
+        window.location = "/admin/new/index";
+    })
+
+    $(document).ready(function () {
+
+        if ($("#NewsId").val() > 0) {
+
+            $('#btnAddNewPhoto').removeAttr('disabled', 'disabled');
+
+            $("#ImagePanel").show();
+            $('#btnAddNewPhoto').click(function () {
+                window.location.href = "/admin/newsphotos/AddNewsPhotos/" + $("#NewsId").val();
+            });
+        }
+        else {
+            $("#ImagePanel").hide();
+            $("#btnAddNewPhoto").attr('disabled', 'disabled');
+        }
+        $('.date-picker').daterangepicker({
+            singleDatePicker: true,
+            calender_style: "picker_4",
+            format: 'DD/MM/YYYY'
+        });
+        $('#Showcase').change(function () {
+            if ($(this).is(":checked")) {
+                if ($("#NewsId").val() == '') {
+                    $("#show-case-msg").append("<div class='alert alert-danger'>Please upload image before marking showcase.</div>");
+                    window.setTimeout(function () {
+                        $(".alert-danger").fadeTo(500, 0).slideUp(500, function () {
+                            $(this).remove();
+                        });
+                    }, 5000);
+                }
+                else {
+                    $.ajax({
+                        type: 'get',
+                        url: '/admin/news/CheckShowCaseImages',
+                        data: 'newsId=' + $("#NewsId").val(),
+                        success: function (data) {
+                            if (data == "NotExists") {
+                                $("#show-case-msg").append("<div class='alert alert-danger'>Please upload image before marking showcase.</div>");
+                                window.setTimeout(function () {
+                                    $(".alert-danger").fadeTo(500, 0).slideUp(500, function () {
+                                        $(this).remove();
+                                        $('#Showcase').attr('checked', false);
+                                    });
+                                }, 5000);
+                            }
+                        }
+                    });
+
+                }
+            }
+
+        });
+
+
+        // initialize the validator function
+        validator.message['date'] = 'not a real date';
+
+        // validate a field on "blur" event, a 'select' on 'change' event & a '.reuired' classed multifield on 'keyup':
+        $('form')
+            .on('blur', 'input[required], input.optional, select.required', validator.checkField)
+            .on('change', 'select.required', validator.checkField)
+            .on('keypress', 'input[required][pattern]', validator.keypress);
+
+        $('.multi.required')
+            .on('keyup blur', 'input', function () {
+                validator.checkField.apply($(this).siblings().last()[0]);
+            });
+
+        // bind the validation to the form submit event
+        //$('#send').click('submit');//.prop('disabled', true);
+
+        $('form').submit(function (e) {
+            e.preventDefault();
+            var submit = true;
+            // evaluate the form using generic validaing
+            if (!validator.checkAll($(this))) {
+                submit = false;
+            }
+
+            if (submit)
+                this.submit();
+            return false;
+        });
+
+        /* FOR DEMO ONLY */
+        $('#vfields').change(function () {
+            $('form').toggleClass('mode2');
+        }).prop('checked', false);
+
+        $('#alerts').change(function () {
+            validator.defaults.alerts = (this.checked) ? false : true;
+            if (this.checked)
+                $('form .alert').remove();
+        }).prop('checked', false)
+    });
+</script>

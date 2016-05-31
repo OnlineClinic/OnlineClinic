@@ -1,0 +1,264 @@
+﻿@model MyOnlineClinic.Web.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Doctor/Views/Shared/_DoctorPartial.cshtml";
+}
+<!-- page content -->
+<div id="content-wrapper">
+    <div class="dhe-example-section" id="ex-1-2">
+        <ul id="boxes">
+            <li class="box2_2 sky_color">
+                <div class="box_size2">
+                    <span class="play_icon">
+                        <a href="#" target="_blank">
+                            <img src="~/images/play_icon.png" alt="">
+                        </a>
+                    </span>
+                    <div class="img_box">
+                        <a href="/Doctor/DashBoard/UpdateProfile">
+                            <img src="~/images/100x100/my-profile.png" alt="">
+                        </a>
+                    </div>
+                    <div class="name_box">
+                        <a href="#">My Profile </a>
+                    </div>
+                </div>
+            </li>
+            <li class="box2_2 sky_color_dark">
+                <div class="box_size2 ">
+                    <span class="play_icon">
+                        <a href="#" target="_blank">
+                            <img src="~/images/play_icon.png" alt="">
+                        </a>
+                    </span>
+                    <div class="img_box">
+                        <a href="#">
+                            <img src="~/images/100x100/my-account.png" alt="">
+                        </a>
+                    </div>
+                    <div class="name_box">
+                        <a href="#">My Account</a>
+                    </div>
+                </div>
+            </li>
+            <li class="box1_1 sky_color_dark">
+                <div class="box_size1">
+                    <span class="play_icon">
+                        <a href="#" target="_blank">
+                            <img src="~/images/play_icon.png" alt="">
+                        </a>
+                    </span>
+                    <div class="img_box">
+                        <a href="#">
+                            <img src="~/images/100x100/my-availability.png" alt="">
+                        </a>
+                    </div>
+                    <div class="name_box">
+                        <a href="#">My Availability</a>
+                    </div>
+                </div>
+            </li>
+            <li class="box4_4 sky_color">
+                <div class="box_size4">
+                    <span class="play_icon">
+                        <a href="#" target="_blank">
+                            <img src="~/images/play_icon.png" alt="">
+                        </a>
+                    </span>
+                    <div class="img_box">
+                        <a href="#">
+                            <img src="~/images/100x100/my-future-consults.png" alt="">
+                        </a>
+                    </div>
+                    <div class="name_box">
+                        <a href="#">My Patients</a>
+                    </div>
+                </div>
+            </li>
+            <li id="ContentPlaceHolder1_liMessage" class="box4_4 red_color_dark">
+                <div class="box_size4">
+                    <span class="play_icon">
+                        <a href="#" target="_blank">
+                            <img src="~/images/play_icon.png" alt="">
+                        </a>
+                    </span>
+                    <div class="img_box">
+                        <a href="#">
+                            <img src="~/images/100x100/messages.png" alt="">
+                        </a>
+                    </div>
+                    <div class="name_box">
+                        <a href="#">My Messages</a>
+                    </div>
+                </div>
+            </li>
+            <li class="box4_4 gary_color">
+                <div class="box_size4">
+                    <span class="play_icon">
+                        <a href="#" target="_blank">
+                            <img src="~/images/play_icon.png" alt="">
+                        </a>
+                    </span>
+                    <div class="img_box">
+                        <a href="#">
+                            <img src="~/images/100x100/test-room.png" alt="">
+                        </a>
+                    </div>
+                    <div class="name_box">
+                        <a href="#">Check My Room</a>
+                    </div>
+                </div>
+            </li>
+            <li class="box4_4">
+                <div class="box_size4" style="border: solid 8px gray;   height: 190px; box-sizing: border-box;">
+                    <div class="img_box img_box_new1">
+                        <a href="#">
+                            <img id="ContentPlaceHolder1_imgUser" src="UploadImage/Doctor/download.jpg" style="height:145px;" />
+                        </a>
+                    </div>
+
+                </div>
+            </li>
+            <li class="box4_4 sky_color_dark">
+                <div class="box_size4">
+                    <span class="play_icon">
+                        <a href="#" target="_blank">
+                            <img src="~/images/play_icon.png" alt="">
+                        </a>
+                    </span>
+                    <div class="img_box">
+                        <a href="/Doctor/DoctorPastConsult">
+                            <img src="~/images/100x100/my-past-consults.png" alt="">
+                        </a>
+                    </div>
+                    <div class="name_box">
+                        <a href="/Doctor/DoctorPastConsult">My Past Consults</a>
+                    </div>
+                </div>
+            </li>
+            <li class="box4_4">
+                <div class="box_size4" align="center" style="border: solid 8px gray;
+                    height: 190px; box-sizing: border-box; ">
+                    <div class="name_box time_box">
+                        <span id="ContentPlaceHolder1_UpdateTimer" style="visibility:hidden;display:none;"></span>
+                        <div id="ContentPlaceHolder1_TimedPanel">
+                            <span id="ContentPlaceHolder1_DateStampLabel" class="Time" style="color:Red;">No Appointment</span>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li class="box2_2 gary_color">
+                <div class="box_size3">
+                    <span class="play_icon">
+                        <a href="#" target="_blank">
+                            <img src="~/images/play_icon.png" alt="">
+                        </a>
+                    </span>
+                    <div class="img_box">
+                        <a href="/Doctor/DoctorFutureConsult">
+                            <img src="~/images/100x100/go-to-my-consult.png" alt="">
+                        </a>
+                    </div>
+                    <a href="/Doctor/DoctorFutureConsult">
+                        <div class="name_box">
+                            My Future Consults
+                        </div>
+                    </a>
+                </div>
+            </li>
+            <li class="box4_4 sky_color">
+                <div class="box_size4">
+                    <span class="play_icon">
+                        <a href="#" target="_blank">
+                            <img src="~/images/play_icon.png" alt="">
+                        </a>
+                    </span>
+                    <div class="img_box">
+                        <a href="#">
+                            <img src="~/images/100x100/my-personal-notes.png" alt="">
+                        </a>
+                    </div>
+                    <div class="name_box">
+                        <a href="#">My Personal Notes</a>
+                    </div>
+                </div>
+            </li>
+            <li class="box4_4 sky_color_dark">
+                <div class="box_size4">
+                    <span class="play_icon">
+                        <a href="#" target="_blank">
+                            <img src="~/images/play_icon.png" alt="">
+                        </a>
+                    </span>
+                    <div class="img_box">
+                        <a href="#">
+                            <img src="~/images/100x100/my-transactions.png" alt="">
+                        </a>
+                    </div>
+                    <div class="name_box">
+                        <a href="#">
+                            My Transactions
+                        </a>
+                    </div>
+                </div>
+            </li>
+            <li id="ContentPlaceHolder1_liReportProblem" class="box4_4 sky_color">
+                <div class="box_size4 ">
+                    <span class="play_icon">
+                        <a href="#" target="_blank">
+                            <img src="~/images/play_icon.png" alt="">
+                        </a>
+                    </span>
+                    <div class="img_box">
+                        <a href="#">
+                            <img src="~/images/100x100/report-a-problem.png" alt="">
+                        </a>
+                    </div>
+                    <a href="#">
+                        <div id="ContentPlaceHolder1_dvReportProblem" class="name_box"><span style="color:black; font-size:16px;"> <span style="font-size:24px;">Report a Problem</span> (11)</span></div>
+                    </a>
+                </div>
+            </li>
+            <li class="box4_4 sky_color_dark">
+                <div class="box_size4">
+                    <span class="play_icon">
+                        <a href="#" target="_blank">
+                            <img src="~/images/play_icon.png" alt="">
+                        </a>
+                    </span>
+                    <div class="img_box">
+                        <a href="#">
+                            <img src="~/images/100x100/contact-us.png" alt="">
+                        </a>
+                    </div>
+                    <a href="#">
+                        <div class="name_box" style="font-weight: normal !important;">
+                            Contact Us
+                        </div>
+                    </a>
+                </div>
+            </li>
+            <li class="box1_1 sky_color_dark">
+                <div class="box_size1">
+                    <span class="play_icon">
+                        <a href="#" target="_blank">
+                            <img src="~/images/play_icon.png" alt="">
+                        </a>
+                    </span>
+                    <div class="img_box">
+                        <a href="#">
+                            <img src="~/images/100x100/see-how-my-profile-appear.png" alt="">
+                        </a>
+                    </div>
+                    <div class="name_box">
+                        <a href="#" style="font-weight: normal !important;">
+                            See How My Profile Would Appear To Patients
+                        </a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+    </div>
+</div>
+<!-- /page content -->

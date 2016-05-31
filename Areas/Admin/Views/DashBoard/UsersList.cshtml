@@ -1,0 +1,340 @@
+﻿@model List<MyOnlineClinic.Web.Models.UserViewModel>
+@{
+    ViewBag.Title = "UsersList";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+
+}
+@using MyOnlineClinic.Entity;
+@using MyOnlineClinic.Web.Helper;
+@using MyOnlineClinic.Web.Models;
+@{
+    var usermodel = ViewBag.LoginUserModel as LoginUserViewModel;
+}
+<style>
+    div.dataTables_paginate {
+        float: right;
+        /*margin: 50px;*/
+    }
+
+    .sorting, .sorting_asc, .sorting_desc {
+        background: none;
+    }
+
+    div {
+        text-transform: capitalize;
+    }
+</style>
+<section class="content-header" style="margin-top:45px;">
+    <h1 class="underline17">
+        Staff List
+    </h1>
+    <ol class="breadcrumb">
+
+        @if (MyOnlineClinic.Web.Helper.PermissionHelper.CheckPermission("Add Staff", (int)ModuleNames.ManageStaff, usermodel.LoginId))
+        {
+            <li style="margin-right: -10px !important;">
+                <button type="button" id="btnAddNewUsers" class="btn btn-success new">Add New User</button>
+            </li>
+        }
+
+
+        @if (MyOnlineClinic.Web.Helper.PermissionHelper.CheckPermission("Active/Inactive Staff", (int)ModuleNames.ManageStaff, usermodel.LoginId))
+        {
+            <li style="margin-right: -10px !important;">
+                <button type="button" id="btnApprove" class="btn btn-success new">
+                    Active
+                </button>
+            </li>
+            <li style="margin-right: -10px !important;">
+                <button type="button" class="btn btn-success new" id="btnDelete">Inactive</button>
+            </li>
+        }
+
+        <li style="margin-right: 5px !important;"><a href=""><button type="button" class="btn btn-success new">Back</button></a></li>
+    </ol>
+</section>
+<div class="row">
+    @{MyOnlineClinic.Web.Models.SearchParametersViewModel objSearchModel = new MyOnlineClinic.Web.Models.SearchParametersViewModel();
+    objSearchModel.ActionName = "UsersList";
+    objSearchModel.ControllerName = "dashboard";
+    objSearchModel.AreaName = "Admin";
+    objSearchModel.ShowStaffName = true;
+    objSearchModel.ShowActiveStatus = true;
+    objSearchModel.ShowRole = true;
+    objSearchModel.ShowEmail = true;
+    //objSearchModel.ShowState = true;
+    //objSearchModel.ShowOrgType = true;
+    objSearchModel.PageTitle = "Staff List";
+    //objSearchModel.ShowPostCode = true;
+
+    }
+    @{Html.RenderPartial("_SearchPartial", objSearchModel);}
+</div>
+
+
+
+<div class="container-fulid">
+    <div class="row">
+        <div class="col-md-12 third_layer">
+            <div class="table-responsive data">
+                <table id="mytable" class="table table-hover table-bordered">
+                    <thead style="color:#fff;">
+                        <tr>
+                            <th class="top">Profile Pic</th>
+                            <th class="top">Name</th>
+                            <th class="top">Role</th>
+                            <th class="top">Email</th>
+                            <th class="top">Phone No.</th>
+                            <th class="top">Fax</th>
+                            <th class="top">Last Updated</th>
+                            <th class="top">Status</th>
+                            <th class="top">
+                                <input type="checkbox" id="selecctall" style="box-shadow:none !important;" /><span style="margin-left:3px;">Action</span>
+                            </th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+
+                        @foreach (var item in Model)
+                        {
+
+                            <tr class="info">
+                                <td style="vertical-align:middle;">
+                                    <img src="@(!string.IsNullOrEmpty(item.ProfilePic) ? item.ProfilePic : "/bootstrap/img/avatar5.png")" class="img-circle img-responsive" style="width:40px; height:40px; margin:0px auto;">
+                                </td>
+                                <td style="vertical-align:middle;">
+                                    @item.Fullname
+                                </td>
+                                <td style="vertical-align:middle;">
+                                   @item.RoleName
+                                </td>
+                                <td style="vertical-align:middle;">
+                                    @item.EmailAddress
+                                </td>
+
+                                <td style="vertical-align:middle;">
+                                    @item.PhoneNumber
+                                </td>
+                                <td style="vertical-align:middle;">
+                                    @item.FaxNumber
+                                </td>
+                                <td style="vertical-align:middle; width:200px;">
+                                    @item.TimeZoneDisplayName
+                                    <br />
+                                    @item.LastUpdateDateInString
+                                </td>
+
+                                <td style="vertical-align:middle;">
+                                    <div class="btn-group btn-toggle">
+                                        @if (item.IsActive)
+                                        {
+                                            <button class="btn btn-xs btn-primary" id="on">ON</button>
+                                            <button class="btn btn-xs btn-default ">OFF</button>
+
+                                        }
+                                        else
+                                        {
+                                            <button class="btn btn-xs btn-default">ON</button>
+                                            <button class="btn btn-xs btn-danger" id="off">OFF</button>
+                                        }
+                                    </div>
+
+                                </td>
+                                <td style="vertical-align:middle;">
+                                    <ul class="list-inline" style="position: relative; top: 10px; margin-left: 2px;">
+                                        @if (MyOnlineClinic.Web.Helper.PermissionHelper.CheckPermission("Active/Inactive Staff", (int)ModuleNames.ManageStaff, usermodel.LoginId))
+                                        {
+                                            <li><input type="checkbox" class="checkthis" name="UserApproval" data-role=@item.IsActive style="width:24px; height:23px; box-shadow:none !important;" value=@item.MemberId /></li>
+                                        }
+                                        @if (MyOnlineClinic.Web.Helper.PermissionHelper.CheckPermission("Edit Staff", (int)ModuleNames.ManageStaff, usermodel.LoginId))
+                                        {
+
+                                            <li><p data-placement="top" data-toggle="tooltip" title="Edit"><a href="/admin/Dashboard/AddUser/@item.MemberId"><button class="btn btn-primary btn-xs edit"><span class="glyphicon glyphicon-pencil"></span></button></a></p></li>
+                                        }
+                                        @if (MyOnlineClinic.Web.Helper.PermissionHelper.CheckPermission("View Staff Details", (int)ModuleNames.ManageStaff, usermodel.LoginId))
+                                        {
+                                            <li>
+                                                <p data-placement="top" data-toggle="tooltip" title="Details">
+                                                    <a href="/admin/Dashboard/Details/@item.MemberId"><button class="btn btn-info btn-xs edit"><span class="glyphicon glyphicon-info-sign"></span></button></a>
+                                                </p>
+
+                                            </li>
+                                        }
+                                    </ul>
+                                    @*<input type="checkbox" class="checkbox1" name="UserApproval" value=@item.MemberId>*@
+                                    @*<a href="/admin/Dashboard/Details/@item.MemberId" data-toggle="tooltip" data-placement="left" title="Details"> <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span></a>
+                                        <a href="/admin/Dashboard/AddUser/@item.MemberId" data-toggle="tooltip" data-placement="left" title="Edit"> <span class="glyphicon glyphicon-edit" aria-hidden="true" style="top:-1px;"></span></a>*@
+                                </td>
+                            </tr>
+
+
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <br />
+    <br />
+    <br />
+</div>
+
+@using (Html.BeginForm("DeleteUser", "Dashboard", FormMethod.Post))
+{
+    <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">
+                        <label id="lblTitle">Delete User</label>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div id="CreateEditForm">
+                        <label>Are you sure to Inactive the User</label>
+                        <input type="text" name="serviceIds" id="serviceIds" style="display: none" />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Ok</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+}
+
+@using (Html.BeginForm("AcitvateUser", "Dashboard", FormMethod.Post))
+{
+    <div class="modal fade" id="activeModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">
+                        <label id="lblTitle">Active User</label>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div id="CreateEditForm">
+                        <label>Are you sure to Active the User</label>
+                        <input type="text" name="ActivateIds" id="ActivateIds" style="display: none" />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Ok</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+}
+<script src="~/AdminAssets/js/datatables/js/jquery.dataTables.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+        var oTable = $('#mytable').dataTable({
+            "bProcessing": true,
+            "iDisplayLength": 5,
+            "bPaginate": true,
+            "bInfo": false,
+            "bLengthChange": false,
+            "sPaginationType": "full_numbers",
+        });
+
+        $("#btnAddNewUsers").click(function () {
+            window.location.href = "/admin/DashBoard/AddUser";
+        });
+        DisableButton();
+        var favorite = [];
+        $("#selecctall").click(function (event) {  //on click
+            if (this.checked) {
+                $("input[name='UserApproval']").each(function () { //loop through each checkbox
+                    if (this.checked !== true) {
+                        this.checked = true;  //select all checkboxes with class "checkbox1"
+                        favorite.push($(this).val());
+                    }
+                });
+            } else {
+                $("input[name='UserApproval']").each(function () { //loop through each checkbox
+                    this.checked = false; //deselect all checkboxes with class "checkbox1"
+                    favorite.pop($(this).val());
+                });
+            }
+            $("#serviceIds").val(favorite);
+            $("#ActivateIds").val(favorite);
+
+            DisableButton();
+
+        });
+
+        $(document).on('click', "input[name='UserApproval']", function () {
+
+            var id = $(this).attr('data-role');
+            favorite.push($(this).val());
+            if (this.checked == true && id == 'True') {
+                $("#serviceIds").val(favorite);
+            }
+            else if (this.checked == true && id == 'False') {
+                //favorite.pop();
+                $("#ActivateIds").val(favorite);
+            }
+            else if (this.checked == false) {
+                favorite.pop($(this).val());
+                $("#ActivateIds").val('');
+                $("#serviceIds").val('');
+            }
+            DisableButton();
+        });
+
+        $("#btnDelete").click(function () {
+            var options = {
+                "backdrop": "static"
+            };
+
+            $('#basicModal').modal(options);
+        });
+        $("#btnApprove").click(function () {
+            var options = {
+                "backdrop": "static"
+            };
+            $('#activeModal').modal(options);
+        })
+
+        $("#btnBack").on("click", function () {
+            window.history.back();
+        });
+    });
+
+    function DisableButton() {
+        if ($("#serviceIds").val() == '') {
+            $("#btnDelete").attr('disabled', 'disabled');
+            $("#btnApprove").attr('disabled', 'disabled');
+        }
+        else {
+            $("#btnDelete").removeAttr('disabled', 'disabled');
+            $("#btnApprove").removeAttr('disabled', 'disabled');
+        }
+        if ($("#ActivateIds").val() == '') {
+            $("#btnActivate").attr('disabled', 'disabled');
+            $("#btnApprove").attr('disabled', 'disabled');
+        }
+        else {
+            $("#btnActivate").removeAttr('disabled', 'disabled');
+            $("#btnApprove").removeAttr('disabled', 'disabled');
+        }
+    }
+
+</script>

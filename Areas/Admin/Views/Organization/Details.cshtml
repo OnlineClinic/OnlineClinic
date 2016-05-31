@@ -1,0 +1,99 @@
+﻿@model MyOnlineClinic.Web.Models.OrganizationViewModel
+@{
+    ViewBag.Title = "Add";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+@using JQueryUIHelpers;
+<style>
+    div
+    {
+        text-transform:capitalize;
+    }
+</style>
+<section class="content-header staff">
+    <h1 class="underline47">
+        Organisation Details
+    </h1>
+</section>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-2 toppad">
+            <div class="panel panel-info capitalize_first_letter">
+                <div class="panel-heading">
+                    <h3 class="panel-title">@Model.OrganizationName</h3>
+                    <a href="/admin/Organization/Index" class="pull-right"><button type="submit" class="btn btn-success back_detail">Back</button></a>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-3 col-lg-3 " align="center">
+                            <img alt="User Pic" src=@Model.OrganizationLogo class="img-circle img-responsive">
+                        </div>
+
+
+                        <div class=" col-md-9 col-lg-9 ">
+                            <table class="table table-user-information">
+                                <tbody>
+                                    @*<tr>
+                                        <td>Email:</td>
+                                        <td><a href="mailto:info@support.com" style="color:#08a39b;">info@support.com</a></td>
+                                    </tr>*@
+                                    <tr>
+                                        <td>Organisation Type:</td>
+                                        <td>@Model.OrganizationTypeName</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Phone:</td>
+                                        <td>@Model.PhoneNumber</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Fax Number:</td>
+                                        <td>@Model.FaxNumber</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Address Line 1:</td>
+                                        <td>@Model.Address1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Address Line 2:</td>
+                                        <td>@Model.Address2</td>
+                                    </tr>
+                                   
+                                    <tr>
+                                        <td>Post Code:</td>
+                                        <td>@Model.PostCode</td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Country:</td>
+                                        <td>@Model.OrgCountryName</td>
+                                    </tr>
+                                    <tr>
+                                        <td>State:</td>
+                                        <td>@Model.OrgStateName</td>
+                                    </tr>
+                                    <tr>
+                                        <td>City:</td>
+                                        <td>@Model.OrgCityName</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>  
+
+
+
+
+
+
+
+
+
+
+
+

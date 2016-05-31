@@ -1,0 +1,289 @@
+﻿@model MyOnlineClinic.Web.Models.ClassifiedDetailsViewModel
+
+<section class="slice bg-white">
+    <div class="wp-section shop">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="msg">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-md-7">
+                            <div class="product-gallery">
+                                <div class="primary-image">
+                                    @{  var photoUrl = "/images/noImage.jpg";}
+                                    @if (Model.ClassifiedPhotos.Any())
+                                    {
+                                        photoUrl = @Model.ClassifiedPhotos.FirstOrDefault().ImagePath;
+                                    }
+                                    <a href="@photoUrl" class="theater" rel="group">
+                                        <img src="@photoUrl" class="img-responsive" alt="">
+                                    </a>
+                                </div>
+                                <div class="owl-carousel owl-carousel-5 thumbnail-images style-2">
+                                    @foreach (var image in Model.ClassifiedPhotos.Take(8).ToList())
+                                    {
+                                        <div class="owl-item">
+                                            <a href="@image.ImagePath" class="theater" rel="group">
+                                                <img src="@image.ThumbPath" alt="">
+                                            </a>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="product-info">
+                                <h3 class="product-title">@Model.Title</h3>
+                                <span class="clearfix"></span>
+                                <p>
+                                    @Html.Raw(Model.Description)
+                                </p>
+                                <hr>
+                                @*<div class="product-price">
+
+                                    <span class="price"> @Model.Price &euro;</span>
+                                </div>*@
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!-- Tabs -->
+                            <div class="tabs-framed mt-20">
+                                <ul class="tabs clearfix">
+                                    <li class="active"><a href="#tab-2" data-toggle="tab">Especificações</a></li>                                   
+                                    <li><a href="#tab-3" data-toggle="tab">Anunciante</a></li>
+                                </ul>
+
+                                <div class="tab-content">
+                                    <!-- Tab 1 -->
+                                    <div class="tab-pane fade in active" id="tab-2">
+                                        <div class="tab-body">
+                                            <div class="section-title-wr">
+                                                <h3 class="section-title left">Especificações</h3>
+                                            </div>
+                                            <table class="table table-bordered table-striped table-hover table-responsive">
+                                                <tbody>
+                                                    <tr>
+                                                        <td><strong>Nr:</strong> @Model.ClassifiedId</td>
+                                                        <td><strong>Data:</strong> @Model.CreateDate.ToString("dd/MM/yyyy")</td>
+                                                        <td><strong>Visualizações:</strong> @Model.Viewed</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2"><strong>Tipo:</strong> @Model.SubCategoryName</td>
+                                                        @*<td><strong>Condições:</strong> @Model.SellCondition</td>
+                                                        <td><strong>Estado:</strong> @Model.Condition</td>*@
+                                                    </tr>
+                                                    @*<tr>
+
+                                                        <td>
+                                                            <strong>Merca:</strong> @if (Model.ExtraAutoDetails != null)
+                                                            {@Model.ExtraAutoDetails.MakeName}
+                                                        </td>
+                                                        <td>
+                                                            <strong>Modelo:</strong> @if (Model.ExtraAutoDetails != null)
+                                                            {@Model.ExtraAutoDetails.ModelName}
+                                                        </td>
+                                                        <td>
+                                                            <strong>Versão:</strong> @if (Model.ExtraAutos != null)
+                                                            {@Model.ExtraAutos.Version}
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <strong>Ano:</strong> @if (Model.ExtraAutoDetails != null)
+                                                            { @Model.ExtraAutoDetails.Ano}
+                                                        </td>
+                                                        <td>
+                                                            <strong>Carroçaria:</strong> @if (Model.ExtraAutoDetails != null)
+                                                            {@Model.ExtraAutoDetails.BodyName}
+                                                        </td>
+                                                        <td>
+                                                            <strong>Combustível:</strong> @if (Model.ExtraAutoDetails != null)
+                                                            { @Model.ExtraAutoDetails.Cumstolevel}
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <strong>Nr Portas:</strong> @if (Model.ExtraAutos != null)
+                                                            {@Model.ExtraAutos.Portas}
+                                                        </td>
+                                                        <td>
+                                                            <strong>Km's:</strong> @if (Model.ExtraAutos != null)
+                                                            {@Model.ExtraAutos.KM}
+                                                        </td>
+                                                        <td>
+                                                            <strong>Potência:</strong> @if (Model.ExtraAutos != null)
+                                                            {@Model.ExtraAutos.Potencia}
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <strong>Cilindrada:</strong> @if (Model.ExtraAutos != null)
+                                                            {@Model.ExtraAutos.Cylinder}
+                                                        </td>
+                                                        <td>
+                                                            <strong>Matricula:</strong> @if (Model.ExtraAutos != null)
+                                                            {@Model.ExtraAutos.Matric}
+                                                        </td>
+                                                        <td>
+                                                            <strong>Preço:</strong> @if (Model.ExtraAutos != null)
+                                                            {@Model.Price <strong>&euro;</strong>}
+                                                        </td>
+                                                    </tr>*@
+                                                </tbody>
+                                            </table>
+                                            <h5>Localização</h5>
+                                            <table class="table table-bordered table-striped table-hover table-responsive">
+                                                <tbody>
+                                                    <tr>
+                                                        @if (!string.IsNullOrEmpty(Model.Country))
+                                                        {
+                                                            <td><strong>País:</strong> @Model.Country</td>}
+                                                        @if (!string.IsNullOrEmpty(Model.Distrito))
+                                                        {
+                                                            <td><strong>Distrito:</strong> @Model.Distrito</td>}
+                                                        @if (!string.IsNullOrEmpty(Model.Concelho))
+                                                        {
+                                                            <td><strong>Concelho:</strong> @Model.Concelho</td>}
+                                                        @if (!string.IsNullOrEmpty(Model.Fregusia))
+                                                        {
+                                                            <td><strong>Freguesia:</strong> @Model.Fregusia</td>}
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>                                 
+
+                                    <div class="tab-pane fade" id="tab-3">
+                                        <div class="tab-body">
+                                            <div class="section-title-wr">
+                                                <h3 class="section-title left">Contactar Anunciante</h3>
+                                            </div>
+                                            <div class="tab-body">
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        @if (Model.Member != null)
+                                                        {
+                                                            <p>Anunciante:</p>
+                                                            if (Model.RoleId == MyOnlineClinic.Entity.RoleType.INDIVIDUALUSER)
+                                                            {
+                                                                <p>
+                                                                    @Model.Member.MemberName
+                                                                </p>
+                                                            }
+                                                            else
+                                                            {
+
+                                                                <table class="table table-bordered table-striped table-hover table-responsive">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td>@Model.Member.CompanyName</td>
+                                                                            02
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>@Model.Member.Address</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>@Model.Member.Address2</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>@Model.Member.PostalLocal</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>@Model.Member.PostalCode</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>@Model.Member.telephone1</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>@Model.Member.telephone2</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>@Model.Member.Fax</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>Email : @Model.Member.EmailId</td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td>Url : @Model.Member.website</td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            }
+                                                        }
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        @{
+                                                            var commentModel = new MyOnlineClinic.Web.Models.CommentViewModel();
+                                                            commentModel.RedirectingActionName = "EmpregosDetails";
+                                                            commentModel.Section = "Empregos";
+                                                            commentModel.Title = Model.SlugUrl;
+                                                            commentModel.SectionId = Model.ClassifiedId;
+                                                            if (Model.Member != null)
+                                                            {
+                                                                commentModel.EmpresasOwnerEmail = Model.Member.EmailId;
+                                                            }
+                                                            { Html.RenderPartial("EmpresasEmailPartial", commentModel); }
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 faq-banner">
+                    <div class="script-banner">
+                        @{Html.RenderAction("Banner", "Home", new { @page = "INÍCIO", @bannerType = "RightSide1" });}
+
+                        @{Html.RenderAction("Banner", "Home", new { @page = "INÍCIO", @bannerType = "RightSide2" });}
+
+
+                        <!-- Category news 1 -->
+                        <div class="section-title-wr">
+                            <h3 class="section-title left"><span>CLASSIFICADOS</span></h3>
+                        </div>
+
+                        <div class="mb-20">
+                            @{Html.RenderAction("Mercado", "Home");}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    $(document).ready(function () {
+        if ('@ViewBag.Msg' != '') {
+            if ('@ViewBag.Msg' == "Recebemos a sua mensagem, Responderemos brevemente.") {
+                $(".msg").append("<div class='alert alert-success'>@ViewBag.Msg</div>");
+                window.setTimeout(function () {
+                    $(".alert-success").fadeTo(500, 0).slideUp(500, function () {
+                        $(this).remove();
+                    });
+                }, 5000);
+
+            }
+            else {
+                $(".msg").append("<div class='alert alert-danger'>@ViewBag.Msg</div>");
+                window.setTimeout(function () {
+                    $(".alert-danger").fadeTo(500, 0).slideUp(500, function () {
+                        $(this).remove();
+                    });
+                }, 5000);
+            }
+        }
+
+    });
+</script>

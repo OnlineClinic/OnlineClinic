@@ -1,0 +1,202 @@
+﻿@model List<MyOnlineClinic.Web.Models.UnregisteredOrganizationsViewModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+@using MyOnlineClinic.Entity;
+@using MyOnlineClinic.Web.Helper;
+@using MyOnlineClinic.Web.Models;
+@{
+    var usermodel = ViewBag.LoginUserModel as LoginUserViewModel;
+}
+<section class="content-header" style="margin-top:45px;">
+    <h1 class="underline12">
+        Unapproved Organisations List
+    </h1>
+    <ol class="breadcrumb">
+        <li style="margin-right: 5px !important;">
+            @*<button type="button" id="btnNew" class="btn btn-primary btn-sm">New</button>
+                <button type="button" id="btnDelete" class="btn btn-primary btn-sm">
+                    Approve
+                </button>
+                <button type="button" id="btnActivate" class="btn btn-primary btn-sm">
+                    Active
+                </button>*@
+            <button type="button" id="btnBack" class="btn btn-success new">Back</button>
+        </li>
+    </ol>
+</section>
+
+
+<div class="container-fulid">
+    <div class="row">
+        <div class="col-md-12 ten_layer">
+            <div class="table-responsive data">
+                <table id="mytable" class="table table-hover table-bordered">
+                    <thead style="color:#fff;">
+                        <tr>
+                            <th class="top">No.</th>
+                            <th class="top">Name</th>
+                            <th class="top">Address </th>
+                            <th class="top">Added By</th>
+                            <th class="top">Last Updated</th>
+                            <th class="top">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{ int count = 1;}
+                        @foreach (var item in Model)
+                        {
+                            <tr class="info">
+                                <td>@count</td>
+                                <td>@item.Name</td>
+                                <td>@item.AddressLine1</td>
+                                <td>@item.AddedBy</td>
+                                <td>@item.ModifiedDate</td>
+                                <td>
+
+                                    <ul class="list-inline" style="position:relative;top:10px;">
+                                        @if (MyOnlineClinic.Web.Helper.PermissionHelper.CheckPermission("Edit Unapprove Organisations", (int)MyOnlineClinic.Entity.ModuleNames.ManageOrganizations, usermodel.LoginId))
+                                        {
+                                            <li><p data-placement="top" data-toggle="tooltip" title="Edit"><a href="/admin/UnregisteredOrganization/Edit/@item.Id"><button class="btn btn-primary btn-xs edit"><span class="glyphicon glyphicon-pencil"></span></button></a></p></li>
+                                        }
+                                        @if (MyOnlineClinic.Web.Helper.PermissionHelper.CheckPermission("View Unapprove Organisation Details", (int)MyOnlineClinic.Entity.ModuleNames.ManageOrganizations, usermodel.LoginId))
+                                        {
+                                            <li style="display:none;"><p data-placement="top" data-toggle="tooltip" title="Details"><a href="#" data-toggle="modal" data-target="#myModal"><button class="btn btn-info btn-xs edit"><span class="glyphicon glyphicon-info-sign"></span></button></a></p></li>
+                                        }
+                                        <li>
+                                            <div class="btn-group btn-toggle" style="margin-top:-19px;">
+
+                                                @*<button class="btn btn-xs btn-default" style="height:26px;">Lock</button>
+                                                    <button class="btn btn-xs btn-danger active" style="height:26px;">Unlock</button>*@
+                                                @if (MyOnlineClinic.Web.Helper.PermissionHelper.CheckPermission("Lock Unapprove Organisations", (int)MyOnlineClinic.Entity.ModuleNames.ManageOrganizations, usermodel.LoginId))
+                                                {
+                                                    <a href="/admin/UnregisteredOrganization/Lock/@item.Id"><button class="btn btn-xs btn-default" style="height:26px;">Lock</button></a>
+
+
+                                                    <a href="#" style="margin-left:-6px;"><button class="btn btn-xs btn-danger active" style="height:26px;">Unlock</button></a>
+                                                }
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </td>
+
+                            </tr>
+                                                count = count + 1;
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/AdminAssets/js/datatables/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+        var oTable = $('#example').dataTable({
+            "bProcessing": true,
+            "iDisplayLength": 10,
+            "bPaginate": true,
+            "sPaginationType": "full_numbers"
+        });
+        $('[data-toggle="tooltip"]').tooltip();
+        $("#btnNew").click(function () {
+            window.location.href = "/admin/City/add";
+        });
+
+        DisableButton();
+        var favorite = [];
+        $("#selecctall").click(function (event) {  //on click
+            if (this.checked) {
+                $("input[name='UserApproval']").each(function () { //loop through each checkbox
+                    if (this.checked !== true) {
+                        this.checked = true;  //select all checkboxes with class "checkbox1"
+                        favorite.push($(this).val());
+                    }
+                });
+            } else {
+                $("input[name='UserApproval']").each(function () { //loop through each checkbox
+                    this.checked = false; //deselect all checkboxes with class "checkbox1"
+                    favorite.pop($(this).val());
+                });
+            }
+            $("#serviceIds").val(favorite);
+            $("#ActivateIds").val(favorite);
+            DisableButton();
+
+        });
+
+         $(document).on('click', "input[name='UserApproval']", function (event) {
+            if (this.checked == true) {
+                favorite.push($(this).val());
+            }
+            else {
+                favorite.pop();
+            }
+            $("#serviceIds").val(favorite);
+            $("#ActivateIds").val(favorite);
+            DisableButton();
+        });
+
+        $("#btnDelete").click(function () {
+            var options = {
+                "backdrop": "static"
+            };
+            $('#basicModal').modal(options);
+        });
+
+        $("#btnActivate").click(function () {
+            var options = {
+                "backdrop": "static"
+            };
+            $('#ActivateModal').modal(options);
+        });
+        $("#btnBack").on("click", function () {
+            window.history.back();
+        });
+    });
+
+    function DisableButton() {
+        if ($("#serviceIds").val() == '') {
+            $("#btnDelete").attr('disabled', 'disabled');
+        }
+        else {
+            $("#btnDelete").removeAttr('disabled', 'disabled');
+        }
+        if ($("#ActivateIds").val() == '') {
+            $("#btnActivate").attr('disabled', 'disabled');
+        }
+        else {
+            $("#btnActivate").removeAttr('disabled', 'disabled');
+        }
+    }
+
+    $('.btn-toggle').click(function () {
+        $(this).find('.btn').toggleClass('active');
+
+        if ($(this).find('.btn-primary').size() > 0) {
+            $(this).find('.btn').toggleClass('btn-primary');
+        }
+        if ($(this).find('.btn-danger').size() > 0) {
+            $(this).find('.btn').toggleClass('btn-danger');
+        }
+        if ($(this).find('.btn-success').size() > 0) {
+            $(this).find('.btn').toggleClass('btn-success');
+        }
+        if ($(this).find('.btn-info').size() > 0) {
+            $(this).find('.btn').toggleClass('btn-info');
+        }
+
+        $(this).find('.btn').toggleClass('btn-default');
+
+    });
+
+    $('form').submit(function () {
+        alert($(this["options"]).val());
+        return false;
+    });
+</script>
+

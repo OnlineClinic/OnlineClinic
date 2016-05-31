@@ -1,0 +1,53 @@
+﻿@{
+    ViewBag.Title = "BookAppointment";
+    Layout = "/Areas/Patients/Views/Shared/_PatientPartial.cshtml";
+}
+
+<div class="right_col" role="main">
+    <div class="">
+        <div class="page-title">
+            <div class="title_left">
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2 style=" text-align: center; font-weight: 600;">Book Appointment</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li>
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                            </li>
+                            <li>
+                                <a class="close-link"><i class="fa fa-close"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        @*@if (Model.Confirm == "Exist")
+                            {
+
+
+                                <div id="msg"></div>
+                                <div class='alert alert-danger'><p>There is already an appointment on this date  </p></div>
+
+                            }*@
+                        @*@if (Model.Confirm == "Book")
+                            {*@
+
+                        <div id="msg" class="alert alert-success" style="margin-left: 13%;">
+
+                            <h1> Your booking was successfully done.the doctor will confirm your appointment. please check the status of your appointment in "My Messages" on your dashboard.</h1>
+                        </div>
+                        @*}*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

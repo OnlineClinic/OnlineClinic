@@ -1,0 +1,998 @@
+
+.from_title
+{
+    background: url("../images/title_sd.png") no-repeat scroll center bottom rgba(0, 0, 0, 0);
+    color: rgb(92, 202, 196);
+    float: left;
+    font-family: helvetica;
+    font-size: 25px;
+    font-weight: bold;
+    padding-bottom: 25px;
+    text-align: center;
+    width: 100%;
+}
+.left
+{
+    float: left;
+}
+.right
+{
+    float: right;
+}
+.clear, .clearer
+{
+    clear: both;
+}
+.clearer
+{
+    display: block;
+    font-size: 0;
+    height: 0;
+    line-height: 0;
+}
+#center-wrapper
+{
+    margin: 0 auto;
+    width: 920px;
+}
+.column
+{
+    min-height: 160px;
+    width: 32%;
+}
+.column.first
+{
+    margin-left: 0;
+}
+.twocolumn
+{
+    width: 50% !important;
+}
+.fourcolumn
+{
+    width: 25% !important;
+}
+.onecolumn
+{
+    width: 100% !important;
+}
+.sortable-list
+{
+    border: 1px solid rgb(255, 255, 255);
+    list-style: none outside none;
+    margin: 0;
+    min-height: 180px;
+    padding: 5px;
+}
+.sortable-item
+{
+    background-color: rgb(139, 246, 242);
+    border: 1px solid rgb(204, 204, 204);
+    cursor: move;
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    min-height: 140px;
+    padding: 20px 0;
+    text-align: center;
+}
+#containment
+{
+    background-color: rgb(255, 255, 170);
+    height: 230px;
+}
+.placeholder
+{
+    background-color: rgb(187, 255, 187);
+    border: 5px dashed rgb(102, 102, 102);
+    height: 58px;
+    margin-bottom: 5px;
+}
+.ui-sortable-helper
+{
+    border: 3px dotted rgb(153, 153, 153);
+}
+.ui-sortable-placeholder
+{
+    background-color: rgb(204, 204, 204);
+    border: 5px dotted rgb(153, 153, 153);
+    visibility: visible !important;
+}
+.CSSTableGenerator
+{
+    border: 1px solid rgb(204, 204, 204);
+    border-radius: 0;
+    box-shadow: 2px 2px 2px rgb(136, 136, 136);
+    float: left;
+    width: 100%;
+}
+.CSSTableGenerator table
+{
+    border-bottom: 1px solid rgb(204, 204, 204);
+    border-right: 1px solid rgb(204, 204, 204);
+    float: left;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+.CSSTableGenerator tr:last-child td:last-child
+{
+    border-bottom-right-radius: 0;
+}
+.CSSTableGenerator table tr:first-child td:first-child
+{
+    border-top-left-radius: 0;
+}
+.CSSTableGenerator table tr:first-child td:last-child
+{
+    border-top-right-radius: 0;
+}
+.CSSTableGenerator tr:last-child td:first-child
+{
+    border-bottom-left-radius: 0;
+}
+.CSSTableGenerator tr:hover td
+{
+    background-color: rgb(229, 229, 229);
+}
+.CSSTableGenerator td
+{
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background: -moz-linear-gradient(center top , rgb(255, 255, 255) 5%, rgb(229, 229, 229) 100%) repeat scroll 0 0 rgb(255, 255, 255);
+    border-color: rgb(204, 204, 204);
+    border-image: none;
+    border-style: solid;
+    border-width: 0 1px 1px 0;
+    color: rgb(0, 0, 0);
+    font-family: 'MyriadPro';
+    font-size: 13px;
+    font-weight: normal;
+    padding: 7px;
+    text-align: center;
+    vertical-align: middle;
+}
+.CSSTableGenerator tr:last-child td
+{
+    border-width: 0 1px 0 0;
+}
+.CSSTableGenerator tr td:last-child
+{
+    border-width: 0 0 1px;
+}
+.CSSTableGenerator tr:last-child td:last-child
+{
+    border-width: 0;
+}
+.CSSTableGenerator tr:first-child td
+{
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    background: -moz-linear-gradient(center top , rgb(204, 204, 204) 5%, rgb(178, 178, 178) 100%) repeat scroll 0 0 rgb(204, 204, 204);
+    border-color: rgb(204, 204, 204);
+    border-image: none;
+    border-style: solid;
+    border-width: 0 0 1px 1px;
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+    text-align: center;
+}
+.CSSTableGenerator tr:first-child:hover td
+{
+    background: -moz-linear-gradient(center top , rgb(204, 204, 204) 5%, rgb(178, 178, 178) 100%) repeat scroll 0 0 rgb(204, 204, 204);
+}
+.CSSTableGenerator tr:first-child td:first-child
+{
+    border-width: 0 0 1px;
+}
+.CSSTableGenerator tr:first-child td:last-child
+{
+    border-width: 0 0 1px 1px;
+}
+.input2
+{
+    border: 1px solid rgb(204, 204, 204);
+    border-radius: 3px;
+    padding: 5px;
+    width: 40%;
+}
+.tr_box2
+{
+    float: left;
+    margin-bottom: 1%;
+    margin-top: 2%;
+    text-align: center;
+    width: 100%;
+}
+.save_btn2
+{
+    background: url("../images/update_btn.png") no-repeat scroll left top rgba(0, 0, 0, 0);
+    border: 0 none;
+    color: rgb(43, 43, 43);
+    cursor: pointer;
+    font-family: Helvetica;
+    font-size: 15px;
+    font-weight: bold;
+    height: 36px;
+    text-align: center;
+    text-shadow: 0 2px 0 rgb(198, 198, 198);
+    width: 118px;
+}
+.title_grp
+{
+    color: rgb(92, 202, 196);
+    float: left;
+    font-size: 26px;
+    font-weight: bold;
+    margin-top: 15px;
+    text-indent: 10px;
+    width: 100%;
+}
+.fieldset_2
+{
+    border: 1px solid rgb(204, 204, 204);
+    float: left;
+    margin-left: 5%;
+    width: 75%;
+}
+/*.list_consultations_bx
+{
+    margin: 0 auto;
+    position: relative;
+    width: 98%;
+}
+.list_consultations_bx strong
+{
+    font-weight: bold;
+}
+.list_consultations_bx a
+{
+    color: #2b2b2b;
+    font-weight: bold;
+}*/
+.notes_bx2
+{
+    float: left;
+    margin-top: 15px;
+    width: 100%;
+}
+.notes_bx2 span
+{
+    float: left;
+    margin-bottom: 10px;
+    width: 100%;
+}
+.notes_bx2 span strong
+{
+    display: inline-table;
+    font-weight: bold;
+    width: 100px;
+}
+.tabs_head a.New
+{
+    background: url("../images/change_pass_bg.png") no-repeat scroll left top rgba(0, 0, 0, 0);
+    border: 0 none;
+    color: rgb(43, 43, 43);
+    cursor: pointer;
+    float: left;
+    font-family: Helvetica;
+    font-size: 15px;
+    font-weight: bold;
+    height: 33px;
+    line-height: 32px;
+    text-align: center;
+    text-shadow: 0 2px 0 rgb(198, 198, 198);
+    width: 197px;
+}
+.Previous
+{
+    float: right !important;
+}
+.tr_box_23
+{
+    width: 60%;
+}
+fieldset
+{
+    border: 1px solid rgb(204, 204, 204);
+    padding:20px;
+}
+.tabs_head a.active2
+{
+    background: url("../images/active2.png") no-repeat scroll left top rgba(0, 0, 0, 0);
+}
+.ls2
+{
+    float: left;
+    width: 100%;
+}
+.Cancel_right_opt
+{
+    display: inline-table;
+    margin: 10px 0;
+    width: 100%;
+}
+.Cancel_right_opt a
+{
+    background: url("../images/add_video_3.png") no-repeat scroll left top rgba(0, 0, 0, 0);
+    color: rgb(255, 255, 255);
+    float: right;
+    font-family: Helvetica;
+    font-size: 15px;
+    font-weight: bold;
+    height: 30px;
+    padding-top: 7px;
+    text-align: center;
+    text-decoration: none;
+    text-transform: none;
+    vertical-align: middle;
+    width: 196px;
+}
+.Cancel_right_opt_future
+{
+    display: inline-table;
+    margin: 0 10px;
+    width: 100%;
+}
+.Cancel_right_opt_future a
+{
+    background: url("../images/add_video_2.png") no-repeat scroll left top rgba(0, 0, 0, 0);
+    color: rgb(255, 255, 255);
+    float: right;
+    font-family: Helvetica;
+    font-size: 15px;
+    font-weight: bold;
+    height: 30px;
+    padding-top: 7px;
+    text-align: center;
+    text-decoration: none;
+    text-transform: none;
+    vertical-align: middle;
+    width: 100px;
+}
+.file_msg2
+{
+    display: block;
+}
+.file_msg2 span
+{
+    float: left;
+}
+.file_msg2 span .radio1
+{
+    float: left;
+}
+.box
+{
+    display: none;
+    padding: 0;
+}
+.medication_div
+{
+    border: 1px solid rgb(204, 204, 204);
+    display: table;
+    margin: 2px;
+    width: 99%;
+}
+.medication_area
+{
+    border-bottom: 1px solid rgb(204, 204, 204);
+    display: table-row;
+    width: 100%;
+}
+.box1, .box2, .box3, .box4, .box5, .box6, .box7, .box8, .box9
+{
+    border-right: 1px dotted rgb(204, 204, 204);
+    display: table-cell;
+    font-size: 11px;
+    font-weight: bold;
+    line-height: 30px;
+    min-height: 60px;
+    text-align: center;
+    vertical-align: middle;
+}
+.box1
+{
+    width: 5%;
+}
+.box2
+{
+    width: 13%;
+}
+.box3
+{
+    width: 12%;
+}
+.box4
+{
+    width: 12%;
+}
+.box5
+{
+    width: 5%;
+}
+.box6
+{
+    width: 18%;
+}
+.box7
+{
+    width: 10%;
+}
+.box8
+{
+    width: 7%;
+}
+.box9
+{
+    border-right: medium none;
+    width: 10%;
+}
+.box_a, .box_b, .box_c, .box_d, .box_e, .box_f, .box_g, .box_h, .box_i
+{
+    border-right: 1px solid rgb(204, 204, 204);
+    border-top: 1px solid rgb(204, 204, 204);
+    display: table-cell;
+    font-size: 15px;
+    line-height: 30px;
+    text-align: center;
+}
+.box_a
+{
+    width: 6%;
+}
+.box_b
+{
+    width: 21%;
+}
+.box_c
+{
+    width: 12%;
+}
+.box_d
+{
+    width: 12%;
+}
+.box_e
+{
+    width: 10%;
+}
+.box_f
+{
+    width: 19%;
+}
+.box_g
+{
+    width: 10%;
+}
+.box_h
+{
+    width: 7%;
+}
+.box_i
+{
+    border-right: medium none;
+    text-align: center;
+    width: 5%;
+}
+.add_btn
+{
+    float: left;
+    width: 100%;
+}
+.medication_form
+{
+    float: left;
+    width: 100%;
+}
+.inner_form
+{
+    border: 1px solid rgb(204, 204, 204);
+    float: left;
+    /*margin: 20px;*/
+    width: 96%;
+}
+.field_area
+{
+    background-color: #F7F7F7;
+    border-bottom: 1px dotted #CCCCCC;
+    float: left;
+    margin: 1px 0 0;
+    width: 100%;
+}
+.field_area span
+{
+    float: left;
+    font-size: 15px;
+    font-weight: bold;
+    line-height: 30px;
+    text-indent: 10px;
+    width: 130px;
+}
+.field_area input
+{
+    border: 1px solid #CCCCCC;
+    border-radius: 4px;
+    padding: 5px;
+    width: 180px;
+}
+.field_area1
+{
+    background-color: rgb(247, 247, 247);
+    border-bottom: 1px dotted rgb(204, 204, 204);
+    border-top: 1px solid rgb(226, 226, 226);
+    float: left;
+    margin: 10px 0 0;
+    width: 100%;
+}
+.field_area1 span
+{
+    float: left;
+    font-size: 15px;
+    font-weight: bold;
+    line-height: 30px;
+    text-indent: 10px;
+    width: 130px;
+}
+.filed_name
+{
+    float: left;
+    line-height: 30px;
+    margin-top: 5px;
+    text-indent: 10px;
+    width: 100%;
+}
+/*.filed_name input
+{
+    float: left;
+    height: 15px;
+    margin: 3px 3px 3px 10px;
+    width: 3%;
+}
+.filed_name1
+{
+    float: left;
+    background:#e1e1e1;
+    margin-top: 5px;
+    text-indent: 10px;
+    width: 100%;
+}
+.filed_name1 input
+{
+    float: left;
+    height: 15px;
+    margin: 3px 3px 3px 10px;
+    width: 3%;
+}
+.filed_name1 .submit_btm1
+{
+    float: right;
+    
+    margin: 3px 3px 3px 10px;
+    
+}*/
+.filed_name span
+{
+      /*float: left;*/
+    line-height: 20px;
+    margin-right: 20px;
+}
+.field_new_area
+{
+    background-color: rgb(247, 247, 247);
+    border-bottom: 1px dotted rgb(204, 204, 204);
+    border-top: 1px solid rgb(226, 226, 226);
+    display: table-row;
+    margin: 10px 0 0;
+    width: 100%;
+}
+/*.field_new_area span
+{
+    border-right: 1px solid rgb(204, 204, 204);
+    display: table-cell;
+    line-height: 25px;
+    min-height: 30px;
+    padding: 0 10px;
+    text-align: center;
+    text-indent: 0;
+    width: 12%;
+}
+.field_new_area span:last-child
+{
+    border-right: medium none;
+}*/
+.filed_box
+{
+    border-bottom: 1px dotted rgb(204, 204, 204);
+    display: table-cell;
+    padding: 0 10px;
+    text-align: center;
+    width: 20%;
+    border-left: 1px solid #ccc;
+}
+.filed_box input
+{
+    border: 1px solid rgb(204, 204, 204);
+    border-radius: 4px;
+    margin: 0 auto;
+    padding: 4px;
+    text-align: center;
+    width: 80px;
+}
+.filed_box span
+{
+    float: left;
+    line-height: 25px;
+    width: 100%;
+}
+.filed_box select
+{
+    border: 1px solid rgb(204, 204, 204);
+    border-radius: 4px;
+    margin: 0;
+    padding: 3px;
+    width: 120px;
+}
+
+.filed_box1
+{
+    border-bottom: 1px dotted rgb(204, 204, 204);
+    /*border-right: 1px solid #ccc;*/
+    display: table-cell;
+    padding: 0 10px;
+    text-align: center;
+    width: 12%;
+}
+.filed_box1 select
+{
+    border: 1px solid rgb(204, 204, 204);
+    border-radius: 4px;
+    margin-top: 6px;
+    padding: 3px;
+    width: 135px;
+}
+.filed_box1 span
+{
+    float: left;
+    line-height: 25px;
+    width: 100%;
+}
+/*.field_box span:last-child {
+    border-right: 1px solid #ccc;
+}*/
+.sign_box
+{
+    margin: 0 auto;
+    width: 23%;
+}
+.sign_box textarea
+{
+    border: 1px solid rgb(204, 204, 204);
+    min-height: 70px;
+    padding: 10px;
+}
+.sign_option
+{
+    float: right;
+}
+.sign_option img
+{
+    margin-right: 5px;
+}
+.review1
+{
+    float: left;
+    margin: 15px 0 0;
+    padding: 0;
+}
+.pay_btn
+{
+    background: url("../images/book_btn_revise.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border: 0 none;
+    color: rgb(0, 0, 0);
+    cursor: pointer;
+    font-family: 'Myriad Pro';
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 23px;
+    margin: 0;
+    outline: medium none;
+    padding: 3px 20px 6px 18px;
+    text-align: center;
+    text-decoration: none;
+    text-shadow: 0 1px 2px rgb(255, 255, 255);
+}
+.mine-button
+{
+    cursor: pointer;
+    height: 2em;
+    margin: 0 4px 0 0;
+    outline: 0 none;
+    padding: 0 1em;
+    position: relative;
+    text-align: center;
+    text-decoration: none !important;
+}
+.broder
+{
+    border: 1px solid rgb(255, 0, 102);
+}
+.form
+{
+    clear: both;
+    float: left;
+    width: 100%;
+}
+.btn_Pay
+{
+    float: right;
+    margin-right: 50px;
+}
+.payment_title
+{
+    float: left;
+}
+.select
+{
+    border: 1px solid rgb(204, 204, 204);
+    padding: 2px;
+}
+.tabCot
+{
+    box-shadow: 0 4px 8px 0 rgb(228, 234, 238);
+}
+.payment_div
+{
+    border-top: 1px solid rgb(204, 204, 204);
+    float: left;
+    margin: 10px 0;
+    padding: 20px 0;
+    width: 100%;
+}
+.payment_area
+{
+    float: left;
+    margin-left: 30px;
+}
+.payment_area span
+{
+    float: left;
+}
+.payment_area select
+{
+    border-radius: 3px;
+    box-shadow: 0 0 0 2px rgb(228, 234, 238);
+    float: left;
+    margin-top: 4px;
+    padding: 6px;
+}
+.payment_div span
+{
+    line-height: 25px;
+    margin-left: 8px;
+}
+.payment_area input
+{
+    border-radius: 3px;
+    box-shadow: 0 0 0 2px rgb(228, 234, 238);
+    float: left;
+    padding: 6px;
+}
+.credit_div
+{
+    margin: 0 auto;
+    width: 45%;
+}
+.voucher_div
+{
+    float: left;
+    width: 100%;
+}
+.voucher_title
+{
+    float: left;
+    font-size: 30px;
+    line-height: 34px;
+    margin-bottom: 1px;
+    margin-top: 10px;
+    text-align: center;
+    text-indent: 10px;
+    width: 100%;
+}
+.main_voucher
+{
+    margin: 0 auto;
+    width: 52%;
+}
+.voucher_area
+{
+    float: left;
+    margin: 0 0 10px;
+    width: 100%;
+}
+.voucher_area span
+{
+    float: left;
+    font-size: 14px;
+    line-height: 30px;
+    margin-top: 10px;
+}
+.voucher_area p
+{
+    float: left;
+}
+.voucher_area p input
+{
+    border: 1px solid rgb(204, 204, 204);
+    border-radius: 3px;
+    box-shadow: 0 0 0 2px rgb(228, 234, 238);
+    float: left;
+    margin: 6px 5px;
+    padding: 6px;
+}
+.cardnumber1
+{
+    border: 1px solid rgb(204, 204, 204);
+    border-radius: 3px;
+    box-shadow: 0 0 0 2px rgb(228, 234, 238);
+    float: left;
+    margin: 6px 5px;
+    padding: 6px;
+    width: 232px;
+}
+.cardnumber2
+{
+    border: 1px solid rgb(204, 204, 204);
+    border-radius: 3px;
+    box-shadow: 0 0 0 2px rgb(228, 234, 238);
+    float: right !important;
+    margin: 6px 5px;
+    padding: 6px;
+    width: 50px;
+}
+.in_bx1
+{
+    display: block;
+}
+.print_med
+{
+    background:#979797;
+    border: 0 none;
+    cursor: pointer;
+    float: right;
+    padding:5px 20px;
+    color:#fff;
+    border-radius: 5px;
+   box-shadow: inset 0 0 5px 5px #5c5959;
+  margin-bottom:15px;
+  margin-top:10px;
+}
+.print_med:hover
+{
+     background:#5ccac4;
+        color:#fff;
+        box-shadow: inset 0 0 5px 5px #2aa19a;
+    }
+/*.print_med
+{
+    float: right;
+    margin-bottom: 10px;
+    padding: 5px 28px;
+}
+.print_med a
+{
+    background: url("../images/print_icon.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+    color: rgb(255, 0, 0);
+    float: right;
+    font-weight: bold;
+    padding-left: 23px;
+}*/
+.submit_btm1
+{
+    float: right;
+}
+/*.submit_btm1 input
+{
+    background: url("../images/update_btn.png") no-repeat scroll left top rgba(0, 0, 0, 0);
+    border: 0 none;
+    color: rgb(43, 43, 43);
+    cursor: pointer;
+    font-family: Helvetica;
+    font-size: 15px;
+    font-weight: bold;
+    height: 36px;
+    text-align: center;
+    text-shadow: 0 2px 0 rgb(198, 198, 198);
+    width: 118px;
+}*/
+.bx_title_name a
+{
+    color: rgb(51, 51, 51);
+    font-size: 20px;
+    text-indent: 10px;
+    width:70%;
+}
+.bx_title_name button 
+{width:100%;
+ text-align:center;
+ font-size:14px;
+    border: 0 none;
+    border-radius: 5px;
+     background: #5ccac4 none repeat scroll 0 0;
+    box-shadow: 0 0 5px 5px #2aa19a inset;
+    color: #2b2727;
+    font-family: trebuchet ms;
+    font-weight: bold;
+    padding: 7px 20px;
+    }
+.links_tb
+{
+    float: left;
+    list-style: none outside none;
+    padding: 0;
+}
+.links_tb li
+{
+    background: none repeat scroll 0 0 rgb(92, 202, 196);
+    border: 1px solid rgb(92, 202, 196);
+    border-radius: 5px;
+    box-shadow: 2px 3px 4px rgb(204, 204, 204);
+    float: left;
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 10px;
+    padding: 5px;
+    width: 97%;
+}
+.links_tb li:hover
+{
+    background: none repeat scroll 0 0 rgb(249, 249, 249);
+    border: 1px solid rgb(234, 234, 234);
+}
+.links_tb li a
+{
+    color: rgb(51, 51, 51);
+    float: left;
+    font-weight: bold;
+    padding: 10px 0;
+    text-align: center;
+    width: 100%;
+}
+.bod1
+{
+    border-bottom: 1px solid rgb(204, 204, 204);
+    float: left;
+    margin-bottom: 15px;
+    padding-bottom: 21px;
+}
+.Customer_Care
+{
+    background: url("../images/CUSTOMER_CAREs.jpg") no-repeat scroll 100% 100% rgba(0, 0, 0, 0);
+    float: left;
+    width: 100%;
+}
+.left_content_care
+{
+    background: none repeat scroll 0 0 rgba(57, 55, 56, 0.8);
+    color: rgb(255, 255, 255);
+    float: left;
+    font-size: 14px;
+    margin: 150px 0;
+    padding: 40px;
+    width: 35%;
+}
+.left_content_care strong
+{
+    font-size: 18px;
+}
+.Customer_Care2
+{
+    background: url("../images/register2.jpg") no-repeat scroll 100% 100% rgba(0, 0, 0, 0);
+    float: left;
+    width: 100%;
+}

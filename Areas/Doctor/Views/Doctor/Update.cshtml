@@ -1,0 +1,118 @@
+﻿@model MyOnlineClinic.Web.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Update";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@using JQueryUIHelpers;
+<div class="loginarea">
+    <div class="container">
+        <div class="row">
+            <div class="innerbody_area register_bg">
+                <div class="col-sm-12">
+                    <div class="midd_side">
+                        <div class="singd"> <h2>Doctor Registration </h2> </div>
+                        @using (Html.BeginForm("RegisterDoctor", "Account", FormMethod.Post, new { @class = "form-horizontal form-label-left" }))
+                        {
+                            <div class="login_bex">
+                                <div class="login_barse">
+                                    <div class="sorn">
+                                        <div class="registerinput_area">
+                                            <div class="login_input">
+                                                <div class="input_bx">
+                                                    <span class="input_icon"><i class="fa fa-user"></i></span>
+                                                    @Html.TextBoxFor(x => x.FirstName, new { @class = "form-control col-md-7 col-xs-12", name = "FirstName", placeholder = "Enter First Name", required = "required" })
+                                                </div>
+                                            </div>
+                                            <div class="login_input login_inputright">
+                                                <div class="input_bx">
+                                                    <span class="input_icon"><i class="fa fa-user"></i></span>
+                                                    @Html.TextBoxFor(x => x.SurName, new { @class = "form-control col-md-7 col-xs-12", name = "LastName", placeholder = "Enter Last Name", required = "required" })
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="registerinput_area">
+                                            <div class="login_input">
+                                                <div class="input_bx">
+                                                    <span class="input_icon"><i class="fa fa-lock"></i></span>
+                                                    @*<input type="password" placeholder="Password*">*@
+                                                    @Html.TextBoxFor(x => x.PhoneNumber, new { @class = "form-control col-md-7 col-xs-12", name = "PhoneNumber", placeholder = "Enter Phone Number ", required = "required" })
+                                                </div>
+                                            </div>
+                                            <div class="login_input login_inputright">
+                                                <div class="input_bx">
+                                                    <span class="input_icon"><i class="fa fa-lock"></i></span>
+                                                    @*<input type="password" placeholder="Confirm Password*">*@
+                                                    @Html.TextBoxFor(x => x.Address1, new { @class = "form-control col-md-7 col-xs-12", name = "Address", placeholder = "Enter Your Address", required = "required" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="registerinput_area">
+                                            <div class="login_input">
+                                                <div class="input_bx">
+                                                    <span class="input_icon"><i class="fa fa-envelope"></i></span>
+                                                    @*<input type="text" placeholder="Email*">*@
+                                                    @Html.TextBoxFor(x => x.Email, new { @class = "form-control col-md-7 col-xs-12", name = "Email", placeholder = "Enter Your Email", required = "required", @readonly="readonly" })
+                                                </div>
+                                            </div>
+                                            <div class="login_input login_inputright">
+                                                <div class="input_bx">
+                                                    <span class="input_icon"><i class="fa fa-envelope"></i></span>
+                                                    @Html.TextBoxFor(x => x.PostCode, new { @class = "form-control col-md-7 col-xs-12", name = "Post Code", placeholder = "Enter Your Post Code", required = "required" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="registerinput_area">
+                                            <div class="login_input">
+                                                <div class="input_bx">
+                                                    <span class="input_icon"><i class="fa fa-phone"></i></span>
+                                                    @Html.JQueryUI().DatepickerFor(x => x.DOB, new { @class = "date-picker form-control col-md-7 col-xs-12", name = "DOB", placeholder = "Enter date of birth", required = "required" }).DateFormat("dd/MM/yyyy")
+                                                </div>
+                                            </div>
+                                            <div class="login_input login_inputright">
+                                                <div class="input_bx">
+                                                    <span class="input_icon"><i class="fa fa-map-marker"></i></span>
+                                                    @Html.TextBoxFor(x => x.FaxNumber, new { @class = "form-control col-md-7 col-xs-12", name = "Fax Number", placeholder = "Enter Your Fax Number", required = "required" })
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="registerinput_area register_btn">
+
+                                            <div class="login_inputarea">
+                                                <div class="input_bx">
+                                                    <div class="data_centerd">
+                                                        <input type="submit" class="" value="submit">  <input type="reset" class="" value="Reset">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $(document).ready(function () {
+
+
+        $('.date-picker').daterangepicker({
+            singleDatePicker: true,
+            calender_style: "picker_4",
+            format: 'DD/MM/YYYY'
+        })
+    });
+
+</script>

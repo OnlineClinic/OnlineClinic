@@ -1,0 +1,547 @@
+
+.container {
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.home-login-section {
+    display: inline-block;
+    float: right;
+    margin: 28px 0px 2px 0;
+}
+
+.navbar-collapse {
+    padding: 0px;
+    background-color: #337ab7;
+    margin-top: 10px;
+}
+
+header .navbar-wp .navbar-brand {
+    padding-left: 15px;
+}
+
+.navbar-wp .navbar-nav > li > a {
+    padding: 10px 16px;
+    margin-top: 0px;
+    background-color: #337ab7;
+}
+
+.inner-nav .navbar-nav > li > a {
+    padding: 10px 16px;
+    margin-top: 0px;
+    background-color: #337ab7;
+    color: #fff;
+}
+
+    .inner-nav .navbar-nav > li > a:hover {
+        background-color: #3498db;
+        color: #fff;
+    }
+
+.field-validation-error {
+    color: #ff0000;
+}
+
+a {
+    color: #030ffc;
+}
+
+.form-control {
+    padding: 6px 12px;
+}
+
+.text-success {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+h2 {
+    padding-top: 10px;
+}
+
+.navbar-wp {
+    border-bottom: none;
+}
+
+#searchBar {
+    padding: 10px 20px;
+    background-color: mediumturquoise;
+}
+
+.navbar-nav > li:active > a {
+    color: #fff;
+    /*background-color: #3498db;*/
+    background-color: #337ab7;
+}
+
+a {
+    color: #337ab7;
+}
+
+.lable-format .form-horizontal .control-label {
+    padding-top: 7px;
+    margin-bottom: 0;
+    text-align: left;
+}
+
+.form-group textarea {
+    width: 41em;
+    height: 10em;
+    resize: none;
+}
+
+.user-profile .form-group textarea {
+    width: 41em;
+    height: 6em;
+    resize: none;
+}
+
+
+.client {
+    border: 1px solid #e0eded;
+    padding: 0px;
+    background: transparent;
+}
+
+.client-col {
+    margin-top: 10px;
+}
+
+.footer-social.social-icons img {
+    margin-right: 10px;
+    margin-bottom: 10px;
+    height: 50px;
+    width: 50px;
+}
+
+.classified-aside.widget-recent-comments li:nth-child(even) .post-thumb {
+    float: left;
+    margin-right: 16px;
+    margin-left: 0px;
+}
+
+.home-img-height {
+    height: 240px;
+    overflow: hidden;
+}
+
+    .home-img-height img {
+        max-width: 100%;
+    }
+/*iframe {
+    width: 100% !important;    
+}
+iframe img {
+    width: 100% !important;    
+}*/
+.reticia-banner iframe {
+    margin-left: 11%;
+}
+
+.widget-recent .post-title, .widget-recent .comment-author a {
+    text-transform: uppercase;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 19px;
+}
+
+.login-banner {
+    padding-left: 6%;
+}
+
+.faq-banner .script-banner {
+    margin-left: 16%;
+}
+
+banner-carousal .item img {
+    width: auto !important;
+}
+
+.carousel-2 .item img {
+    width: auto !important;
+}
+
+.checkmark {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    -ms-transform: rotate(45deg); /* IE 9 */
+    -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
+    transform: rotate(45deg);
+}
+
+.item-listing li {
+    background: #fcfcfc;
+    border: 1px solid #e0eded;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+/*.item-listing .post-thumb {
+    float: left;
+    width: 72px;
+    height: 72px;
+    overflow: hidden;
+    margin-right: 15px;
+    border: 1px solid #f2f2f2;
+}*/
+
+.item-listing .post-thumb {
+    float: left;
+    width: 167px;
+    height: 105px;
+    overflow: hidden;
+    margin-right: 15px;
+    border: 1px solid #f2f2f2;
+}
+
+    .item-listing .post-thumb img {
+        max-width: 100%;
+    }
+
+.item-listing h3 {
+    font-size: 14px;
+    line-height: 19px;
+    font-weight: normal;
+    margin: 0px;
+}
+
+.item-listing h4 {
+    font-size: 12px;
+    font-weight: normal;
+    line-height: 17px;
+    margin: 0px;
+}
+
+.item-listing p {
+    font-size: 14px;
+}
+
+.item-listing li:last-child {
+    margin-bottom: 0px;
+}
+
+#main {
+    margin-right: -330px;
+    padding-right: 345px;
+    padding-top: 20px;
+    position: relative;
+    width: 100%;
+}
+
+#sidebar {
+    padding-top: 20px;
+    position: relative;
+    width: 330px;
+    z-index: 1;
+}
+
+.mt-20 {
+    margin-top: 20px;
+}
+
+.subsection {
+    margin-top: 20px;
+}
+
+.classified-img {
+    width: 100%;
+    height: 160px;
+    overflow: hidden;
+}
+
+    .classified-img img, .full-img img {
+        max-width: 100%;
+    }
+
+.top-margin {
+    margin-top: 20px;
+}
+
+.home-banner-img {
+    overflow: hidden;
+    width: 100%;
+    height: 450px;
+}
+
+.viajar-banner-img {
+    overflow: hidden;
+    width: 100%;
+    height: 350px;
+}
+
+.receitas-list-img {
+    position: relative;
+}
+
+    .receitas-list-img .article-image {
+        width: 100%;
+        height: 150px;
+        overflow: hidden;
+        margin-bottom: 15px;
+    }
+
+        .receitas-list-img .article-image h4 {
+            position: absolute;
+            top: 105px;
+            left: 10px;
+            padding: 7px 10px;
+            font-size:14px;
+        }
+
+    .receitas-list-img .title {
+        height: 40px;
+        overflow: hidden;
+    }
+
+    .receitas-list-img .article-image img {
+        max-width: 100%;
+    }
+
+
+.wp-block .carros-list-img {
+    position: relative;
+}
+
+    .wp-block .carros-list-img .article-image {
+        width: 100%;
+        height: 250px;
+        overflow: hidden;
+        margin-bottom: 15px;
+        background-color: #f6f6f6;
+    }
+
+        .wp-block .carros-list-img .article-image h4 {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            padding: 7px 10px;
+        }
+
+    .wp-block .carros-list-img .title {
+        height: 40px;
+        overflow: hidden;
+    }
+
+    .wp-block .carros-list-img .article-image img {
+        max-width: 100%;
+    }
+
+.bord-section {
+    background-color: #337ab7;
+    padding: 5px;
+    float: left;
+    width: 100%;
+}
+
+    .bord-section .date {
+        float: left;
+        padding: 5px 5px 5px 25px;
+        font-size: 14px;
+        background: #808080 url('/images/icons/date-icon.png') no-repeat left center;
+        border: solid 1px #808080;
+        border-radius: 2px;
+        margin-left: 0px;
+        width: 45%;
+    }
+
+    .bord-section .like {
+        float: left;
+        padding: 5px 5px 5px 25px;
+        font-size: 14px;
+        background: #808080 url('/images/icons/comment.png') no-repeat left center;
+        border: solid 1px #808080;
+        border-radius: 2px;
+        margin-left: 20px;
+        width: 20%;
+    }
+
+.viajar-banner-background {
+    background: #fff url('/images/Viajar-images/bk.jpg') no-repeat left top;
+}
+
+    .viajar-banner-background .carousel-1 {
+        margin-bottom: 0px !important;
+    }
+     .jumbotron .carousel-1 {
+        margin-bottom: 0px !important;
+    }
+
+
+    .viajar-banner-background .carousel.carousel-fade .item {
+        -webkit-transition: opacity 0.5s ease-in-out;
+        -moz-transition: opacity 0.5s ease-in-out;
+        -ms-transition: opacity 0.5s ease-in-out;
+        -o-transition: opacity 0.5s ease-in-out;
+        transition: opacity 0.5s ease-in-out;
+        opacity: 0;
+    }
+
+    .viajar-banner-background .carousel.carousel-fade .active.item {
+        opacity: 1;
+    }
+
+    .viajar-banner-background .carousel.carousel-fade .active.left,
+    .viajar-banner-background .carousel.carousel-fade .active.right {
+        left: 0;
+        z-index: 2;
+        opacity: 0;
+        filter: alpha(opacity=0);
+    }
+
+    .viajar-banner-background .carousel.carousel-fade .next,
+    .viajar-banner-background .carousel.carousel-fade .prev {
+        left: 0;
+        z-index: 1;
+    }
+
+    .viajar-banner-background .carousel.carousel-fade .carousel-control {
+        z-index: 3;
+    }
+
+.bord-section .user {
+    float: left;
+    padding: 5px 5px 5px 25px;
+    font-size: 14px;
+    border: solid 1px #808080;
+    background: #808080 url('/images/icons/user.png') no-repeat left center;
+    border-radius: 2px;
+    margin-left: 5px;
+    width: 25%;
+}
+
+.fixed-height-img {
+    height: 215px;
+}
+
+    .fixed-height-img .caption-bottom {
+        padding: 5px;
+    }
+
+.wp-block.article.list .article-image {
+    height: 150px;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+    .wp-block.article.list .article-image img {
+        max-width: 100%;
+        width: 100%;
+    }
+
+.wp-block.article.list p {
+    width: 100%;
+}
+.wp-block.article.list.featured {
+    border:solid 1px #c6c6c6; 
+    padding:5px;
+    min-height: 120px;
+}
+.wp-block.article.list.featured .article-image {
+    height: 100px;
+    overflow: hidden;
+    width:100px;
+    display: table-cell;
+    /*margin-bottom: 15px;*/
+}
+
+.wp-block.article.list .article-image img {
+    max-width: 100%;
+    width: 100%;
+}
+.wp-block.article.list.featured .wp-block-body {
+    display: table;
+    width: 100%;
+    padding: 0px;
+}
+.wp-block.article.list.featured .wp-block-content {
+    display: table-cell;
+    padding: 0px 0px 0px 15px;
+}
+.wp-block.article.list p {
+    width: 100%;
+    margin-bottom: 5px;
+    line-height: normal;
+}
+
+
+@media (max-width: 992px) {
+    #main {
+        position: relative;
+        width: 100%;
+        padding-right: 0px;
+        margin-right: 0px;
+        padding-top: 20px;
+    }
+
+    #sidebar {
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        padding-top: 20px;
+    }
+}
+
+.mb-10 {
+    margin-bottom: 10px;
+}
+
+.loader-container {
+    display: none;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.loader-img {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -42px;
+    margin-top: -42px;
+}
+
+.home-login-section .btn-warning {
+    border-radius: 20px;
+}
+
+.casa-right-form {
+    padding: 25px 25px 26px 25px;   
+}
+.casa-right-form .form-group {
+     margin-bottom: 34px;
+}
+.class-biz .badge {
+    word-break: break-all;
+    white-space: normal;
+}
+.recipe-detail-title {
+    height: 150px;
+    font-size:20px;
+}
+
+.mt-0 {
+    margin-top: 0px !important;
+}
+.section-comment {
+ color:#3498db !important;
+ font-size:12px;
+}
+.comment-author span {
+    color:#292727 !important;
+    font-weight:bold;
+}
+
+.tick-icon {
+  background-image:url('/images/tick-alt-02.png');
+  background-repeat: no-repeat;
+}
+.cross-icon {
+  background-image:url('/images/cross_circle.png');
+  background-repeat: no-repeat;
+}

@@ -1,0 +1,296 @@
+@charset "utf-8";
+/* CSS Document */
+
+	.pageContent {
+	width: 100%;
+}
+/*.accordion {
+	list-style-type: none;
+	padding: 0;
+	margin: 0 0 30px;
+	border-top: none;
+	border-left: none;
+	float: left;
+	width: 100%;
+}
+.accordion ul {
+	padding: 0;
+	margin: 0;
+	float: left;
+	display: block;
+	width: 100%;
+	list-style:none;
+}
+
+.accordion li.active>a {
+	background: url('close.gif') no-repeat center right;
+	background-color:#38d2cc;
+}
+/*.accordion li div {
+	padding: 10px;
+	background: #aef;
+	display: block;
+	clear: both;
+	float: left;
+	width: 97.3%;
+	margin: 0.5% 0 0 0.5%;
+	text-align:center;
+}
+.accordion li div input {  width:98%; border-radius:4px; border:1px solid #ccc; padding:10px; outline:#666; float:left;}
+
+.accordion a {
+	text-decoration: none;
+	color: #2D2C2C;
+	float: left;
+	font-family: 'SEGOEUIL';
+	font-size: 30px;
+	line-height: 190px;
+	
+	background: #38d2cc;
+	cursor: pointer;
+	text-align:center;
+	display: block;
+	width: 98.9%;
+	margin: 0.5% 0 0 0.5%;
+}
+
+.accordion li a:hover { background-color:#8bf6f2;
+	float:left;
+	width:98.9%;
+}
+.accordion li a ul {
+	position:absolute;
+}
+
+	.accordion li ul li {
+	margin-bottom:4px;
+	float:left;
+	display: block !important;
+}
+.accordion li ul li a {
+	text-decoration: none;
+	display: block;
+	cursor: pointer;
+	color: #2D2C2C;
+	float: left;
+	font-family: 'SEGOEUIL';
+	font-size: 30px;
+	line-height: 100px;
+	text-align: center;
+	word-wrap: break-word;
+}
+
+
+ul.content_inner{width:100%;
+padding:0px;
+margin:0px;
+list-style:none;
+}
+
+ul.content_inner li{width:100%;
+float:left;
+}
+
+ul.content_inner li a{color:#000;
+background-color:#e7e7e7;
+}
+*/
+
+
+
+.dhtmlgoodies_question {
+	/* Styling question */
+	color: #000000;
+	font-size: 12px;
+	font-family: Verdana;
+	height: 30px;
+	overflow: hidden;
+	cursor: pointer;
+	padding: 0px 0px 0px 10px;
+	font-weight: bold;
+	text-decoration: none;
+	line-height: 30px;
+	text-align: left;
+}
+.dhtmlgoodies_question1 {
+	/* Styling question */
+	color: #00ccff;
+	font-size: 12px;
+	font-family: Verdana;
+	cursor: pointer;
+	padding: 0px 0px 0px 0px;
+	margin: 0px;
+	font-weight: 800;
+	text-decoration: none;
+	line-height: 30px;
+	text-align: left;
+	font-weight: bold;
+}
+.dhtmlgoodies_question1 a {
+	text-decoration: none;
+	color:#2D2C2C;
+	font-weight:normal;
+	font-family: 'SEGOEUIL';
+	font-size: 30px;
+	line-height: 190px;
+	background: #38d2cc;
+	cursor: pointer;
+	text-align:center;
+	display: block;
+	width: 98.9%;
+	margin: 0.5% 0 0 0.5%;
+}
+.dhtmlgoodies_question1 a:hover {
+	/* Content that is slided down */
+	background-color: #8bf6f2;
+}
+
+
+
+
+
+
+
+.dhtmlgoodies_question2 {
+	/* Styling question */
+	color: #00ccff;
+	font-size: 12px;
+	font-family: Verdana;
+	cursor: pointer;
+	padding: 0px 0px 0px 0px;
+	margin: 0px;
+	font-weight: 800;
+	text-decoration: none;
+	line-height: 30px;
+	text-align: left;
+	font-weight: bold;
+}
+.dhtmlgoodies_question2 a {
+	text-decoration: none;
+	color:#2D2C2C;
+	font-weight:normal;
+	font-family: 'SEGOEUIL';
+	font-size: 30px;
+	line-height: 95px;
+	background: #38d2cc;
+	cursor: pointer;
+	text-align:center;
+	display: block;
+	width: 98.9%;
+	margin: 0.5% 0 0 0.5%;
+}
+.dhtmlgoodies_question2 a:hover {
+	/* Content that is slided down */
+	background-color: #8bf6f2;
+}
+
+
+
+
+
+
+
+.dhtmlgoodies_answer {
+	/* Parent box of slide down content */
+	visibility: hidden;
+	height: 0px;
+	overflow: hidden;
+	position: relative;
+}
+.dhtmlgoodies_answer_content {
+	/* Content that is slided down */
+	position: relative;
+	padding: 10px 12px;
+	/*margin: 0px 0px 0px 10px*/;
+	font-size: 12px;
+	font-family: arial;
+	color: #000000;
+	text-decoration: none;
+	overflow: hidden;
+	line-height: 16px;
+	text-align: justify;
+}
+.dhtmlgoodies_answer_content a {
+	color: #000000;
+	text-decoration: underline;
+}
+.dhtmlgoodies_answer_content a:hover {
+	/* Content that is slided down */
+	color: #666666;
+	text-decoration: underline;
+}
+.dhtmlgoodies_answer_content_ul {
+	padding: 5px 10px 5px 20px;
+	margin: 0px;
+	font-size: 12px;
+	font-family: Arial, Helvetica, sans-serif;
+	color: #666666;
+}
+
+
+.search_doc_div, .search_doc_div1 { padding: 10px;
+	/*background: #aef;*/
+	clear: both;
+	float: left;
+	width: 98.3%;
+	/*margin: 0.5% 0 0 0.5%;*/
+	text-align:center;} 
+.search_doc_div1 { background-color:#fff;}	
+.search_doc_box { text-align:center; width:100%;}
+.search_doc_box input {width:66%; border-radius:6px; border:1px solid #ccc; padding:12px; outline:#666; background:url("../imes/search_icon.png") no-repeat scroll right -8px #FFFFFF; text-align:left; }
+.search_box_shadow { margin-top: -16px; z-index: 1111; float: left; width: 100%;}
+
+.search_doc_box1 {  text-align:center; width:100%;}
+.search_doc_box1 input {width:72%; border-radius:4px; border:1px solid #ccc; padding:10px; outline:#666; box-shadow:0px 1px 4px #ccc;}
+
+.search_doc_box1 select {width:70%; border-radius:4px; border:1px solid #ccc; padding:10px; outline:#666; /*box-shadow: 0px 0px 0px 3px #e4eaee;*/}
+
+.search_doc_box2 { float:left; text-align:center; width:100%;}
+.search_doc_box2 input {width:70%; border-radius:4px; border:1px solid #ccc; padding:10px; outline:#666; box-shadow: 0px 0px 0px 3px #e4eaee;}
+
+.search_doc_btn { width:100%; text-align:center;}
+.search_doc_btn input {width: 110px; height: 49px; border:0px; padding:8px; text-align:center; background:url(../images/book_btn.png) no-repeat; outline:none;  font-weight:bold; color:#000; text-shadow: 0px 1px 2px #fff; cursor:pointer;} 
+
+.time_main_div { width: 30%; text-align: center; margin: auto;}
+.time_div { float:left; padding:0 12px; width:24%;}
+.time_div select {width: 95px; padding:8px; text-align:center; font-weight:bold; color:#000; float:left; outline:none; } 
+
+
+.calendar_main_div { float:left; width:100%; margin:5px;}
+.cal_inner_div { float:left; width:100%;}
+.month_title { background-color: #3C3C3C;
+    clear: both;
+    float: left;
+    margin: 0 auto;
+    width: 100%;}
+.month_inner_title {color: #FFFFFF;
+    float: left;
+    font-size: 35px;
+    font-weight: bold;
+    line-height: 80px;
+    margin: 0 auto;
+    text-align: center;
+    width: 80%;}
+
+.month_icon { float:left; width:10%; line-height:90px; cursor:pointer; }
+.month_icon1 { float:right; width:10%; line-height:90px; cursor:pointer; }
+
+.calendar_inner_div {  margin:0 auto; width:50%; padding-bottom:15px;}
+.table_div { border:3px solid #ccc; box-shadow: 2px 6px 18px 0px #ccc; margin: 3px auto;}
+
+.week_days {  clear: both;
+    float: left;
+    margin: 18px auto 0;
+    width: 100%;}
+.week_name { background-color: #E7E7E7;
+    border: 2px solid #CCCCCC;
+    color: #666666;
+    font-size: 18px;
+    padding: 3%;}
+.single_day, .single_day1 { border:1px outset #ccc; font-size: 18px;  padding: 3%;
+    width: 8%;box-shadow: 0px 1px 2px #BCF3F3 inset; color:#666666; background-color:#fff; }
+.single_day1 { color:#ccc; background-color:#fff;}
+
+.single_day:hover { background-color:#0aa49c; color:#fff; cursor:pointer;}
+/*.week_name:hover { color:#fff; background-color:#ccc; }*/
+

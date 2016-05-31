@@ -1,0 +1,3099 @@
+﻿@model MyOnlineClinic.Web.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Areas/Clinic/Views/Shared/_ClinicLayout.cshtml";
+}
+@using JQueryUIHelpers;
+
+
+@Html.HiddenFor(m => m.LoginId)
+<section class="content">
+    <div class="container-fulid">
+        <div class="row">
+            <div class="col-md-11 doctor_detail">
+                <div class="panel with-nav-tabs panel-primary">
+                    <div class="panel-heading">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#Profile" data-toggle="tab">Profile</a></li>
+                            <li class="dropdown">
+                                <a href="#" data-toggle="dropdown">Appointment<span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#Future" data-toggle="tab">Future Appointment</a></li>
+                                    <li><a href="#Past" data-toggle="tab">Past Appointment</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" data-toggle="dropdown">Results <span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#Clinical" data-toggle="tab">Clinical Dashboard</a></li>
+                                    <li><a href="#Medical" data-toggle="tab">Medical History</a></li>
+                                </ul>
+                            </li>
+                            <li style="display:none;" class="dropdown">
+                                <a href="#" data-toggle="dropdown">Transaction <span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#Paid" data-toggle="tab">Paid Consults</a></li>
+                                    <li><a href="#Processing" data-toggle="tab">Processing Consults</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" data-toggle="dropdown">Others <span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    @*<li><a href="#Doctor" data-toggle="tab">Patient Messages</a></li>*@
+                                    <li><a href="#Reset" id="lnkReset" data-toggle="tab">Reset Password</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="panel-body">
+                        <div class="tab-content">
+                            <div class="tab-pane fade in active" id="Profile">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xs-offset-0 col-sm-offset-0 toppad" style="margin-top:0px;margin-left: -10px;">
+                                    <div class="panel panel-info doctor">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title text-capitalize">
+                                                @if (Model.MiddleName != null)
+                                                {
+                                                    @Model.FullName
+                                                    <input type="hidden" id="hdnPatientName" value="@Model.FullName" />
+                                                }
+                                                else
+                                                {
+                                                    @Model.FullName
+                                                    <input type="hidden" id="hdnPatientName" value="@Model.FullName" />
+                                                }
+                                            </h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                @if (Model.ProfilePic != null)
+                                                {
+                                                    <div class="col-md-2 col-lg-2 " align="center">
+                                                        <img alt="User Pic" src=@Model.ProfilePic class="img-circle img-responsive " style="width: 120%; height:120%;">
+                                                    </div>
+                                                }
+                                                else
+                                                {
+
+                                                    <div class="col-md-2 col-lg-2 " align="center">
+                                                        <img alt="User Pic" src="~/AdminAssets/images/Defaultuser.png" class="img-circle img-responsive" style="width: 120%; height:120%;">
+                                                    </div>
+                                                }
+                                                <div class=" col-md-9 col-lg-9 col-lg-offset-1 ">
+                                                    <table class="table table-user-information">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>Email:</td>
+                                                                <td><a href="#" style="color:#08a39b;">@Model.Email</a></td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Home Phone:</td>
+                                                                <td>@Model.PhoneNumber</td>
+                                                            </tr>
+                                                            <tr>
+                                                            <tr>
+                                                                <td>Mobile No.:</td>
+                                                                <td>@Model.MobileNumber</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Gender:</td>
+                                                                <td>@Model.Gender</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Fax Number:</td>
+                                                                <td>@Model.FaxNumber</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Address 1:</td>
+                                                                <td>@Model.Address1</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Address 2:</td>
+                                                                <td>@Model.Address2</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Country:</td>
+                                                                <td>@Model.CountryName</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>State:</td>
+                                                                <td>
+                                                                    @Model.StateName
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>City:</td>
+                                                                <td>
+                                                                    @Model.CityName
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Post Code:</td>
+                                                                <td>
+                                                                    @Model.PostCode
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Medicare No.:</td>
+                                                                <td>
+                                                                    @Model.MedicareNumber
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Medicare expiry.:</td>
+                                                                <td>
+                                                                    @Convert.ToDateTime(Model.MedicareExpire).ToString("dd/MM/yyyy")
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>DVA Card Color:</td>
+                                                                <td>
+                                                                    @Model.DavCardColor
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>DVA Disablities:</td>
+                                                                <td>
+                                                                    @Model.DavDisablities
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>DVA Number:</td>
+                                                                <td>
+                                                                    @Model.DavNumber
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">Usual GP Details</h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class=" col-md-9 col-lg-9 col-lg-offset-2">
+                                                    <table class="table table-user-information">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>Name:</td>
+                                                                <td>@Model.UsualGPName</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Clinic Name:</td>
+                                                                <td>@Model.UsualGPClinicName</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Address1:</td>
+                                                                <td>@Model.UsualGPAddress</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Address 2:</td>
+                                                                <td>@Model.GPAddress2</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Country:</td>
+                                                                <td>@Model.UsualGpCountryName</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>State:</td>
+                                                                <td>
+                                                                    @Model.usualGpStateName
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>City:</td>
+                                                                <td>
+                                                                    @Model.UsualGpCity
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Post Code:</td>
+                                                                <td>
+                                                                    @Model.UsualGpPostCode
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>HCC Pansion Number:</td>
+                                                                <td>
+                                                                    @Model.HCCPensionNo
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>HCC Pension Expiry:</td>
+                                                                <td>
+                                                                    @Model.HCCPensionNoExpiry
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Private Fund:</td>
+                                                                <td>
+                                                                    @Model.PrivateFund
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Private Fund Membership No:</td>
+                                                                <td>
+                                                                    @Model.PrivateFundMembershipNo
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">Pharmacy Details</h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class=" col-md-9 col-lg-9 col-lg-offset-2">
+                                                    <table class="table table-user-information">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>Name:</td>
+                                                                <td>@Model.PharmacyName</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Mobile No.:</td>
+                                                                <td>@Model.PharmacyMobileNumber</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Fax Number:</td>
+                                                                <td>@Model.PharmacyPhoneNumber</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Country:</td>
+                                                                <td>@Model.PharmacyCountryName</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>State:</td>
+                                                                <td>
+                                                                    @Model.PharmacyStateName
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>City:</td>
+                                                                <td>
+                                                                    @Model.PharmacyCityName
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Post Code:</td>
+                                                                <td>
+                                                                    @Model.PharmacyPostCode
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">Organisation Details</h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class=" col-md-9 col-lg-9 col-lg-offset-2">
+                                                    <table class="table table-user-information">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>Name:</td>
+                                                                <td>@Model.organizationName</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Address 1:</td>
+                                                                <td>@Model.OrganizationAddress1</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Address 2:</td>
+                                                                <td>@Model.OrganizationAddress2</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Country:</td>
+                                                                <td>Country Name</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>State:</td>
+                                                                <td>
+                                                                    State Name
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>City:</td>
+                                                                <td>
+                                                                    City Name
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Post Code:</td>
+                                                                <td>
+                                                                    Postcode No
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">Clinics Details</h3>
+                                        </div>
+                                        @if (Model.clinicmodellist != null)
+                                        {
+                                            for (var i = 0; i < Model.clinicmodellist.Count; i++)
+                                            {
+                                                <div id="accordion" role="tablist" aria-multiselectable="true" style="margin-top:10px;">
+                                                    <div class="panel panel-default" style="margin-bottom:10px !important;">
+                                                        <div class="panel-heading" role="tab" id="@("heading" + i)" style="background:#fff !important;">
+                                                            <h4 class="panel-title" style="color:#000 !important;">
+
+                                                                Clinic Name: @Model.clinicmodellist[i].ClinicName
+                                                                <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="@("#collapse" + i)" aria-expanded="false" aria-controls="collapseOne"><div class="col-xs-2 pull-right"><i class="fa fa-chevron-down pull-right"></i></div></a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="@("collapse" + i)" class="panel-collapse collapse" role="tabpanel" aria-labelledby="@("heading" + i)">
+                                                            <div class="panel-body" style="background: #ECF0F5;">
+                                                                <div class="row">
+                                                                    <div class=" col-md-9 col-lg-9 col-lg-offset-2">
+                                                                        <table class="table table-user-information">
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <td>Prodiver No.:</td>
+                                                                                    <td>@Model.clinicmodellist[i].ClinicVoucherNo</td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>Address 1:</td>
+                                                                                    <td>@Model.clinicmodellist[i].ClinicAddress1</td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>Address 2:</td>
+                                                                                    <td>@Model.clinicmodellist[i].ClinicAddress2</td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>Country:</td>
+                                                                                    <td>@Model.clinicmodellist[i].CountryName</td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>State:</td>
+                                                                                    <td>
+                                                                                        @Model.clinicmodellist[i].StateName
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>City:</td>
+                                                                                    <td>
+                                                                                        @Model.clinicmodellist[i].CityName
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>Post Code:</td>
+                                                                                    <td>
+                                                                                        @Model.clinicmodellist[i].Postcode
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            }
+                                        }
+
+                                        <div class="panel-heading" style="margin-top:20px;">
+                                            <h3 class="panel-title">Treating Doctors </h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class="col-md-12 ten_layer" style="margin-top:-14px;margin-bottom:-17px;">
+                                                    <div class="table-responsive data">
+                                                        <table id="mytable" class="table table-hover table-bordered">
+                                                            <thead style="color:#fff;">
+                                                                <tr>
+                                                                    <th class="top">No.</th>
+                                                                    <th class="top">Doctor Name</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+
+                                                                <tr class="info">
+                                                                    <td style="vertical-align:middle;">1</td>
+                                                                    <td style="vertical-align:middle;">@Model.TreatingDoctors</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3" style="text-align:center;">
+                                            <button type="submit" class="btn btn-primary">Back</button>
+                                            <button type="submit" class="btn btn-success">Edit</button>
+                                        </div>
+                                    </div>
+                                    <a id="back-to-top" href="#" class="btn btn-primary btn-lg back-to-top" role="button" title="" data-toggle="tooltip" data-placement="left"><span class="glyphicon glyphicon-chevron-up"></span></a>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="tab-pane fade" id="Future">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xs-offset-0 col-sm-offset-0 toppad" style="margin-top:0px;margin-left: -10px;">
+                                    <div class="panel panel-info doctor">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">My Future Appointment: <b>Mrs.Emily Rose</b></h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class=" col-md-12 col-lg-12">
+                                                    <div class="tabbable-panel">
+                                                        <div class="tabbable-line">
+                                                            <ul class="nav nav-tabs" style="background: #08A39B !important;">
+                                                                <li class="active" style="margin-left:45px;">
+                                                                    <a href="#tab_default_1" data-toggle="tab">
+                                                                        Future Video Consults
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="#tab_default_2" data-toggle="tab">
+                                                                        Future Clinic Visit Consults
+                                                                    </a>
+                                                                </li>
+                                                                <li>
+                                                                    <a href="#tab_default_3" data-toggle="tab">
+                                                                        Future Home Visit Consults
+                                                                    </a>
+                                                                </li>
+                                                            </ul>
+                                                            <div class="col-md-12 fifth layer" style="margin-top:16px;">
+                                                                <div class="form-group">
+                                                                    <div class="col-md-12 col-sm-12 col-xs-12" style="text-align:center;">
+                                                                        <button type="submit" class="btn btn-success today">Today</button>
+                                                                        <button type="submit" class="btn btn-success today">Week</button>
+                                                                        <button type="submit" class="btn btn-success today">Month</button>
+                                                                        <button type="submit" class="btn btn-success today">All</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12 fifth layer" style="margin-top:20px;">
+                                                                <div class="col-md-3">
+                                                                    <input type="text" class="form-control" id="inputEmail" placeholder="From Date">
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <input type="text" class="form-control" id="inputEmail" placeholder="To Date">
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <input type="text" class="form-control" id="inputEmail" placeholder="Patient Name">
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <div class="col-md-3 pull-right" style="text-align:center;">
+                                                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                                                        <button type="submit" class="btn btn-success">Reset</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="tab-content">
+                                                                <div class="tab-pane active" id="tab_default_1">
+                                                                    <div class="container-fluid">
+                                                                        <div class="row">
+                                                                            <div class="col-md-12 future">
+                                                                                <div class="col-md-6" style="margin-bottom:13px;">
+                                                                                    <p><h3 class="Name">Mrs. Emily Case</h3></p>
+                                                                                    <p class="text">Your next patient at 8:00PM on 05/05/2016.</p>
+                                                                                    <p class="text"><b>Status</b> : Approved</p>
+                                                                                </div>
+                                                                                <div class="col-md-3 pull-right" style="margin-bottom:13px;">
+                                                                                    <button type="button" class="btn btn-danger cancel">Cancel This Appointment</button>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-12 future">
+                                                                                <div class="col-md-6" style="margin-bottom:13px;">
+                                                                                    <p><h3 class="Name">Miss. Jade Astell</h3></p>
+                                                                                    <p class="text">Your next patient at 8:00PM on 05/05/2016.</p>
+                                                                                    <p class="text"><b>Status</b> : Approved</p>
+                                                                                </div>
+                                                                                <div class="col-md-3 pull-right" style="margin-bottom:13px;">
+                                                                                    <button type="button" class="btn btn-danger cancel">Cancel This Appointment</button>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-12 future">
+                                                                                <div class="col-md-6" style="margin-bottom:13px;">
+                                                                                    <p><h3 class="Name">Mrs. Emily Case</h3></p>
+                                                                                    <p class="text">Your next patient at 8:00PM on 05/05/2016.</p>
+                                                                                    <p class="text"><b>Status</b> : Approved</p>
+                                                                                </div>
+                                                                                <div class="col-md-3 pull-right" style="margin-bottom:13px;">
+                                                                                    <button type="button" class="btn btn-danger cancel">Cancel This Appointment</button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                                <div class="tab-pane" id="tab_default_2">
+                                                                    <div class="container-fluid">
+                                                                        <div class="row">
+                                                                            <div class="col-md-12 future">
+                                                                                <div class="col-md-6" style="margin-bottom:13px;">
+                                                                                    <p><h3 class="Name">Mrs. Emily Case</h3></p>
+                                                                                    <p class="text">Your next patient at 8:00PM on 05/05/2016.</p>
+                                                                                    <p class="text"><b>Status</b> : Approved</p>
+                                                                                </div>
+                                                                                <div class="col-md-3 pull-right" style="margin-bottom:13px;">
+                                                                                    <button type="button" class="btn btn-danger cancel">Cancel This Appointment</button>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-12 future">
+                                                                                <div class="col-md-6" style="margin-bottom:13px;">
+                                                                                    <p><h3 class="Name">Miss. Jade Astell</h3></p>
+                                                                                    <p class="text">Your next patient at 8:00PM on 05/05/2016.</p>
+                                                                                    <p class="text"><b>Status</b> : Approved</p>
+                                                                                </div>
+                                                                                <div class="col-md-3 pull-right" style="margin-bottom:13px;">
+                                                                                    <button type="button" class="btn btn-danger cancel">Cancel This Appointment</button>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-12 future">
+                                                                                <div class="col-md-6" style="margin-bottom:13px;">
+                                                                                    <p><h3 class="Name">Mrs. Emily Case</h3></p>
+                                                                                    <p class="text">Your next patient at 8:00PM on 05/05/2016.</p>
+                                                                                    <p class="text"><b>Status</b> : Approved</p>
+                                                                                </div>
+                                                                                <div class="col-md-3 pull-right" style="margin-bottom:13px;">
+                                                                                    <button type="button" class="btn btn-danger cancel">Cancel This Appointment</button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                                <div class="tab-pane" id="tab_default_3">
+                                                                    <div class="container-fluid">
+                                                                        <div class="row">
+                                                                            <div class="col-md-12 future">
+                                                                                <div class="col-md-6" style="margin-bottom:13px;">
+                                                                                    <p><h3 class="Name">Mrs. Emily Case</h3></p>
+                                                                                    <p class="text">Your next patient at 8:00PM on 05/05/2016.</p>
+                                                                                    <p class="text"><b>Status</b> : Approved</p>
+                                                                                </div>
+                                                                                <div class="col-md-3 pull-right" style="margin-bottom:13px;">
+                                                                                    <button type="button" class="btn btn-danger cancel">Cancel This Appointment</button>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-12 future">
+                                                                                <div class="col-md-6" style="margin-bottom:13px;">
+                                                                                    <p><h3 class="Name">Miss. Jade Astell</h3></p>
+                                                                                    <p class="text">Your next patient at 8:00PM on 05/05/2016.</p>
+                                                                                    <p class="text"><b>Status</b> : Approved</p>
+                                                                                </div>
+                                                                                <div class="col-md-3 pull-right" style="margin-bottom:13px;">
+                                                                                    <button type="button" class="btn btn-danger cancel">Cancel This Appointment</button>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-12 future">
+                                                                                <div class="col-md-6" style="margin-bottom:13px;">
+                                                                                    <p><h3 class="Name">Mrs. Emily Case</h3></p>
+                                                                                    <p class="text">Your next patient at 8:00PM on 05/05/2016.</p>
+                                                                                    <p class="text"><b>Status</b> : Approved</p>
+                                                                                </div>
+                                                                                <div class="col-md-3 pull-right" style="margin-bottom:13px;">
+                                                                                    <button type="button" class="btn btn-danger cancel">Cancel This Appointment</button>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3" style="text-align:center;">
+                                            <button type="submit" class="btn btn-primary">Back</button>
+                                            <button type="submit" class="btn btn-success">Edit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="tab-pane fade" id="Past">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xs-offset-0 col-sm-offset-0 toppad" style="margin-top:0px;margin-left: -10px;">
+                                    <div class="panel panel-info doctor">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">My Past Appointment: <b>Mrs.Emily Rose</b></h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class=" col-md-12 col-lg-12">
+                                                    <div class="col-md-12 fifth layer" style="margin-top:5px;">
+                                                        <div class="form-group">
+                                                            <div class="col-md-12 col-sm-12 col-xs-12" style="text-align:center;">
+                                                                <button type="submit" class="btn btn-success today">Today</button>
+                                                                <button type="submit" class="btn btn-success today">Week</button>
+                                                                <button type="submit" class="btn btn-success today">Month</button>
+                                                                <button type="submit" class="btn btn-success today">All</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 fifth layer" style="margin-top:20px;">
+                                                        <div class="col-md-3">
+                                                            <input type="text" class="form-control" id="inputEmail" placeholder="From Date">
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <input type="text" class="form-control" id="inputEmail" placeholder="To Date">
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <select class="form-control select">
+                                                                <option>-Status Type-</option>
+                                                                <option>All</option>
+                                                                <option>Completed</option>
+                                                                <option>Cancelled By Doctor</option>
+                                                                <option>Cancelled By Patient</option>
+                                                                <option>Rejected</option>
+                                                                <option>Cancel By Admin</option>
+                                                                <option>Not Completed</option>
+                                                                <option>Not Responded By Patient</option>
+                                                                <option>Seen</option>
+                                                            </select>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <div class="col-md-3 pull-right" style="text-align:center;">
+                                                                <button type="submit" class="btn btn-primary">Submit</button>
+                                                                <button type="submit" class="btn btn-success">Reset</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="tab-content">
+                                                        <div class="tab-pane active" id="tab_default_1">
+                                                            <div class="container-fluid">
+                                                                <div class="row">
+                                                                    <div class="col-md-12 future">
+                                                                        <div class="col-md-6" style="margin-bottom:13px;">
+                                                                            <p><h3 class="Name">Tester</h3></p>
+                                                                            <p class="text">Has Requested An Appointment On 03-May-2016 09:14 AM </p>
+                                                                            <p class="text"><b>Status</b> : Home Visit </p>
+                                                                            <a href="#" class="soap"><p class="text">Click On The Notes(SOAP)</p></a>
+                                                                        </div>
+
+                                                                    </div>
+                                                                    <div class="col-md-12 future">
+                                                                        <div class="col-md-6" style="margin-bottom:13px;">
+                                                                            <p><h3 class="Name">Tester</h3></p>
+                                                                            <p class="text">Has Requested An Appointment On 03-May-2016 09:14 AM </p>
+                                                                            <p class="text"><b>Status</b> : Home Visit </p>
+                                                                            <a href="#" class="soap"><p class="text">Click On The Notes(SOAP)</p></a>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-12 future">
+                                                                        <div class="col-md-6" style="margin-bottom:13px;">
+                                                                            <p><h3 class="Name">Tester</h3></p>
+                                                                            <p class="text">Has Requested An Appointment On 03-May-2016 09:14 AM </p>
+                                                                            <p class="text"><b>Status</b> : Home Visit </p>
+                                                                            <a href="#" class="soap"><p class="text">Click On The Notes(SOAP)</p></a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3" style="text-align:center;">
+                                            <button type="submit" class="btn btn-primary">Back</button>
+                                            <button type="submit" class="btn btn-success">Edit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="tab-pane fade" id="Clinical">
+                                @{Html.RenderPartial("~/Areas/Patients/Views/Shared/_PatientClinicalDashboardPartial.cshtml");}
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3" style="text-align:center;">
+                                            <button type="submit" class="btn btn-primary">Back</button>
+                                            <button type="submit" class="btn btn-success">Edit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="tab-pane fade" id="Medical">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xs-offset-0 col-sm-offset-0 toppad" style="margin-top:0px;margin-left: -10px;">
+                                    <div class="panel panel-info doctor">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">Medical History: <b>Mrs.Emily Rose</b></h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div id="accordion1" role="tablist" aria-multiselectable="true" style="margin-top:10px;">
+                                                @{Html.RenderPartial("~/Areas/Patients/Views/Shared/_PartialMedicalHistory.cshtml", Model.patientmodel);}
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3" style="text-align:center;">
+                                            <button type="submit" class="btn btn-primary">Back</button>
+                                            <button type="submit" class="btn btn-success">Edit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="tab-pane fade" id="Doctor">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xs-offset-0 col-sm-offset-0 toppad" style="margin-top:0px;margin-left: -10px;">
+                                    <div class="panel panel-info doctor">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">Patient Messages: <b>Mrs.Emily Rose</b></h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class=" col-md-12 col-lg-12">
+                                                    <div class="container-fluid">
+                                                        <div class="row">
+                                                            <div class="col-md-12 future" style="margin-top:8px;">
+                                                                <div class="col-md-10" style="margin-bottom:13px;">
+                                                                    <p class="text" style="margin-top:10px;">23/07/2015, 7:45PM</p>
+                                                                    <p class="text">Your mesaage was given to Mrs Emily and she is Ok..</p>
+                                                                    <p class="text"><b>Last message</b> : 02/05/2016, 3:01PM </p>
+                                                                    <p class="text"><b>Status</b> : Lorem Isum </p>
+                                                                </div>
+                                                                <div class="col-md-2 pull-right" style="margin-bottom:13px;">
+                                                                    <button type="button" class="btn btn-danger message">Delete</button>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12 future">
+                                                                <div class="col-md-10" style="margin-bottom:13px;">
+                                                                    <p class="text" style="margin-top:10px;">10/06/2015, 12:26PM</p>
+                                                                    <p class="text">Just wondering if when will you be available to review Emily Rose.</p>
+                                                                    <p class="text"><b>Last message</b> : 15/04/2016, 2:22PM </p>
+                                                                    <p class="text"><b>Status</b> : talked already to patient </p>
+                                                                </div>
+                                                                <div class="col-md-2 pull-right" style="margin-bottom:13px;">
+                                                                    <button type="button" class="btn btn-danger message">Delete</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3" style="text-align:center;">
+                                            <button type="submit" class="btn btn-primary">Back</button>
+                                            <button type="submit" class="btn btn-success">Edit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="tab-pane fade" id="Reset">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xs-offset-0 col-sm-offset-0 toppad" style="margin-top:0px;margin-left: -10px;">
+                                    <div class="panel panel-info doctor">
+                                        <div class="panel-heading">
+                                            <h3 class="panel-title">Reset Password:<label id="lblpatient"></label> <b></b></h3>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class=" col-md-12 col-lg-12">
+                                                    <div class="col-md-12 fifth layer" style="margin-top:20px;">
+                                                        <div class="col-md-3 col-md-offset-2">
+                                                            <input type="text" class="form-control" id="txtnewpassword" placeholder="New Password" style="width:100%;">
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <input type="text" class="form-control" id="txtRetypePassword" placeholder="Re-Type Password" style="width:100%;">
+                                                        </div>
+                                                        <div class="col-md-3" style="text-align:center;">
+                                                            <button id="btnReset" type="submit" class="btn btn-primary">Submit</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3" style="text-align:center;">
+                                            <button type="submit" class="btn btn-primary">Back</button>
+                                            <button type="submit" class="btn btn-success">Edit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    var htmlString =
+        {
+            dvDoctorHtmlString: '<div class="msg_bx">' +
+                        '<div class="msg_li">' +
+                        '<div class="patinet_num_tx">' +
+                        '<a id="ContentPlaceHolder1_rptFuture_LinkButton3_0" class="aspNetDisabled">¶PatientName</a>' +
+                                '(F-25)' +
+                                '<br>' +
+                               '<div style="float: left; font-size: 14px;">' +
+                                    '<span id="ContentPlaceHolder1_rptFuture_lbstatus_0">¶StatusName</span>' +
+
+                                '</div>' +
+
+                           ' </div>' +
+                            '<div class="call_icon" style="margin-top: 9px;">' +
+
+                            '</div>' +
+                            '<div class="call_icon" style="margin: 9px 10px 0 0;">' +
+
+                            +'</div>' +
+
+
+                            '<div class="date_time_caln_btn" style="width: 105px; margin:-10px 5px 0 0;">' +
+                                '<span id="ContentPlaceHolder1_rptFuture_lblDate_0"></span>' +
+                                '<span>¶ApointmentDate</span>' +
+                            '</div>' +
+                           '<div class="male_mx_bx" style="margin-right: 6px; margin-top:-10px; font-weight: normal;line-height: 38px; width: 200px;display:none;">' +
+'<span id="ContentPlaceHolder1_rptFuture_lblremaningtime_0"></span>' +
+'</div>' +
+
+'<div class="male_mx_bx" style="width:200px; text-align:center;line-height: 20px;margin-top: -10px;margin-right: 5px;font-weight:normal">' +
+    '<div style="width:66px;float:left;text-align:center">' +
+       ' Day<br>' +
+      '  <span id="ContentPlaceHolder1_rptFuture_day_0">00</span>' +
+   ' </div>' +
+   ' <div style="width:66px;float:left;text-align:center">' +
+       ' Hours<br>' +
+       ' <span id="ContentPlaceHolder1_rptFuture_hours_0">00</span>' +
+   ' </div>' +
+   ' <div style="width:66px;float:left;text-align:center">' +
+       ' Minutes<br>' +
+       ' <span id="ContentPlaceHolder1_rptFuture_min_0">00</span>' +
+   ' </div>' +
+'</div>' +
+'<div id="ContentPlaceHolder1_rptFuture_DivProblem_0" class="clinical_DashBoard_btn male_mx_bx" style="width:160px;text-align:center;line-height:38px ;margin-top:-10px;margin-right:5px;font-weight:normal;display:none;">' +
+    '<span id="ContentPlaceHolder1_rptFuture_lblproblem_0"></span>' +
+
+'</div>' +
+'<div class="clinical_DashBoard_btn male_mx_bx" style="width:180px; text-align:center;line-height:38px ;margin-top: -10px;margin-right: 5px;font-weight:normal">' +
+   ' <marquee behavior="scroll" direction="left" onmouseover="this.stop();" onmouseout="this.start();">¶Address1 ¶Address2 ¶CountryName </marquee>' +
+
+'</div>' +
+'</div>' +
+'<div class="productDetail" id="3713">' +
+'</div>' +
+'</div>'
+        }
+
+    $("#vedioajax").click(function () {
+
+        var dvAppendString = htmlString.dvDoctorHtmlString;
+        var dvFuturvedio = $('#dvFuturvedio');
+        dvFuturvedio.html('');
+        $.ajax({
+            type: 'GET',
+            url: '/Admin/Patient/FutureConsult',
+            dataType: 'json',
+            data: {
+                id: 1,
+                loginid: $('#LoginId').val()
+            },
+            success: function (data) {
+                console.log(data);
+                $.each(data, function (key, value) {
+
+                    var appendString = dvAppendString.replace('¶Value', "Book an Appointment");
+                    appendString = appendString.replace('¶PatientName', value.PatientName);
+                    appendString = appendString.replace('¶StatusName', value.AppointmentStatusName);
+                    appendString = appendString.replace('¶ApointmentDate', value.AppointmentDateLocalText);
+                    appendString = appendString.replace('¶Address1', value.Address1);
+                    appendString = appendString.replace('¶Address2', value.Address2);
+                    appendString = appendString.replace('¶CountryName', value.CountryName);
+
+                    dvFuturvedio.append(appendString);
+                });
+
+
+            },
+            error: function (ex) {
+            }
+        });
+
+
+
+
+    });
+
+    $("#clinicajax").click(function () {
+
+        var dvAppendString = htmlString.dvDoctorHtmlString;
+        var dvFuturclinic = $('#dvFuturclinic');
+        dvFuturclinic.html('');
+        $.ajax({
+            type: 'GET',
+            url: '/Admin/Patient/FutureConsult',
+            dataType: 'json',
+            data: {
+                id: 2,
+                loginid: $('#LoginId').val()
+            },
+            success: function (data) {
+                console.log(data);
+                $.each(data, function (key, value) {
+
+                    var appendString = dvAppendString.replace('¶Value', "Book an Appointment");
+                    appendString = appendString.replace('¶PatientName', value.PatientName);
+                    appendString = appendString.replace('¶StatusName', value.AppointmentStatusName);
+                    appendString = appendString.replace('¶ApointmentDate', value.AppointmentDateLocalText);
+                    appendString = appendString.replace('¶Address1', value.Address1);
+                    appendString = appendString.replace('¶Address2', value.Address2);
+                    appendString = appendString.replace('¶CountryName', value.CountryName);
+
+                    dvFuturclinic.append(appendString);
+                });
+
+
+            },
+            error: function (ex) {
+            }
+        });
+
+
+
+
+    });
+
+    $("#homeajax").click(function () {
+
+        var dvAppendString = htmlString.dvDoctorHtmlString;
+        var dvFuturhome = $('#dvFuturhome');
+        dvFuturhome.html('');
+        $.ajax({
+            type: 'GET',
+            url: '/Admin/Patient/FutureConsult',
+            dataType: 'json',
+            data: {
+                id: 3,
+                loginid: $('#LoginId').val()
+            },
+            success: function (data) {
+                console.log(data);
+                $.each(data, function (key, value) {
+
+                    var appendString = dvAppendString.replace('¶Value', "Book an Appointment");
+                    appendString = appendString.replace('¶PatientName', value.PatientName);
+                    appendString = appendString.replace('¶StatusName', value.AppointmentStatusName);
+                    appendString = appendString.replace('¶ApointmentDate', value.AppointmentDateLocalText);
+                    appendString = appendString.replace('¶Address1', value.Address1);
+                    appendString = appendString.replace('¶Address2', value.Address2);
+                    appendString = appendString.replace('¶CountryName', value.CountryName);
+
+                    dvFuturhome.append(appendString);
+                });
+
+
+            },
+            error: function (ex) {
+            }
+        });
+
+
+
+
+    });
+
+
+
+    $("#pastvedioajax").click(function () {
+
+        var dvAppendString = htmlString.dvDoctorHtmlString;
+        var dvpastvedio = $('#dvpastvedio');
+        dvpastvedio.html('');
+        $.ajax({
+            type: 'GET',
+            url: '/Admin/Patient/PastConsult',
+            dataType: 'json',
+            data: {
+                id: 1,
+                loginid: $('#LoginId').val()
+            },
+            success: function (data) {
+                console.log(data);
+                $.each(data, function (key, value) {
+
+                    var appendString = dvAppendString.replace('¶Value', "Book an Appointment");
+                    appendString = appendString.replace('¶PatientName', value.PatientName);
+                    appendString = appendString.replace('¶StatusName', value.AppointmentStatusName);
+                    appendString = appendString.replace('¶ApointmentDate', value.AppointmentDateLocalText);
+                    appendString = appendString.replace('¶Address1', value.Address1);
+                    appendString = appendString.replace('¶Address2', value.Address2);
+                    appendString = appendString.replace('¶CountryName', value.CountryName);
+
+                    dvpastvedio.append(appendString);
+                });
+
+
+            },
+            error: function (ex) {
+            }
+        });
+
+
+
+
+    });
+
+    $("#pastclinicajax").click(function () {
+
+        var dvAppendString = htmlString.dvDoctorHtmlString;
+        var dvpastclinic = $('#dvpastclinic');
+        dvpastclinic.html('');
+        $.ajax({
+            type: 'GET',
+            url: '/Admin/Patient/PastConsult',
+            dataType: 'json',
+            data: {
+                id: 2,
+                loginid: $('#LoginId').val()
+            },
+            success: function (data) {
+                console.log(data);
+                $.each(data, function (key, value) {
+
+                    var appendString = dvAppendString.replace('¶Value', "Book an Appointment");
+                    appendString = appendString.replace('¶PatientName', value.PatientName);
+                    appendString = appendString.replace('¶StatusName', value.AppointmentStatusName);
+                    appendString = appendString.replace('¶ApointmentDate', value.AppointmentDateLocalText);
+                    appendString = appendString.replace('¶Address1', value.Address1);
+                    appendString = appendString.replace('¶Address2', value.Address2);
+                    appendString = appendString.replace('¶CountryName', value.CountryName);
+
+                    dvpastclinic.append(appendString);
+                });
+
+
+            },
+            error: function (ex) {
+            }
+        });
+
+
+
+
+    });
+
+    $("#pasthomeajax").click(function () {
+
+        var dvAppendString = htmlString.dvDoctorHtmlString;
+        var dvpasthome = $('#dvpasthome');
+        dvpasthome.html('');
+        $.ajax({
+            type: 'GET',
+            url: '/Admin/Patient/PastConsult',
+            dataType: 'json',
+            data: {
+                id: 3,
+                loginid: $('#LoginId').val()
+            },
+            success: function (data) {
+                console.log(data);
+                $.each(data, function (key, value) {
+
+                    var appendString = dvAppendString.replace('¶Value', "Book an Appointment");
+                    appendString = appendString.replace('¶PatientName', value.PatientName);
+                    appendString = appendString.replace('¶StatusName', value.AppointmentStatusName);
+                    appendString = appendString.replace('¶ApointmentDate', value.AppointmentDateLocalText);
+                    appendString = appendString.replace('¶Address1', value.Address1);
+                    appendString = appendString.replace('¶Address2', value.Address2);
+                    appendString = appendString.replace('¶CountryName', value.CountryName);
+
+                    dvpasthome.append(appendString);
+                });
+
+
+            },
+            error: function (ex) {
+            }
+        });
+
+    });
+</script>
+<script>
+
+    var controlIds = {
+        txtBgBeforBreakfastMin: 'BgBeforBreakfastMin',
+        txtBgBeforBreakfastMinRef: $('#BgBeforBreakfastMin'),
+
+        txtBgBeforBreakfastMax: 'BgBeforBreakfastMax',
+        txtBgBeforBreakfastMaxRef: $('#BgBeforBreakfastMax'),
+
+        txtBgAfterBreakfastMin: 'BgAfterBreakfastMin',
+        txtBgAfterBreakfastMinRef: $('#BgAfterBreakfastMin'),
+
+        txtBgAfterBreakfastMaxMin: 'BgAfterBreakfastMax',
+        txtBgAfterBreakfastMaxRef: $('#BgAfterBreakfastMax'),
+
+        txtBgBeforeLunchMin: 'BgBeforeLunchMin',
+        txtBgBeforeLunchMinRef: $('#BgBeforeLunchMin'),
+
+        txtBgBeforeLunchMax: 'BgBeforeLunchMax',
+        txtBgBeforeLunchMaxRef: $('#BgBeforeLunchMax'),
+
+        txtBgAfterLunchMin: 'BgAfterLunchMin',
+        txtBgAfterLunchMinRef: $('#BgAfterLunchMin'),
+
+        txtBgAfterLunchMax: 'BgAfterLunchMax',
+        txtBgAfterLunchMaxRef: $('#BgAfterLunchMax'),
+
+        txtBgBeforeDinnerMin: 'BgBeforeDinnerMin',
+        txtBgBeforeDinnerMinRef: $('#BgBeforeDinnerMin'),
+
+        txtBgBeforeDinnerMax: 'BgBeforeDinnerMax',
+        txtBgBeforeDinnerMaxRef: $('#BgBeforeDinnerMax'),
+
+        txtBgBeforeBedMin: 'BgBeforeBedMin',
+        txtBgBeforeBedMinRef: $('#BgBeforeBedMin'),
+
+        txtBgBeforeBedMax: 'BgBeforeBedMax',
+        txtBgBeforeBedMaxRef: $('#BgBeforeBedMax'),
+
+        txtBpSystolicMin: 'BpSystolicMin',
+        txtBpSystolicMinRef: $('#BpSystolicMin'),
+
+        txtBpSystolicMax: 'BpSystolicMax',
+        txtBpSystolicMaxRef: $('#BpSystolicMax'),
+
+        txtBpBeforeBrekfastMin: 'BpBeforeBrekfastMin',
+        txtBpBeforeBrekfastMinRef: $('#BpBeforeBrekfastMin'),
+
+        txtBpAfterBrekfastMax: 'BpBeforeBrekfastMax',
+        txtBpAfterBrekfastMaxRef: $('#BpBeforeBrekfastMax'),
+
+        txtOxygenMin: 'OxygenMin',
+        txtOxygenMinRef: $('#OxygenMin'),
+
+        txtOxygenMax: 'OxygenMax',
+        txtOxygenMaxRef: $('#OxygenMax'),
+
+        txtHeartRatemin: 'HeartRatemin',
+        txtHeartRateminRef: $('#HeartRatemin'),
+
+        txtHeartRatemax: 'HeartRatemax',
+        txtHeartRatemaxRef: $('#HeartRatemax'),
+
+        txtTempMin: 'TempMin',
+        txtTempMinRef: $('#TempMin'),
+
+        txtTempMax: 'TempMax',
+        txtTempMaxRef: $('#TempMax'),
+
+        txtBMIMin: 'BMIMin',
+        txtBMIMinRef: $('#BMIMin'),
+
+        txtBMIMax: 'BMIMax',
+        txtBMIMaxRef: $('#BMIMax'),
+
+        txtWeightMin: 'WeightMin',
+        txtWeightMinRef: $('#WeightMin'),
+
+        txtTestname: 'Testname',
+        txtTestnameRef: $('#Testname'),
+
+        txtfasting: 'fasting',
+        txtfastingRef: $('#fasting'),
+
+        txtnonfasting: 'nonfasting',
+        txtnonfastingRef: $('#nonfasting'),
+
+        txtcliniclnotes: 'cliniclnotes',
+        txtcliniclnotesRef: $('#cliniclnotes'),
+
+        txtinstruction: 'instruction',
+        txtinstructionRef: $('#instruction'),
+
+        txturgent: 'urgent',
+        txturgentRef: $('#urgent'),
+        txtnonurgent: 'nonurgent',
+        txtnonurgentRef: $('#nonurgent'),
+        txtcopyresult: 'copyresult',
+        txtcopyresultRef: $('#copyresult'),
+        btnclick: $('#savestandards'),
+        hdnfasting: $('#hdnfasting'),
+        hdnUrgent: $('#hdnUrgentvalue'),
+        hdnActionName: 'hdnActionName',
+        hdnActionNameRef: $('#hdnActionName')
+    }
+    $('#lnkSetStandards').click(function () {
+        $('#savestandards').hide();
+        $.ajax({
+            type: "Get",
+            url: '/doctor/ClinicalDashboard/GetStandards',
+            data: ({ LoginId: $('#LoginId').val() }),
+            datatype: "json",
+            success: function (data) {
+
+                controlIds.txtBpSystolicMinRef.val(data.BloodPressureSystolicMinValue),
+                    controlIds.txtBpSystolicMaxRef.val(data.BloodPressureSystolicMaxValue),
+                   controlIds.txtBpBeforeBrekfastMinRef.val(data.BloodPressureDiastolicMinValue),
+                controlIds.txtBpAfterBrekfastMaxRef.val(data.BloodPressureDiastolicMaxValue),
+                //BloodPressureUnit: "mmhg",
+                controlIds.txtHeartRateminRef.val(data.PulseRateMin),
+               controlIds.txtHeartRatemaxRef.val(data.PulseRateMax),
+                //PulseUnit: "Bpm",
+                 controlIds.txtBgBeforBreakfastMinRef.val(data.BloodGlucoseBeforeBreakfastMinValue),
+                 controlIds.txtBgBeforBreakfastMaxRef.val(data.BloodGlucoseBeforeBreakfastMaxValue),
+                 controlIds.txtBgAfterBreakfastMinRef.val(data.BloodGlucoseAfterBreakfastMinValue),
+                 controlIds.txtBgAfterBreakfastMaxRef.val(data.BloodGlucoseAfterBreakfastMaxValue),
+                 controlIds.txtBgBeforeLunchMinRef.val(data.BloodGlucoseBeforeLunchMinValue),
+                 controlIds.txtBgBeforeLunchMaxRef.val(data.BloodGlucoseBeforeLunchMaxValue),
+                 controlIds.txtBgAfterLunchMinRef.val(data.BloodGlucoseAfterLunchMinValue),
+                 controlIds.txtBgAfterLunchMaxRef.val(data.BloodGlucoseAfterLunchMaxValue),
+                 controlIds.txtBgBeforeDinnerMinRef.val(data.BloodGlucoseBeforeDinnerMinValue),
+                 controlIds.txtBgBeforeDinnerMaxRef.val(data.BloodGlucoseBeforeDinnerMaxValue),
+                 controlIds.txtBgBeforeBedMinRef.val(data.BloodGlucoseBeforeBedMinValue),
+                 controlIds.txtBgBeforeBedMaxRef.val(data.BloodGlucoseBeforeBedMaxValue),
+                //BloodGlucoseUnit: "mmol/l",
+                 controlIds.txtTempMinRef.val(data.TemperatureMinValue),
+                 controlIds.txtTempMaxRef.val(data.TemperatureMaxValue),
+                // TemperatureUnit: "℃",
+                 controlIds.txtOxygenMinRef.val(data.BloodOxygenMinValue),
+                 controlIds.txtOxygenMaxRef.val(data.BloodOxygenMaxValue),
+                //BloodOxygenUnit: "%",
+                 controlIds.txtWeightMinRef.val(data.WeightMinValue),
+                 controlIds.txtWeightMaxRef.val(data.WeightMaxValue),
+                //WeightUnit: "Kg",
+                 controlIds.txtBMIMinRef.val(data.BMIMinValue),
+                 controlIds.txtBMIMaxRef.val(data.BMIMaxValue)
+
+            },
+            error: function () {
+
+            }
+        });
+    });
+    $('#lnkRadiology').click(function () {
+        $('#dvAddRadiology').hide();
+        $('.ShowdvAddPathology').hide();
+        $('.ShowdvAddRadiology').hide();
+        $('#dvAddRadiology').removeClass("dvvisibility").addClass("dvhide");
+        //$('#dvRadiologyList').removeClass("dvvisibility").addClass("dvhide");
+        $('#dvRadiologyList').show();
+        $('#tblRadiology tbody').html('');
+
+        var tr;
+        $.ajax({
+            type: "POST",
+            url: '/doctor/ClinicalDashboard/GetRadioLogyListByPatientID',
+            data: ({ LoginId: $('#LoginId').val() }),
+            datatype: "json",
+            success: function (radiologylist) {
+
+                for (var i = 0; i < radiologylist.length; i++) {
+                    tr = $('<tr/>');
+                    tr.append("<td>" + radiologylist[i].RadiologyTypeName + "</td>");
+                    tr.append("<td>" + radiologylist[i].RegionName + "</td>");
+                    tr.append("<td>" + radiologylist[i].RequestPrint + "</td>");
+                    tr.append("<td>" + radiologylist[i].ClinicalNotes + "</td>");
+                    tr.append("<td>" + radiologylist[i].CopyResult + "</td>");
+                    //tr.append("<td><a ><span id='" + radiologylist[i].RadiologyId + "' class='btn btn-default pull-right EditRadiology'>Edit</span></a></td>");
+                    $('#tblRadiology').append(tr);
+                }
+            },
+            error: function () {
+
+            }
+        });
+    });
+
+    $('#lnkConsultation').click(function () {
+        var dvConsult = $('#dvconsult');
+
+        $.ajax({
+            type: "GET",
+            url: '/doctor/ClinicalDashboard/getNewConsultbyAdmin',
+            data: ({ DoctorId: '00000000-0000-0000-0000-000000000000', PatientLoginId: $('#LoginId').val(), OrganizationId: '00000000-0000-0000-0000-000000000000', ClinicId: '00000000-0000-0000-0000-000000000000' }),
+            datatype: "json",
+            success: function (ConsultModel) {
+                console.log(ConsultModel);
+                for (var i = 0; i < ConsultModel.length; i++) {
+                    var appendString = '<div class="col-md-12 future"><div class="col-md-6" style="margin-bottom:13px;"><p class="consultaion"><b>Submit Date</b>: ' + ConsultModel[i].CreatedDate + '</span></p><p class="text"><b>Reason</b>: ' + ConsultModel[i].Reason + '</p><p class="text"><b>Diagnosis</b> :' + ConsultModel[i].DiganosisName + ' </p><a href="#" class="soap"><p class="text">Click On The Notes(SOAP)</p></a></div></div>';
+                    dvConsult.append(appendString);
+                }
+
+            },
+            error: function () {
+            }
+        });
+    });
+    $('#lnkExamination').click(function () {
+        function getBloodsugar() {
+            $.ajax({
+                type: "POST",
+                url: '/doctor/ClinicalDashboard/GetBloodPressureByPatientID',
+                data: ({ Id: $('#LoginId').val() }),
+                datatype: "json",
+                success: function (bp) {
+                    console.log(bp);
+                    $('#lblblooodsystolic').html(bp.SystolicValue);
+                    $('#lblDiastolic').html(bp.DiastolicValue);
+                    $('#lblblooodbpm').html(bp.PulseValue);
+                    $('#lblbloodPresureDate').html(getCreatedDate(bp.CreatedDate));
+                },
+                error: function () {
+                }
+            });
+        }
+        getOxygen();
+        getBloodGlucose();
+        getHeightByPatient();
+        getHeartRateByPatient();
+        getWeightbyPatient();
+        getTempaeraturebyPatient();
+        getWaistbyPatient();
+    });
+
+    function getOxygen() {
+        $.ajax({
+            type: "POST",
+            url: '/doctor/ClinicalDashboard/GetOxygenByPatientID',
+            data: ({ Id: $('#LoginId').val() }),
+            datatype: "json",
+            success: function (oxygen) {
+                $('#lblOxygenValue').html(oxygen.OxygenValue);
+                $('#lblPulseValue').html(oxygen.PulseValue);
+                $('#MainContent_ucClinicalDeshBoard_TabContainer1_tbpnluser_TabContainer6_TabPanel21_presDate').html(getCreatedDate(oxygen.CreatedDate));
+            },
+            error: function () {
+
+            }
+        });
+    }
+    function getBloodGlucose() {
+        $.ajax({
+            type: "POST",
+            url: '/doctor/ClinicalDashboard/GetBloodGlucoseByPatientID',
+            data: ({ Id: $('#LoginId').val() }),
+            datatype: "json",
+            success: function (bg) {
+                $('#lblblooodSugarValue').html(bg.BloodSugarValue);
+                $('#MainContent_ucClinicalDeshBoard_TabContainer1_tbpnluser_TabContainer6_TabPanel21_presDate').html(getCreatedDate(bg.CreatedDate));
+                //
+            },
+            error: function () {
+            }
+        });
+    }
+    function getHeightByPatient() {
+        $.ajax({
+            type: "POST",
+            url: '/doctor/ClinicalDashboard/GetHeightByPatientID',
+            data: ({ Id: $('#LoginId').val() }),
+            datatype: "json",
+            success: function (height) {
+
+                $('#lblHeightValue').html(height.Height);
+                $('#MainContent_ucClinicalDeshBoard_TabContainer1_tbpnluser_TabContainer6_TabPanel21_presDate').html(getCreatedDate(height.CreatedDate));
+
+            },
+            error: function () {
+
+            }
+        });
+    }
+    function getHeartRateByPatient() {
+        $.ajax({
+            type: "POST",
+            url: '/doctor/ClinicalDashboard/GetHeartRateByPatientID',
+            data: ({ Id: $('#LoginId').val() }),
+            datatype: "json",
+            success: function (hrate) {
+
+                $('#lblHeartRate').html(hrate.PulseValue);
+                $('#MainContent_ucClinicalDeshBoard_TabContainer1_tbpnluser_TabContainer6_TabPanel21_presDate').html(getCreatedDate(hrate.CreatedDate));
+                //
+                //getCreatedDate(
+            },
+            error: function () {
+
+            }
+        });
+    }
+    function getWeightbyPatient() {
+        $.ajax({
+            type: "POST",
+            url: '/doctor/ClinicalDashboard/GetWeightByPatientID',
+            data: ({ Id: $('#LoginId').val() }),
+            datatype: "json",
+            success: function (weight) {
+
+                $('#lblWeight').html(weight.Weight);
+                $('#MainContent_ucClinicalDeshBoard_TabContainer1_tbpnluser_TabContainer6_TabPanel21_presDate').html(getCreatedDate(weight.CreatedDate));
+
+            },
+            error: function () {
+            }
+        });
+    }
+    function getTempaeraturebyPatient() {
+        $.ajax({
+            type: "POST",
+            url: '/doctor/ClinicalDashboard/GetTempaeraturebyPatient',
+            data: ({ Id: $('#LoginId').val() }),
+            datatype: "json",
+            success: function (temp) {
+                $('#lblTemperature').html(temp.Temperature);
+                $('#MainContent_ucClinicalDeshBoard_TabContainer1_tbpnluser_TabContainer6_TabPanel21_presDate').html(getCreatedDate(temp.CreatedDate));
+
+            },
+            error: function () {
+            }
+        });
+    }
+    function getWaistbyPatient() {
+        $.ajax({
+            type: "POST",
+            url: '/doctor/ClinicalDashboard/GetWaistbyPatient',
+            data: ({ Id: $('#LoginId').val() }),
+            datatype: "json",
+            success: function (waist) {
+                $('#lblWaist').html(waist.Waist);
+                $('#MainContent_ucClinicalDeshBoard_TabContainer1_tbpnluser_TabContainer6_TabPanel21_presDate').html(getCreatedDate(waist.CreatedDate));
+
+            },
+            error: function () {
+            }
+        });
+    }
+    function getCreatedDate(inputDate) {
+        var today = new Date(parseInt(inputDate.substr(6)));
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1; //January is 0!
+
+        var yyyy = today.getFullYear();
+        if (dd < 10) {
+            dd = '0' + dd
+        }
+        if (mm < 10) {
+            mm = '0' + mm
+        }
+
+        var SubmitDate = dd + '/' + mm + '/' + yyyy;
+        return SubmitDate;
+    }
+</script>
+<script type="text/javascript" language="javscript">
+    $(document).on('click', '.Regionclick', function (event) {
+        event.preventDefault();
+        var id = $(this).attr('id');
+        id = id.replace('rgn', '');
+        $('#hdnRagionId').val(id);
+        var name = $(this).attr('data-role');
+        getradiology(name);
+    })
+    var datePickerJquery = jQuery.noConflict();
+    var formatOfDate = 'dd/mm/yyyy';
+    var controlIds = {
+        txtBgBeforBreakfastMin: 'BgBeforBreakfastMin',
+        txtBgBeforBreakfastMinRef: $('#BgBeforBreakfastMin'),
+
+        txtBgBeforBreakfastMax: 'BgBeforBreakfastMax',
+        txtBgBeforBreakfastMaxRef: $('#BgBeforBreakfastMax'),
+
+        txtBgAfterBreakfastMin: 'BgAfterBreakfastMin',
+        txtBgAfterBreakfastMinRef: $('#BgAfterBreakfastMin'),
+
+        txtBgAfterBreakfastMaxMin: 'BgAfterBreakfastMax',
+        txtBgAfterBreakfastMaxRef: $('#BgAfterBreakfastMax'),
+
+        txtBgBeforeLunchMin: 'BgBeforeLunchMin',
+        txtBgBeforeLunchMinRef: $('#BgBeforeLunchMin'),
+
+        txtBgBeforeLunchMax: 'BgBeforeLunchMax',
+        txtBgBeforeLunchMaxRef: $('#BgBeforeLunchMax'),
+
+        txtBgAfterLunchMin: 'BgAfterLunchMin',
+        txtBgAfterLunchMinRef: $('#BgAfterLunchMin'),
+
+        txtBgAfterLunchMax: 'BgAfterLunchMax',
+        txtBgAfterLunchMaxRef: $('#BgAfterLunchMax'),
+
+        txtBgBeforeDinnerMin: 'BgBeforeDinnerMin',
+        txtBgBeforeDinnerMinRef: $('#BgBeforeDinnerMin'),
+
+        txtBgBeforeDinnerMax: 'BgBeforeDinnerMax',
+        txtBgBeforeDinnerMaxRef: $('#BgBeforeDinnerMax'),
+
+        txtBgBeforeBedMin: 'BgBeforeBedMin',
+        txtBgBeforeBedMinRef: $('#BgBeforeBedMin'),
+
+        txtBgBeforeBedMax: 'BgBeforeBedMax',
+        txtBgBeforeBedMaxRef: $('#BgBeforeBedMax'),
+
+        txtBpSystolicMin: 'BpSystolicMin',
+        txtBpSystolicMinRef: $('#BpSystolicMin'),
+
+        txtBpSystolicMax: 'BpSystolicMax',
+        txtBpSystolicMaxRef: $('#BpSystolicMax'),
+
+        txtBpBeforeBrekfastMin: 'BpBeforeBrekfastMin',
+        txtBpBeforeBrekfastMinRef: $('#BpBeforeBrekfastMin'),
+
+        txtBpAfterBrekfastMax: 'BpBeforeBrekfastMax',
+        txtBpAfterBrekfastMaxRef: $('#BpBeforeBrekfastMax'),
+
+        txtOxygenMin: 'OxygenMin',
+        txtOxygenMinRef: $('#OxygenMin'),
+
+        txtOxygenMax: 'OxygenMax',
+        txtOxygenMaxRef: $('#OxygenMax'),
+
+        txtHeartRatemin: 'HeartRatemin',
+        txtHeartRateminRef: $('#HeartRatemin'),
+
+        txtHeartRatemax: 'HeartRatemax',
+        txtHeartRatemaxRef: $('#HeartRatemax'),
+
+        txtTempMin: 'TempMin',
+        txtTempMinRef: $('#TempMin'),
+
+        txtTempMax: 'TempMax',
+        txtTempMaxRef: $('#TempMax'),
+
+        txtBMIMin: 'BMIMin',
+        txtBMIMinRef: $('#BMIMin'),
+
+        txtBMIMax: 'BMIMax',
+        txtBMIMaxRef: $('#BMIMax'),
+
+        txtWeightMin: 'WeightMin',
+        txtWeightMinRef: $('#WeightMin'),
+
+        txtTestname: 'Testname',
+        txtTestnameRef: $('#Testname'),
+
+        txtfasting: 'fasting',
+        txtfastingRef: $('#fasting'),
+
+        txtnonfasting: 'nonfasting',
+        txtnonfastingRef: $('#nonfasting'),
+
+        txtcliniclnotes: 'cliniclnotes',
+        txtcliniclnotesRef: $('#cliniclnotes'),
+
+        txtinstruction: 'instruction',
+        txtinstructionRef: $('#instruction'),
+
+        txturgent: 'urgent',
+        txturgentRef: $('#urgent'),
+        txtnonurgent: 'nonurgent',
+        txtnonurgentRef: $('#nonurgent'),
+        txtcopyresult: 'copyresult',
+        txtcopyresultRef: $('#copyresult'),
+        btnclick: $('#savestandards'),
+        hdnfasting: $('#hdnfasting'),
+        hdnUrgent: $('#hdnUrgentvalue'),
+        hdnActionName: 'hdnActionName',
+        hdnActionNameRef: $('#hdnActionName')
+    }
+    $('#savestandards').click(function () {
+        alert("dsf");
+        $.ajax({
+            type: "POST",
+            url: '/doctor/ClinicalDashboard/SetStandards',
+            data: {
+                BloodPressureSystolicMinValue: controlIds.txtBpSystolicMinRef.val(),
+                BloodPressureSystolicMaxValue: controlIds.txtBpSystolicMaxRef.val(),
+                BloodPressureDiastolicMinValue: controlIds.txtBpBeforeBrekfastMinRef.val(),
+                BloodPressureDiastolicMaxValue: controlIds.txtBpAfterBrekfastMaxRef.val(),
+                BloodPressureUnit: "mmhg",
+                PulseRateMin: controlIds.txtHeartRateminRef.val(),
+                PulseRateMax: controlIds.txtHeartRatemaxRef.val(),
+                PulseUnit: "Bpm",
+                BloodGlucoseBeforeBreakfastMinValue: controlIds.txtBgBeforBreakfastMinRef.val(),
+                BloodGlucoseBeforeBreakfastMaxValue: controlIds.txtBgBeforBreakfastMaxRef.val(),
+                BloodGlucoseAfterBreakfastMinValue: controlIds.txtBgAfterBreakfastMinRef.val(),
+                BloodGlucoseAfterBreakfastMaxValue: controlIds.txtBgAfterBreakfastMaxRef.val(),
+                BloodGlucoseBeforeLunchMinValue: controlIds.txtBgBeforeLunchMinRef.val(),
+                BloodGlucoseBeforeLunchMaxValue: controlIds.txtBgBeforeLunchMaxRef.val(),
+                BloodGlucoseAfterLunchMinValue: controlIds.txtBgAfterLunchMinRef.val(),
+                BloodGlucoseAfterLunchMaxValue: controlIds.txtBgAfterLunchMaxRef.val(),
+                BloodGlucoseBeforeDinnerMinValue: controlIds.txtBgBeforeDinnerMinRef.val(),
+                BloodGlucoseBeforeDinnerMaxValue: controlIds.txtBgBeforeDinnerMaxRef.val(),
+                BloodGlucoseBeforeBedMinValue: controlIds.txtBgBeforeBedMinRef.val(),
+                BloodGlucoseBeforeBedMaxValue: controlIds.txtBgBeforeBedMaxRef.val(),
+                BloodGlucoseUnit: "mmol/l",
+                TemperatureMinValue: controlIds.txtTempMinRef.val(),
+                TemperatureMaxValue: controlIds.txtTempMaxRef.val(),
+                TemperatureUnit: "℃",
+                BloodOxygenMinValue: controlIds.txtOxygenMinRef.val(),
+                BloodOxygenMaxValue: controlIds.txtOxygenMaxRef.val(),
+                BloodOxygenUnit: "%",
+                WeightMinValue: controlIds.txtWeightMinRef.val(),
+                WeightMaxValue: controlIds.txtWeightMaxRef.val(),
+                WeightUnit: "Kg",
+                BMIMinValue: controlIds.txtBMIMinRef.val(),
+                BMIMaxValue: controlIds.txtBMIMaxRef.val()
+            },
+            datatype: "json",
+            success: function (data) {
+                console.log(data);
+
+            },
+            error: function () {
+
+            }
+        });
+    });
+    $('#btnSavepathalogy').click(function () {
+        alert('ok');
+        alert($('#hdnUrgentvalue').val());
+        //return;
+        //return;
+        $.ajax({
+            type: "POST",
+            url: '/doctor/ClinicalDashboard/Pathology',
+            data: {
+                TestName: controlIds.txtTestnameRef.val(),
+                //controlIds.txtfastingRef.val(),
+                FastingNonFastingValue: controlIds.hdnfasting.val(),
+                ClinicalNotes: controlIds.txtcliniclnotesRef.val(),
+                InstructionForPatient: controlIds.txtinstructionRef.val(),
+                Urgent: controlIds.hdnUrgent.val(),
+                CopyResultTo: controlIds.txtcopyresultRef.val()
+            },
+            datatype: "json",
+            success: function (data) {
+                console.log(data.strfeedback);
+                $('#txtFeedback').val(data.strfeedback);
+            },
+            error: function () {
+
+            }
+        });
+    });
+
+    $('#lnkFeedback').click(function () {
+
+        $('#feedbackstatus').val('');
+        $.ajax({
+            type: "POST",
+            url: '/doctor/ClinicalDashboard/GetFeedback',
+            datatype: "json",
+            success: function (data) {
+                console.log(data);
+                $('#feedbackstatus').val(data);
+                $('#txtFeedback').val(data);
+            },
+            error: function () {
+
+            }
+        });
+    });
+    $('.saveFeedback').click(function () {
+        alert($('#txtFeedback').val());
+        if ($('#txtFeedback').val() != '') {
+            $.ajax({
+                type: "POST",
+                url: '/doctor/ClinicalDashboard/AddFeedback',
+                data: ({ strfeedback: $('#txtFeedback').val(), Status: $('#feedbackstatus').val() }),
+                datatype: "json",
+                success: function (data) {
+
+                },
+                error: function () {
+
+                }
+            });
+        }
+        else {
+            alert("plz enter feedback");
+        }
+    });
+    $('#lnkPersonalNotes').click(function () {
+        $('#PersonalNotestatus').val('');
+        $.ajax({
+            type: "POST",
+            url: '/doctor/ClinicalDashboard/GetPersonalNote',
+            datatype: "json",
+            success: function (data) {
+                console.log(data);
+                $('#PersonalNotestatus').val(data);
+                $('#txtNotes').val(data);
+            },
+            error: function () {
+
+
+            }
+        });
+    });
+    $('.savePersonal').click(function () {
+
+        if ($('#txtNotes').val() != '') {
+            $.ajax({
+                type: "POST",
+                url: '/doctor/ClinicalDashboard/AddPersonalNote',
+                data: ({ strNote: $('#txtNotes').val(), Status: $('#PersonalNotestatus').val() }),
+                datatype: "json",
+                success: function (data) {
+
+                },
+                error: function () {
+
+                }
+            });
+        }
+        else {
+            alert("plz enter Notes");
+        }
+    });
+    function setRequestPrint() {
+
+        var hdnRadiology = $('#hdnRadiology');
+        var radiology = hdnRadiology.val() == '' ? '' : hdnRadiology.val() + ' ';
+
+        var hdnRegion = $('#hdnRegion');
+        var region = hdnRegion.val() == '' ? '' : hdnRegion.val() + ' ';
+
+        var txtRequestToPrint = $('#RequestToPrint');
+
+        var chkLeft = $('#chkLeft');
+        var left = '';
+
+        if (chkLeft.is(":checked"))
+            left = chkLeft.attr('data-role') + ' ';
+
+        var chkRight = $('#chkRight');
+        var right = '';
+
+        if (chkRight.is(":checked"))
+            right = chkRight.attr('data-role') + ' ';
+        var result = radiology + left + right + region;
+
+        txtRequestToPrint.val(result);
+    }
+    function getfastingValue(fasting) {
+        $('#hdnfasting').val(fasting);
+    }
+    function getUrgentValue(urgent) {
+        $('#hdnUrgentvalue').val(urgent);
+    }
+    function getregion(RegionName) {
+        //alert(RegionName);
+        //var varregion = document.getelementbyid(RegionName);
+        //varregion = varregion.attr('data-role') + ' ';
+        $('#hdnRegion').val(RegionName);
+        setRequestPrint();
+    }
+    function getradiology(RadiologyName) {
+        //alert(Radiologyid);
+        //var varregion = document.getelementbyid(Radiologyid);
+        //varregion = varregion.attr('data-role') + ' ';
+        $('#hdnRadiology').val(RadiologyName);
+        setRequestPrint();
+    }
+    function getRadiologyTypeId() {
+
+    }
+
+
+    //$('.EditRadiology').click(function () {
+
+    //});
+
+    $('.ShowRadiologyList').click(function () {
+        $('#dvAddRadiology').hide();
+        $('#dvRadiologyList').show();
+        $('#dvRadiologyList').removeClass("dvhide").addClass("dvvisibility");
+        $('#tblRadiology tbody').html('');
+        var tr;
+        $.ajax({
+            type: "POST",
+            url: '/doctor/ClinicalDashboard/GetRadioLogyList',
+            //data: ({ DoctorId: 1 }),
+            datatype: "json",
+            success: function (radiologylist) {
+
+                for (var i = 0; i < radiologylist.length; i++) {
+                    tr = $('<tr/>');
+                    tr.append("<td>" + radiologylist[i].RadiologyTypeName + "</td>");
+                    tr.append("<td>" + radiologylist[i].RegionName + "</td>");
+                    tr.append("<td>" + radiologylist[i].RequestPrint + "</td>");
+                    tr.append("<td>" + radiologylist[i].ClinicalNotes + "</td>");
+                    tr.append("<td>" + radiologylist[i].CopyResult + "</td>");
+                    //tr.append("<td><a class='EditRadiology' id='" + radiologylist[i].RadiologyId + "'  href='#' data-toggle='tooltip' data-placement='left'>Edit</a></td>");
+                    $('#tblRadiology').append(tr);
+                }
+            },
+            error: function () {
+            }
+        });
+    });
+    $('#ShowRadiologyList').click(function () {
+        $('#dvAddRadiology').hide();
+        $('#dvAddRadiology').removeClass("dvvisibility").addClass("dvhide");
+        $('#dvRadiologyList').removeClass("dvvisibility").addClass("dvhide");
+        $('#dvRadiologyList').hide();
+    });
+    $('#lnkRadiology').click(function () {
+        $('#dvAddRadiology').hide();
+        $('#dvAddRadiology').removeClass("dvvisibility").addClass("dvhide");
+        //$('#dvRadiologyList').removeClass("dvvisibility").addClass("dvhide");
+        $('#dvRadiologyList').show();
+        $('#tblRadiology tbody').html('');
+        var tr;
+        $.ajax({
+            type: "POST",
+            url: '/doctor/ClinicalDashboard/GetRadioLogyList',
+            //data: ({ DoctorId: 1 }),
+            datatype: "json",
+            success: function (radiologylist) {
+
+                for (var i = 0; i < radiologylist.length; i++) {
+                    tr = $('<tr/>');
+                    tr.append("<td>" + radiologylist[i].RadiologyTypeName + "</td>");
+                    tr.append("<td>" + radiologylist[i].RegionName + "</td>");
+                    tr.append("<td>" + radiologylist[i].RequestPrint + "</td>");
+                    tr.append("<td>" + radiologylist[i].ClinicalNotes + "</td>");
+                    tr.append("<td>" + radiologylist[i].CopyResult + "</td>");
+                    //tr.append("<td><a ><span id='" + radiologylist[i].RadiologyId + "' class='btn btn-default pull-right EditRadiology'>Edit</span></a></td>");
+                    $('#tblRadiology').append(tr);
+                }
+            },
+            error: function () {
+
+            }
+        });
+    });
+
+    $('#ShowPathologyList').click(function () {
+        $('#dvAddPathology').hide();
+        $('#dvAddPathology').removeClass("dvvisibility").addClass("dvhide");
+        $('#dvPathologyList').removeClass("dvvisibility").addClass("dvhide");
+        $('#dvPathologyList').hide();
+    });
+    $('.ShowPathologyList').click(function () {
+        $('#dvAddPathology').hide();
+        $('#dvPathologyList').show();
+        $('#dvPathologyList').removeClass("dvhide").addClass("dvvisibility");
+        $('#tblPathology tbody').html('');
+        var tr1;
+        $.ajax({
+            type: "POST",
+            url: '/doctor/ClinicalDashboard/GetPathologyList',
+            //data: ({ DoctorId: 'ECAB4E6D-6167-4CE3-B4F4-94A8534E1486' }),
+            datatype: "json",
+            success: function (Pathologylist) {
+                for (var i = 0; i < Pathologylist.length; i++) {
+                    tr1 = $('<tr/>');
+                    tr1.append("<td>" + Pathologylist[i].TestName + "</td>");
+                    tr1.append("<td>" + Pathologylist[i].FastingNonFastingValue + "</td>");
+                    tr1.append("<td>" + Pathologylist[i].ClinicalNotes + "</td>");
+                    tr1.append("<td>" + Pathologylist[i].InstructionForPatient + "</td>");
+                    tr1.append("<td>" + Pathologylist[i].CopyResultTo + "</td>");
+                    tr1.append("<td>" + Pathologylist[i].Urgent + "</td>");
+                    //tr1.append("<td><a   data-toggle='tooltip' data-placement='left'>Edit</a></td>");
+                    $('#tblPathology').append(tr1);
+                    //href=/Doctor/ClinicalDashboard/Pathology/" + Pathologylist[i].PathologyId + "
+                }
+            },
+            error: function () {
+
+            }
+        });
+    });
+    $('#lnkPathology').click(function () {
+        $('#dvAddPathology').hide();
+        $('#dvAddPathology').removeClass("dvvisibility").addClass("dvhide");
+        //$('#dvPathologyList').removeClass("dvvisibility").addClass("dvhide");
+        $('#dvPathologyList').show();
+        $('#tblPathology tbody').html('');
+        var tr1;
+        $.ajax({
+            type: "POST",
+            url: '/doctor/ClinicalDashboard/GetPathologyList',
+            //data: ({ DoctorId: 'ECAB4E6D-6167-4CE3-B4F4-94A8534E1486' }),
+            datatype: "json",
+            success: function (Pathologylist) {
+                for (var i = 0; i < Pathologylist.length; i++) {
+                    tr1 = $('<tr/>');
+                    tr1.append("<td>" + Pathologylist[i].TestName + "</td>");
+                    tr1.append("<td>" + Pathologylist[i].FastingNonFastingValue + "</td>");
+                    tr1.append("<td>" + Pathologylist[i].ClinicalNotes + "</td>");
+                    tr1.append("<td>" + Pathologylist[i].InstructionForPatient + "</td>");
+                    tr1.append("<td>" + Pathologylist[i].CopyResultTo + "</td>");
+                    tr1.append("<td>" + Pathologylist[i].Urgent + "</td>");
+                    //tr1.append("<td><a data-toggle='tooltip' data-placement='left'>Edit</a></td>");
+                    $('#tblPathology').append(tr1);
+                }
+            },
+            error: function () {
+
+            }
+        });
+
+    });
+    $('.lbltype').click(function () {
+        $("#RegionList").empty();
+        var dvRegion = $('#RegionList');
+        var d = $(this).attr('id');
+        d = d.replace('rbl', '');
+        $('#hdnRadiologyTypeId').val(d);
+        $('#RequestToPrint').val($(this).attr('data-role'));
+        $.ajax({
+            type: "GET",
+            url: '/doctor/ClinicalDashboard/GetRegionList',
+            data: ({ Id: d }),
+            datatype: "json",
+            success: function (data) {
+                for (var i = 0; i < data.length; i++) {
+
+                    var appendString = '<a id=' + data[i].RegionId + ' data-role=' + data[i].RegionName + ' class="Regionclick"  href="#" style="display: block;">' + data[i].RegionName + '</a>'
+                    dvRegion.append(appendString);
+                }
+
+                $('#hdnRadiology').val($(this).attr('data-role'));
+                setRequestPrint();
+            },
+            error: function () {
+
+            }
+        });
+    });
+    $('#lnkMedication').click(function () {
+        //alert("check");
+        //$('#btnSaveMedication').hide();
+        $.ajax({
+            type: "POST",
+            url: '/doctor/ClinicalDashboard/GetMedication',
+            data: { LoginId: $('#LoginId').val() },
+            //    {
+            //        AppointmentId: 0,
+            //        Medication_AmtId: 0,
+            //        strenght: $('#txtTotalStrength').val(),
+            //        Consideration: $('#txtSpecialConsideration').val(),
+            //        Dose: $('#txtDose').val(),
+            //        AuthorityScriptNumber: $('#txtAuthorityScriptNumber').val(),
+            //        AuthorityNumber: $('#txtAuthorityNumber').val(),
+            //        PRN: $('#hdnPRNValue').val(),
+            //        Types: $('#hdnAdminValue').val,
+            //        Frequency: $('#ddlFrequency').val(),
+            //        Rout: $('#ddlRoute').val()
+
+
+            //    },
+            datatype: "json",
+            success: function (medication) {
+
+                //AppointmentId: 0,
+                //Medication_AmtId: 0,
+                $('#txtTotalStrength').val(medication.strenght),
+                $('#txtSpecialConsideration').val(medication.Consideration),
+                $('#txtDose').val(Dose),
+                $('#txtAuthorityScriptNumber').val(medication.AuthorityScriptNumber),
+                $('#txtAuthorityNumber').val(medication.AuthorityNumber),
+                $('#hdnPRNValue').val(medication.PRN),
+                $('#hdnAdminValue').val(medication.Types),
+                $('#ddlFrequency').val(medication.Frequency),
+                $('#ddlRoute').val(medication.Rout),
+               $('#txtQuantity').val(quantity)
+            },
+            error: function () {
+
+            }
+        });
+
+    });
+    $('.btn_search').click(function () {
+
+        $("#lblError").css('display', 'none');
+        var btnId = $(this).attr('id');
+
+        var lblTitle = $('#lblTitle');
+        lblTitle.html('');
+
+        var dvCreateEditForm = $('#CreateEditForm');
+        dvCreateEditForm.html('');
+
+        var template = '';
+
+        switch (btnId) {
+            case 'btnBloodPressure':
+                controlIds.hdnActionNameRef.val('SaveBloodPressure');
+
+                lblTitle.html('Add Blood Pressure');
+
+                template = $('#bloodPressureTemplate');
+
+                dvCreateEditForm.append(template.html());
+
+                datePickerJquery('#txtBpMeasureDate').datepick({ dateFormat: 'dd/mm/yyyy', maxDate: 0 });
+                break;
+            case 'btnBloodSugar':
+                controlIds.hdnActionNameRef.val('SaveBloodGlucose');
+
+                lblTitle.html('Add Blood Sugar');
+
+                template = $('#bloodSugarTemplate');
+
+                dvCreateEditForm.append(template.html());
+
+                datePickerJquery('#txtBloodSugarMeasureDate').datepick({ dateFormat: 'dd/mm/yyyy', maxDate: 0 });
+                break;
+            case 'btnOxygen':
+                lblTitle.html('Add Blood Oxygen');
+
+                controlIds.hdnActionNameRef.val('SaveOxygen');
+
+                template = $('#bloodOxygenTemplate');
+
+                dvCreateEditForm.append(template.html());
+
+                datePickerJquery('#txtOxygenMeasureDate').datepick({ dateFormat: 'dd/mm/yyyy', maxDate: 0 });
+                break;
+            case 'btnEcg':
+                lblTitle.html('Upload File');
+
+                controlIds.hdnActionNameRef.val('SaveEcg');
+
+                template = $('#ecgTemplate');
+
+                dvCreateEditForm.append(template.html());
+                break;
+            case 'btnHeartRate':
+                controlIds.hdnActionNameRef.val('SaveHeartRate');
+
+                lblTitle.html('Add Heart Rate');
+
+                template = $('#heartRateTemplate');
+
+                dvCreateEditForm.append(template.html());
+
+                datePickerJquery('#txtHeartRateMeasureDate').datepick({ dateFormat: 'dd/mm/yyyy', maxDate: 0 });
+                break;
+            case 'btnHeight':
+                controlIds.hdnActionNameRef.val('SaveHeight');
+
+                lblTitle.html('Add Height');
+
+                template = $('#heightTemplate');
+
+                dvCreateEditForm.append(template.html());
+
+                datePickerJquery('#txtHeightMeasureDate').datepick({ dateFormat: 'dd/mm/yyyy', maxDate: 0 });
+                break;
+            case 'btnTemperature':
+                lblTitle.html('Add Temperature');
+
+                controlIds.hdnActionNameRef.val('SaveTemperature');
+
+                template = $('#temperatureTemplate');
+
+                dvCreateEditForm.append(template.html());
+
+                datePickerJquery('#txtTemperatureMeasureDate').datepick({ dateFormat: 'dd/mm/yyyy', maxDate: 0 });
+                break;
+            case 'btnWaist':
+                lblTitle.html('Add Waist');
+
+                controlIds.hdnActionNameRef.val('SaveWaist');
+
+                template = $('#waistTemplate');
+
+                dvCreateEditForm.append(template.html());
+
+                datePickerJquery('#txtWaistMeasureDate').datepick({ dateFormat: 'dd/mm/yyyy', maxDate: 0 });
+
+                break;
+            case 'btnWeight':
+                lblTitle.html('Add Weight');
+
+                controlIds.hdnActionNameRef.val('SaveWeight');
+
+                template = $('#weightTemplate');
+
+                dvCreateEditForm.append(template.html());
+
+                datePickerJquery('#txtWeightMeasureDate').datepick({ dateFormat: 'dd/mm/yyyy', maxDate: 0 });
+                break;
+        }
+
+        var options = {
+            "backdrop": "static"
+        };
+        $('#examinationModal').modal(options);
+    });
+</script>
+<script type="text/javascript">
+
+
+
+
+    var chartJquery = jQuery.noConflict();
+
+    $('#btnSaveMedication').click(function () {
+        console.log("btnSaveMedication");
+    });
+
+    //$('.lnkExamination').click(function () {
+    //    var ctrId = $(this).attr('id');
+    //    var dvExaminationResult = $('#dvExaminationResult');
+    //    dvExaminationResult.css('display', 'inline');
+
+    //    var dvBoxes = $('#dvBoxes');
+    //    dvBoxes.css('display', 'none');
+
+    //    var hdnContorId = $('#hdnContorId');
+    //    hdnContorId.val(ctrId);
+
+    //    $('#ulExaminationResult a:first').tab('show')
+    //});
+
+    $('.lnkChart').click(function () {
+        var hdnContorId = $('#hdnContorId');
+
+        $('#chartContainer').css('display', 'block');
+        $('#graphContainer').css('display', 'none');
+        loadChart(hdnContorId.val());
+    });
+
+    $('.lnkGraph').click(function () {
+        //var hdnContorId = $('#hdnContorId');
+        //$('#graphContainer').css('display', 'block');
+        //$('#chartContainer').css('display', 'none');
+        //loadGraph(hdnContorId.val());
+
+
+
+    });
+
+    $('.lnkList').click(function () {
+        var hdnContorId = $('#hdnContorId');
+        $('#graphContainer').css('display', 'none');
+        $('#chartContainer').css('display', 'none');
+        loadList(hdnContorId.val());
+    });
+
+    function loadList(ctrId) {
+        var listTitle = '';
+        switch (ctrId) {
+            case 'lnkBloodPressure':
+                ajaxParam.url = '@Url.Action("GetBloodPressure")';
+                listTitle = 'Blood Pressure List';
+                break;
+            case 'lnkBloodGlucose':
+                listTitle.url = '@Url.Action("GetBloodGlucose")';
+                listTitle = 'Blood Glucose List';
+                break;
+            case 'lnkOxygen':
+                ajaxParam.url = '@Url.Action("GetOxygen")';
+                listTitle = 'Oxygen List';
+                break;
+            case 'lnkBmi':
+                ajaxParam.url = '@Url.Action("GetBmi")';
+                listTitle = 'BMI List';
+                break;
+            case 'lnkHeartRate':
+                ajaxParam.url = '@Url.Action("GetHeartRate")';
+                listTitle = 'Heart Rate List';
+                break;
+            case 'lnkHeight':
+                ajaxParam.url = '@Url.Action("GetHeight")';
+                listTitle = 'Height List';
+                break;
+            case 'lnkTemperature':
+                ajaxParam.url = '@Url.Action("GetTemperature")';
+                listTitle = 'Temperature List';
+                break;
+            case 'lnkWaist':
+                ajaxParam.url = '@Url.Action("GetWaist")';
+                graphTitle = 'Waist List';
+                break;
+            case 'lnkWeight':
+                ajaxParam.url = '@Url.Action("GetWeight")';
+                listTitle = 'Weight List';
+                break;
+        }
+        var List = $('#List');
+        List.html('');
+        List.append('<h3 class="from_title">' + listTitle + '</h3>');
+
+        ajaxParam.requestType = 'POST';
+        ajaxParam.dataType = 'json';
+        ajaxParam.data = { id: 1 };
+        ajaxParam.controlId = ctrId;
+        ajaxParam.successCallbackFunction = showList;
+        doAjax(ajaxParam);
+    }
+
+    function showList(data, controlId) {
+        var List = $('#List');
+
+        switch (controlId) {
+            case 'lnkBloodPressure':
+                var bloodPressureListTemplate = $('#bloodPressureListTemplate');
+                List.append(bloodPressureListTemplate.html());
+                var tbodybloodPressureList = $('#tbodybloodPressureList');
+
+                for (var i = 0; i < data.length; i++) {
+                    var appendString = '<tr class="odd">' +
+                                      '<td class=" ">¶SystolicValue</td>' +
+                                      '<td class=" ">¶DiastolicValue</td>' +
+                                      '<td class=" ">¶PulseValue</td>' +
+                                      '<td class=" ">¶MeasureDate</td>' +
+                                      '</tr>';
+
+                    appendString = appendString.replace('¶SystolicValue', data[i].SystolicValue);
+                    appendString = appendString.replace('¶DiastolicValue', data[i].DiastolicValue);
+                    appendString = appendString.replace('¶PulseValue', data[i].PulseValue);
+                    appendString = appendString.replace('¶MeasureDate', data[i].MeasureDate);
+
+                    tbodybloodPressureList.append(appendString);
+
+                }
+                break;
+            case 'lnkBloodGlucose':
+                var bloodGlucoseListTemplate = $('#bloodGlucoseListTemplate');
+                List.append(bloodGlucoseListTemplate.html());
+                var tbodybloodGlucoseList = $('#tbodybloodGlucoseList');
+
+                for (var i = 0; i < data.length; i++) {
+                    var appendString = '<tr class="odd">' +
+                                      '<td class=" ">¶BloodSugarValue</td>' +
+                                      '<td class=" ">¶MeasureDate</td>' +
+                                      '</tr>';
+
+                    appendString = appendString.replace('¶BloodSugarValue', data[i].BloodSugarValue);
+
+                    appendString = appendString.replace('¶MeasureDate', data[i].MeasureDate);
+
+                    tbodybloodGlucoseList.append(appendString);
+                }
+                break;
+            case 'lnkOxygen':
+                var oxygenListTemplate = $('#oxygenListTemplate');
+                List.append(oxygenListTemplate.html());
+                var tbodyOxygenList = $('#tbodyOxygenList');
+
+                for (var i = 0; i < data.length; i++) {
+                    var appendString = '<tr class="odd">' +
+                                      '<td class=" ">¶OxygenValue</td>' +
+                                      '<td class=" ">¶PulseValue</td>' +
+                                      '<td class=" ">¶MeasureDate</td>' +
+                                      '</tr>';
+
+                    appendString = appendString.replace('¶OxygenValue', data[i].OxygenValue);
+                    appendString = appendString.replace('¶PulseValue', data[i].PulseValue);
+                    appendString = appendString.replace('¶MeasureDate', data[i].MeasureDate);
+                    tbodyOxygenList.append(appendString);
+                }
+                break;
+            case 'lnkBmi':
+
+                break;
+            case 'lnkHeartRate':
+                var heartRateListTemplate = $('#heartRateListTemplate');
+                List.append(heartRateListTemplate.html());
+                var tbodyheartRateList = $('#tbodyheartRateList');
+
+                for (var i = 0; i < data.length; i++) {
+                    var appendString = '<tr class="odd">' +
+                                      '<td class=" ">¶PulseValue</td>' +
+                                      '<td class=" ">¶MeasureDate</td>' +
+                                      '</tr>';
+
+
+                    appendString = appendString.replace('¶PulseValue', data[i].PulseValue);
+                    appendString = appendString.replace('¶MeasureDate', data[i].MeasureDate);
+                    tbodyheartRateList.append(appendString);
+                }
+                break;
+            case 'lnkHeight':
+                var heightListTemplate = $('#heightListTemplate');
+                List.append(heightListTemplate.html());
+                var tbodyheightList = $('#tbodyheightList');
+
+                for (var i = 0; i < data.length; i++) {
+                    var appendString = '<tr class="odd">' +
+                                      '<td class=" ">¶Height</td>' +
+                                      '<td class=" ">¶MeasureDate</td>' +
+                                      '</tr>';
+
+
+                    appendString = appendString.replace('¶Height', data[i].Height);
+                    appendString = appendString.replace('¶MeasureDate', data[i].MeasureDate);
+                    tbodyheightList.append(appendString);
+                }
+                break;
+            case 'lnkTemperature':
+                var tempreatureListTemplate = $('#tempreatureListTemplate');
+                List.append(tempreatureListTemplate.html());
+                var tbodytempreatureList = $('#tbodytempreatureList');
+
+                for (var i = 0; i < data.length; i++) {
+                    var appendString = '<tr class="odd">' +
+                                      '<td class=" ">¶Temperature</td>' +
+                                      '<td class=" ">¶MeasureDate</td>' +
+                                      '</tr>';
+
+
+                    appendString = appendString.replace('¶Temperature', data[i].Temperature);
+                    appendString = appendString.replace('¶MeasureDate', data[i].MeasureDate);
+                    tbodytempreatureList.append(appendString);
+                }
+                break;
+            case 'lnkWaist':
+                var waistListTemplate = $('#waistListTemplate');
+                List.append(waistListTemplate.html());
+                var tbodywaistList = $('#tbodywaistList');
+
+                for (var i = 0; i < data.length; i++) {
+                    var appendString = '<tr class="odd">' +
+                                      '<td class=" ">¶Waist</td>' +
+                                      '<td class=" ">¶MeasureDate</td>' +
+                                      '</tr>';
+
+
+                    appendString = appendString.replace('¶Waist', data[i].Waist);
+                    appendString = appendString.replace('¶MeasureDate', data[i].MeasureDate);
+                    tbodywaistList.append(appendString);
+                }
+                break;
+            case 'lnkWeight':
+                var weightListTemplate = $('#weightListTemplate');
+                List.append(weightListTemplate.html());
+                var tbodyWeightList = $('#tbodyWeightList');
+
+                for (var i = 0; i < data.length; i++) {
+                    var appendString = '<tr class="odd">' +
+                                      '<td class=" ">¶Weight</td>' +
+                                      '<td class=" ">¶MeasureDate</td>' +
+                                      '</tr>';
+
+                    appendString = appendString.replace('¶Weight', data[i].Waist);
+                    appendString = appendString.replace('¶MeasureDate', data[i].MeasureDate);
+                    tbodyWeightList.append(appendString);
+                }
+                break;
+        }
+    }
+
+
+    function loadGraph(ctrId) {
+        var graphTitle = '';
+        switch (ctrId) {
+            case 'lnkBloodPressure':
+                ajaxParam.url = '@Url.Action("GetBloodPressure")';
+                graphTitle = 'Blood Pressure Graph'
+                break;
+            case 'lnkBloodGlucose':
+                ajaxParam.url = '@Url.Action("GetBloodGlucose")';
+                graphTitle = 'Blood Glucose Graph'
+                break;
+            case 'lnkOxygen':
+                ajaxParam.url = '@Url.Action("GetOxygen")';
+                graphTitle = 'Oxygen Graph'
+                break;
+            case 'lnkBmi':
+                ajaxParam.url = '@Url.Action("GetBmi")';
+                graphTitle = 'BMI Graph'
+                break;
+            case 'lnkHeartRate':
+                ajaxParam.url = '@Url.Action("GetHeartRate")';
+                graphTitle = 'Heart Rate Graph'
+                break;
+            case 'lnkHeight':
+                ajaxParam.url = '@Url.Action("GetHeight")';
+                graphTitle = 'Height Graph'
+                break;
+            case 'lnkTemperature':
+                ajaxParam.url = '@Url.Action("GetTemperature")';
+                graphTitle = 'Temperature Graph'
+                break;
+            case 'lnkWaist':
+                ajaxParam.url = '@Url.Action("GetWaist")';
+                graphTitle = 'Waist Graph'
+                break;
+            case 'lnkWeight':
+                ajaxParam.url = '@Url.Action("GetWeight")';
+                graphTitle = 'Weight Graph'
+                break;
+        }
+
+        ajaxParam.requestType = 'POST';
+        ajaxParam.dataType = 'json';
+        ajaxParam.data = { id: 1 };
+        ajaxParam.controlId = graphTitle;
+        ajaxParam.successCallbackFunction = showGraph;
+        doAjax(ajaxParam);
+    }
+
+    function showGraph(data, graphTitle) {
+        var objects1 = [];
+        var objects2 = [];
+
+        if (graphTitle == 'Blood Pressure Graph') {
+            for (var i = 0; i < data.length; i++) {
+                objects1[i] = { x: new Date(data[i].MeasureDate), y: data[i].SystolicValue };
+            }
+
+            for (var j = 0; j < data.length; j++) {
+                objects2[j] = { x: new Date(data[j].MeasureDate), y: data[j].DiastolicValue };
+            }
+        }
+        else if (graphTitle == 'Blood Glucose Graph') {
+            for (var i = 0; i < data.length; i++) {
+                objects1[i] = { x: new Date(data[i].MeasureDate), y: data[i].BloodSugarValue };
+            }
+        }
+
+        var chart = new CanvasJS.Chart("graphContainer",
+        {
+            animationEnabled: true,
+            title: {
+                text: graphTitle
+            },
+            data: [
+            {
+                type: "spline", //change type to bar, line, area, pie, etc
+                showInLegend: true,
+                dataPoints: objects1
+            },
+                {
+                    type: "spline",
+                    showInLegend: true,
+                    dataPoints: objects2
+                }
+            ],
+            legend: {
+                cursor: "pointer",
+                itemclick: function (e) {
+                    if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                        e.dataSeries.visible = false;
+                    } else {
+                        e.dataSeries.visible = true;
+                    }
+                    chart.render();
+                }
+            }
+        });
+        chart.render();
+    }
+
+    function loadChart(ctrId) {
+        var graphTitle = '';
+        switch (ctrId) {
+            case 'lnkBloodPressure':
+                graphTitle = 'Blood Pressure Chart'
+                break;
+            case 'lnkBloodGlucose':
+                graphTitle = 'Blood Glucose Chart'
+                break;
+            case 'lnkOxygen':
+                graphTitle = 'Oxygen Chart'
+                break;
+            case 'lnkBmi':
+                graphTitle = 'BMI Chart'
+                break;
+            case 'lnkHeartRate':
+                graphTitle = 'Heart Rate Chart'
+                break;
+            case 'lnkHeight':
+                graphTitle = 'Height Chart'
+                break;
+            case 'lnkTemperature':
+                graphTitle = 'Temperature Chart'
+                break;
+            case 'lnkWaist':
+                graphTitle = 'Waist Chart'
+                break;
+            case 'lnkWeight':
+                graphTitle = 'Weight Chart'
+                break;
+        }
+        var chart = new CanvasJS.Chart("chartContainer",
+		{
+		    theme: "theme3",
+		    animationEnabled: true,
+		    title: {
+		        text: graphTitle,
+		        fontSize: 30
+		    },
+		    toolTip: {
+		        shared: true
+		    },
+		    axisY: {
+		        title: "Result"
+		    },
+		    axisY2: {
+		        title: "Date"
+		    },
+		    data: [
+			{
+			    type: "column",
+			    name: "Proven Oil Reserves (bn)",
+			    legendText: "Proven Oil Reserves",
+			    showInLegend: true,
+			    dataPoints: [
+				{ label: "Saudi", y: 262 },
+				{ label: "Venezuela", y: 211 },
+				{ label: "Canada", y: 175 },
+				{ label: "Iran", y: 137 },
+				{ label: "Iraq", y: 115 },
+				{ label: "Kuwait", y: 104 },
+				{ label: "UAE", y: 97.8 },
+				{ label: "Russia", y: 60 },
+				{ label: "US", y: 23.3 },
+				{ label: "China", y: 20.4 }
+			    ]
+			},
+			{
+			    type: "column",
+			    name: "Oil Production (million/day)",
+			    legendText: "Oil Production",
+			    axisYType: "secondary",
+			    showInLegend: true,
+			    dataPoints: [
+				{ label: "Saudi", y: 11.15 },
+				{ label: "Venezuela", y: 2.5 },
+				{ label: "Canada", y: 3.6 },
+				{ label: "Iran", y: 4.2 },
+				{ label: "Iraq", y: 2.6 },
+				{ label: "Kuwait", y: 2.7 },
+				{ label: "UAE", y: 3.1 },
+				{ label: "Russia", y: 10.23 },
+				{ label: "US", y: 10.3 },
+				{ label: "China", y: 4.3 }
+
+			    ]
+			}
+
+		    ],
+		    legend: {
+		        cursor: "pointer",
+		        itemclick: function (e) {
+		            if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+		                e.dataSeries.visible = false;
+		            }
+		            else {
+		                e.dataSeries.visible = true;
+		            }
+		            chart.render();
+		        }
+		    },
+		});
+
+        chart.render();
+    }
+</script>
+<script type="text/javascript">
+    var notifyAlert = $.noConflict();
+    $('.photo').click(function () {
+        var btnId = $(this).attr('id');
+        switch (btnId) {
+            case 'Uplodefilethroat':
+                showCapturePopup(1);
+                break;
+
+            case 'UplodefileSkin':
+                showCapturePopup(2);
+                break;
+        }
+    });
+    $('#btnSaveExamination').click(function () {
+        var actionName = controlIds.hdnActionNameRef.val();
+        ajaxParam.requestType = 'POST';
+        ajaxParam.dataType = 'json';
+        var message = '';
+        var vailidatorControlId = '';
+
+        if (actionName == 'SaveBloodPressure') {
+            var txtBpSystolic = $('#txtBpSystolic');
+            var txtBpDiastolic = $('#txtBpDiastolic');
+            var txtBpPulse = $('#txtBpPulse');
+            var txtBpMeasureDate = $('#txtBpMeasureDate');
+            var txtBpMeasurTime = $('#txtBpMeasurTime');
+            var ddlBpAmPm = $('#ddlBpAmPm');
+
+            if (txtBpSystolic.val() == '') {
+                vailidatorControlId = 'txtBpSystolic';
+                message = 'Please enter systolic value';
+            }
+            else if (txtBpDiastolic.val() == '') {
+                vailidatorControlId = 'txtBpDiastolic';
+                message = 'Please enter diastolic value';
+            }
+            else if (txtBpPulse.val() == '') {
+                vailidatorControlId = 'txtBpPulse';
+                message = 'Please enter pulse value';
+            }
+            else if (txtBpMeasureDate.val() == '') {
+                vailidatorControlId = 'txtBpMeasureDate';
+                message = 'Please enter measure date';
+            }
+            else if (txtBpMeasurTime.val() == '') {
+                vailidatorControlId = 'ddlBpAmPm';
+                message = 'Please enter measure time';
+            }
+
+            ajaxParam.url = '@Url.Action("SaveBloodPressure")';
+            ajaxParam.data = {
+                SystolicValue: txtBpSystolic.val(),
+                DiastolicValue: txtBpDiastolic.val(),
+                PulseValue: txtBpPulse.val(),
+                MeasureDate: txtBpMeasureDate.val(),
+                MeasureTime: txtBpMeasurTime.val(),
+                Period: ddlBpAmPm.val()
+            };
+        }
+        else if (actionName == 'SaveBloodGlucose') {
+            var txtBloodSugarValue = $('#txtBloodSugarValue');
+            var optionBloodSugarMeal = $('radio[name=optionBloodSugarMeal]');
+            var ddlBloodSugarTime = $('#ddlBloodSugarTime');
+            var txtBloodSugarMeasureDate = $('#txtBloodSugarMeasureDate');
+            var txtBloodSugarMeasureTime = $('#txtBloodSugarMeasureTime');
+            var ddlBloodSugarAmPm = $('#ddlBloodSugarAmPm');
+
+            if (txtBloodSugarValue.val() == '') {
+                vailidatorControlId = 'txtBloodSugarValue';
+                message = 'Please enter blood sugar';
+            }
+            else if (txtBloodSugarMeasureDate.val() == '') {
+                vailidatorControlId = 'txtBloodSugarMeasureDate';
+                message = 'Please enter measure date';
+            }
+            else if (txtBloodSugarMeasureTime.val() == '') {
+                vailidatorControlId = 'ddlBloodSugarAmPm';
+                message = 'Please enter measure time';
+            }
+
+            ajaxParam.url = '@Url.Action("SaveBloodGlucose")';
+            ajaxParam.data = {
+                BloodSugarValue: txtBloodSugarValue.val(),
+                MealBeforeAfter: optionBloodSugarMeal.val(),
+                MealTime: ddlBloodSugarTime.val(),
+                MeasureDate: txtBloodSugarMeasureDate.val(),
+                MeasureTime: txtBloodSugarMeasureTime.val(),
+                Period: ddlBloodSugarAmPm.val()
+            };
+        }
+        else if (actionName == 'SaveOxygen') {
+
+            var txtOxygenValue = $('#txtOxygenValue');
+            var txtOxygenPulseValue = $('#txtOxygenPulseValue');
+            var txtOxygenMeasureDate = $('#txtOxygenMeasureDate');
+            var txtOxygenMeasureTime = $('#txtOxygenMeasureTime');
+            var ddlOxygenAmPm = $('#ddlOxygenAmPm');
+
+            if (txtOxygenValue.val() == '') {
+                vailidatorControlId = 'txtOxygenValue';
+                message = 'Please enter oxygen value';
+            }
+            else if (txtOxygenPulseValue.val() == '') {
+                vailidatorControlId = 'txtOxygenPulseValue';
+                message = 'Please enter pulse value';
+            }
+            else if (txtOxygenMeasureDate.val() == '') {
+                vailidatorControlId = 'txtOxygenMeasureDate';
+                message = 'Please enter measure date';
+            }
+            else if (txtOxygenMeasureTime.val() == '') {
+                vailidatorControlId = 'ddlOxygenAmPm';
+                message = 'Please enter measure time';
+            }
+
+            ajaxParam.url = '@Url.Action("SaveOxygen")';
+            ajaxParam.data = {
+                OxygenValue: txtOxygenValue.val(),
+                PulseValue: txtOxygenPulseValue.val(),
+                MeasureDate: txtOxygenMeasureDate.val(),
+                MeasureTime: txtOxygenMeasureTime.val(),
+                Period: ddlOxygenAmPm.val()
+            };
+        }
+        else if (actionName == 'SaveEcg') {
+            var txtEcgSubject = $('#txtEcgSubject');
+            var ecgFile = $('#ecgFile');
+
+            if (txtEcgSubject.val() == '') {
+                vailidatorControlId = 'txtEcgSubject';
+                message = 'Please enter subject';
+            }
+            else if (ecgFile.val().split('\\').pop() == '') {
+                vailidatorControlId = 'ecgFile';
+                message = 'Please upload file';
+            }
+
+            if (message != '') {
+                notifyAlert("#" + vailidatorControlId).notify(message, { position: "right", });
+                return;
+            }
+
+            var fileUpload = $("#ecgFile").get(0);
+            var files = fileUpload.files;
+
+            // Create FormData object
+            var fileData = new FormData();
+
+            // Looping over all files and add it to FormData object
+            for (var i = 0; i < files.length; i++) {
+                fileData.append(files[i].name, files[i]);
+            }
+
+            fileData.append('Subject', txtEcgSubject.val());
+            fileData.append('EcgThroatFile', ecgFile.val().split('\\').pop());
+
+            $.ajax({
+                url: '@Url.Action("SaveEcg")',
+                type: "POST",
+                contentType: false, // Not to set any content header
+                processData: false, // Not to process data
+                data: fileData,
+                success: function (result) {
+                    if (result != null) {
+                        $('#examinationModal').modal('hide');
+                        if (result.success) {
+                            notifyAlert.notify(result.message, "success");
+                        }
+                        else {
+                            notifyAlert.notify("Error Occuured", "error");
+                        }
+                    }
+                },
+                error: function (err) {
+                    alert(err.statusText);
+                }
+            });
+
+
+        }
+        else if (actionName == 'SaveHeartRate') {
+            var txtHeartRatePulseValue = $('#txtHeartRatePulseValue');
+            var txtHeartRateMeasureDate = $('#txtHeartRateMeasureDate');
+            var txtHeartRateMeasureTime = $('#txtHeartRateMeasureTime');
+            var ddlHeartRateAmPm = $('#ddlHeartRateAmPm');
+
+            if (txtHeartRatePulseValue.val() == '') {
+                vailidatorControlId = 'txtHeartRatePulseValue';
+                message = 'Please enter pulse value';
+            }
+            else if (txtHeartRateMeasureDate.val() == '') {
+                vailidatorControlId = 'txtHeartRateMeasureDate';
+                message = 'Please enter measure date';
+            }
+            else if (txtHeartRateMeasureTime.val() == '') {
+                vailidatorControlId = 'ddlHeartRateAmPm';
+                message = 'Please enter measure time';
+            }
+
+            ajaxParam.url = '@Url.Action("SaveHeartRate")';
+            ajaxParam.data = {
+                PulseValue: txtHeartRatePulseValue.val(),
+                MeasureDate: txtHeartRateMeasureDate.val(),
+                MeasureTime: txtHeartRateMeasureTime.val(),
+                Period: ddlHeartRateAmPm.val()
+            };
+        }
+        else if (actionName == 'SaveHeight') {
+            var txtHeight = $('#txtHeight');
+            var txtHeightMeasureDate = $('#txtHeightMeasureDate');
+            var txtHeightMeasureTime = $('#txtHeightMeasureTime');
+            var ddlHeightAmPm = $('#ddlHeightAmPm');
+
+            if (txtHeight.val() == '') {
+                vailidatorControlId = 'txtHeight';
+                message = 'Please enter height';
+            }
+            else if (txtHeightMeasureDate.val() == '') {
+                vailidatorControlId = 'txtHeightMeasureDate';
+                message = 'Please enter measure date';
+            }
+            else if (txtHeightMeasureTime.val() == '') {
+                vailidatorControlId = 'ddlHeightAmPm';
+                message = 'Please enter measure time';
+            }
+
+            ajaxParam.url = '@Url.Action("SaveHeight")';
+
+            ajaxParam.data = {
+                Height: txtHeight.val(),
+                MeasureDate: txtHeightMeasureTime.val(),
+                MeasureTime: txtHeightMeasureTime.val(),
+                Period: ddlHeightAmPm.val()
+            };
+        }
+        else if (actionName == 'SaveTemperature') {
+            var txtTemperature = $('#txtTemperature');
+            var txtTemperatureMeasureDate = $('#txtTemperatureMeasureDate');
+            var txtTemperatureMeasureTime = $('#txtTemperatureMeasureTime');
+            var ddlTemperatureAmPm = $('#ddlTemperatureAmPm');
+
+            if (txtTemperature.val() == '') {
+                vailidatorControlId = 'txtTemperature';
+                message = 'Please enter temperature';
+            }
+            else if (txtTemperatureMeasureDate.val() == '') {
+                vailidatorControlId = 'txtTemperatureMeasureDate';
+                message = 'Please enter measure date';
+            }
+            else if (txtTemperatureMeasureTime.val() == '') {
+                vailidatorControlId = 'ddlTemperatureAmPm';
+                message = 'Please enter measure time';
+            }
+
+            ajaxParam.url = '@Url.Action("SaveTemperature")';
+
+            ajaxParam.data = {
+                Temperature: txtTemperature.val(),
+                MeasureDate: txtTemperatureMeasureDate.val(),
+                MeasureTime: txtTemperatureMeasureTime.val(),
+                Period: ddlTemperatureAmPm.val()
+            };
+        }
+        else if (actionName == 'SaveWaist') {
+            var txtWaist = $('#txtWaist');
+            var txtWaistMeasureDate = $('#txtWaistMeasureDate');
+            var txtWaistMeasureTime = $('#txtWaistMeasureTime');
+            var ddlWaistAmPm = $('#ddlWaistAmPm');
+
+            if (txtWaist.val() == '') {
+                vailidatorControlId = 'txtWaist';
+                message = 'Please enter waist';
+            }
+            else if (txtWaistMeasureDate.val() == '') {
+                vailidatorControlId = 'txtWaistMeasureDate';
+                message = 'Please enter measure date';
+            }
+            else if (txtWaistMeasureTime.val() == '') {
+                vailidatorControlId = 'ddlWaistAmPm';
+                message = 'Please enter measure time';
+            }
+
+            ajaxParam.url = '@Url.Action("SaveWaist")';
+
+            ajaxParam.data = {
+                Waist: txtWaist.val(),
+                MeasureDate: txtWaistMeasureDate.val(),
+                MeasureTime: txtWaistMeasureTime.val(),
+                Period: ddlWaistAmPm.val()
+            };
+        }
+        else if (actionName == 'SaveWeight') {
+
+            var txtWeight = $('#txtWeight');
+            var txtWeightMeasureDate = $('#txtWeightMeasureDate');
+
+            if (txtWeight.val() == '') {
+                vailidatorControlId = 'txtWeight';
+                message = 'Please enter weight';
+            }
+            else if (txtWeightMeasureDate.val() == '') {
+                vailidatorControlId = 'txtWeightMeasureDate';
+                message = 'Please enter measure date';
+            }
+
+            ajaxParam.url = '@Url.Action("SaveWeight")';
+
+            ajaxParam.data = {
+                Weight: txtWeight.val(),
+                MeasureDate: txtWeightMeasureDate.val()
+            };
+        }
+
+        if (message != '') {
+            notifyAlert("#" + vailidatorControlId).notify(message, { position: "right", });
+            return;
+        }
+
+        ajaxParam.successCallbackFunction = successSaveExamination;
+        doAjax(ajaxParam);
+    });
+    function getthis(id) {
+        alert(id);
+        return;
+    }
+
+    function successSaveExamination(data) {
+        $('#examinationModal').modal('hide');
+
+        if (data != null) {
+            if (data.success) {
+                notifyAlert.notify(data.message, "success");
+            }
+            else {
+                notifyAlert.notify("Error Occuured", "error");
+            }
+        }
+    }
+
+    $('#btnReset').click(function () {
+
+        $.ajax({
+            type: "POST",
+            url: '/Admin/Dashboard/PasswordReset',
+            data: {
+                UserLoginID: $('#LoginId').val(),
+                NewPassword: $('#txtNewPassword').val(),
+                RetypePassword: $('#txtRetypePassword').val(),
+            },
+            datatype: "json",
+            success: function (data) {
+                alert("Password Changed Successfully");
+                $('#txtNewPassword').val('');
+                $('#txtRetypePassword').val('');
+
+            },
+            error: function () {
+
+            }
+        });
+    });
+
+
+
+    $('#savenewconsult').click(function () {
+
+        $.ajax({
+            type: "POST",
+            url: '/doctor/ClinicalDashboard/SaveNewConsult',
+            data: {
+
+                DiagnosisId: 1,
+                ReasonForContact: $('#ReasonId').val(),
+                Subjective: $('#SubjectiveId').val(),
+                Objective: $('#ObjectiveId').val(),
+                Assessment: $('#AssessmentId').val(),
+                Plans: $('#PlanId').val()
+            },
+            datatype: "json",
+            success: function (data) {
+
+            },
+            error: function () {
+
+            }
+        });
+    });
+    function showCapturePopup(id) {
+        var doctorid = "1";
+        var Patientid = "2";
+        window.open('/Doctor/ClinicalDashboard/CheckSkin?id=' + id + "&Doctorid=" + doctorid + "&patientid=" + Patientid, '', 'width=750, height=600,scrollbars=yes,location=0,status=yes');
+    }
+    function MaskTimeFormat(txtId) {
+        var objStartTime = document.getElementById(txtId);
+        var strStartTimeValue = objStartTime.value;
+        objStartTime.value = GiveCorrectTimeFormat(strStartTimeValue);
+    }
+    function GiveCorrectTimeFormat(strInputTime) {
+        var strReturnValue = "";
+        if (strInputTime.length <= 5) {
+            strInputTime = strInputTime.replace(":", "");
+            //alert(strInputTime);
+            if (strInputTime.length == 1) {
+                strInputTime = "0" + strInputTime + ":" + "00";
+            }
+            else if (strInputTime.length == 2) {
+                //alert("in 2");
+                if (strInputTime <= 23) {
+                    strInputTime = strInputTime + ":" + "00";
+                }
+                else if (strInputTime <= 59) {
+                    strInputTime = "00" + ":" + strInputTime;
+                }
+                else {
+                    strInputTime = "00:00"
+                }
+            }
+            else if (strInputTime.length == 3) {
+                //alert("in 3");
+                if (strInputTime < 959) {
+                    //alert(strInputTime.substring(1,3));
+                    if (strInputTime.substring(1, 2) <= 5) {
+                        strInputTime = "0" + strInputTime.substring(0, 1) + ":" + strInputTime.substring(1, 3);
+                    }
+                    else {
+                        strInputTime = "0" + strInputTime.substring(0, 1) + ":" + "00";
+                    }
+                }
+                else {
+                    strInputTime = "0" + strInputTime.substring(0, 1) + ":" + "00";
+                }
+            }
+            else if (strInputTime.length == 4) {
+                //alert("in 4");
+                if (strInputTime < 2359) {
+                    //alert(strInputTime.substring(0,2));
+                    if (strInputTime.substring(0, 2) <= 23) {
+
+                        if (strInputTime.substring(2, 3) <= 5) {
+                            strInputTime = strInputTime.substring(0, 2) + ":" + strInputTime.substring(2, 4);
+                        }
+                        else {
+                            strInputTime = strInputTime.substring(0, 2) + ":" + "00";
+                        }
+                    }
+                    else {
+                        strInputTime = "00:00"
+                    }
+
+                }
+                else {
+                    if (strInputTime.substring(0, 2) <= 23) {
+                        if (strInputTime.substring(2, 3) <= 5) {
+                            strInputTime = strInputTime.substring(0, 2) + ":" + strInputTime.substring(2, 4);
+                        }
+                        else {
+                            strInputTime = strInputTime.substring(0, 2) + ":" + "00";
+                        }
+                    }
+                    else {
+                        strInputTime = "00:00"
+                    }
+                }
+            }
+            else {
+                strInputTime = "00:00"
+            }
+            //alert(strInputTime);
+            strReturnValue = strInputTime;
+            if (strReturnValue == "00:00") {
+                strReturnValue = "";
+            }
+        }
+        return strReturnValue;
+    }
+</script>

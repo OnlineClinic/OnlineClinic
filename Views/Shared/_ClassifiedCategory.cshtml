@@ -1,0 +1,10 @@
+﻿@model IEnumerable<MyOnlineClinic.Entity.POCO.ClassifiedCategories>
+
+@foreach (var item in Model)
+{
+    <div class="col-md-8">
+        <a href="/Home/Empresas/@item.CategoryId" hidefocus="true">
+            @item.CategoryName (@item.ClassifiedsCount)
+        </a>
+    </div>
+}

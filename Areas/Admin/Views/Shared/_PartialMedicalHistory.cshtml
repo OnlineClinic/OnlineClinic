@@ -1,0 +1,1682 @@
+﻿@model MyOnlineClinic.Web.Models.PatientHistoryViewModel
+@{
+    ViewBag.Title = "Patient History";
+    //Layout = "~/Areas/Patients/Views/Shared/_PatientPartial.cshtml";
+}
+<script src="/scripts/jquery.plugin.js"></script>
+<script src="/scripts/jquery.datepick.js"></script>
+<link href="~/Scripts/jquery.datepick.css" rel="stylesheet" />
+<script src="~/AdminAssets/js/validator/validator.js"></script>
+<link href="~/css/bootstrap.min.css" rel="stylesheet" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="~/AdminAssets/js/common.js"></script>
+
+<script src="~/AdminAssets/js/jquery.min.js"></script>
+<style>
+    
+    .txtmedical {
+        width: 100% !important;
+        margin-left: 0px !important;
+    }
+    table.table-bordered {
+        margin-top: 19px;
+        background: rgb(8, 163, 155);
+        box-shadow: 2px 5px 5px #888888;
+        border-radius: 7px;
+    }
+
+</style>
+@Html.HiddenFor(x => x.PatientHistoryId)
+<div class="panel panel-default" style="margin-bottom:10px !important;">
+    <div class="panel-heading" role="tab" id="headingA" style="background:#D9EDF7 !important">
+        <h4 class="panel-title" style="color:#000 !important;">
+            Allergies
+            <a class="collapsed" data-toggle="collapse" data-parent="#accordion1" href="#collapseA" aria-expanded="false" aria-controls="collapseA"><div class="col-xs-2 pull-right"><i class="fa fa-chevron-down pull-right"></i></div></a>
+        </h4>
+    </div>
+    <div id="collapseA" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingA">
+        <div class="panel-body" style="background: #ECF0F5;">
+            <div class="container-fulid">
+                <div class="row">
+                    <div class="col-md-12 thirteen_layer">
+                        <div class="table-responsive data">
+                            <table id="listing_table" class="table table-hover table-bordered">
+                                <thead style="color:#fff;">
+                                    <tr>
+                                        <th class="top">Name</th>
+                                        <th class="top">What Happens</th>
+                                        <th class="top">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyAllergie">
+                                    @if (Model.AllergiesList != null && Model.AllergiesList.ToList().Count > 0)
+                                    {
+                                        foreach (var item in Model.AllergiesList.ToList())
+                                        {
+                                    <tr class="info">
+                                        <td style="vertical-align:middle;">@item.AllergyName</td>
+                                        <td style="vertical-align:middle;">@item.WhatHappens</td>
+                                        <td style="vertical-align:middle;">
+
+                                            <ul class="list-inline" style="position:relative;top:10px;">
+                                                <li><p data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit"><a class="EditAllergies" data-role="@item.Id" href="#"><button class="btn btn-primary btn-xs edit"><span class="glyphicon glyphicon-pencil"></span></button></a></p></li>
+                                                <li>
+                                                    <p data-placement="top" data-toggle="tooltip" title="Delete"><a class="DeleteAllergies" data-role="@item.Id" href="#"><button class="btn btn-info btn-xs edit"><i class="fa fa-trash" aria-hidden="true"></i></button></a></p><!--</li-->
+                                                </li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                        }
+                                    }
+                                </tbody>
+                                <tbody>
+
+                                    <tr class="info">
+                                        <td style="vertical-align:middle;">
+                                            <div class="col-sm-8 col-sm-offset-2">
+                                                @Html.TextBoxFor(x => x.AllergyName, new { @class = "form-control", name = "AllergyName", placeholder = "Enter Allergy Name", required = "required" })
+                                                @Html.ValidationMessageFor(m => m.AllergyName)
+
+                                            </div>
+                                        </td>
+                                        <td style="vertical-align:middle;">
+                                            <div class="col-sm-8 col-sm-offset-2">
+                                                @Html.TextBoxFor(x => x.WhatHappens, new { @class = "form-control col-md-7 col-xs-9 text_row", name = "WhatHappens", placeholder = "Enter What Happens", required = "required" })
+                                                @Html.ValidationMessageFor(m => m.WhatHappens)
+                                            </div>
+                                        </td>
+                                        <td style="vertical-align:middle;">
+                                            <ul class="list-inline" style="position:relative;top:10px;">
+                                                <li>
+                                                    @*<input type="image" name="ImgbtnAdd" id="ImgbtnAdd" title="Add Allergies" src="/images/add-icon.png" style="height:20px;width:20px;margin-left:45%;">*@
+                                                    <p data-placement="top" data-toggle="tooltip" title="" data-original-title="Add"><a id="ImgbtnAdd" href="#"><button class="btn btn-primary btn-xs edit"><i class="fa fa-plus-circle" aria-hidden="true"></i></button></a></p>
+                                                </li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default" style="margin-bottom:10px !important;">
+    <div class="panel-heading" role="tab" id="headingB" style="background:#D9EDF7 !important">
+        <h4 class="panel-title" style="color:#000 !important;">
+            Mediction History
+            <a class="collapsed" data-toggle="collapse" data-parent="#accordion1" href="#collapseB" aria-expanded="false" aria-controls="collapseB"><div class="col-xs-2 pull-right"><i class="fa fa-chevron-down pull-right"></i></div></a>
+        </h4>
+    </div>
+    <div id="collapseB" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingA">
+        <div class="panel-body" style="background: #ECF0F5;">
+            <div class="container-fulid">
+                <div class="row">
+                    <div class="col-md-12 thirteen_layer">
+                        <div class="table-responsive data">
+                            <table id="mytable" class="table table-hover table-bordered">
+                                <thead style="color:#fff;">
+                                    <tr>
+                                        <th class="top">Name</th>
+                                        <th class="top">Strength</th>
+                                        <th class="top">Dose</th>
+                                        <th class="top">Frequency</th>
+                                        <th class="top">Year Started</th>
+                                        <th class="top">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyMedicationHistory">
+                                    @if (Model.MedicationHistoryList != null && Model.MedicationHistoryList.ToList().Count > 0)
+                                    {
+                                        foreach (var item in Model.MedicationHistoryList.ToList())
+                                        {
+                                    <tr class="info footer-txt" id="trMedicationHistory_@item.Id">
+                                        <td style="vertical-align:middle;"><samp id="Name_@item.Id">@item.Name</samp></td>
+                                        <td style="vertical-align:middle;"><samp id="Strength_@item.Id">@item.Strength</samp></td>
+                                        <td style="vertical-align:middle;"><samp id="Strength_@item.Id">@item.Dose</samp></td>
+                                        <td style="vertical-align:middle;"><samp id="Frequency_@item.Id">@item.Frequency</samp></td>
+                                        <td style="vertical-align:middle;"><samp id="YearStaeted_@item.Id">@item.YearStaeted</samp></td>
+                                        <td style="vertical-align:middle;">
+
+                                            <ul class="list-inline" style="position:relative;top:10px;">
+                                                <li><p data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit"><a lass="EditMedicationHistory" data-role="@item.Id" href="#"><button class="btn btn-primary btn-xs edit"><span class="glyphicon glyphicon-pencil"></span></button></a></p></li>
+                                                <li>
+                                                    <p data-placement="top" data-toggle="tooltip" title="Delete"><a class="DeleteMedicationHistory" data-role="@item.Id" href="#"><button class="btn btn-info btn-xs edit"><i class="fa fa-trash" aria-hidden="true"></i></button></a></p><!--</li-->
+                                                </li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                        }
+                                    }
+                                </tbody>
+                                <tbody>
+                                    <tr class="info">
+                                        <td style="vertical-align:middle;">
+                                            <div class="col-sm-12">
+                                                @Html.TextBoxFor(x => x.MedicationHistoryName, new { @class = "form-control txtmedical", name = "MedicationHistoryName", placeholder = "Enter Name" })
+
+                                            </div>
+                                        </td>
+                                        <td style="vertical-align:middle;">
+                                            <div class="col-sm-12">
+                                                @Html.TextBoxFor(x => x.MedicationHistoryStrength, new { @class = "form-control", name = "MedicationHistoryStrength", placeholder = "Enter Strength" })
+                                            </div>
+                                        </td>
+                                        <td style="vertical-align:middle;">
+
+                                            <div class="col-sm-12">
+                                                @Html.TextBoxFor(x => x.MedicationHistoryDose, new { @class = "form-control", name = "MedicationHistoryDose", placeholder = "Enter Dose" })
+                                            </div>
+                                        </td>
+                                        <td style="vertical-align:middle;">
+                                            <div class="col-sm-12">
+                                                <select name="txtfrequency" id="txtfrequency" class="form-control">
+                                                    <option value="0">--Select--</option>
+                                                    <option value="1">Morning</option>
+                                                    <option value="2">Night</option>
+                                                    <option value="3">Before Bed(BBD)</option>
+                                                    <option value="4">Twice a day</option>
+                                                    <option value="5">Three time a day</option>
+                                                    <option value="6">Regular 6 Hourly</option>
+                                                    <option value="7">Regular 8 Hourly</option>
+                                                    <option value="8">Four times a day</option>
+                                                    <option value="9">Hourly</option>
+                                                    <option value="10">Two Hourly</option>
+                                                    <option value="11">Once Daily</option>
+                                                </select>
+
+                                            </div>
+                                        </td>
+                                        <td style="vertical-align:middle;">
+
+                                            <div class="col-sm-12">
+                                                @Html.TextBoxFor(x => x.MedicationHistoryYearStarted, new { @class = "form-control", name = "MedicationHistoryYearStarted", placeholder = "Enter Year Started", maxlength = "4", required = "required", onkeypress = "return isNumber(event)" })
+                                            </div>
+                                        </td>
+                                        <td style="vertical-align:middle;">
+                                            <ul class="list-inline" style="position:relative;top:10px;">
+                                                <li>
+
+                                                    <p data-placement="top" data-toggle="tooltip" title="" data-original-title="Add Allergies"><a id="ImgbtnAddMedical" href="#"><button class="btn btn-primary btn-xs edit"><i class="fa fa-plus-circle" aria-hidden="true"></i></button></a></p>
+                                                </li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default" style="margin-bottom:10px !important;">
+    <div class="panel-heading" role="tab" id="headingC" style="background:#D9EDF7 !important">
+        <h4 class="panel-title" style="color:#000 !important;">
+            Past Medical & Surgical History
+            <a class="collapsed" data-toggle="collapse" data-parent="#accordion1" href="#collapseC" aria-expanded="false" aria-controls="collapseC"><div class="col-xs-2 pull-right"><i class="fa fa-chevron-down pull-right"></i></div></a>
+        </h4>
+    </div>
+    <div id="collapseC" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingC">
+        <div class="panel-body" style="background: #ECF0F5;">
+            <div class="container-fulid">
+                <div class="row">
+                    <div class="col-md-12 thirteen_layer">
+                        <div class="table-responsive data">
+                            <table id="mytable" class="table table-hover table-bordered">
+                                <thead style="color:#fff;">
+                                    <tr>
+                                        <th class="top">NAME OF CONDITION</th>
+                                        <th class="top">YEAR DIAGNOSED</th>
+                                        <th class="top">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyPastMedical">
+                                    @if (Model.PastMedicalList != null && Model.PastMedicalList.ToList().Count > 0)
+                                    {
+                                        foreach (var item in Model.PastMedicalList.ToList())
+                                        {
+                                    <tr class="info" id="trPastMedical_@item.Id">
+                                        <td style="vertical-align:middle;"><samp id="Condition_@item.Id">@item.ConditionName</samp></td>
+                                        <td style="vertical-align:middle;"><samp id="Year_@item.Id">@item.DiagnosedYear</samp></td>
+                                        <td style="vertical-align:middle;">
+
+                                            <ul class="list-inline" style="position:relative;top:10px;">
+
+                                                <li><p data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit"><a class="EditPastMedical" data-role="@item.Id" href="#"><button class="btn btn-primary btn-xs edit"><span class="glyphicon glyphicon-pencil"></span></button></a></p></li>
+                                                <li>
+                                                    <p data-placement="top" data-toggle="tooltip" title="Delete"><a class="DeletePastMedical" data-role="@item.Id" href="#"><button class="btn btn-info btn-xs edit"><i class="fa fa-trash" aria-hidden="true"></i></button></a></p><!--</li-->
+                                                </li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                        }
+                                    }
+                                </tbody>
+                                <tbody>
+
+                                    <tr class="info">
+                                        <td style="vertical-align:middle;">
+                                            <div class="col-sm-8 col-sm-offset-2">
+
+                                                @Html.TextBoxFor(x => x.PastMedicalCondition, new { @class = "form-control", name = "PastMedicalCondition", placeholder = "Enter Condition", required = "required" })
+                                            </div>
+                                        </td>
+                                        <td style="vertical-align:middle;">
+                                            <div class="col-sm-8 col-sm-offset-2">
+                                                @Html.TextBoxFor(x => x.PastMedicalYear, new { @class = "form-control", name = "PastMedicalYear", placeholder = "Enter Year", maxlength = "4", required = "required", onkeypress = "return isNumber(event)" })
+
+                                            </div>
+                                        </td>
+                                        <td style="vertical-align:middle;">
+                                            <ul class="list-inline" style="position:relative;top:10px;">
+                                                <li>
+
+
+                                                    <p data-placement="top" data-toggle="tooltip" title="" data-original-title="Add"><a id="ImgbtnpastAdd" href="#"><button class="btn btn-primary btn-xs edit"><i class="fa fa-plus-circle" aria-hidden="true"></i></button></a></p>
+                                                </li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default" style="margin-bottom:10px !important;">
+    <div class="panel-heading" role="tab" id="headingD" style="background:#D9EDF7 !important">
+        <h4 class="panel-title" style="color:#000 !important;">
+            Smoking
+            <a class="collapsed" data-toggle="collapse" data-parent="#accordion1" href="#collapseD" aria-expanded="false" aria-controls="collapseD"><div class="col-xs-2 pull-right"><i class="fa fa-chevron-down pull-right"></i></div></a>
+        </h4>
+    </div>
+    <div id="collapseD" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingD">
+        <div class="panel-body" style="background: #ECF0F5;">
+            <div class="container-fulid">
+                <div class="row">
+                    <div class="col-md-12 thirteen_layer">
+                        <div class="table-responsive data">
+                            <table id="grdsmoking" class="table table-hover table-bordered">
+                                <thead style="color:#fff;">
+                                    <tr>
+                                        <th class="top">HOW MANY / EACH DAY</th>
+                                        <th class="top">YEAR STARTED</th>
+                                        <th class="top">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodySmoking">
+                                    @if (Model.SmokingList != null && Model.SmokingList.ToList().Count > 0)
+                                    {
+                                        foreach (var item in Model.SmokingList.ToList())
+                                        {
+                                    <tr class="info" id="trSmoking_@item.Id">
+                                        <td style="vertical-align:middle;"><samp id="HowMany_@item.Id">@item.HowMany</samp></td>
+                                        <td style="vertical-align:middle;"><samp id="YearStarted_@item.Id">@item.YearStarted</samp></td>
+                                        <td style="vertical-align:middle;">
+
+                                            <ul class="list-inline" style="position:relative;top:10px;">
+
+                                                <li><p data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit"><a class="EditSmoking" data-role="@item.Id" href="#"><button class="btn btn-primary btn-xs edit"><span class="glyphicon glyphicon-pencil"></span></button></a></p></li>
+                                                <li>
+                                                    <p data-placement="top" data-toggle="tooltip" title="Delete"><a class="DeleteSmoking" data-role="@item.Id" href="#"><button class="btn btn-info btn-xs edit"><i class="fa fa-trash" aria-hidden="true"></i></button></a></p><!--</li-->
+                                                </li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                        }
+                                    }
+                                </tbody>
+                                <tbody>
+
+                                    <tr class="info">
+                                        <td style="vertical-align:middle;">
+                                            <div class="col-sm-8 col-sm-offset-2">
+
+                                                @Html.TextBoxFor(x => x.SmokingDay, new { @class = "form-control", name = "SmokingDay", placeholder = "Enter How Many / Each Day", required = "required" })
+                                            </div>
+                                        </td>
+                                        <td style="vertical-align:middle;">
+                                            <div class="col-sm-8 col-sm-offset-2">
+
+                                                @Html.TextBoxFor(x => x.SmokingYear, new { @class = "form-control", name = "SmokingYear", placeholder = "Enter Year Started", maxlength = "4", required = "required", onkeypress = "return isNumber(event)" })
+                                            </div>
+                                        </td>
+                                        <td style="vertical-align:middle;">
+                                            <ul class="list-inline" style="position:relative;top:10px;">
+                                                <li>
+
+                                                    <p data-placement="top" data-toggle="tooltip" id="smokingAddButton" title="" data-original-title="Add Smoking"><a href="#"><button class="btn btn-primary btn-xs edit"><i class="fa fa-plus-circle" aria-hidden="true"></i></button></a></p>
+                                                </li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default" style="margin-bottom:10px !important;">
+    <div class="panel-heading" role="tab" id="headingE" style="background:#D9EDF7 !important">
+        <h4 class="panel-title" style="color:#000 !important;">
+            Alcohol
+            <a class="collapsed" data-toggle="collapse" data-parent="#accordion1" href="#collapseE" aria-expanded="false" aria-controls="collapseE"><div class="col-xs-2 pull-right"><i class="fa fa-chevron-down pull-right"></i></div></a>
+        </h4>
+    </div>
+    <div id="collapseE" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingE">
+        <div class="panel-body" style="background: #ECF0F5;">
+            <div class="container-fulid">
+                <div class="row">
+                    <div class="col-md-12 thirteen_layer">
+                        <div class="table-responsive data">
+                            <table id="mytable" class="table table-hover table-bordered">
+                                <thead style="color:#fff;">
+                                    <tr>
+                                        <th class="top">HOW MANY DRINKING DAY / WEEK</th>
+                                        <th class="top">HOW MANY DRINKS / DAY</th>
+                                        <th class="top">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyAlcohol">
+                                    @if (Model.AlcoholList != null && Model.AlcoholList.ToList().Count > 0)
+                                    {
+                                        foreach (var item in Model.AlcoholList.ToList())
+                                        {
+
+                                    <tr class="info" id="trAlcohol_@item.Id">
+                                        <td style="vertical-align:middle;"><samp id="HowManyWeek_@item.Id">@item.InWeek</samp></td>
+                                        <td style="vertical-align:middle;"><samp id="HowManyDay_@item.Id">@item.InDay</samp></td>
+                                        <td style="vertical-align:middle;">
+
+                                            <ul class="list-inline" style="position:relative;top:10px;">
+
+                                                <li><p data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit"><a class="EditAlcohol" data-role="@item.Id" href="#"><button class="btn btn-primary btn-xs edit"><span class="glyphicon glyphicon-pencil"></span></button></a></p></li>
+                                                <li>
+                                                    <p data-placement="top" data-toggle="tooltip" title="Delete"><a class="DeleteAlcohol" data-role="@item.Id" href="#"><button class="btn btn-info btn-xs edit"><i class="fa fa-trash" aria-hidden="true"></i></button></a></p><!--</li-->
+                                                </li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                        }
+                                    }
+                                </tbody>
+                                <tbody>
+                                    <tr class="info">
+                                        <td style="vertical-align:middle;">
+                                            <div class="col-sm-8 col-sm-offset-2">
+
+                                                @Html.TextBoxFor(x => x.AlcoholDayWeek, new { @class = "form-control", name = "AlcoholDayWeek", placeholder = "Enter How Many Drinking Day/Week", maxlength = "1", required = "required", onkeypress = "return isNumber(event)" })
+                                            </div>
+                                        </td>
+                                        <td style="vertical-align:middle;">
+                                            <div class="col-sm-8 col-sm-offset-2">
+
+                                                @Html.TextBoxFor(x => x.AlcoholDrinkDay, new { @class = "form-control", name = "AlcoholDayWeek", placeholder = "Enter How Many Drinks/Day", required = "required" })
+                                            </div>
+                                        </td>
+                                        <td style="vertical-align:middle;">
+                                            <ul class="list-inline" style="position:relative;top:10px;">
+                                                <li>
+                                                    <p data-placement="top" data-toggle="tooltip" title="" data-original-title="Add">
+                                                        <a id="alochalAddButton" href="#"><button class="btn btn-primary btn-xs edit"><i class="fa fa-plus-circle" aria-hidden="true"></i></button></a>
+                                                    </p>
+                                                </li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default" style="margin-bottom:10px !important;">
+    <div class="panel-heading" role="tab" id="headingF" style="background:#D9EDF7 !important">
+        <h4 class="panel-title" style="color:#000 !important;">
+            Family History
+            <a class="collapsed" data-toggle="collapse" data-parent="#accordion1" href="#collapseF" aria-expanded="false" aria-controls="collapseF"><div class="col-xs-2 pull-right"><i class="fa fa-chevron-down pull-right"></i></div></a>
+        </h4>
+    </div>
+    <div id="collapseF" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingF">
+        <div class="panel-body" style="background: #ECF0F5;">
+            <div class="container-fulid">
+                <div class="row">
+                    <div class="col-md-12 thirteen_layer">
+                        <div class="table-responsive data">
+                            <table id="mytable" class="table table-hover table-bordered">
+                                <thead style="color:#fff;">
+                                    <tr>
+                                        <th class="top">NAME OF CONDITION</th>
+                                        <th class="top">WHO IN FAMILY</th>
+                                        <th class="top">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyFamilyHistory">
+                                    @if (Model.FamilyHistoryList != null && Model.FamilyHistoryList.ToList().Count > 0)
+                                    {
+                                        foreach (var item in Model.FamilyHistoryList.ToList())
+                                        {
+                                    <tr class="info" id="trFamilyHistory_@item.Id">
+                                        <td style="vertical-align:middle;"><samp id="ConditionName_@item.Id">@item.ConditionName</samp></td>
+                                        <td style="vertical-align:middle;"><samp id="FamilyMember_@item.Id">@item.FamilyMember</samp></td>
+                                        <td style="vertical-align:middle;">
+
+                                            <ul class="list-inline" style="position:relative;top:10px;">
+
+                                                <li><p data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit"><a class="EditFamilyHistory" data-role="@item.Id" href="#"><button class="btn btn-primary btn-xs edit"><span class="glyphicon glyphicon-pencil"></span></button></a></p></li>
+                                                <li>
+                                                    <p data-placement="top" data-toggle="tooltip" title="Delete"><a class="DeleteFamilyHistory" data-role="@item.Id" href="#"><button class="btn btn-info btn-xs edit"><i class="fa fa-trash" aria-hidden="true"></i></button></a></p><!--</li-->
+                                                </li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                        }
+                                    }
+                                </tbody>
+                                <tbody>
+
+                                    <tr class="info">
+                                        <td style="vertical-align:middle;">
+                                            <div class="col-sm-8 col-sm-offset-2">
+
+                                                @Html.TextBoxFor(x => x.FamilyHistoryCondition, new { @class = "form-control", name = "FamilyHistoryCondition", placeholder = "Enter Condition", required = "required" })
+                                            </div>
+                                        </td>
+                                        <td style="vertical-align:middle;">
+                                            <div class="col-sm-8 col-sm-offset-2">
+                                                @Html.TextBoxFor(x => x.FamilyHistoryFamily, new { @class = "form-control", name = "FamilyHistoryFamily", placeholder = "Enter Who is in Family", required = "required" })
+
+                                            </div>
+                                        </td>
+                                        <td style="vertical-align:middle;">
+                                            <ul class="list-inline" style="position:relative;top:10px;">
+                                                <li><p data-placement="top" data-toggle="tooltip" title="" data-original-title="Add"><a id="FamilyAddButton" href="#"><button class="btn btn-primary btn-xs edit"><i class="fa fa-plus-circle" aria-hidden="true"></i></button></a></p></li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="panel panel-default" style="margin-bottom:10px !important;">
+    <div class="panel-heading" role="tab" id="headingG" style="background:#D9EDF7 !important">
+        <h4 class="panel-title" style="color:#000 !important;">
+            Employment
+            <a class="collapsed" data-toggle="collapse" data-parent="#accordion1" href="#collapseG" aria-expanded="false" aria-controls="collapseG"><div class="col-xs-2 pull-right"><i class="fa fa-chevron-down pull-right"></i></div></a>
+        </h4>
+    </div>
+    <div id="collapseG" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingG">
+        <div class="panel-body" style="background: #ECF0F5;">
+            <div class="container-fulid">
+                <div class="row">
+                    <div class="col-md-12 thirteen_layer">
+                        <div class="table-responsive data">
+                            <table id="GridViewEmpoyment" class="table table-hover table-bordered">
+                                <thead style="color:#fff;">
+                                    <tr>
+                                        <th class="top">Employment</th>
+                                        <th class="top">Date</th>
+                                        <th class="top">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbodyEmployment">
+                                    @if (Model.EmploymentList != null && Model.EmploymentList.ToList().Count > 0)
+                                    {
+                                        foreach (var item in Model.EmploymentList.ToList())
+                                        {
+                                    <tr class="info" id="trEmployment_@item.Id">
+                                        <td style="vertical-align:middle;"><samp id="Employment_@item.Id">@item.Employment</samp></td>
+                                        <td style="vertical-align:middle;">@item.EmploymentDate</td>
+                                        <td style="vertical-align:middle;">
+                                            <ul class="list-inline" style="position:relative;top:10px;">
+                                                @*<li><p data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit"><a href="#"><button class="btn btn-primary btn-xs edit"><span class="glyphicon glyphicon-pencil"></span></button></a></p></li>*@
+                                                <li>
+                                                    <p data-placement="top" data-toggle="tooltip" title="Delete"><a class="DeleteEmployment" data-role="@item.Id" href="#"><button class="btn btn-info btn-xs edit"><i class="fa fa-trash" aria-hidden="true"></i></button></a></p><!--</li-->
+                                                </li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                        }
+                                    }
+                                </tbody>
+                                <tbody>
+
+                                    <tr class="info">
+                                        <td style="vertical-align:middle;">
+                                            <div class="col-sm-8 col-sm-offset-2">
+                                                @Html.TextBoxFor(x => x.EmploymentName, new { @class = "form-control", name = "EmploymentName", placeholder = "Enter Current Employment’", required = "required" })
+                                            </div>
+                                        </td>
+                                        <td style="vertical-align:middle;"></td>
+                                        <td style="vertical-align:middle;">
+                                            <ul class="list-inline" style="position:relative;top:10px;">
+                                                <li><p data-placement="top" data-toggle="tooltip" title="" data-original-title="Add"><a id="EmpoymentAddButton" href="#"><button class="btn btn-primary btn-xs edit"><i class="fa fa-plus-circle" aria-hidden="true"></i></button></a></p></li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="panel panel-default" style="margin-bottom:10px !important;">
+    <div class="panel-heading" role="tab" id="headingH" style="background:#D9EDF7 !important">
+        <h4 class="panel-title" style="color:#000 !important;">
+            Other Medical Records
+            <a class="collapsed" data-toggle="collapse" data-parent="#accordion1" href="#collapseH" aria-expanded="false" aria-controls="collapseH"><div class="col-xs-2 pull-right"><i class="fa fa-chevron-down pull-right"></i></div></a>
+        </h4>
+    </div>
+    <div id="collapseH" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingH">
+        <div class="panel-body" style="background: #ECF0F5;">
+            <div class="container-fulid">
+                <div class="row">
+                    <div class="col-md-12 thirteen_layer">
+                        <div class="table-responsive data">
+                            <table id="OtherMedicalRecord" class="table table-hover table-bordered">
+                                <thead style="color:#fff;">
+                                    <tr>
+                                        <th class="top">Subject</th>
+                                        <th class="top">File Name</th>
+                                        <th class="top">Uploaded Date</th>
+                                        <th class="top">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model.OtherMedicalRecordsList != null && Model.OtherMedicalRecordsList.ToList().Count > 0)
+                                    {
+                                <tbody id="tbodyotherMedical">
+                                    @foreach (var item in Model.OtherMedicalRecordsList.ToList())
+                                        {
+                                        <tr class="info" id="trOtherMedical_@item.Id">
+                                            <td style="vertical-align:middle;"><samp id="Subject_@item.Id">@item.Subject</samp></td>
+                                            <td style="vertical-align:middle;">
+                                                @if (@item.FileName != null)
+                                                    {
+                                                    <img src="/UploadedFiles/OtherNedicalRecords/@item.FileName" height="100" width="100" class="img-circle" />
+                                                    }
+                                                    else
+                                                    {
+                                                    <img src="/UploadedFiles/OtherNedicalRecords/default.png" height="100" width="100" class="img-circle" title="default.png" />
+                                                    }
+                                            </td>
+                                            <td style="vertical-align:middle;">@item.ModifiedDate</td>
+                                            <td style="vertical-align:middle;">
+
+                                                <ul class="list-inline" style="position:relative;top:10px;">
+
+                                                    <li><p data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit"><a class="EditOtherMedicalHistory" data-role="@item.Id" href="#"><button class="btn btn-primary btn-xs edit"><span class="glyphicon glyphicon-pencil"></span></button></a></p></li>
+                                                    <li>
+                                                        <p data-placement="top" data-toggle="tooltip" title="Delete"><a class="DeleteOtherMedicalHistory" data-role="@item.Id" href="#"><button class="btn btn-info btn-xs edit"><i class="fa fa-trash" aria-hidden="true"></i></button></a></p>
+                                                    </li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        }
+                                </tbody>
+                                    }
+                                    else
+                                    {
+
+                                <tbody>
+                                    <tr>
+                                        <td colspan="6">
+                                            <div style="text-align: center; float: left; clear: both; width: 99%; margin: 4px; padding: 5px;">
+                                                Not Other Medical History Added.
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+
+                                    }
+                                    <tbody>
+                                        <tr class="info">
+                                            <td colspan="2" style="vertical-align:middle;">
+                                                <div class="col-sm-8 col-sm-offset-2">
+                                                    <input type="text" class="form-control" id="inputEmail3" placeholder="Enter Subject">
+                                                    @Html.TextBoxFor(x => x.OtherMedicalRecordsSubject, new { @class = "form-control", name = "OtherMedicalRecordsSubject", placeholder = "Enter Subject", required = "required" })
+                                                </div>
+                                            </td>
+                                            <td style="vertical-align:middle;">
+                                                <div class="col-sm-8 col-sm-offset-2">
+
+                                                    <img src="" height="25" width="25" id="imgProfilePic" />
+                                                    @*<input type="file" id="exampleInputFile">*@
+                                                    <input type="file" id="MedicalFile" name="MedicalFile" class="form-control" onchange="ShowPreview(this)" />
+                                                </div>
+                                            </td>
+                                            <td style="vertical-align:middle;">
+                                                <ul class="list-inline" style="position:relative;top:10px;">
+                                                    <li><p data-placement="top" data-toggle="tooltip" title="" data-original-title="Add"><a class="medicalRecordAddButton" id="medicalRecordAddButton" href="#"><button class="btn btn-primary btn-xs edit"><i class="fa fa-plus-circle" aria-hidden="true"></i></button></a></p></li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+    <script>
+        function isNumber(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            return true;
+        }
+        function ShowPreview(input) {
+            if (input.files && input.files[0]) {
+                var ImageDir = new FileReader();
+                ImageDir.onload = function (e) {
+                    $('#imgProfilePic').attr('src', e.target.result);
+                }
+                ImageDir.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+    @*Other Medical Records section*@
+    <script id="MedicalRecordsTemplate" type="text/template">
+        <tr id="¶trId" class="info">
+            <td align="center" style="width:44%;">
+                <samp id="¶idSubject">¶Subject</samp>
+            </td>
+            <td align="left">
+                <img src="¶filename" height="100" width="100" class="img-circle" />
+                @*<samp id="idFileName"><img src="/UploadedFiles/OtherNedicalRecords" ¶filename></samp>*@
+            </td>
+            <td align="center" style="width:44%;">
+                ¶UploadedDate
+            </td>
+            <td align="center" style="width:110px;" class="table-icons">
+                <ul class="list-inline" style="position:relative;top:10px;">
+                    <li><p data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit"><a class="EditOtherMedicalHistory" data-role="¶editId" href="#"><button class="btn btn-primary btn-xs edit"><span class="glyphicon glyphicon-pencil"></span></button></a></p></li>
+                    <li>
+                        <p data-placement="top" data-toggle="tooltip" title="Delete"><a class="DeleteOtherMedicalHistory" data-role="¶deleteId" href="#"><button class="btn btn-info btn-xs edit"><i class="fa fa-trash" aria-hidden="true"></i></button></a></p>
+                    </li>
+                </ul>
+                @*<a href="#" data-toggle="tooltip" data-placement="left" title="Edit Medical Records" class="EditMedicalRecords" data-role="¶editId"> <span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                    <a href="#" data-toggle="tooltip" data-placement="left" class="DeleteMedicalRecords" data-role="¶deleteId" title="Delete Medical Records"> <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></a>*@
+            </td>
+        </tr>
+    </script>
+    <script type="text/javascript">
+        $('#medicalRecordAddButton').on("click", function () {
+
+            if ($("#OtherMedicalRecordsSubject").val() != '') {
+                var txtSubject = $('#OtherMedicalRecordsSubject');
+                var MedicalFile = $('#MedicalFile');
+                var fileUpload = $("#MedicalFile").get(0);
+                var files = fileUpload.files;
+                // Create FormData object
+                var fileData = new FormData();
+                // Looping over all files and add it to FormData object
+                for (var i = 0; i < files.length; i++) {
+                    fileData.append(files[i].name, files[i]);
+                }
+                fileData.append('OtherMedicalRecordsSubject', txtSubject.val());
+                fileData.append('OtherMedicalRecordsFilename', MedicalFile.val().split('\\').pop());
+                $.ajax({
+                    url: '/Patients/PatientHistory/AddMedicalRecord',
+                    type: "POST",
+                    contentType: false, // Not to set any content header
+                    processData: false, // Not to process data
+                    data: fileData,
+                    controlId: $("#PatientHistoryId").val(),
+                    success: function (data) {
+                        var ctrlId = $("#PatientHistoryId").val();
+                        console.log(ctrlId);
+                        console.log(data);
+                        if (data != null) {
+                            if (ctrlId != 0) {
+                                var tdSubject = "Subject_" + ctrlId;
+                                var tdFileName = "FileName_" + ctrlId;
+                                $('#' + tdSubject).html(data.Subject);
+                            }
+                            else {
+                                var MedicalRecordTemplate = $('#MedicalRecordsTemplate');
+                                var MedicalRecordHtml = MedicalRecordTemplate.html();
+                                MedicalRecordHtml = MedicalRecordHtml.replace('¶trId', 'trOtherMedical_' + data.Id);
+                                MedicalRecordHtml = MedicalRecordHtml.replace('¶Subject', data.Subject);
+                                MedicalRecordHtml = MedicalRecordHtml.replace('¶IdSubject', 'Subject_' + data.Id);
+                                MedicalRecordHtml = MedicalRecordHtml.replace('¶FileName', data.FileName);
+                                MedicalRecordHtml = MedicalRecordHtml.replace('¶IdFileName', 'FileName_' + data.Id);
+                                MedicalRecordHtml = MedicalRecordHtml.replace('¶UploadedDate', data.ModifiedDate);
+                                MedicalRecordHtml = MedicalRecordHtml.replace('¶editId', data.Id);
+                                MedicalRecordHtml = MedicalRecordHtml.replace('¶deleteId', data.Id);
+                                $("#tbodyOtherMedical").append(MedicalRecordHtml);
+                            }
+                            $("#OtherMedicalRecordsSubject").val('');
+                            $("#UploadFileUpload").val('');
+                            $("#PatientHistoryId").val('0');
+                        }
+                    },
+                    error: function (err) {
+                        //alert(err.statusText);
+                        return false;
+                    }
+                });
+
+                //    ajaxParam.url = '/Patients/PatientHistory/AddMedicalRecord';
+                //    ajaxParam.requestType = 'POST';
+                //    ajaxParam.dataType = 'json';
+                //    ajaxParam.data = {
+                //        OtherMedicalRecordsSubject: $("#OtherMedicalRecordsSubject").val(),
+                //        OtherMedicalRecordsFilename: $('#MedicalFilePic').val().replace(/.*(\/|\\)/, ''),
+                //        PatientHistoryId: $("#PatientHistoryId").val()
+                //    };
+                //    ajaxParam.controlId = $("#PatientHistoryId").val();
+                //    ajaxParam.successCallbackFunction = AddMedicalRecord;
+                //    doAjax(ajaxParam);
+                //}
+                //else {
+                //    return false;
+                //}
+            };
+        });
+        function AddMedicalRecord(data, ctrlId) {
+            if (data != null) {
+                if (ctrlId != 0) {
+                    var tdSubject = "Subject_" + ctrlId;
+                    var tdFileName = "FileName_" + ctrlId;
+                    $('#' + tdSubject).html(data.Subject);
+                    //$('#' + tdFileName).html(data.FamilyMember);
+                }
+                else {
+                    var MedicalRecordTemplate = $('#MedicalRecordsTemplate');
+                    var MedicalRecordHtml = MedicalRecordTemplate.html();
+                    MedicalRecordHtml = MedicalRecordHtml.replace('¶trId', 'trOtherMedical_' + data.Id);
+                    MedicalRecordHtml = MedicalRecordHtml.replace('¶Subject', data.Subject);
+                    MedicalRecordHtml = MedicalRecordHtml.replace('¶IdSubject', 'Subject_' + data.Id);
+                    MedicalRecordHtml = MedicalRecordHtml.replace('¶FileName', data.FileName);
+                    MedicalRecordHtml = MedicalRecordHtml.replace('¶IdFileName', 'FileName_' + data.Id);
+                    MedicalRecordHtml = MedicalRecordHtml.replace('¶UploadedDate', data.ModifiedDate);
+                    allergieHtml = allergieHtml.replace('¶editId', data.Id);
+                    allergieHtml = allergieHtml.replace('¶deleteId', data.Id);
+                    $("#tbodyOtherMedical").append(MedicalRecordHtml);
+                }
+                $("#OtherMedicalRecordsSubject").val('');
+                $("#UploadFileUpload").val('');
+                $("#PatientHistoryId").val('0');
+            }
+        }
+        $(document).on('click', '.EditMedicalRecord', function () {
+            var hidaId = document.getElementById('PatientHistoryId');
+            hidaId.value = $(this).attr('data-role');
+            var id = $(this).attr('data-role');
+            var OtherMedicalRecordsSubject = document.getElementById('Subject' + id);
+            var txtOtherMedicalRecordsSubject = document.getElementById('OtherMedicalRecordsSubject');
+            txtname.focus();
+            var os = $(this).offset().top;
+            $('html,body').animate({ scrollTop: os }, 300)
+            txtOtherMedicalRecordsSubject.value = OtherMedicalRecordsSubject.innerText;
+        });
+
+        $(document).on('click', '.DeleteMedicalRecord', function () {
+            var result = confirm("Are you sure you want to Delete?");
+            if (result) {
+                var id = $(this).attr('data-role');
+                ajaxParam.url = '/Patients/PatientHistory/DeleteMedicalRecord';
+                ajaxParam.requestType = 'GET';
+                ajaxParam.dataType = 'json';
+                ajaxParam.data = { Id: id };
+                ajaxParam.controlId = 'trEmployment_' + id;
+                ajaxParam.successCallbackFunction = DeleteEmployment;
+                doAjax(ajaxParam);
+            }
+            else {
+                return false;
+            }
+        });
+        function DeleteEmployment(data, ctrId) {
+            console.log(data);
+            if (data == "Success") {
+                $('#' + ctrId).remove();
+            }
+        }
+    </script>
+    @* End here Other Medical Records section*@
+
+    @*Allergies section*@
+    <script id="allergieTemplate" type="text/template">
+        <tr id="¶trId" class="info">
+            <td align="center" style="width:44%;">
+                <samp id="¶idName">¶name</samp>
+            </td>
+            <td align="center" style="width:44%;">
+                <samp id="¶idHappen">¶happen</samp>
+            </td>
+            <td align="center" style="width:110px;" class="table-icons">
+                <ul class="list-inline" style="position:relative;top:10px;">
+                    <li><p data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit"><a class="EditAllergies" data-role="¶editId" href="#"><button class="btn btn-primary btn-xs edit"><span class="glyphicon glyphicon-pencil"></span></button></a></p></li>
+                    <li>
+                        <p data-placement="top" data-toggle="tooltip" title="Delete"><a class="DeleteAllergies" data-role="¶deleteId" href="#"><button class="btn btn-info btn-xs edit"><i class="fa fa-trash" aria-hidden="true"></i></button></a></p><!--</li-->
+                    </li>
+                </ul>
+                @*<a href="#" data-toggle="tooltip" data-placement="left" title="Edit" class="EditAllergies" data-role="¶editId"> <span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                    <a href="#" data-toggle="tooltip" data-placement="left" class="DeleteAllergies" data-role="¶deleteId" title="Delete"> <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></a>*@
+            </td>
+        </tr>
+    </script>
+    <script type="text/javascript">
+        $('#ImgbtnAdd').click(function () {
+            if ($("#AllergyName").val() != '' && $("#WhatHappens").val() != '') {
+
+                ajaxParam.url = '/Patients/PatientHistory/AddAllergies';
+                ajaxParam.requestType = 'POST';
+                ajaxParam.dataType = 'json';
+                ajaxParam.data = {
+                    AllergyName: $("#AllergyName").val(),
+                    WhatHappens: $("#WhatHappens").val(),
+                    PatientHistoryId: $("#PatientHistoryId").val()
+                };
+                ajaxParam.controlId = $("#PatientHistoryId").val();
+                ajaxParam.successCallbackFunction = AddAllergies;
+
+                doAjax(ajaxParam);
+            }
+            else {
+                return false;
+            }
+        });
+
+        function AddAllergies(data, ctrlId) {
+            if (data != null) {
+                if (ctrlId != 0) {
+                    var tdName = "Name_" + ctrlId;
+                    var tdHappens = "Happens_" + ctrlId;
+                    $('#' + tdName).html(data.AllergyName);
+                    $('#' + tdHappens).html(data.WhatHappens);
+                }
+                else {
+                    var allergieTemplate = $('#allergieTemplate');
+                    var allergieHtml = allergieTemplate.html();
+
+                    allergieHtml = allergieHtml.replace('¶trId', 'trallergies_' + data.Id);
+                    allergieHtml = allergieHtml.replace('¶name', data.AllergyName);
+                    allergieHtml = allergieHtml.replace('¶happen', data.WhatHappens);
+                    allergieHtml = allergieHtml.replace('¶idHappen', 'Happens_' + data.Id);
+                    allergieHtml = allergieHtml.replace('¶idName', 'Name_' + data.Id);
+                    allergieHtml = allergieHtml.replace('¶editId', data.Id);
+                    allergieHtml = allergieHtml.replace('¶deleteId', data.Id);
+                    $("#tbodyAllergie").append(allergieHtml);
+                }
+                $("#AllergyName").val('');
+                $("#WhatHappens").val('');
+                $("#PatientHistoryId").val('0');
+            }
+        }
+
+        $(document).on('click', '.EditAllergies', function () {
+            var hidaId = document.getElementById('PatientHistoryId');
+            hidaId.value = $(this).attr('data-role');
+            var id = $(this).attr('data-role');
+            var name = document.getElementById('Name_' + id);
+            var Happens = document.getElementById('Happens_' + id);
+            var txtname = document.getElementById('AllergyName');
+            var txtHappens = document.getElementById('WhatHappens');
+            txtname.focus();
+
+            var os = $(this).offset().top;
+            $('html,body').animate({ scrollTop: os }, 300)
+
+            txtname.value = name.innerText;
+            txtHappens.value = Happens.innerText;
+        });
+
+        $(document).on('click', '.DeleteAllergies', function () {
+            var result = confirm("Are you sure you want to Delete?");
+            if (result) {
+                var id = $(this).attr('data-role');
+                ajaxParam.url = '/Patients/PatientHistory/DeleteAllergies';
+                ajaxParam.requestType = 'GET';
+                ajaxParam.dataType = 'json';
+                ajaxParam.data = { Id: id };
+                ajaxParam.controlId = 'trallergies_' + id;
+                ajaxParam.successCallbackFunction = DeleteAllergies;
+                doAjax(ajaxParam);
+            }
+            else {
+                return false;
+            }
+        });
+        function DeleteAllergies(data, ctrId) {
+            console.log(data);
+            if (data == "Success") {
+                $('#' + ctrId).remove();
+            }
+        }
+        // end here Allergies section
+    </script>
+    @* End here Allergies section*@
+
+    @*Mediation History*@
+    <script id="MediationHistoryTemplate" type="text/template">
+        <tr class="info" id="¶trId">
+            <td align="center" style="width:22%;" class="col-sm-3 col-xs-12">
+                <samp id="¶idName">¶Name</samp>
+            </td>
+            <td align="center" style="width:22%;" class="col-sm-2 col-xs-12">
+                <samp id="¶idStrength">¶Strength</samp>
+            </td>
+            <td align="center" style="width:22%;" class="col-sm-2 col-xs-12">
+                <samp id="¶idDose">¶Dose</samp>
+            </td>
+            <td align="center" style="width:22%;" class="col-sm-3 col-xs-12">
+                <samp id="¶idFrequency">¶Frequency</samp>
+            </td>
+            <td align="center" style="width:22%;" class="col-sm-2 col-xs-12">
+                <samp id="¶idYearStaeted">¶YearStaeted</samp>
+            </td>
+            <td align="center" style="width:12%;">
+                <ul class="list-inline" style="position:relative;top:10px;">
+                    <li><p data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit"><a class="EditMedicationHistory" data-role="¶editId" href="#"><button class="btn btn-primary btn-xs edit"><span class="glyphicon glyphicon-pencil"></span></button></a></p></li>
+                    <li>
+                        <p data-placement="top" data-toggle="tooltip" title="Delete"><a class="DeleteMedicationHistory" data-role="¶deleteId" href="#"><button class="btn btn-info btn-xs edit"><i class="fa fa-trash" aria-hidden="true"></i></button></a></p><!--</li-->
+                    </li>
+                </ul>
+                @*<a href="#" data-toggle="tooltip" data-placement="left" title="Edit" class="EditMedicationHistory" data-role="¶editId"> <span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                    <a href="#" data-toggle="tooltip" data-placement="left" class="DeleteMedicationHistory" data-role="¶deleteId" title="Delete"> <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></a>*@
+            </td>
+        </tr>
+    </script>
+    <script type="text/javascript">
+        $('#ImgbtnAddMedical').click(function () {
+            if ($("#MedicationHistoryName").val() != '' && $("#MedicationHistoryStrength").val() != '' && $("#MedicationHistoryDose").val() != '' && $("#txtfrequency").val() != '' && $("#MedicationHistoryYearStarted").val() != '') {
+                ajaxParam.url = '/Patients/PatientHistory/AddMedicationHistory';
+                ajaxParam.requestType = 'POST';
+                ajaxParam.dataType = 'json';
+                ajaxParam.data = {
+                    MedicationHistoryName: $("#MedicationHistoryName").val(),
+                    MedicationHistoryStrength: $("#MedicationHistoryStrength").val(),
+                    MedicationHistoryDose: $("#MedicationHistoryDose").val(),
+                    MedicationHistoryFrequency: $("#txtfrequency").val(),
+                    MedicationHistoryYearStarted: $("#MedicationHistoryYearStarted").val(),
+                    PatientHistoryId: $("#PatientHistoryId").val()
+                };
+                ajaxParam.controlId = $("#PatientHistoryId").val();
+                ajaxParam.successCallbackFunction = AddMedicationHistory;
+                doAjax(ajaxParam);
+            }
+            else {
+                return false;
+            }
+        });
+
+        function AddMedicationHistory(data, ctrlId) {
+            if (data != null) {
+                if (ctrlId != 0) {
+                    var tdName = "Name_" + ctrlId;
+                    var tdStrength = "Strength_" + ctrlId;
+                    var tdDose = "Dose_" + ctrlId;
+                    var tdFrequency = "Frequency_" + ctrlId;
+                    var tdYearStaeted = "YearStaeted_" + ctrlId;
+                    $('#' + tdName).html(data.Name);
+                    $('#' + tdStrength).html(data.Strength);
+                    $('#' + tdDose).html(data.Dose);
+                    $('#' + tdFrequency).html(data.Frequency);
+                    $('#' + tdYearStaeted).html(data.YearStaeted);
+                }
+                else {
+                    var mediationHistoryTemplate = $('#MediationHistoryTemplate');
+                    var mediationHistoryHtml = mediationHistoryTemplate.html();
+                    mediationHistoryHtml = mediationHistoryHtml.replace('¶trId', 'trMedicationHistory_' + data.Id);
+                    mediationHistoryHtml = mediationHistoryHtml.replace('¶Name', data.Name);
+                    mediationHistoryHtml = mediationHistoryHtml.replace('¶idName', 'Name_' + data.Id);
+                    mediationHistoryHtml = mediationHistoryHtml.replace('¶Strength', data.Strength);
+                    mediationHistoryHtml = mediationHistoryHtml.replace('¶idStrength', 'Strength_' + data.Id);
+                    mediationHistoryHtml = mediationHistoryHtml.replace('¶Dose', data.Dose);
+                    mediationHistoryHtml = mediationHistoryHtml.replace('¶idDose', 'Dose_' + data.Id);
+                    mediationHistoryHtml = mediationHistoryHtml.replace('¶Frequency', data.Frequency);
+                    mediationHistoryHtml = mediationHistoryHtml.replace('¶idFrequency', 'Frequency_' + data.Id);
+                    mediationHistoryHtml = mediationHistoryHtml.replace('¶YearStaeted', data.YearStaeted);
+                    mediationHistoryHtml = mediationHistoryHtml.replace('¶idYearStaeted', 'YearStaeted_' + data.Id);
+                    mediationHistoryHtml = mediationHistoryHtml.replace('¶editId', data.Id);
+                    mediationHistoryHtml = mediationHistoryHtml.replace('¶deleteId', data.Id);
+                    $("#tbodyMedicationHistory").append(mediationHistoryHtml);
+                }
+                $("#MedicationHistoryName").val(''),
+                $("#MedicationHistoryStrength").val(''),
+                $("#MedicationHistoryDose").val(''),
+                $("#txtfrequency").val(''),
+                $("#MedicationHistoryYearStarted").val(''),
+                $("#PatientHistoryId").val('0');
+            }
+        }
+
+        $(document).on('click', '.EditMedicationHistory', function () {
+            var hidaId = document.getElementById('PatientHistoryId');
+            hidaId.value = $(this).attr('data-role');
+            var id = $(this).attr('data-role');
+            var name = document.getElementById('Name_' + id);
+            var Strength = document.getElementById('Strength_' + id);
+            var Dose = document.getElementById('Dose_' + id);
+            var frequency = document.getElementById('Frequency_' + id);
+            var YearStarted = document.getElementById('YearStaeted_' + id);
+            var txtname = document.getElementById('MedicationHistoryName');
+            var txtStrength = document.getElementById('MedicationHistoryStrength');
+            var txtDose = document.getElementById('MedicationHistoryDose');
+            var txtfrequency = document.getElementById('txtfrequency');
+            var txtYearStarted = document.getElementById('MedicationHistoryYearStarted');
+            txtname.focus();
+            var os = $(this).offset().top;
+            $('html,body').animate({ scrollTop: os }, 300)
+            txtname.value = name.innerText;
+            txtStrength.value = Strength.innerText;
+            txtDose.value = Dose.innerText;
+            txtfrequency.value = frequency.innerText;
+            txtYearStarted.value = YearStarted.innerText;
+        });
+
+        $(document).on('click', '.DeleteMedicationHistory', function () {
+            var result = confirm("Are you sure you want to Delete?");
+            if (result) {
+                var id = $(this).attr('data-role');
+                ajaxParam.url = '/Patients/PatientHistory/DeleteMedicationHistory';
+                ajaxParam.requestType = 'GET';
+                ajaxParam.dataType = 'json';
+                ajaxParam.data = { Id: id };
+                ajaxParam.controlId = 'trMedicationHistory_' + id;
+                ajaxParam.successCallbackFunction = DeleteAllergies;
+                doAjax(ajaxParam);
+            }
+            else {
+                return false;
+            }
+        });
+        function DeleteAllergies(data, ctrId) {
+            console.log(data);
+            if (data == "Success") {
+                $('#' + ctrId).remove();
+            }
+        }
+        // end here Allergies section
+    </script>
+    @* End here Allergies section*@
+
+
+    @*Past Medical section*@
+    <script id="PastMedicalTemplate" type="text/template">
+        <tr id="¶trId" class="info">
+            <td align="center" style="width:44%;">
+                <samp id="¶idCondition">¶Condition</samp>
+            </td>
+            <td align="center" style="width:44%;">
+                <samp id="¶idPastMedicalYear">¶PastMedicalYear</samp>
+            </td>
+            <td align="center" style="width:110px;" class="table-icons">
+                <ul class="list-inline" style="position:relative;top:10px;">
+                    <li><p data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit"><a class="EditPastMedical" data-role="¶editId" href="#"><button class="btn btn-primary btn-xs edit"><span class="glyphicon glyphicon-pencil"></span></button></a></p></li>
+                    <li>
+                        <p data-placement="top" data-toggle="tooltip" title="Delete"><a class="DeletePastMedical" data-role="¶deleteId" href="#"><button class="btn btn-info btn-xs edit"><i class="fa fa-trash" aria-hidden="true"></i></button></a></p><!--</li-->
+                    </li>
+                </ul>
+                @*<a href="#" data-toggle="tooltip" data-placement="left" title="Edit" class="EditPastMedical" data-role="¶editId"> <span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                <a href="#" data-toggle="tooltip" data-placement="left" class="DeletePastMedical" data-role="¶deleteId" title="Delete"> <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></a>*@
+            </td>
+        </tr>
+    </script>
+    <script type="text/javascript">
+        $('#ImgbtnpastAdd').click(function () {
+            if ($("#PastMedicalCondition").val() != '' && $("#PastMedicalYear").val() != '') {
+                ajaxParam.url = '/Patients/PatientHistory/AddPastMedical';
+                ajaxParam.requestType = 'POST';
+                ajaxParam.dataType = 'json';
+                ajaxParam.data = {
+                    PastMedicalCondition: $("#PastMedicalCondition").val(),
+                    PastMedicalYear: $("#PastMedicalYear").val(),
+                    PatientHistoryId: $("#PatientHistoryId").val()
+                };
+                ajaxParam.controlId = $("#PatientHistoryId").val();
+                ajaxParam.successCallbackFunction = AddPastMedical;
+                doAjax(ajaxParam);
+            }
+            else {
+                return false;
+            }
+        });
+        function AddPastMedical(data, ctrlId) {
+            console.log(data);
+            if (data != null) {
+                if (ctrlId != 0) {
+                    var tdCondition = "Condition_" + ctrlId;
+                    var tdYear = "Year_" + ctrlId;
+                    $('#' + tdCondition).html(data.ConditionName);
+                    $('#' + tdYear).html(data.DiagnosedYear);
+                }
+                else {
+                    var PastMedicalTemplate = $('#PastMedicalTemplate');
+                    var PastMedicalHtml = PastMedicalTemplate.html();
+                    PastMedicalHtml = PastMedicalHtml.replace('¶trId', 'trPastMedical_' + data.Id);
+                    PastMedicalHtml = PastMedicalHtml.replace('¶Condition', data.ConditionName);
+                    PastMedicalHtml = PastMedicalHtml.replace('¶PastMedicalYear', data.DiagnosedYear);
+                    PastMedicalHtml = PastMedicalHtml.replace('¶idPastMedicalYear', 'Year_' + data.Id);
+                    PastMedicalHtml = PastMedicalHtml.replace('¶idCondition', 'Condition_' + data.Id);
+                    PastMedicalHtml = PastMedicalHtml.replace('¶editId', data.Id);
+                    PastMedicalHtml = PastMedicalHtml.replace('¶deleteId', data.Id);
+                    $("#tbodyPastMedical").append(PastMedicalHtml);
+                }
+                $("#PastMedicalCondition").val('');
+                $("#PastMedicalYear").val('');
+                $("#PatientHistoryId").val('0');
+            }
+        }
+
+        $(document).on('click', '.EditPastMedical', function () {
+            var hidaId = document.getElementById('PatientHistoryId');
+            hidaId.value = $(this).attr('data-role');
+            var id = $(this).attr('data-role');
+            var Condition = document.getElementById('Condition_' + id);
+            var Year = document.getElementById('Year_' + id);
+            var txtPastMedicalCondition = document.getElementById('PastMedicalCondition');
+            var txtPastMedicalYear = document.getElementById('PastMedicalYear');
+            txtPastMedicalCondition.focus();
+            var os = $(this).offset().top;
+            $('html,body').animate({ scrollTop: os }, 300)
+            txtPastMedicalCondition.value = Condition.innerText;
+            txtPastMedicalYear.value = Year.innerText;
+        });
+
+        $(document).on('click', '.DeletePastMedical', function () {
+            var result = confirm("Are you sure you want to Delete?");
+            if (result) {
+                var id = $(this).attr('data-role');
+                ajaxParam.url = '/Patients/PatientHistory/DeletePastMedical';
+                ajaxParam.requestType = 'GET';
+                ajaxParam.dataType = 'json';
+                ajaxParam.data = { Id: id };
+                ajaxParam.controlId = 'trPastMedical_' + id;
+                ajaxParam.successCallbackFunction = DeletePastMedical;
+                doAjax(ajaxParam);
+            }
+            else {
+                return false;
+            }
+        });
+        function DeletePastMedical(data, ctrId) {
+            console.log(data);
+            if (data == "Success") {
+                $('#' + ctrId).remove();
+            }
+        }
+        // end here Allergies section
+    </script>
+    @* End here Past Medical section*@
+
+    @*Smoking Section*@
+    <script id="SmokingTemplate" type="text/template">
+        <tr id="¶trId" class="info">
+            <td align="center" style="width:44%;">
+                <samp id="¶idHowMany">¶HowMany</samp>
+            </td>
+            <td align="center" style="width:44%;">
+                <samp id="¶idYearStarted">¶YearStarted</samp>
+            </td>
+            <td align="center" style="width:110px;" class="table-icons">
+                <ul class="list-inline" style="position:relative;top:10px;">
+                    <li><p data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit"><a class="EditSmoking" data-role="¶editId" href="#"><button class="btn btn-primary btn-xs edit"><span class="glyphicon glyphicon-pencil"></span></button></a></p></li>
+                    <li>
+                        <p data-placement="top" data-toggle="tooltip" title="Delete"><a class="DeleteSmoking" data-role="¶deleteId" href="#"><button class="btn btn-info btn-xs edit"><i class="fa fa-trash" aria-hidden="true"></i></button></a></p><!--</li-->
+                    </li>
+                </ul>
+                @*<a href="#" data-toggle="tooltip" data-placement="left" title="Edit" class="EditSmoking" data-role="¶editId"> <span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                <a href="#" data-toggle="tooltip" data-placement="left" class="DeleteSmoking" data-role="¶deleteId" title="Delete"> <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></a>*@
+            </td>
+        </tr>
+    </script>
+    <script type="text/javascript">
+        $('#smokingAddButton').click(function () {
+            if ($("#SmokingDay").val() != '' && $("#SmokingYear").val() != '') {
+                ajaxParam.url = '/Patients/PatientHistory/AddSmoking';
+                ajaxParam.requestType = 'POST';
+                ajaxParam.dataType = 'json';
+                ajaxParam.data = {
+                    SmokingDay: $("#SmokingDay").val(),
+                    SmokingYear: $("#SmokingYear").val(),
+                    PatientHistoryId: $("#PatientHistoryId").val()
+                };
+                ajaxParam.controlId = $("#PatientHistoryId").val();
+                ajaxParam.successCallbackFunction = AddSmoking;
+                doAjax(ajaxParam);
+            }
+            else {
+                return false;
+            }
+        });
+        function AddSmoking(data, ctrlId) {
+            console.log(data);
+            if (data != null) {
+                if (ctrlId != 0) {
+                    var tdHowMany = "HowMany_" + ctrlId;
+                    var tdYearStarted = "YearStarted_" + ctrlId;
+                    $('#' + tdHowMany).html(data.SmokingDay);
+                    $('#' + tdYearStarted).html(data.year);
+                }
+                else {
+                    var SmokingTemplate = $('#SmokingTemplate');
+                    var SmokingHtml = SmokingTemplate.html();
+                    SmokingHtml = SmokingHtml.replace('¶trId', 'trSmoking_' + data.Id);
+                    SmokingHtml = SmokingHtml.replace('¶HowMany', data.SmokingDay);
+                    SmokingHtml = SmokingHtml.replace('¶YearStarted', data.year);
+                    SmokingHtml = SmokingHtml.replace('¶idHowMany', 'HowMany_' + data.Id);
+                    SmokingHtml = SmokingHtml.replace('¶idYearStarted', 'YearStarted_' + data.Id);
+                    SmokingHtml = SmokingHtml.replace('¶editId', data.Id);
+                    SmokingHtml = SmokingHtml.replace('¶deleteId', data.Id);
+                    $("#tbodySmoking").append(SmokingHtml);
+                }
+                $("#SmokingDay").val('');
+                $("#SmokingYear").val('');
+                $("#PatientHistoryId").val('0');
+            }
+        }
+
+        $(document).on('click', '.EditSmoking', function () {
+            var hidaId = document.getElementById('PatientHistoryId');
+            hidaId.value = $(this).attr('data-role');
+            var id = $(this).attr('data-role');
+            var HowMany = document.getElementById('HowMany_' + id);
+            var YearStarted = document.getElementById('YearStarted_' + id);
+            var txtHowMany = document.getElementById('SmokingDay');
+            var txtYearStarted = document.getElementById('SmokingYear');
+            txtHowMany.focus();
+            var os = $(this).offset().top;
+            $('html,body').animate({ scrollTop: os }, 300)
+            txtHowMany.value = HowMany.innerText;
+            txtYearStarted.value = YearStarted.innerText;
+        });
+
+        $(document).on('click', '.DeleteSmoking', function () {
+            var result = confirm("Are you sure you want to Delete?");
+            if (result) {
+                var id = $(this).attr('data-role');
+                alert(id);
+                ajaxParam.url = '/Patients/PatientHistory/DeleteSmoking';
+                ajaxParam.requestType = 'GET';
+                ajaxParam.dataType = 'json';
+                ajaxParam.data = { Id: id };
+                ajaxParam.controlId = 'trSmoking_' + id;
+                ajaxParam.successCallbackFunction = DeleteSmoking;
+                doAjax(ajaxParam);
+            }
+            else {
+                return false;
+            }
+        });
+        function DeleteSmoking(data, ctrId) {
+            console.log(data);
+            if (data == "Success") {
+                $('#' + ctrId).remove();
+            }
+        }
+        // end here Allergies section
+    </script>
+    @* End here Smoking section*@
+
+    @*Alcohol section*@
+    <script id="AlcoholTemplate" type="text/template">
+        <tr id="¶trId" class="info">
+            <td align="center" style="width:44%;">
+                <samp id="¶idHowManyWeek">¶HowManyWeek</samp>
+            </td>
+            <td align="center" style="width:44%;">
+                <samp id="¶idHowManyDay">¶HowManyDay</samp>
+            </td>
+            <td align="center" style="width:110px;" class="table-icons">
+                <ul class="list-inline" style="position:relative;top:10px;">
+                    <li><p data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit"><a class="EditAlcohol" data-role="¶editId" href="#"><button class="btn btn-primary btn-xs edit"><span class="glyphicon glyphicon-pencil"></span></button></a></p></li>
+                    <li>
+                        <p data-placement="top" data-toggle="tooltip" title="Delete"><a class="DeleteAlcohol" data-role="¶deleteId" href="#"><button class="btn btn-info btn-xs edit"><i class="fa fa-trash" aria-hidden="true"></i></button></a></p><!--</li-->
+                    </li>
+                </ul>
+                @*<a href="#" data-toggle="tooltip" data-placement="left" title="Edit" class="EditAlcohol" data-role="¶editId"> <span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                <a href="#" data-toggle="tooltip" data-placement="left" class="DeleteAlcohol" data-role="¶deleteId" title="Delete"> <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></a>*@
+            </td>
+        </tr>
+    </script>
+    <script type="text/javascript">
+        $('#alochalAddButton').click(function () {
+            if ($("#AlcoholDayWeek").val() != '' && $("#AlcoholDrinkDay").val() != '') {
+                ajaxParam.url = '/Patients/PatientHistory/AddAlcohol';
+                ajaxParam.requestType = 'POST';
+                ajaxParam.dataType = 'json';
+                ajaxParam.data = {
+                    AlcoholDayWeek: $("#AlcoholDayWeek").val(),
+                    AlcoholDrinkDay: $("#AlcoholDrinkDay").val(),
+                    PatientHistoryId: $("#PatientHistoryId").val()
+                };
+                ajaxParam.controlId = $("#PatientHistoryId").val();
+                ajaxParam.successCallbackFunction = AddAlcohol;
+                doAjax(ajaxParam);
+            }
+            else {
+                return false;
+            }
+        });
+        function AddAlcohol(data, ctrlId) {
+            if (data != null) {
+                if (ctrlId != 0) {
+                    var tdHowManyWeek = "HowManyWeek_" + ctrlId;
+                    var tdHowManyDay = "HowManyDay_" + ctrlId;
+                    $('#' + tdHowMany).html(data.InWeek);
+                    $('#' + tdYearStarted).html(data.InDay);
+                }
+                else {
+                    console.log(data);
+                    var alcoholTemplate = $('#AlcoholTemplate');
+                    var AlcoholHtml = alcoholTemplate.html();
+                    AlcoholHtml = AlcoholHtml.replace('¶trId', 'trAlcohol_' + data.Id);
+                    AlcoholHtml = AlcoholHtml.replace('¶HowManyWeek', data.InWeek);
+                    AlcoholHtml = AlcoholHtml.replace('¶HowManyDay', data.InDay);
+                    AlcoholHtml = AlcoholHtml.replace('¶idHowManyWeek', 'HowManyWeek_' + data.Id);
+                    AlcoholHtml = AlcoholHtml.replace('¶idHowManyDay', 'HowManyDay_' + data.Id);
+                    AlcoholHtml = AlcoholHtml.replace('¶editId', data.Id);
+                    AlcoholHtml = AlcoholHtml.replace('¶deleteId', data.Id);
+                    $("#tbodyAlcohol").append(AlcoholHtml);
+                }
+                $("#AlcoholDayWeek").val('');
+                $("#AlcoholDrinkDay").val('');
+                $("#PatientHistoryId").val('0');
+            }
+        }
+        $(document).on('click', '.EditAlcohol', function () {
+            var hidaId = document.getElementById('PatientHistoryId');
+            hidaId.value = $(this).attr('data-role');
+            var id = $(this).attr('data-role');
+            var HowManyWeek = document.getElementById('HowManyWeek_' + id);
+            var HowManyDay = document.getElementById('HowManyDay_' + id);
+            var txtHowManyWeek = document.getElementById('AlcoholDayWeek');
+            var txtHowManyDay = document.getElementById('AlcoholDrinkDay');
+            txtHowManyWeek.focus();
+            var os = $(this).offset().top;
+            $('html,body').animate({ scrollTop: os }, 300)
+            txtHowManyWeek.value = HowManyWeek.innerText;
+            txtHowManyDay.value = HowManyDay.innerText;
+        });
+
+        $(document).on('click', '.DeleteAlcohol', function () {
+            var result = confirm("Are you sure you want to Delete?");
+            if (result) {
+                var id = $(this).attr('data-role');
+                ajaxParam.url = '/Patients/PatientHistory/DeleteAlcohal';
+                ajaxParam.requestType = 'GET';
+                ajaxParam.dataType = 'json';
+                ajaxParam.data = { Id: id };
+                ajaxParam.controlId = 'trAlcohol_' + id;
+                ajaxParam.successCallbackFunction = DeleteAlcohal;
+                doAjax(ajaxParam);
+            }
+            else {
+                return false;
+            }
+        });
+        function DeleteAlcohal(data, ctrId) {
+            console.log(data);
+            if (data == "Success") {
+                $('#' + ctrId).remove();
+            }
+        }
+        // end here Allergies section
+    </script>
+    @* End here Alcohol section*@
+
+    @*Family History section*@
+    <script id="FamilyHistoryTemplate" type="text/template">
+        <tr id="¶trId" class="info">
+            <td align="center" style="width:44%;">
+                <samp id="¶idNameOfCondition">¶NameOfCondition</samp>
+            </td>
+            <td align="center" style="width:44%;">
+                <samp id="¶idWhoInFamily">¶WhoInFamily</samp>
+            </td>
+            <td align="center" style="width:110px;" class="table-icons">
+                <ul class="list-inline" style="position:relative;top:10px;">
+                    @*<li><p data-placement="top" data-toggle="tooltip" title="" data-original-title="Edit"><a href="#"><button class="btn btn-primary btn-xs edit"><span class="glyphicon glyphicon-pencil"></span></button></a></p></li>*@
+                    <li>
+                        <p data-placement="top" data-toggle="tooltip" title="Delete"><a class="DeleteEmployment" data-role="¶deleteId" href="#"><button class="btn btn-info btn-xs edit"><i class="fa fa-trash" aria-hidden="true"></i></button></a></p><!--</li-->
+                    </li>
+                </ul>
+                @*<a href="#" data-toggle="tooltip" data-placement="left" title="Edit" class="EditFamilyHistory" data-role="¶editId"> <span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                <a href="#" data-toggle="tooltip" data-placement="left" class="DeleteFamilyHistory" data-role="¶deleteId" title="Delete"> <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></a>*@
+            </td>
+        </tr>
+    </script>
+    <script type="text/javascript">
+        $('#FamilyAddButton').click(function () {
+            if ($("#FamilyHistoryCondition").val() != '' && $("#FamilyHistoryFamily").val() != '') {
+                ajaxParam.url = '/Patients/PatientHistory/AddFamilyHistory';
+                ajaxParam.requestType = 'POST';
+                ajaxParam.dataType = 'json';
+                ajaxParam.data = {
+                    FamilyHistoryCondition: $("#FamilyHistoryCondition").val(),
+                    FamilyHistoryFamily: $("#FamilyHistoryFamily").val(),
+                    PatientHistoryId: $("#PatientHistoryId").val()
+                };
+                ajaxParam.controlId = $("#PatientHistoryId").val();
+                ajaxParam.successCallbackFunction = AddFamilyHistory;
+                doAjax(ajaxParam);
+            }
+            else {
+                return false;
+            }
+        });
+        function AddFamilyHistory(data) {
+            if (data != null) {
+                if (ctrlId != 0) {
+                    var tdNameOfCondition = "NameOfCondition_" + ctrlId;
+                    var tdWhoInFamily = "WhoInFamily_" + ctrlId;
+                    $('#' + tdNameOfCondition).html(data.ConditionName);
+                    $('#' + tdWhoInFamily).html(data.FamilyMember);
+                }
+                else {
+                    var familyHistoryTemplate = $('#FamilyHistoryTemplate');
+                    var familyHistoryHtml = familyHistoryTemplate.html();
+                    familyHistoryHtml = familyHistoryHtml.replace('¶trId', 'trFamilyHistory_' + data.Id);
+                    familyHistoryHtml = familyHistoryHtml.replace('¶NameOfCondition', data.ConditionName);
+                    familyHistoryHtml = familyHistoryHtml.replace('¶WhoInFamily', data.FamilyMember);
+                    familyHistoryHtml = familyHistoryHtml.replace('¶idNameOfCondition', 'NameOfCondition_' + data.Id);
+                    familyHistoryHtml = familyHistoryHtml.replace('¶idWhoInFamily', 'WhoInFamily_' + data.Id);
+                    familyHistoryHtml = familyHistoryHtml.replace('¶editId', data.Id);
+                    familyHistoryHtml = familyHistoryHtml.replace('¶deleteId', data.Id);
+                    $("#tbodyFamilyHistory").append(familyHistoryHtml);
+                }
+                $("#FamilyHistoryCondition").val('');
+                $("#FamilyHistoryFamily").val('');
+                $("#PatientHistoryId").val('0');
+            }
+        }
+        $(document).on('click', '.EditFamilyHistory', function () {
+            var hidaId = document.getElementById('PatientHistoryId');
+            hidaId.value = $(this).attr('data-role');
+            var id = $(this).attr('data-role');
+            var ConditionName = document.getElementById('ConditionName_' + id);
+            var FamilyMember = document.getElementById('FamilyMember_' + id);
+            var txtFamilyHistoryCondition = document.getElementById('FamilyHistoryCondition');
+            var txtFamilyHistoryFamily = document.getElementById('FamilyHistoryFamily');
+            txtFamilyHistoryCondition.focus();
+            var os = $(this).offset().top;
+            $('html,body').animate({ scrollTop: os }, 300)
+            txtFamilyHistoryCondition.value = ConditionName.innerText;
+            txtFamilyHistoryFamily.value = FamilyMember.innerText;
+        });
+
+        $(document).on('click', '.DeleteFamilyHistory', function () {
+            var result = confirm("Are you sure you want to Delete?");
+            if (result) {
+                var id = $(this).attr('data-role');
+                ajaxParam.url = '/Patients/PatientHistory/DeleteFamilyHistory';
+                ajaxParam.requestType = 'GET';
+                ajaxParam.dataType = 'json';
+                ajaxParam.data = { Id: id };
+                ajaxParam.controlId = 'trFamilyHistory_' + id;
+                ajaxParam.successCallbackFunction = DeleteFamilyHistory;
+                doAjax(ajaxParam);
+            }
+            else {
+                return false;
+            }
+        });
+        function DeleteFamilyHistory(data, ctrId) {
+            console.log(data);
+            if (data == "Success") {
+                $('#' + ctrId).remove();
+            }
+        }
+    </script>
+    @* End here Family History section*@
+
+    @*Employment section*@
+    <script id="employmentTemplate" type="text/template">
+        <tr id="¶trId" class="info">
+            <td align="center" style="width:44%;">
+                <samp id="¶idEmployment">¶Employment</samp>
+            </td>
+            <td align="center" style="width:44%;">
+                ¶EmploymentDate
+            </td>
+            <td align="center" style="width:110px;" class="table-icons">
+                <ul class="list-inline" style="position:relative;top:10px;">
+                    <li><p data-placement="top" data-toggle="tooltip" title="" data-original-title="Add"><a id="DeleteEmployment" data-role="¶editId" href="#"><button class="btn btn-primary btn-xs edit"><i class="fa fa-plus-circle" aria-hidden="true"></i></button></a></p></li>
+                </ul>
+                @*<a href="#" data-toggle="tooltip" data-placement="left" title="Edit Employment" class="EditEmployment" data-role="¶editId"> <span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                <a href="#" data-toggle="tooltip" data-placement="left" class="DeleteEmployment" data-role="¶deleteId" title="Delete Employment"> <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span></a>*@
+            </td>
+        </tr>
+    </script>
+    <script type="text/javascript">
+        $('#EmpoymentAddButton').click(function () {
+            if ($("#EmploymentName").val() != '') {
+                ajaxParam.url = '/Patients/PatientHistory/AddEmployment';
+                ajaxParam.requestType = 'POST';
+                ajaxParam.dataType = 'json';
+                ajaxParam.data = {
+                    EmploymentName: $("#EmploymentName").val(),
+                    PatientHistoryId: $("#PatientHistoryId").val()
+                };
+                ajaxParam.controlId = $("#PatientHistoryId").val();
+                ajaxParam.successCallbackFunction = AddEmployment;
+                doAjax(ajaxParam);
+            }
+            else {
+                return false;
+            }
+        });
+        function AddEmployment(data, ctrlId) {
+            if (data != null) {
+                if (ctrlId != 0) {
+                    var tdEmployment = "Employment_" + ctrlId;
+                    $('#' + tdEmployment).html(data.Employment);
+                }
+                else {
+                    var employmentTemplate = $('#employmentTemplate');
+                    var employmentHtml = employmentTemplate.html();
+
+                    employmentHtml = employmentHtml.replace('¶trId', 'trEmployment_' + data.Id);
+                    employmentHtml = employmentHtml.replace('¶Employment', data.Employment);
+                    employmentHtml = employmentHtml.replace('¶EmploymentDate', data.EmploymentDate);
+                    employmentHtml = employmentHtml.replace('¶idEmployment', 'Employment_' + data.Id);
+                    //allergieHtml = allergieHtml.replace('¶editId', data.Id);
+                    employmentHtml = employmentHtml.replace('¶deleteId', data.Id);
+                    $("#tbodyEmployment").append(employmentHtml);
+                }
+                $("#EmploymentName").val('');
+                $("#PatientHistoryId").val('0');
+            }
+        }
+
+        //$(document).on('click', '.EditEmployment', function () {
+        //    var hidaId = document.getElementById('PatientHistoryId');
+        //    hidaId.value = $(this).attr('data-role');
+        //    var id = $(this).attr('data-role');
+        //    var Employment = document.getElementById('Employment_' + id);
+        //    var txtEmployment = document.getElementById('EmploymentName');
+        //    txtname.focus();
+        //    var os = $(this).offset().top;
+        //    $('html,body').animate({ scrollTop: os }, 300)
+        //    txtEmployment.value = Employment.innerText;
+        //});
+
+        $(document).on('click', '.DeleteEmployment', function () {
+            var result = confirm("Are you sure you want to Delete?");
+            if (result) {
+                var id = $(this).attr('data-role');
+                ajaxParam.url = '/Patients/PatientHistory/DeleteEmployment';
+                ajaxParam.requestType = 'GET';
+                ajaxParam.dataType = 'json';
+                ajaxParam.data = { Id: id };
+                ajaxParam.controlId = 'trEmployment_' + id;
+                ajaxParam.successCallbackFunction = DeleteEmployment;
+                doAjax(ajaxParam);
+            }
+            else {
+                return false;
+            }
+        });
+        function DeleteEmployment(data, ctrId) {
+            console.log(data);
+            if (data == "Success") {
+                $('#' + ctrId).remove();
+            }
+        }
+    </script>
+    @* End here Employment section*@
+

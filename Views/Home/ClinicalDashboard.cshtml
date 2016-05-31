@@ -1,0 +1,464 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Clinical DashBoard</title>
+    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
+    <!-- Bootstrap -->
+    <link href="/css/bootstrap.css" rel="stylesheet" />
+    <link href="/css/style.css" rel="stylesheet" />
+    <link href="/fonts/css/font-awesome.css" type="text/css" rel="stylesheet" />
+    <link href='https://fonts.googleapis.com/css?family=Raleway:400,300,600,700' rel='stylesheet' type='text/css'>
+    <script src="/js/include_script.js"></script>
+
+    <style type="text/css">
+        .lnkGrey {
+            background-color: #979797 !important;
+            font-size: 12px;
+            color: #000 !important;
+            font-weight: bold;
+        }
+
+        a.lnkGrey:hover {
+            background: #09a39b !important;
+        }
+
+        .profilebody_midarea {
+            padding-left: 15px;
+        }
+
+        .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+            color: #555;
+            cursor: default;
+            background-color: #09a39b !important;
+            border: 1px solid #ddd;
+            border-bottom-color: transparent;
+        }
+
+        .from_title {
+            background: url("../images/title_sd.png") no-repeat scroll center bottom rgba(0, 0, 0, 0);
+            color: rgb(92, 202, 196);
+            float: left;
+            font-family: helvetica;
+            font-size: 25px;
+            font-weight: bold;
+            padding-bottom: 25px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .col-md-12.personal {
+            border: 1px solid #EAEAEA;
+            padding: 14px;
+            width: 99%;
+            margin: 0px -1px;
+        }
+        input.btn.btn-default.pull-right.upar {
+            background: #979797;
+            color: #fff;
+            border: 0 none;
+            cursor: pointer;
+            float: right;
+            padding: 5px 20px;
+            color: #fff;
+            border-radius: 5px;
+            box-shadow: inset 0 0 5px 5px #5c5959;
+            margin: 16px;
+        }
+            input.btn.btn-default.pull-right.upar:hover {
+                background: #5ccac4;
+                color: #fff;
+                box-shadow: inset 0 0 5px 5px #2aa19a;
+            }
+        input.btn.btn-default.pull-right.bottom {
+            background: #979797;
+            color: #fff;
+            border: 0 none;
+            cursor: pointer;
+            float: right;
+            padding: 5px 20px;
+            color: #fff;
+            border-radius: 5px;
+            box-shadow: inset 0 0 5px 5px #5c5959;
+            /* margin: 16px; */
+        }
+        input.btn.btn-default.pull-right.bottom:hover {
+            background: #5ccac4;
+            color: #fff;
+            box-shadow: inset 0 0 5px 5px #2aa19a;
+        }
+        input.btn.btn-default.pull-right.feedback {
+            background: #979797;
+            color: #fff;
+            border: 0 none;
+            cursor: pointer;
+            float: right;
+            padding: 5px 20px;
+            color: #fff;
+            border-radius: 5px;
+            box-shadow: inset 0 0 5px 5px #5c5959;
+            margin-top: 16px;
+        }
+        input.btn.btn-default.pull-right.feedback:hover {
+            background: #5ccac4;
+            color: #fff;
+            box-shadow: inset 0 0 5px 5px #2aa19a;
+        }
+        input.btn.btn-default.pull-right.personal {
+            background: #979797;
+            color: #fff;
+            border: 0 none;
+            cursor: pointer;
+            float: right;
+            padding: 5px 20px;
+            color: #fff;
+            border-radius: 5px;
+            box-shadow: inset 0 0 5px 5px #5c5959;
+            margin-top: 16px;
+        }
+
+            input.btn.btn-default.pull-right.personal:hover {
+                background: #5ccac4;
+                color: #fff;
+                box-shadow: inset 0 0 5px 5px #2aa19a;
+            }
+            
+
+        textarea#textarea {
+            width: 98%;
+            margin: 13px;
+        }
+        .row.table {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            margin-top: 40px;
+        }
+
+        thead.heading {
+            background: -webkit-gradient( linear, left top, left bottom, color-stop(0.05, #cccccc), color-stop(1, #b2b2b2) );
+        }
+
+        li.input_box {
+            width: 44%;
+        }
+
+
+        td.left1 {
+            text-align: center;
+            vertical-align: middle !important;
+        }
+
+        td.left2 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header1">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                    <div class="logo"> <a href=""> <img src="/images/logo.png" alt="img"> </a>  </div>
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-9">
+                    <div class="menuarea">
+                        <div class="menu-collapser" style="display: none;"><div class="collapse-button"><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></div></div><ul class="slimmenu"></ul>
+                    </div>
+                </div>
+                @*<div class="col-lg-2 col-md-2 col-sm-3">
+                        <div class="rightnav1" style="float:right;">
+                            <ul>
+                                <li>
+                                    <a style="text-decoration:none;" href="Dashboard/LogOff" title="">
+                                        <i class="fa fa-sign-out pull-right" style="margin:4px;"></i>Logout
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>*@
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid dashboard_bg">
+        <div class="row">
+            <div class="col-sm-12">
+
+                <div class="profilebody_topnav" style="padding: 5px 0px;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid dashboard_bg">
+        <div class="row">
+            <div class="profileimg_area">
+                <div class="col-sm-3">
+                    <div class="profileimg_arealeft">
+                        <div class="profileimg">
+                            <img alt="" src="" height="101" width="101" style="border-radius: 35%">
+                        </div>
+
+                        <div class="profilename_area">
+                            Welcome!
+                            <span>Shyam  Kumar</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid dashboard_bg">
+        <div class="row">
+            <div class="profilebody_midarea">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a class="lnkGrey" data-toggle="tab" href="#MedicareClaming">Medicare Claming</a></li>
+                    <li><a class="lnkGrey" data-toggle="tab" href="#MedicalHistory">Medical History</a></li>
+                    <li><a class="lnkGrey" data-toggle="tab" href="#Examinations">Examinations</a></li>
+                    <li><a class="lnkGrey" data-toggle="tab" href="#SetStandards">Set Standards</a></li>
+                    <li><a class="lnkGrey" data-toggle="tab" href="#PreviousConsultations">Previous Consultations</a></li>
+                    <li><a class="lnkGrey" data-toggle="tab" href="#NewConsultation">New Consultation</a></li>
+                    <li><a class="lnkGrey" data-toggle="tab" href="#Medications">Medications</a></li>
+                    <li><a class="lnkGrey" data-toggle="tab" href="#Pathology">Pathology</a></li>
+                    <li><a class="lnkGrey" data-toggle="tab" href="#Radiology">Radiology</a></li>
+                    <li><a class="lnkGrey" data-toggle="tab" href="#Feedback">Feedback</a></li>
+                    <li><a class="lnkGrey" data-toggle="tab" href="#PersonalNotes">Personal Notes</a></li>
+                </ul>
+
+                <div class="tab-content">
+                    <div id="MedicareClaming" class="tab-pane fade in active">
+                        <h3 class="from_title">Medicare Claming</h3>
+                        <p></p>
+                    </div>
+                    <div id="MedicalHistory" class="tab-pane fade">
+                        <h3 class="from_title">Medical History</h3>
+                        <p></p>
+                    </div>
+                    <div id="Examinations" class="tab-pane fade">
+                        <h3 class="from_title">Examinations</h3>
+                        <p></p>
+                    </div>
+                    <div id="SetStandards" class="tab-pane fade">
+                        <h3 class="from_title">Set Standards</h3>
+                        <input class="btn btn-default pull-right upar" type="submit" value="Save">
+                        <div class="container-fluid">
+                            <div class="row table">
+                                <table class="table table-bordered">
+                                    <thead class="heading">
+                                        <tr>
+                                            <th style="width:145px; text-align:center;">Items</th>
+                                            <th style="width:193px; text-align:center;">Detaileditems</th>
+                                            <th style="width:672px; text-align:center;">Standard</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="left1" rowspan="6">Blood Glucose</td>
+                                            <td class="left2">Before Breakfast(BB)</td>
+                                            <td class="left3">
+                                                <ul class="list-inline">
+                                                    <li class="input_box"><input type="text" class="form-control" id="exampleInputName2" placeholder="123345"></li>
+                                                    <li><label for="exampleInputEmail2" id="dash">-</label></li>
+                                                    <li class="input_box"> <input type="email" class="form-control" id="exampleInputEmail2" placeholder="123456"></li>
+                                                    <li><label for="exampleInputEmail2" style="margin-left:10px;">mmol/l </label></li>
+                                                </ul>
+
+
+                                                
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="left2">After Breakfast(AB)</td>
+                                            <td class="left3">
+                                                <ul class="list-inline">
+                                                    <li class="input_box"><input type="text" class="form-control" id="exampleInputName2" placeholder="123345"></li>
+                                                    <li><label for="exampleInputEmail2" id="dash">-</label></li>
+                                                    <li class="input_box"> <input type="email" class="form-control" id="exampleInputEmail2" placeholder="123456"></li>
+                                                    <li><label for="exampleInputEmail2" style="margin-left:10px;">mmol/l </label></li>
+                                                </ul>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="left2">Before Lunch(BL)</td>
+                                            <td class="left3">
+                                                <ul class="list-inline">
+                                                    <li class="input_box"><input type="text" class="form-control" id="exampleInputName2" placeholder="123345"></li>
+                                                    <li><label for="exampleInputEmail2" id="dash">-</label></li>
+                                                    <li class="input_box"> <input type="email" class="form-control" id="exampleInputEmail2" placeholder="123456"></li>
+                                                    <li><label for="exampleInputEmail2" style="margin-left:10px;">mmol/l </label></li>
+                                                </ul>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="left2">After Lunch(AL)</td>
+                                            <td class="left3">
+                                                <ul class="list-inline">
+                                                    <li class="input_box"><input type="text" class="form-control" id="exampleInputName2" placeholder="123345"></li>
+                                                    <li><label for="exampleInputEmail2" id="dash">-</label></li>
+                                                    <li class="input_box"> <input type="email" class="form-control" id="exampleInputEmail2" placeholder="123456"></li>
+                                                    <li><label for="exampleInputEmail2" style="margin-left:10px;">mmol/l </label></li>
+                                                </ul>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="left2">Before Dinner(BD)</td>
+                                            <td class="left3">
+                                                <ul class="list-inline">
+                                                    <li class="input_box"><input type="text" class="form-control" id="exampleInputName2" placeholder="123345"></li>
+                                                    <li><label for="exampleInputEmail2" id="dash">-</label></li>
+                                                    <li class="input_box"> <input type="email" class="form-control" id="exampleInputEmail2" placeholder="123456"></li>
+                                                    <li><label for="exampleInputEmail2" style="margin-left:10px;">mmol/l </label></li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="left2">Before Bed(BBD)</td>
+                                            <td class="left3">
+                                                <ul class="list-inline">
+                                                    <li class="input_box"><input type="text" class="form-control" id="exampleInputName2" placeholder="123345"></li>
+                                                    <li><label for="exampleInputEmail2" id="dash">-</label></li>
+                                                    <li class="input_box"> <input type="email" class="form-control" id="exampleInputEmail2" placeholder="123456"></li>
+                                                    <li><label for="exampleInputEmail2" style="margin-left:10px;">mmol/l </label></li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="left1" rowspan="2">Blood Pressure</td>
+                                            <td class="left2">Systolic</td>
+                                            <td class="left3">
+                                                <ul class="list-inline">
+                                                    <li class="input_box"><input type="text" class="form-control" id="exampleInputName2" placeholder="123345"></li>
+                                                    <li><label for="exampleInputEmail2" id="dash">-</label></li>
+                                                    <li class="input_box"> <input type="email" class="form-control" id="exampleInputEmail2" placeholder="123456"></li>
+                                                    <li><label for="exampleInputEmail2" style="margin-left:10px;">mmol/l </label></li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="left2">Before Breakfast(BB)</td>
+                                            <td class="left3">
+                                                <ul class="list-inline">
+                                                    <li class="input_box"><input type="text" class="form-control" id="exampleInputName2" placeholder="123345"></li>
+                                                    <li><label for="exampleInputEmail2" id="dash">-</label></li>
+                                                    <li class="input_box"> <input type="email" class="form-control" id="exampleInputEmail2" placeholder="123456"></li>
+                                                    <li><label for="exampleInputEmail2" style="margin-left:10px;">mmol/l </label></li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="left1">Oxygen</td>
+                                            <td class="left2"></td>
+                                            <td class="left3">
+                                                <ul class="list-inline">
+                                                    <li class="input_box"><input type="text" class="form-control" id="exampleInputName2" placeholder="123345"></li>
+                                                    <li><label for="exampleInputEmail2" id="dash">-</label></li>
+                                                    <li class="input_box"> <input type="email" class="form-control" id="exampleInputEmail2" placeholder="123456"></li>
+                                                    <li><label for="exampleInputEmail2" style="margin-left:10px;">mmol/l </label></li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="left1">Heart Rate</td>
+                                            <td class="left2"></td>
+                                            <td class="left3">
+                                                <ul class="list-inline">
+                                                    <li class="input_box"><input type="text" class="form-control" id="exampleInputName2" placeholder="123345"></li>
+                                                    <li><label for="exampleInputEmail2" id="dash">-</label></li>
+                                                    <li class="input_box"> <input type="email" class="form-control" id="exampleInputEmail2" placeholder="123456"></li>
+                                                    <li><label for="exampleInputEmail2" style="margin-left:10px;">mmol/l </label></li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="left1">Temperature</td>
+                                            <td class="left2"></td>
+                                            <td class="left3">
+                                                <ul class="list-inline">
+                                                    <li class="input_box"><input type="text" class="form-control" id="exampleInputName2" placeholder="123345"></li>
+                                                    <li><label for="exampleInputEmail2" id="dash">-</label></li>
+                                                    <li class="input_box"> <input type="email" class="form-control" id="exampleInputEmail2" placeholder="123456"></li>
+                                                    <li><label for="exampleInputEmail2" style="margin-left:10px;">mmol/l </label></li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="left1">BMI</td>
+                                            <td class="left2"></td>
+                                            <td class="left3">
+                                                <ul class="list-inline">
+                                                    <li class="input_box"><input type="text" class="form-control" id="exampleInputName2" placeholder="123345"></li>
+                                                    <li><label for="exampleInputEmail2" id="dash">-</label></li>
+                                                    <li class="input_box"> <input type="email" class="form-control" id="exampleInputEmail2" placeholder="123456"></li>
+                                                    <li><label for="exampleInputEmail2" style="margin-left:10px;">mmol/l </label></li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="left1">Weight</td>
+                                            <td class="left2"></td>
+                                            <td class="left3">
+                                                <ul class="list-inline">
+                                                    <li class="input_box"><input type="text" class="form-control" id="exampleInputName2" placeholder="123345"></li>
+                                                    <li><label for="exampleInputEmail2" id="dash">-</label></li>
+                                                    <li class="input_box"> <input type="email" class="form-control" id="exampleInputEmail2" placeholder="123456"></li>
+                                                    <li><label for="exampleInputEmail2" style="margin-left:10px;">mmol/l </label></li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <input class="btn btn-default pull-right bottom" type="submit" value="Save" >
+                            </div>
+                        </div>
+                    </div>
+                    <div id="PreviousConsultations" class="tab-pane fade">
+                        <h3 class="from_title">Previous Consultations</h3>
+                        <p></p>
+                    </div>
+                    <div id="NewConsultation" class="tab-pane fade">
+                        <h3 class="from_title">New Consultation</h3>
+
+                    </div>
+                    <div id="Medications" class="tab-pane fade">
+                        <h3 class="from_title">Medications</h3>
+                        <p></p>
+                    </div>
+                    <div id="Pathology" class="tab-pane fade">
+                        <h3 class="from_title">Pathology</h3>
+                        <p></p>
+                    </div>
+                    <div id="Radiology" class="tab-pane fade">
+                        <h3 class="from_title">Radiology</h3>
+                        <p></p>
+                    </div>
+                    <div id="Feedback" class="tab-pane fade">
+                        <h3 class="from_title">Feedback</h3>
+                        <div class="col-md-12">
+                            <textarea class="form-control" rows="10"></textarea>
+                            <input class="btn btn-default pull-right feedback" type="submit" value="Save">
+                        </div>
+                    </div>
+                    <div id="PersonalNotes" class="tab-pane fade">
+                        <h3 class="from_title">Personal Notes</h3>
+                        <div class="col-md-12">
+                            <textarea class="form-control" rows="10"></textarea>
+                            <input class="btn btn-default pull-right personal" type="submit" value="Save">
+                        </div>
+                    </div>
+                </div>
+                <!-- page content -->
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

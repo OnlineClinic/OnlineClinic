@@ -1,0 +1,99 @@
+﻿@model List<MyOnlineClinic.Entity.News>
+<section class="class-index-section bg-white">
+    <div class="wp-section">
+       
+            <div class="row">
+                <div class="col-md-8" id="main">
+                    <div id="homepageCarousel" class="carousel carousel-1 slide mb-20" data-ride="carousel">
+                        <div class="carousel-inner">
+                            @foreach (var item in Model.Take(5))
+                            {
+                                var newsPhotos = item.NewsPhotos.FirstOrDefault();
+                                if (newsPhotos == null)
+                                {
+                                    continue;
+                                }
+                                var active = string.Empty;
+                                if (item == Model.First())
+                                {
+                                    active = "active";
+                                }
+                                <div class="item item-dark home-banner-img @active">
+                                    <span style="font-size: 60px; position: absolute; top: 52px; left: 50px;">
+                                        Diário de bordo
+                                    </span>
+                                    <span style="font-size: 40px; position: absolute;top: 100px; left: 225px;">
+                                        (brevemente)
+                                    </span>
+                                    <img src="UploadedFiles/NewsPhoto/Image/@newsPhotos.ImagePath" alt="">
+                                    <!-- Carousel caption -->
+                                    <div class="caption-bottom">
+                                        <span class="title c-white">@item.Title</span>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        <!-- Controls -->
+                    </div>
+                </div>
+                <div class="col-md-4" id="sidebar">
+                    <div class="carousel carousel-1 banner-carousal slide" data-ride="carousel">
+                        <div class="carousel-inner">
+
+                            @if (Model.Count > 0)
+                            {
+                                foreach (var item in Model.Where((l, index) => index == 0))
+                                {
+                                    var newsPhotos = item.NewsPhotos.FirstOrDefault();
+                                    if (newsPhotos != null)
+                                    {
+                                        <div class="item item-dark active fixed-height-img">
+                                            <div class="bord-section">
+                                                <span class="date">@Convert.ToDateTime(item.DateFrom).ToString("dd/MM/yyyy")</span>
+                                                <span class="like">@item.Viewed</span>
+                                                <span class="user">@item.MemberId</span>
+                                            </div>
+                                            <a href="/Home/NewsDetails/@item.TitleUrl"><img src="UploadedFiles/NewsPhoto/Image/@newsPhotos.ImagePath" alt=""></a>
+                                            <div class="caption-bottom">
+                                                <span class="title c-white">@item.Title</span>
+
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            }
+                        </div>
+
+                    </div>
+
+                    <div class="carousel carousel-1 banner-carousal slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                            @if (Model.Count > 0)
+                            {
+                                foreach (var item in Model.Where((l, index) => index == 1))
+                                {
+                                    var newsPhotos = item.NewsPhotos.FirstOrDefault();
+                                    if (newsPhotos != null)
+                                    {
+                                        <div class="item item-dark active fixed-height-img">
+                                            <div class="bord-section">
+                                                <span class="date">@Convert.ToDateTime(item.PostedOn).ToString("dd/MM/yyyy")</span>
+                                                <span class="like">@item.Viewed</span>
+                                                <span class="user">@item.MemberId</span>
+                                            </div>
+                                            <a href="/Home/NewsDetails/@item.TitleUrl"><img src="UploadedFiles/NewsPhoto/Image/@newsPhotos.ImagePath" alt=""></a>
+                                            <div class="caption-bottom">
+                                                <span class="title c-white">@item.Title</span>
+
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+    </div>
+</section>

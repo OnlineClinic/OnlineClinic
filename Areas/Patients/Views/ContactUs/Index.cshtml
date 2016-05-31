@@ -1,0 +1,84 @@
+﻿@model MyOnlineClinic.Web.Models.CommunicationViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "/Areas/Patients/Views/Shared/_PatientPartial.cshtml";
+}
+
+
+
+<div id="NewConsultation">
+    <h3 class="from_title">Report a Problem</h3>
+    <div class="container-fluid">
+        <div class="row table">
+            <div class="content_boxs" style=" height: 420px; width: 99%; ">
+                <div align="left">
+                    <div class="from_box">
+                        <fieldset>
+                            @using (Html.BeginForm("Index", "ContactUs", FormMethod.Post, new { @class = "form-horizontal form-label-left", enctype = "multipart/form-data" }))
+                            {
+
+                                <div class="tr_box">
+                                    <div class="td_1">
+                                        <span class="lbl_text">
+                                            Name
+                                        </span>
+                                    </div>
+                                    <div class="input_box1 rel1">
+                                        <div class=" col-sm-8 col-xs-12">
+                                            @Html.TextBoxFor(x => x.ContactUsName, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "ReportProblemSubject", required = "required" })
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="tr_box">
+                                    <div class="td_1">
+                                        <span class="lbl_text">
+                                            Email
+                                        </span>
+                                    </div>
+                                    <div class="input_box1 rel1">
+                                        <div class=" col-sm-8 col-xs-12">
+                                            @Html.TextBoxFor(x => x.ContactUsEmail, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "ReportProblemSubject", required = "required" })
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="tr_box">
+                                    <div class="td_1">
+                                        <span class="lbl_text">
+                                            Subject
+                                        </span>
+                                    </div>
+                                    <div class="input_box1 rel1">
+                                        <div class=" col-sm-8 col-xs-12">
+                                            @Html.TextBoxFor(x => x.Subject, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "ReportProblemSubject", required = "required" })
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="tr_box">
+                                    <div class="td_1">
+                                        <span class="lbl_text">
+                                            Message
+                                        </span>
+                                    </div>
+                                    <div class="input_box1 rel1">
+                                        <div class=" col-sm-8 col-xs-12">
+                                            @Html.TextBoxFor(x => x.ContactUsMessage, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "ReportProblemSubject", required = "required" })
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <input class="btn btn-default pull-right personal" type="submit" id="savenewconsult" value="Save">
+                            }
+                        </fieldset>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

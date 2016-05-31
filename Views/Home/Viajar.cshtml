@@ -1,0 +1,128 @@
+﻿@model PagedList.IPagedList<MyOnlineClinic.Entity.News>
+@{
+    var siteUrl = System.Web.Configuration.WebConfigurationManager.AppSettings["SiteUrl"];
+}
+@using PagedList.Mvc
+@{
+    var SubCategoryList = ViewBag.SubCategories;
+}
+<div class="container">
+    <section class="viajar-banner-background">
+        <div class="wp-section">
+            <div class="row">
+                <div class="col-md-6">
+                    <iframe src='http://www.dohop.com/widget/2/?forms=flights,hotels,cars&tabs=top&orientation=horizontal&border_color=808080&text_color=202020&background_color=D0D0D0&form_border_color=808080&form_text_color=000&form_background_color=FAFAFA&width=490&flang=en&whitelabel=http://whitelabel.dohop.com/w/Portugalbiz/' width='490 ' height='231' frameborder='0' style='border:none; overflow: hidden; position:absolute;top:20px;left:30px;' allowtransparency='true'></iframe>
+                </div>
+                <div class="col-md-6">
+                        <div data-ride="carousel" class="carousel carousel-1 slide" id="homepageCarousel">
+                            <div class="carousel-inner">
+                                <div class="item item-dark viajar-banner-img">
+                                    <img alt="" src="@siteUrl images/Viajar-images/1.png" class="img-responsive">
+                                </div>
+                                <div class="item item-light active viajar-banner-img">
+                                    <img class="img-responsive" alt="" src="@siteUrl/images/Viajar-images/2.png">
+                                </div>
+                                <div class="item item-light viajar-banner-img">
+                                    <img class="img-responsive" alt="" src="@siteUrl/images/Viajar-images/3.png">
+                                </div>
+                                @*<div class="item item-light  viajar-banner-img">
+                                    <img class="img-responsive" alt="" src="images/Viajar-images/4.jpg">
+                                </div>
+                                <div class="item item-light  viajar-banner-img">
+                                    <img class="img-responsive" alt="" src="images/Viajar-images/5.jpg">
+                                </div>*@
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </section>
+    <div class="row">
+        <div class="col-md-8" id="main">
+            <div class="navbar-collapse collapse inner-nav mb-20">
+                <ul class="nav navbar-nav navbar-left">
+                    @foreach (var item in SubCategoryList)
+                    {
+                        <li><a href="@Url.Action("Viajar", "Home", new { @subCategory = item.LookUpNewsSubCategoryName })">@item.LookUpNewsSubCategoryName</a></li>
+                    }
+
+                </ul>
+            </div>
+            @if (Model.Count > 0)
+            {
+
+                <ul class="item-listing">
+                    @foreach (var item in Model)
+                    {
+                        @*@foreach (var news in item.PhotosList.Where(x=>x.NewsId==item.NewsId))
+                            {*@
+                        <li class="clearfix">
+                            <a href="/Viajar/@item.TitleUrl" class="post-thumb">
+                                @{
+                        var photoUrl = siteUrl + "images/noImage.jpg";
+                        if (item.NewsPhotos.FirstOrDefault() != null)
+                        {
+                            photoUrl = "/UploadedFiles/NewsPhoto/373x240/" + item.NewsPhotos.FirstOrDefault().ThumbPath;
+                        }
+                        <img src="@photoUrl" alt=" " />
+                                }
+                            </a>
+                            <h3><a href="/Viajar/@item.TitleUrl"> @item.Title</a></h3>
+                            <h4>@item.Tags</h4>
+                            <p>@item.Summary</p>
+                        </li>
+                        @*}*@
+                    }
+                </ul>
+                <div class="row">
+                    <div class="col-md-12">
+                        @Html.PagedListPager(Model, Page => Url.Action(ViewBag.Name, new { Page, subCategory = ViewBag.SubCategory }))
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="row" style="min-height:250px;">
+                    <div class="col-md-12">
+                        <div class="row">No news found</div>
+                    </div>
+                </div>
+            }
+
+
+        </div>
+        <div class="col-md-4" id="sidebar" style="margin-top:10px;">
+            @{Html.RenderAction("Banner", "Home", new { @page = "VIAJAR", @bannerType = "RightSide1" });}
+
+            @{Html.RenderAction("Banner", "Home", new { @page = "VIAJAR", @bannerType = "RightSide2" });}
+
+
+            <!-- Category news 1 -->
+            <div class="section-title-wr">
+                <h3 class="section-title left"><span>MERCADO</span></h3>
+            </div>
+
+            <div class="mb-20">
+                @{Html.RenderAction("Mercado", "Home");}
+            </div>
+
+            <!-- Category news 2 -->
+            @*<div class="section-title-wr">
+                    <h3 class="section-title left"><span>RECENT CLASSIFIEDS</span></h3>
+                </div>*@
+            @*@{Html.RenderAction("RecentClassifieds", "Home");}*@
+            <div class="top-margin">
+                @{Html.RenderAction("Banner", "Home", new { @page = "VIAJAR", @bannerType = "RightSide3" });}
+
+                @{Html.RenderAction("Banner", "Home", new { @page = "VIAJAR", @bannerType = "RightSide4" });}
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        jQuery('.carousel').carousel({
+            interval: 7000
+        });
+    });
+</script>

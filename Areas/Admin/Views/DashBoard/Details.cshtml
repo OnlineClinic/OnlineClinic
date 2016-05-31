@@ -1,0 +1,221 @@
+﻿@model MyOnlineClinic.Web.Models.UserViewModel
+    @{
+        ViewBag.Title = "Details";
+        Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    }
+    @using JQueryUIHelpers;
+    <style>
+       
+    </style>
+<section class="content-header staff">
+    <h1 class="underline67">
+        Staff Details
+    </h1>
+</section>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-2 toppad">
+            <div class="panel panel-info capitalize_first_letter">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        @if (Model.MiddleName != null)
+                        {
+                            <b> @Model.FirstName.ToUpper() @Model.MiddleName.ToUpper() @Model.SurName.ToUpper()</b>
+                        }
+                        else
+                        {
+                            <b>@Model.FirstName.ToUpper() @Model.SurName.ToUpper()</b>
+                        }
+                    </h3>
+                    <a href="/Admin/dashboard/UsersList" class="pull-right"><button type="submit" class="btn btn-success back_detail">Back</button></a>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-3 col-lg-3 " align="center">
+                            <img alt="User Pic" src=@Model.ProfilePic class="img-circle img-responsive">
+                        </div>
+
+
+                        <div class=" col-md-9 col-lg-9 ">
+                            <table class="table table-user-information">
+                                <tbody>
+                                   <tr>
+                                            <td>Email:</td>
+                                            <td><a href="mailto:info@support.com" style="color:#08a39b;">@Model.EmailAddress</a></td>
+                                        </tr>
+                                    <tr>
+                                        <td>Date of Birth:</td>
+                                        <td>@Model.DobInString</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Role:</td>
+                                        <td>@Model.OrgUsreRole</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Phone:</td>
+                                        <td>@Model.PhoneNumber</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Fax Number:</td>
+                                        <td>@Model.FaxNumber</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Address Line 1:</td>
+                                        <td>@Model.Address1</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Address Line 1:</td>
+                                        <td>@Model.Address2</td>
+                                    </tr>
+
+                                
+                                    
+                                    <tr>
+                                        <td>Country:</td>
+                                        <td>@Model.CountryName</td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td>State:</td>
+                                        <td>
+                                            @Model.StateName
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>City:</td>
+                                        <td>
+                                            @Model.CityName
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Post Code:</td>
+                                        <td>@Model.PostCode</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Time Zone</td>
+                                        <td>@Model.TimezoneId</td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+                            @*<div class="row" style="margin-top:20px; margin-bottom:20px;">
+                                <div class="col-md-2">
+                                    <img src=@Model.ProfilePic height="100" width="100" class="img-circle" />
+                                </div>
+                                <div class="col-md-4" style="margin-top: 10px; color:black">
+                                    @if (Model.MiddleName != null)
+                                    {
+                                        <b> @Model.FirstName.ToUpper() @Model.MiddleName.ToUpper() @Model.SurName.ToUpper()</b>
+                                    }
+                                    else
+                                    {
+                                        <b>@Model.FirstName.ToUpper() @Model.SurName.ToUpper()</b>
+                                    }
+                                </div>
+                            </div>*@
+                          
+                            @*<div class="form-horizontal form-label-left">
+                                <fieldset style="border: groove 2px; padding: 20px;">
+
+                                    <div class="col-md-4 col-xs-12">
+                                        <div class="form-horizontal form-label-left">
+
+
+
+                                            <div class="item form-group">
+                                                <label class=" col-md-6 col-sm-4 col-xs-12">
+                                                    Email:
+                                                </label>
+                                                <div class="col-md-6 col-sm-8 col-xs-12">
+                                                    @Model.EmailAddress
+                                            </div>
+                                        </div>
+                                        <div class="item form-group">
+                                            <label class=" col-md-6 col-sm-4 col-xs-12">
+                                                Home Phone :
+                                            </label>
+                                            <div class="col-md-6 col-sm-8 col-xs-12">
+                                                @Model.PhoneNumber
+                                            </div>
+                                        </div>
+                                       
+
+                                        <div class="item form-group">
+                                            <label class=" col-md-6 col-sm-4 col-xs-12">
+                                                Fax Number:
+                                            </label>
+                                            <div class="col-md-6 col-sm-8 col-xs-12">
+                                                @Model.FaxNumber
+                                            </div>
+                                        </div>
+
+                                        <div class="item form-group">
+                                            <label class=" col-md-6 col-sm-4 col-xs-12">
+                                                Address Line1:
+                                            </label>
+                                            <div class="col-md-6 col-sm-8 col-xs-12">
+                                                @Model.Address1
+                                            </div>
+                                        </div>
+                                        <div class="item form-group">
+                                            <label class=" col-md-6 col-sm-4 col-xs-12">
+                                                Address Line2:
+                                            </label>
+                                            <div class="col-md-6 col-sm-8 col-xs-12">
+                                                @Model.Address2
+                                            </div>
+                                        </div>
+                                        <div class="item form-group">
+                                            <label class=" col-md-6 col-sm-4 col-xs-12">
+                                                Country :
+                                            </label>
+                                            <div class="col-md-6 col-sm-8 col-xs-12">
+                                                @Model.CountryName
+                                            </div>
+                                        </div>
+                                        <div class="item form-group">
+                                            <label class=" col-md-6 col-sm-4 col-xs-12">
+                                                State :
+                                            </label>
+                                            <div class="col-md-6 col-sm-8 col-xs-12">
+                                                @Model.StateName
+                                            </div>
+                                        </div>
+                                        <div class="item form-group">
+                                            <label class=" col-md-6 col-sm-4 col-xs-12">
+                                                City :
+                                            </label>
+                                            <div class="col-md-6 col-sm-8 col-xs-12">
+                                                @Model.CityName
+                                            </div>
+                                        </div>
+
+
+                                        <div class="item form-group">
+                                            <label class=" col-md-6 col-sm-4 col-xs-12">
+                                                Post code:
+                                            </label>
+                                            <div class="col-md-6 col-sm-8 col-xs-12">
+                                                @Model.PostCode
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-9">
+                                        <button type="submit" class="btn btn-primary" onclick="window.history.back()">Back</button>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>*@

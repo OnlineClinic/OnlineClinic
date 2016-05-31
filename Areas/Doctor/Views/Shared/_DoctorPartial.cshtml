@@ -1,0 +1,289 @@
+﻿@using MyOnlineClinic.Web.Models;
+@{
+    var usermodel = ViewBag.LoginUserModel as LoginUserViewModel;
+}
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Doctor || Form</title>
+    <meta name="description" content="MyOnlineClinic turns digital devices such as computer, smart-phones and tablets to a very portable medical clinic. Patients and doctors have access to a 24/7 help-desk from anywhere in the world." />
+    <meta name="keywords" content="Online visits, online doctor, doctor online, clinic online, see a doctor, see a doctor online, online consultations, video consultations" />
+    <link rel="stylesheet" href="~/UserAssets/css/addthis11.css" />
+    <link rel="stylesheet" href="~/UserAssets/css/addthis21.css" />
+    <link href="~/css/bootstrap.css" rel="stylesheet" />
+    <style>
+        #updateProgressDiv {
+            display: none;
+            position: absolute;
+            top: 0%;
+            left: 0%;
+            width: 100%;
+            height: 100%;
+            background-color: black;
+            -moz-opacity: 0.8;
+            filter: alpha(opacity=40);
+            opacity: 0.7;
+            xindex: -1;
+        }
+
+        .white_content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-top: -50px;
+            margin-left: -50px;
+            width: 100px;
+            height: 100px;
+        }
+
+        .MyCapitalize {
+            text-transform: capitalize !important;
+        }
+
+        .pdtl {
+            text-align: left !important;
+        }
+    </style>
+    <script src="~/UserAssets/js/fullCalendar.js"></script>
+    <script src="~/UserAssets/js/fullCalendar.js" type="text/javascript"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+    <script src="~/UserAssets/js/jquery-1.4.2.min.js" type="text/javascript"></script>
+    <script src="Scripts/validation.js" type="text/javascript"></script>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <link rel="shortcut icon" type="image/x-icon" href="~/UserAssets/images/favicon.ico" />
+    <link rel="stylesheet" href="~/UserAssets/css/style.css" />
+    <link rel="stylesheet" href="~/UserAssets/js/style.css" />
+    <link href="css/notification_scroll.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="~/UserAssets/js/addthis_widget.js"></script>
+    <style type="text/css">
+        #boxes {
+            font-family: Arial, sans-serif;
+            list-style-type: none;
+            margin: 0px;
+            padding: 0px;
+            width: 100%;
+        }
+
+            #boxes li {
+                cursor: move;
+                position: relative;
+                float: left;
+                margin: 0.5% 0 0 0.5%; /*width: 280px;*/
+                height: 190px;
+                padding: 0px;
+            }
+
+        .box2_2 {
+            width: 49.3%;
+        }
+
+        .box1_1 {
+            width: 99%;
+        }
+
+        .box4_4 {
+            width: 24.4%;
+        }
+
+        .iapp_icon {
+            background: url(../images/aaple_icon.png);
+        }
+
+        .aapp_icon {
+            background: url(../images/andriod_icon.png);
+        }
+    </style>
+    <script type="text/javascript" src="~/source/org/tool-man/core.js"></script>
+    <script type="text/javascript" src="~/source/org/tool-man/events.js"></script>
+    <script type="text/javascript" src="~/source/org/tool-man/css.js"></script>
+    <script type="text/javascript" src="~/source/org/tool-man/coordinates.js"></script>
+    <script type="text/javascript" src="~/source/org/tool-man/drag.js"></script>
+    <script type="text/javascript" src="~/source/org/tool-man/dragsort.js"></script>
+    <script type="text/javascript" src="~/source/org/tool-man/cookies.js"></script>
+    <script type="text/javascript">
+        var dragsort = ToolMan.dragsort()
+        var junkdrawer = ToolMan.junkdrawer()
+
+        window.onload = function () {
+            junkdrawer.restoreListOrder("boxes")
+            dragsort.makeListSortable(document.getElementById("boxes"), saveOrder)
+        }
+
+
+        function saveOrder(item) {
+            var group = item.toolManDragGroup
+            var list = group.element.parentNode
+            var id = list.getAttribute("id")
+            if (id == null) return
+            group.register('dragend', function () {
+                ToolMan.cookies().set("list-" + id,
+					junkdrawer.serializeList(list), 365)
+            })
+        }
+
+    </script>
+</head>
+<body class="MyCapitalize">
+    <div class="addthis_32x32_style atss atss-left addthis-animated slideInLeft at4-show" id="at4-share" style="margin:170px 0 0 0;">
+        <a href="https://www.facebook.com/MyOnlineClinic" class="at4-share-btn at-svc-facebook" target="_blank">
+            <span title="Facebook" class="at4-icon aticon-facebook">Facebook</span>
+        </a>
+        <a href="https://twitter.com/MOClinic/" class="at4-share-btn at-svc-twitter" target="_blank">
+            <span title="Twitter" class="at4-icon aticon-twitter">Twitter</span>
+        </a>
+        <a href="mailto:info@myonlineclinic.com.au" class="at4-share-btn at-svc-email">
+            <span title="Email" class="at4-icon aticon-email">Email</span>
+        </a>
+        <a href="https://www.youtube.com/channel/UCeGfYzhucnsEgHRGRq9soSQ" class="at4-share-btn" style="background:#e52d27;" target="_blank"><span title="YouTube" class=" at4-icon aticon-compact">youtube</span></a>
+        <a href="https://itunes.apple.com/in/app/myonlineclinic/id985607177?mt=8" class="at4-share-btn " style="background:#38d2cc;" target="_blank"><span title="Download iphone app" class="iapp_icon">Iphone App</span></a>
+        <a href="https://play.google.com/store/apps/details?id=com.app.moc" class="at4-share-btn" style="background:#050708;" target="_blank"><span title="Download android app" class="aapp_icon">Android App </span></a>
+    </div>
+    <div id="div1">
+        <div class="main" id="div2">
+            <!-- Header -->
+            <div id="header-wrapper">
+                <header class="header">
+                    <div class="logo"><a id="lnkDefault" href="/Doctor/DashBoard"><img src="~/images/logo.png" alt=""></a></div>
+                    <!--<div class="right_logo"><a href="#"><img src="images/telemedicine_logo.png" alt=""></a></div>-->
+
+                    <div class="welcome_user_nm">Welcome : Dr. @(usermodel.FullName)</div>
+
+                    <div class="notification_box">
+                        <span class="notification_icon">
+                            <a href="javascript:void(0);" id="noti_icon">
+                                <img src="~/UserAssets/images/bell_icon.png" alt="notification" />
+                                <span class="count_num" style="display:none;">202</span>
+                            </a>
+                        </span>
+
+                        <div class="notification_slideUp">
+                            <span class="arrow_pint1"></span>
+                            <div class="notification-list-wrapper notification_scroll" id="notification_content_1">
+                                <ul id="ulAppointments" class="notification-list" data-type="unread"></ul>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+                <div class="menu_nav">
+                    <div class="left_corner_img">
+                    </div>
+                    <ul class="menu doctor_menu" id="nav">
+                        <li>
+                            <a href="/Doctor/DashBoard">My Home<label id="Literal1" title="My Home"></label></a>
+                        </li>
+                        <li>
+                            <a href="">My Availability<label id="Literal7" title="My Availability"></label></a>
+                        </li>
+                        <li>
+                            <a href="/Doctor/DoctorMessage">My Messages<label id="Literal2" title="My Messages"></label></a>
+                        </li>
+                        <li>
+                            <a href="#">My Consults<label id="Literal3" title="My Consults"></label></a>
+                            <div class="subs">
+                                <div>
+                                    <ul>
+                                        <li>
+                                            <a href="">My Patients</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Doctor/DoctorPastConsult">My Past Consults</a>
+                                        </li>
+                                        <li>
+                                            <a href="/Doctor/DoctorFutureConsult">My Future Consults</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="#">My Account<label id="Literal8" title="My Account"></label></a>
+                            <div class="subs">
+                                <div>
+                                    <ul>
+                                        <li>
+                                            <a href="#">My Account</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">My Fee</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">My Transactions</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">My Membership</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li class="last">
+                            <a href="/Doctor/LogOff">Logout</a>
+                        </li>
+
+                    </ul>
+                    <div class="right_corner_img">
+                    </div>
+                </div>
+            </div>
+            <!-- Content -->
+            <div class="container">
+                @RenderBody();
+            </div>
+            <!-- Footer -->
+
+        </div>
+        <footer id="footer">
+            <div class="footer_menu">
+                <div class="ftr_left_corner">
+                </div>
+                <div class="ftr_menu">
+                    <!-- id="dvLiveChat" <ul class="menu_ftr"> <li><a href="#">Home  </a>/</li><li><a href="#">Find a GP  </a>/</li><li><a href="#">Find a Specialist  </a>/</li><li><a href="#"> Find a Clinic</a>/</li><li><a href="#">Find a Nurse </a>/</li><li><a href="#">Contact Us</a></li></ul> -->
+                    <span class="copyright_text"><label id="Literal13" text="Copyright">© Copyright 2012 My Online Clinic. All Rights Reserved.</label></span>
+                </div>
+                <div class="ftr_right_corner">
+                </div>
+            </div>
+        </footer>
+        <div id="updateProgressDiv" style="">
+            <div class="white_content" align="center">
+                <img src="~/UserAssets/images/waiting.gif" alt="" />
+            </div>
+        </div>
+    </div>
+    <script src="~/js/jquery.mCustomScrollbar.concat.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        jQuery(window).load(function () {
+            //TODO: uncomment
+            //            jQuery("#notification_content_1").mCustomScrollbar();
+
+            $("#nav > li > a").click(function () { // binding onclick
+
+                if ($(this).parent().hasClass('selected')) {
+
+                    $("#nav .selected div div").slideUp(100); // hiding popups
+                    $("#nav .selected").removeClass("selected");
+                } else {
+
+                    $("#nav .selected div div").slideUp(100); // hiding popups
+                    $("#nav .selected").removeClass("selected");
+
+                    if ($(this).next(".subs").length) {
+
+                        $(this).parent().addClass("selected"); // display popup
+                        $("#nav .subs div ul").css("visibility", "visible");
+                        $("#nav .subs div ul").css("opacity", "1");
+                        $("#nav .selected div div").slideDown(500);
+
+                    }
+                }
+            });
+
+           // jQuery("#notification_content_1").mCustomScrollbar();
+
+        });
+    </script>
+
+</body>
+</html>

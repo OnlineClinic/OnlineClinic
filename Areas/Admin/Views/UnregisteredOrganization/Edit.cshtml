@@ -1,0 +1,403 @@
+﻿@model MyOnlineClinic.Web.Models.UnregisteredOrganizationsViewModel
+@{
+    ViewBag.Title = "Add";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+@using JQueryUIHelpers;
+@using Share.Bonnet.AjaxDropDownList;
+@Scripts.Render("~/bundles/bonnet")
+<script src="/scripts/jquery.plugin.js"></script>
+<script src="/scripts/jquery.datepick.js"></script>
+<link href="~/Scripts/jquery.datepick.css" rel="stylesheet" />
+<div class="right_col" role="main">
+    <div class="">
+
+        <div class="clearfix"></div>
+
+        <div class="row">
+            <div class="col-md-12 col-xs-12">
+
+                <div class="x_panel">
+                    <div class="x_title">
+                        <div class="row">
+                            <div class="col-md-6" style="color: #0aa49c; font-size:18px;">Fill Organization Information</div>
+                            <div class="col-md-6" style="color: #0aa49c; font-size: 18px;">Fill Organization Admin Information</div>
+                        </div>
+                        <div class="clearfix"></div>
+                        @using (Html.BeginForm("Edit", "UnregisteredOrganization", FormMethod.Post, new { @class = "form-horizontal form-label-left", enctype = "multipart/form-data" }))
+                        {
+                            @Html.HiddenFor(m => m.Id)
+                            @*@Html.HiddenFor(m => m.LoginId)
+                            @Html.HiddenFor(m => m.OrganizationUser.LoginId)
+                            @Html.HiddenFor(m => m.OrganizationUser.UserId)
+                            @Html.HiddenFor(m => m.OrganizationUser.ProfilePic)*@
+                            @Html.HiddenFor(m => m.OrganizationLogo)
+
+                            <div class="col-md-6 col-xs-12">
+                                <div class="x_content">
+                                    <br />
+                                    <div class="col-md-9 col-sm-12 col-xs-12 form-group has-feedback">
+                                        @Html.TextBoxFor(x => x.Name, new { @class = "form-control col-md-7 col-xs-12", name = "OrganizationName", placeholder = "Enter organization name", required = "required" })
+                                    </div>
+                                    <div class="col-md-9 col-sm-9 col-xs-12">
+                                        <label id="lblmsg" class="form-control col-md-7 col-xs-12 red">OrganizationName is Already Available</label>
+                                    </div>
+                                    <div class="col-md-9 col-sm-12 col-xs-12 form-group has-feedback">
+                                        @Html.DropDownListFor(model => model.OrganizationType, new SelectList(Model.OrganizationTypeList, "Id", "OrganizationTypeName"), "---Select organization Type", new { @class = "form-control" })
+                                        @*@Html.TextBoxFor(x => x.OrganizationType, new { @class = "form-control col-md-7 col-xs-12", name = "SurName", placeholder = "Enter organization type", required = "required" })*@
+                                    </div>
+                                    <div class="col-md-9 col-sm-12 col-xs-12 form-group has-feedback">
+                                        @Html.TextBoxFor(x => x.AddressLine1, new { @class = "form-control col-md-7 col-xs-12", name = "Address1", placeholder = "Enter address1", required = "required" })
+                                    </div>
+                                    <div class="col-md-9 col-sm-12 col-xs-12 form-group has-feedback">
+                                        @Html.TextBoxFor(x => x.AddressLine2, new { @class = "form-control col-md-7 col-xs-12", name = "Address2", placeholder = "Enter address2" })
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            @Html.TextBoxFor(x => x.PhoneNumber, new { @class = "form-control col-md-7 col-xs-12", name = "PhoneNumber", placeholder = "Enter Phone", onkeypress = "return isNumber(event)" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            @Html.TextBoxFor(x => x.FaxNumber, new { @class = "form-control col-md-7 col-xs-12", name = "FaxNumber", placeholder = " Enter Fax Number", onkeypress = "return isNumber(event)" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            @Html.DropDownListFor(x => x.Country, new SelectList(Model.Countries, "CountryId", "CountryName"), "--Select Country--",
+                        new { @class = "form-control" },
+                        Ajax.UpdateActionFor(
+                                    model => model.OrganizationUser.State,
+                            new AjaxUpdateOptions
+                            {
+                                DisableTargetWhenEmpty = true,
+                                Url = Url.Action("GetStateInCountry", "Home", new { @area = "" })
+                            }
+                            ))
+                                            @Html.ValidationMessageFor(x => x.OrganizationUser.CountryId)
+                                            @*@Html.DropDownListFor(x => x.OrganizationUser.CountryId, new SelectList(Model.Countries, "CountryId", "CountryName"), "---Select Country---", new { @class = "form-control col-md-7 col-xs-12", required = "required" })*@
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+
+                                            @Html.DropDownListFor(x => x.State, new SelectList(Model.Statelist, "Id", "StateName"), "--Select State--",
+                                        new { @class = "form-control", @id = "State" },
+                                            Ajax.UpdateActionFor(
+                                             model => model.City,
+                                                new AjaxUpdateOptions
+                                                {
+                                                    DisableTargetWhenEmpty = true,
+                                                    Url = Url.Action("GetCityInState", "Home", new { @area = "" })
+                                                }
+                                                ))
+                                            @Html.ValidationMessageFor(m => m.State)
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            @Html.DropDownListFor(x => x.City, new SelectList(Model.Cities, "LookUpCityId", "LookUpCityName"), "---Select City---", new { @class = "form-control col-md-7 col-xs-12", @id = "City", required = "required" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            @Html.TextBoxFor(x => x.PostCode, new { @class = "form-control col-md-7 col-xs-12", name = "PostCode", placeholder = " Enter Postcode" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            @Html.DropDownListFor(x => x.TimezoneId, ViewBag.TimeZone as IEnumerable<SelectListItem>, new { @class = "form-control col-md-7 col-xs-12", name = "Timezone" })
+
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-1 col-sm-12 col-xs-12">
+                                            <img src="@Model.OrganizationLogo" id="ImgOrganizationLogo" height="25" width="25" />
+                                        </div>
+                                        <div class="col-md-3 col-sm-12 col-xs-12">
+                                            Logo
+                                        </div>
+                                        <div class="col-md-4 col-sm-12 col-xs-12">
+                                            <input type="file" name="OrganizationLogo" id="OrganizationLogo" onchange="ShowPreviewOrg(this)" />
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-md-6 col-xs-12">
+                                <div class="x_content">
+                                    <br />
+                                    <div class="form-group">
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            @Html.DropDownListFor(x => x.OrganizationUser.Titleid, new SelectList(Model.TitleList, "TitleId", "TitleName"), "---Select Title---", new { @class = "form-control col-md-7 col-xs-12 text_row"})
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            @Html.TextBoxFor(x => x.OrganizationUser.FirstName, new { @class = "form-control col-md-7 col-xs-12", name = "FirstName", placeholder = "First name" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            @Html.TextBoxFor(x => x.OrganizationUser.MiddleName, new { @class = "form-control col-md-7 col-xs-12", name = "FirstName", placeholder = "Middle name" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            @Html.TextBoxFor(x => x.OrganizationUser.SurName, new { @class = "form-control col-md-7 col-xs-12", name = "LastName", placeholder = "Last name" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            @if (Model.Id == 0)
+                                            {
+                                                @Html.TextBoxFor(x => x.OrganizationUser.Email, new { @class = "form-control col-md-7 col-xs-12 email", name = "Email", placeholder = "Email", required = "required", type = "email" })
+                                                @Html.ValidationMessageFor(x => x.OrganizationUser.Email)
+                                            }
+                                            else
+                                            {
+                                                @Html.TextBoxFor(x => x.OrganizationUser.Email, new { @class = "form-control col-md-7 col-xs-12", name = "Email", placeholder = "Email" })
+                                            }
+                                            @*@Html.TextBoxFor(x => x.OrganizationUser.Email, new { @class = "form-control col-md-7 col-xs-12", name = "Email", placeholder = "Email", required = "required",type="email" })*@
+                                            @Html.ValidationMessage("Email")
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            @Html.TextBoxFor(x => x.OrganizationUser.PhoneNumber, new { @class = "form-control col-md-7 col-xs-12", name = "PhoneNumber", placeholder = " Phone Number", onkeypress = "return isNumber(event)" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            @Html.TextBoxFor(x => x.OrganizationUser.FaxNumber, new { @class = "form-control col-md-7 col-xs-12", name = "FaxNumber", placeholder = "Fax Number" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            @Html.TextBoxFor(x => x.OrganizationUser.Address1, new { @class = "form-control col-md-7 col-xs-12", name = "Address1", placeholder = " Address1" })
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            @Html.TextBoxFor(x => x.OrganizationUser.Address2, new { @class = "form-control col-md-7 col-xs-12", name = "Address2", placeholder = "Address2" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            @Html.DropDownListFor(x => x.OrganizationUser.CountryId, new SelectList(Model.Countries, "CountryId", "CountryName"), "--Select Country--",
+                        new { @class = "form-control" },
+                        Ajax.UpdateActionFor(
+                                    model => model.OrganizationUser.State1,
+                            new AjaxUpdateOptions
+                            {
+                                DisableTargetWhenEmpty = true,
+                                Url = Url.Action("GetStateInCountry", "Home", new { @area = "" })
+                            }
+                            ))
+                                            @Html.ValidationMessageFor(x => x.OrganizationUser.CountryId)
+                                            @*@Html.DropDownListFor(x => x.OrganizationUser.CountryId, new SelectList(Model.Countries, "CountryId", "CountryName"), "---Select Country---", new { @class = "form-control col-md-7 col-xs-12", required = "required" })*@
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            @Html.DropDownListFor(x => x.OrganizationUser.State1, new SelectList(Model.Statelist, "Id", "StateName"), "--Select State--",
+                                        new { @class = "form-control", @id = "State1" },
+                                            Ajax.UpdateActionFor(
+                       model => model.OrganizationUser.City1,
+                                                new AjaxUpdateOptions
+                                                {
+                                                    DisableTargetWhenEmpty = true,
+                                                    Url = Url.Action("GetCityInState", "Home", new { @area = "" })
+                                                }
+                                                ))
+                                            @Html.ValidationMessageFor(m => m.State)
+
+
+                                            @*@Html.DropDownListFor(x => x.OrganizationUser.State, new SelectList(Model.Statelist, "LookUpCityId", "LookUpCityName"), "---Select State---", new { @class = "form-control col-md-7 col-xs-12", required = "required" })*@
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            @Html.DropDownListFor(x => x.OrganizationUser.City, new SelectList(Model.Cities, "LookUpCityId", "LookUpCityName"), "---Select City---", new { @class = "form-control col-md-7 col-xs-12", @id = "City1" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            @Html.TextBoxFor(x => x.OrganizationUser.PostCode, new { @class = "form-control col-md-7 col-xs-12", name = "PostCode", placeholder = "Post code" })
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="form-group">
+                                        <div class="col-md-9 col-sm-9 col-xs-12 dobclass">
+                                            @Html.TextBoxFor(x => x.OrganizationUser.DOB, new { @class = "form-control col-md-7 col-xs-12", name = "DOB", placeholder = "Enter date of birth", maxlength = "0"})
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-9 col-sm-9 col-xs-12">
+                                            @Html.DropDownListFor(x => x.TimezoneId, ViewBag.TimeZone as IEnumerable<SelectListItem>, new { @class = "form-control col-md-7 col-xs-12", name = "Timezone" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-1 col-sm-3 col-xs-12">
+                                            <img src="@Model.OrganizationUser.ProfilePic" id="imgProfilePic" height="25" width="25" />
+                                        </div>
+                                        <div class="col-md-3 col-sm-3 col-xs-12">
+                                            Profile Pic
+                                        </div>
+                                        <div class="col-md-3 col-sm-3 col-xs-12">
+                                            <input type="file" name="ProfilePic" id="ProfilePic" onchange="ShowPreview(this)" />
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ln_solid"></div>
+                            <div class="form-group">
+                                <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-0" style="margin-left:16px;">
+                                    <button type="submit" class="btn btn-primary">Cancel</button>
+                                    <button type="submit" onclick="unpickcalender();" class="btn btn-success">Submit</button>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/AdminAssets/js/validator/validator.js"></script>
+<script>
+    $('#btnCancel').click(function () {
+        window.location = "/admin/Organization/index";
+    })
+    $(document).ready(function () {
+
+        $(document).ready(function () {
+
+            $('#OrganizationUser_DOB').datepick({ dateFormat: 'dd-mm-yyyy', maxDate: 0 });
+            $("#lblmsg").hide();
+
+        });
+        function unpickcalender() {
+            $("#OrganizationUser_DOB").prop('disabled', true);
+            event.preventDefault();
+            //$('.datepick').remove();
+        }
+        $('#OrganizationName').blur(function () {
+
+            $.ajax({
+                type: "get",
+                url: '/Admin/Organization/getOrganizationName',
+                data: ({ Organizationname: $('#OrganizationName').val() }),
+                datatype: "json",
+                success: function (data) {
+                    // alert("done");
+                    console.log(data);
+                    if (data) {
+                        $("#lblmsg").show();
+                        //$("#msg").append("<div class='alert alert-danger'><p>" + "PKI Medicare No is Already Available" + "</p></div>").delaye(5000).fade();
+                    }
+                    else {
+                        $("#lblmsg").hide();
+                    }
+                },
+                error: function () {
+
+                }
+            });
+        });
+
+
+
+
+        //$('.date-picker').daterangepicker({
+        //    singleDatePicker: true,
+        //    calender_style: "picker_4",
+        //    format: 'DD/MM/YYYY'
+        //});
+
+
+
+        // initialize the validator function
+        validator.message['date'] = 'not a real date';
+
+        // validate a field on "blur" event, a 'select' on 'change' event & a '.reuired' classed multifield on 'keyup':
+        $('form')
+            .on('blur', 'input[required], input.optional, select.required', validator.checkField)
+            .on('change', 'select.required', validator.checkField)
+            .on('keypress', 'input[required][pattern]', validator.keypress);
+
+        $('.multi.required')
+            .on('keyup blur', 'input', function () {
+                validator.checkField.apply($(this).siblings().last()[0]);
+            });
+
+        // bind the validation to the form submit event
+        //$('#send').click('submit');//.prop('disabled', true);
+
+        $('form').submit(function (e) {
+            e.preventDefault();
+            var submit = true;
+            // evaluate the form using generic validaing
+            if (!validator.checkAll($(this))) {
+                submit = false;
+            }
+
+            if (submit)
+                this.submit();
+            return false;
+        });
+
+        /* FOR DEMO ONLY */
+        $('#vfields').change(function () {
+            $('form').toggleClass('mode2');
+        }).prop('checked', false);
+
+        $('#alerts').change(function () {
+            validator.defaults.alerts = (this.checked) ? false : true;
+            if (this.checked)
+                $('form .alert').remove();
+        }).prop('checked', false)
+
+    });
+    function isNumber(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
+    }
+    function ShowPreview(input) {
+        if (input.files && input.files[0]) {
+            var ImageDir = new FileReader();
+            ImageDir.onload = function (e) {
+                $('#imgProfilePic').attr('src', e.target.result);
+
+            }
+            ImageDir.readAsDataURL(input.files[0]);
+        }
+    }
+    function ShowPreviewOrg(input) {
+        if (input.files && input.files[0]) {
+            var ImageDir = new FileReader();
+            ImageDir.onload = function (e) {
+
+                $('#ImgOrganizationLogo').attr('src', e.target.result);
+            }
+            ImageDir.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+
+

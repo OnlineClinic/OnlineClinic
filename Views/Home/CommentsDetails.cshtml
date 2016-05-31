@@ -1,0 +1,62 @@
+﻿@model IEnumerable<MyOnlineClinic.Web.Models.CommentViewModel>
+@{
+    ViewBag.Title = "Commnets Details";
+    var comments = ViewBag.comment as MyOnlineClinic.Web.Models.CommentViewModel;
+}
+
+<section class="slice bg-white">
+    <div class="container">
+        <div class="wp-section">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="section-title-wr">
+                        <h3 class="section-title left"><span>@comments.Section</span></h3>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">@comments.Name</h3>
+                        <span class="clearfix"></span>
+                        <p>
+                            @Html.Raw(comments.Comments)
+                        </p>
+                        <hr>
+                    </div>
+                    @foreach (var subSection in Model)
+                    {
+                        if (subSection.CommentId != comments.CommentId)
+                        {
+                            <div class="panel-group" id="comments">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#@subSection.CommentId" href="#@subSection.CommentId">
+                                                @subSection.Name
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="@subSection.CommentId" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            @Html.Raw(subSection.Comments)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+
+                <div class="col-md-4 faq-banner">
+                    <div class="section-title-wr">
+                        <h3 class="section-title left"></h3>
+                    </div>
+                    <div class="script-banner">
+                        @{Html.RenderAction("Banner", "Home", new { @page = "INÍCIO", @bannerType = "RightSide1" });}
+
+                        <br />
+                        @{Html.RenderAction("Banner", "Home", new { @page = "INÍCIO", @bannerType = "RightSide2" });}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>

@@ -1,0 +1,465 @@
+﻿@model MyOnlineClinic.Web.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Add";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+@using JQueryUIHelpers;
+@using Share.Bonnet.AjaxDropDownList;
+@Scripts.Render("~/bundles/bonnet")
+<style>
+    .x_content {
+        margin:0px;
+        padding:0px;
+    }
+    .form-group {
+        margin-bottom:0px;
+    }
+    .green {
+        color: #1ABB9C;
+        padding-left:20px;
+    }
+</style>
+<div class="right_col" role="main">
+    <div class="">
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12 col-xs-12">
+
+                <div class="x_panel">
+                    <div class="x_title">
+
+
+
+                        @*<div class="col-md-6"><h2><small>Fill organization admin information</small></h2></div>*@
+                        <div class="clearfix"></div>
+                        <div id="msg"></div>
+                        @using (Html.BeginForm("Add", "Doctor", FormMethod.Post, new { @class = "form-horizontal form-label-left", enctype = "multipart/form-data" }))
+                        {
+                            @Html.ValidationSummary(true)
+
+                            @Html.HiddenFor(m => m.MemberId)
+                            @Html.HiddenFor(m => m.LoginId)
+                            @Html.HiddenFor(m => m.ProfilePic)
+                            @Html.HiddenFor(m => m.Createdby)
+                            @Html.HiddenFor(m => m.OrganizationId)
+                            <fieldset style="border:groove" class="fieldset">
+
+                                <legend class="prople" style="width:15%;">Personal Details</legend>
+                                <div class="x_content">
+                                    <div class="col-md-4">
+                                        <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                            @*@Html.DropDownListFor(model => model.Title, Enum.GetNames(typeof(MyOnlineClinic.Entity.Title)).Select(e => new SelectListItem { Text = e }), "Select Title", new { @class = "form-control", required = "required" })*@
+                                            @Html.DropDownListFor(x => x.TitleId, new SelectList(Model.TitleList, "TitleId", "TitleName"), "---Select Title---", new { @class = "form-control col-md-7 col-xs-12 text_row", required = "required" })
+                                            @*@Html.TextBoxFor(x => x.Title, new { @class = "form-control col-md-7 col-xs-12", name = "Title", placeholder = "Enter Title", required = "required" })*@
+                                        </div>
+
+                                        <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                            @Html.TextBoxFor(x => x.FirstName, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "FirstName", placeholder = "First Name", required = "required" })
+                                            @*@Html.TextBoxFor(x => x.OrganizationType, new { @class = "form-control col-md-7 col-xs-12", name = "SurName", placeholder = "Enter organization type", required = "required" })*@
+                                        </div>
+                                        <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                            @Html.TextBoxFor(x => x.MiddleName, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "MiddleName", placeholder = "Middle Name" })
+                                        </div>
+                                        <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                            @Html.TextBoxFor(x => x.SurName, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "SurName", placeholder = " SurName", required = "required" })
+                                        </div>
+
+                                        <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                            @Html.JQueryUI().DatepickerFor(x => x.DOB, new { @class = "date-picker form-control col-md-7 col-xs-12 text_row", name = "DOB", placeholder = "date of birth", required = "required" }).DateFormat("dd/MM/yyyy")
+                                        </div>
+                                        <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                            @Html.DropDownListFor(x => x.GenderId, new SelectList(Model.GenderList, "GenderId", "GenderName"), "---Select Gender---", new { @class = "form-control col-md-7 col-xs-12 text_row", required = "required" })
+                                        </div>
+                                        @*<div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                                @Html.DropDownListFor(model => model.PhoneCode, new SelectList(ViewBag.Phonecode, "Value", "Text"), new { @class = "form-control", required = "required" })
+                                            </div>*@
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                            @Html.TextBoxFor(x => x.PhoneNumber, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "PhoneNumber", placeholder = "Phone Number", required = "required", type = "number" })
+
+                                        </div>
+
+                                        <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                            @Html.TextBoxFor(x => x.MobileNumber, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "MobileNumber", placeholder = "Mobile Number", required = "required", type = "number" })
+
+                                        </div>
+
+                                        <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                            @Html.TextBoxFor(x => x.FaxNumber, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "FaxNumber", placeholder = " Fax Number", type = "number" })
+                                        </div>
+                                        <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                            @Html.TextBoxFor(x => x.LanguageSpoken, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "LanguageSpoken", placeholder = "Spoken Language", required = "required" })
+                                        </div>
+
+                                        <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                            @{
+                            if (Model.MemberId > 0)
+                            {
+                                @Html.TextBoxFor(x => x.Email, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "Email", placeholder = " Email Address", required = "required", type = "email", @readonly = "readonly" })
+
+                            }
+                            else
+                            {
+                                @Html.TextBoxFor(x => x.Email, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "Email", placeholder = " Email Address", required = "required", type = "email" })
+
+                            }
+                                            }
+
+                                            @*<input type="email" id="email" name="email" required="required" class="form-control col-md-7 col-xs-12">*@
+                                            @Html.ValidationMessage("Email")
+                                        </div>
+                                        <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                            @Html.TextBoxFor(x => x.Address1, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "Address1", placeholder = " Address1 ", required = "required" })
+                                            @*@Html.DropDownListFor(x => x.OrganizationUser.City, new SelectList(Model.Cities, "LookUpCityId", "LookUpCityName"), "---Select City---", new { @class = "form-control col-md-7 col-xs-12", required = "required" })*@
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                            @Html.TextBoxFor(x => x.Address2, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "Address2", placeholder = " Address2 " })
+                                            @*@Html.DropDownListFor(x => x.OrganizationUser.City, new SelectList(Model.Cities, "LookUpCityId", "LookUpCityName"), "---Select City---", new { @class = "form-control col-md-7 col-xs-12", required = "required" })*@
+                                        </div>
+                                        <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                            @*@Html.DropDownListFor(x => x.CountryId, new SelectList(Model.CountryList, "CountryId", "CountryName"), "---Select Country---", new { @class = "form-control col-md-7 col-xs-12 text_row", required = "required" })*@
+                                            @Html.DropDownListFor(model => model.CountryId, new SelectList(Model.CountryList, "CountryId", "CountryName"), "--Select Country--",
+                     new { @class = "form-control text_row" },
+                        Ajax.UpdateActionFor(
+                         model => model.State,
+                            new AjaxUpdateOptions
+                            {
+                                DisableTargetWhenEmpty = true,
+                                Url = Url.Action("GetStateInCountry", "Home", new { @area = "" })
+                            }
+                            ))
+                                            @Html.ValidationMessageFor(m => m.CountryId)
+                                        </div>
+
+                                        <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                            @Html.DropDownListFor(model => model.State, new SelectList(Model.StateList, "Id", "StateName"), "--Select State--",
+                      new { @class = "form-control text_row" },
+                        Ajax.UpdateActionFor(
+                         model => model.City,
+                            new AjaxUpdateOptions
+                            {
+                                DisableTargetWhenEmpty = true,
+                                Url = Url.Action("GetCityInState", "Home", new { @area = "" })
+                            }
+                            ))
+                                            @Html.ValidationMessageFor(m => m.State)
+                                            @*@Html.DropDownListFor(x => x.State, new SelectList( ""), new { @class = "form-control col-md-7 col-xs-12 text_row", required = "required" })*@
+                                        </div>
+                                        <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                            @Html.DropDownListFor(x => x.City, new SelectList(Model.CityList, "LookUpCityId", "LookUpCityName"), "---Select City---", new { @class = "form-control col-md-7 col-xs-12 text_row", required = "required" })
+
+                                            @*@Html.DropDownListFor(x => x.City, new SelectList(""), "---Select City---", new { @class = "form-control col-md-7 col-xs-12 text_row", required = "required" })*@
+                                        </div>
+                                        <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                            @Html.TextBoxFor(x => x.PostCode, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "PostCode", placeholder = " Postcode", required = "required" })
+                                        </div>
+                                        <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                            @Html.DropDownListFor(x => x.TimeZoneId, ViewBag.TimeZone as IEnumerable<SelectListItem>, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "TimeZoneId", required = "required" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                            @*<fieldset style="border:groove" class="fieldset">
+
+                                                    <legend class="prople" style="width:18%;">Orgaznization Details</legend>
+                                <div class="x_content">
+
+                                    <div class="col-md-12">
+
+                                        </div>
+                                    </div>
+                                                            </fieldset>*@
+                            <fieldset style="border:groove" class="fieldset">
+
+                                <legend class="prople" style="width:17%;">Professionoal Details</legend>
+                                <div class="x_content">
+
+                                    <div class="col-md-12">
+
+
+
+
+                                        <div class="col-sm-4 col-xs-12 form-group has-feedback">
+                                            @Html.DropDownListFor(model => model.Profession, new SelectList(Model.ProfessionTypes, "Id", "ProfessionName"), "---Select Profession Type", new { @class = "form-control text_row", required = "required" })
+                                            @*@Html.DropDownListFor(model => model.Profession, Enum.GetNames(typeof(MyOnlineClinic.Entity.Profession)).Select(e => new SelectListItem { Text = e }), new { @class = "form-control" })*@
+                                        </div>
+                                        <div class="col-sm-4 col-xs-12 form-group has-feedback">
+                                            @Html.DropDownListFor(model => model.ProfessionCategory, new SelectList(""), new { @class = "form-control text_row" })
+                                            @*@Html.DropDownListFor(model => model.Profession, Enum.GetNames(typeof(MyOnlineClinic.Entity.Profession)).Select(e => new SelectListItem { Text = e }), new { @class = "form-control" })*@
+                                        </div>
+                                        <div class="col-sm-4 col-xs-12 form-group has-feedback">
+
+                                            @Html.DropDownListFor(model => model.OrgId, new SelectList(Model.OrganizationList, "OrganizationId", "OrganizationName"), "-Select Organization-",
+                          new { @class = "form-control text_row" },
+                            Ajax.UpdateActionFor(
+                             model => model.ClinicID,
+
+                                new AjaxUpdateOptions
+                                {
+                                    DisableTargetWhenEmpty = true,
+                                    Url = Url.Action("GetClinicinOrganization", "Home", new { @area = "" })
+                                }
+                                ))
+                                            @*@Html.DropDownListFor(model => model.OrgId, new SelectList(Model.OrganizationList, "OrganizationId", "OrganizationName"), "Select organization", new { @class = "form-control col-md-7 col-xs-12 text_row", required = "required" })*@
+
+
+
+
+                                        </div>
+                                        <div class="col-sm-4 col-xs-12 form-group has-feedback">
+                                            @Html.TextBoxFor(x => x.OrganizationAddress, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "OrganizationAddress", placeholder = " Organization Address" })
+                                        </div>
+                                        <div class="col-sm-4 col-xs-12 form-group has-feedback">
+                                            @Html.DropDownListFor(x => x.ClinicID, new SelectList(Model.ClinicList, "ClinicID", "ClinicName"), new { @class = "form-control col-md-7 col-xs-12 text_row", @id = "ClinicID", name = "ClinicID", placeholder = " Select Clinic Name", required = "required" })
+                                            @*@Html.DropDownListFor(x => x.ClinicID, ViewBag.Clinic as IEnumerable<SelectListItem>, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "PostCode", placeholder = " Enter Postcode", required = "required" })*@
+
+                                        </div>
+                                        <div class="col-sm-4 col-xs-12 form-group has-feedback">
+                                            @Html.TextBoxFor(x => x.IntrestArea, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "IntrestArea", placeholder = "Area of Intrest", required = "required" })
+                                        </div>
+                                        <div class="col-sm-4 col-xs-12 form-group has-feedback">
+                                            @Html.TextBoxFor(x => x.qualification, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "qualification", placeholder = "Qualifiaction" })
+                                        </div>
+                                        <div class="col-sm-4 col-xs-12 form-group has-feedback">
+                                            @Html.TextBoxFor(x => x.AHPRANo, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "AHPRANo", placeholder = " AHPRANo Reg No", required = "required" })
+                                        </div>
+                                        <div class="col-sm-4 col-xs-12 form-group has-feedback">
+                                            @Html.TextBoxFor(x => x.ProviderNo, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "ProviderNo", placeholder = "Provider No", required = "required" })
+                                        </div>
+                                        <div class="col-sm-4 col-xs-12 form-group has-feedback">
+                                            @Html.TextBoxFor(x => x.PrescriberNo, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "PrescriberNo", placeholder = "Prescriber No", required = "required" })
+                                        </div>
+                                        <div class="col-sm-12 col-xs-12 form-group has-feedback">
+                                            @Html.TextAreaFor(x => x.DoctorProfile, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "DoctorProfile", placeholder = "Doctor Prifile", required = "required" })
+                                        </div>
+                                        <div class="col-sm-3 col-xs-12 form-group has-feedback">
+                                            Upload Profile Pic  <input type="file" name="ProfilePic" id="ProfilePic" />
+                                        </div>
+                                        <div class="col-sm-3 col-xs-12 form-group has-feedback">
+                                            Upload Signature  <input type="file" name="SignaturePic" id="SignaturePic" />
+                                        </div>
+
+                                    </div>
+
+                                </div>
+                            </fieldset>
+                            <div class="form-group">
+                                <div class="col-md-12 col-sm-12 col-xs-12 col-md-offset-0 text-right" style="margin-left:16px;">
+                                    <button type="submit" class="btn btn-primary">Cancel</button>
+                                    <button type="submit" class="btn btn-success">Submit</button>
+                                </div>
+                            </div>
+
+
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @using (Html.BeginForm("Delete", "DashBoard", FormMethod.Post))
+    {
+        <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title">
+                            <label id="lblTitle">Delete Patient</label>
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <div id="CreateEditForm">
+                            <label>Are you sure to delete this Patient</label>
+                            <input type="text" name="serviceIds" id="serviceIds" style="display: none" />
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Ok</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+    }
+    @using (Html.BeginForm("Acitvate", "DashBoard", FormMethod.Post))
+    {
+        <div class="modal fade" id="ActivateModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title">
+                            <label id="lblTitle">Activate Patient </label>
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <div id="CreateEditForm">
+                            <label>Are you sure to activate this Patient</label>
+                            <input type="text" name="ActivateIds" id="ActivateIds" style="display: none" />
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Ok</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+    }
+    <script src="/AdminAssets/js/validator/validator.js"></script>
+    <script>
+        $('#btnCancel').click(function () {
+            window.location = "/admin/Organization/index";
+        })
+
+        $(document).ready(function () {
+
+            $(document).ready(function () {
+
+                if ('@ViewBag.ErrorMessage' != '') {
+                    $("#msg").append("<div class='alert alert-danger'><p>" + '@ViewBag.ErrorMessage' + "</p></div>").delaye(5000).fade();
+                }
+
+                if ($("#NewsId").val() > 0) {
+
+                    $('#btnAddNewPhoto').removeAttr('disabled', 'disabled');
+
+                    $("#ImagePanel").show();
+                    $('#btnAddNewPhoto').click(function () {
+                        window.location.href = "/admin/newsphotos/AddNewsPhotos/" + $("#NewsId").val();
+                    });
+                }
+                else {
+                    $("#ImagePanel").hide();
+                    $("#btnAddNewPhoto").attr('disabled', 'disabled');
+                }
+                $('.date-picker').daterangepicker({
+                    singleDatePicker: true,
+                    calender_style: "picker_4",
+                    format: 'DD/MM/YYYY'
+                });
+                $('#Showcase').change(function () {
+                    if ($(this).is(":checked")) {
+                        if ($("#NewsId").val() == '') {
+                            $("#show-case-msg").append("<div class='alert alert-danger'>Please upload image before marking showcase.</div>");
+                            window.setTimeout(function () {
+                                $(".alert-danger").fadeTo(500, 0).slideUp(500, function () {
+                                    $(this).remove();
+                                });
+                            }, 5000);
+                        }
+                        else {
+                            $.ajax({
+                                type: 'get',
+                                url: '/admin/news/CheckShowCaseImages',
+                                data: 'newsId=' + $("#NewsId").val(),
+                                success: function (data) {
+                                    if (data == "NotExists") {
+                                        $("#show-case-msg").append("<div class='alert alert-danger'>Please upload image before marking showcase.</div>");
+                                        window.setTimeout(function () {
+                                            $(".alert-danger").fadeTo(500, 0).slideUp(500, function () {
+                                                $(this).remove();
+                                                $('#Showcase').attr('checked', false);
+                                            });
+                                        }, 5000);
+                                    }
+                                }
+                            });
+
+                        }
+                    }
+
+                });
+                // initialize the validator function
+                validator.message['date'] = 'not a real date';
+
+                // validate a field on "blur" event, a 'select' on 'change' event & a '.reuired' classed multifield on 'keyup':
+                $('form')
+                    .on('blur', 'input[required], input.optional, select.required', validator.checkField)
+                    .on('change', 'select.required', validator.checkField)
+                    .on('keypress', 'input[required][pattern]', validator.keypress);
+
+                $('.multi.required')
+                    .on('keyup blur', 'input', function () {
+                        validator.checkField.apply($(this).siblings().last()[0]);
+                    });
+
+                // bind the validation to the form submit event
+                //$('#send').click('submit');//.prop('disabled', true);
+
+                $('form').submit(function (e) {
+                    e.preventDefault();
+                    var submit = true;
+                    // evaluate the form using generic validaing
+                    if (!validator.checkAll($(this))) {
+                        submit = false;
+                    }
+                    if (submit)
+                        this.submit();
+                    return false;
+                });
+
+                /* FOR DEMO ONLY */
+                $('#vfields').change(function () {
+                    $('form').toggleClass('mode2');
+                }).prop('checked', false);
+
+                $('#alerts').change(function () {
+                    validator.defaults.alerts = (this.checked) ? false : true;
+                    if (this.checked)
+                        $('form .alert').remove();
+                }).prop('checked', false)
+            });
+        });
+        //$('#OrgId').change(function ()
+        //{
+        //    $.ajax({
+        //        type: "GET",
+        //        url: '/Doctor/Doctor/GetOrganizationAddress',
+        //        data: ({ id: $('#OrgId').val() }),
+        //        dataType: "Json",
+        //        success: function (data) {
+        //            $('#OrganizationAddress').val(Data.Address1);
+        //        },
+        //        error: function () {
+        //            alert('Error occured');
+        //        }
+        //    });
+        //});
+        //OrganizationAddress
+    </script>
+
+
+    <script type="text/javascript">
+        function scrollNav() {
+            $('.nav a').click(function () {
+                //Toggle Class
+                $(".active").removeClass("active");
+                $(this).closest('li').addClass("active");
+                var theClass = $(this).attr("class");
+                $('.' + theClass).parent('li').addClass('active');
+                //Animate
+                $('html, body').stop().animate({
+                    scrollTop: $($(this).attr('href')).offset().top - 160
+                }, 400);
+                return false;
+            });
+            $('.scrollTop a').scrollTop();
+        }
+        scrollNav();
+    </script>

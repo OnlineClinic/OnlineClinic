@@ -1,0 +1,27 @@
+﻿@model MyOnlineClinic.Web.Models.DoctorAvailabilityModel
+
+<div class="x_content">
+    <input type="hidden" name="DoctorId" id="DoctorId" value="@ViewBag.DoctorId" />
+    <table id="example" class="table table-striped responsive-utilities jambo_table">
+        <thead>
+            <tr>
+                <th>Availability For</th>
+                <th>Form Date</th>
+                <th>From Time</th>
+                <th>Timezone</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.AvailabilityTypeName</td>
+                    <td>@item.FromDateLocal</td>
+                    <td>@item.ToDateLocal</td>
+                    <td>@item.TimeZoneId</td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+</div>

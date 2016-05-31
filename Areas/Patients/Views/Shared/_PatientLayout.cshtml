@@ -1,0 +1,448 @@
+﻿@model MyOnlineClinic.Web.Models.RegisterViewModel
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Myonlineclinic</title>
+    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
+    <!-- Bootstrap -->
+    <link href="~/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/css/style.css" rel="stylesheet" />
+    <link href="~/css/slimmenu.css" rel="stylesheet" />
+    <link href="~/css/flexslider.css" rel="stylesheet" />
+    <link href="~/css/owl.carousel.min.css" type="text/css" rel="stylesheet" />
+    <link href="~/css/owl.theme.default.min.css" type="text/css" rel="stylesheet" />
+    <link href="~/fonts/css/font-awesome.css" type="text/css" rel="stylesheet" />
+    <link href='https://fonts.googleapis.com/css?family=Raleway:400,300,600,700' rel='stylesheet' type='text/css'>
+
+    <link href="~/AdminAssets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/AdminAssets/fonts/css/font-awesome.min.css" rel="stylesheet">
+    <link href="~/AdminAssets/css/animate.min.css" rel="stylesheet">
+    <!-- Custom styling plus plugins -->
+    <link href="~/AdminAssets/css/custom.css" rel="stylesheet">
+    <link href="~/AdminAssets/less/custom.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="~/AdminAssets/css/maps/jquery-jvectormap-2.0.1.css" />
+    <link href="~/AdminAssets/css/icheck/flat/green.css" rel="stylesheet" />
+    <link href="~/AdminAssets/css/floatexamples.css" rel="stylesheet" type="text/css" />
+    <script src="~/AdminAssets/js/jquery.min.js"></script>
+    <script src="~/AdminAssets/js/nprogress.js"></script>
+    <script>
+        NProgress.start();
+    </script>
+</head>
+<body>
+    <script src="~/js/bootstrap-dropdownhover.min.js"></script>
+    <div id="toTop">TOP</div>
+    <div class="header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                    <div class="logo"> <a href=""> <img src="/images/logo.png" alt="img"> </a>  </div>
+                </div>
+                @*@Html.Partial("_PartialMenu")*@
+                <div class="col-lg-6 col-md-6 col-sm-9">
+                    <div class="menuarea">
+                        <ul class="slimmenu"></ul>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-3">
+                    <div class="rightnav1" style="float:right;">
+                        <ul>
+                            <li>
+                                <a style="text-decoration:none;" href="Dashboard/LogOff" title="">
+                                    <i class="fa fa-sign-out pull-right" style="margin:4px;"></i>Logout
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid dashboard_bg">
+        <div class="row">
+            <div class="col-sm-12">
+                @*<div class="profilebody_topnav">My Account  &gt;&gt;  Personal Details </div>*@
+                <div class="profilebody_topnav" style="padding: 5px 0px;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid dashboard_bg">
+        <div class="row">
+            <div class="profileimg_area">
+                <div class="col-sm-3">
+                    <div class="profileimg_arealeft">
+                        <div class="profileimg">
+                            @if (@Model.ProfilePic != null)
+                            {
+                                <img alt="" src="@Model.ProfilePic" height="101" width="101" style="border-radius: 35%">
+                            }
+                            else
+                            {
+                                <img alt="" src="~/images/no-images.png" height="101" width="101" style="border-radius: 35%" />
+                            }
+                        </div>
+                        @*@Html.HiddenFor(m => m.MemberId)*@
+                        <div class="profilename_area">
+                            Welcome!
+                            <span>@(Model.FirstName + " " + Model.MiddleName + " " + Model.SurName)</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-9">
+                    <div class="dashbord_bannernav">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a data-toggle="tab" href="#home">Personal Details </a> </li>
+                            <li><a data-toggle="tab" href="#menu1">Messages</a> </li>
+                            @*<li><a data-toggle="tab" href="#menu2">Lorem Ipsum</a> </li>
+                                <li><a data-toggle="tab" href="#menu3">Lorem Ipsum </a> </li>
+                                <li><a data-toggle="tab" href="#menu4">Lorem Ipsum</a> </li>*@
+
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid dashboard_bg">
+        <div class="row">
+            <div class="profilebody_midarea">
+                <div class="col-sm-3">
+                    <div class="profilebody_leftcol">
+                        <div class="profilebodycol_heading">
+                            Patient Dashboard
+                        </div>
+
+                        <div class="dashbord_leftnav">
+                            <ul>
+                                <li class="active"><a href="#"><i class="fa fa-user dashbordnav_icon"></i>Home</a> </li>
+                                <li><a href="@Url.Action("History", "DashBoard", new { id = Model.MemberId })"><i class="fa fa-user dashbordnav_icon"></i>My History</a> </li>
+                                <li><a href="#"><i class="fa fa-list dashbordnav_icon"></i> Book a Appointment</a></li>
+                                <li><a href="#"><i class="fa fa-credit-card dashbordnav_icon"></i> Request Presscription</a> </li>
+                                <li><a href="#"><i class="fa fa-share-alt dashbordnav_icon"></i> My Examination</a>  </li>
+                                <li><a href="#"><i class="fa fa-heart dashbordnav_icon"></i> My Appointments</a> </li>
+                                <li><a href="#"><i class="fa fa-truck dashbordnav_icon"></i> My Pharmacy</a>   </li>
+                                <li><a href="#"><i class="fa fa-truck dashbordnav_icon"></i> My Results</a>   </li>
+                                <li><a href="#"><i class="fa fa-truck dashbordnav_icon"></i> My Billing</a>   </li>
+                            </ul>
+
+                        </div>
+                    </div>
+                </div>
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="footer_area">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div data-effect="slide-left">
+                        <div class="footer_col">
+                            <h5>Address</h5>
+                            <div class="footer_address">
+                                <ul>
+                                    <li>
+                                        <span class="address_icon"><i class="fa fa-map-marker"></i></span>
+                                        <span class="address_text">
+                                            1/21 Wellington Road, East Brisbane Qld 4169
+                                            PO Box 1185 Coorparoo Qld 4151
+                                        </span>
+                                    </li>
+
+                                    <li>
+                                        <span class="address_icon"><i class="fa fa-phone-square"></i></span>
+                                        <span class="address_text">
+                                            1300 900 863
+                                        </span>
+                                    </li>
+
+                                    <li>
+                                        <span class="address_icon"><i class="fa fa-envelope"></i></span>
+                                        <span class="address_text">
+                                            <a href="mailto:info@myonlineclinic.com.au"> info@myonlineclinic.com.au </a>
+                                        </span>
+                                    </li>
+                                </ul>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="footer_col">
+                        <h5>Contact us</h5>
+                        <div class="footer_form">
+                            <ul>
+                                <li><input type="text" placeholder="Name"></li>
+                                <li><input type="text" placeholder="Name"></li>
+                                <li> <textarea placeholder="Message"></textarea>  </li>
+                                <li><input type="submit" value="Submit"> </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div data-effect="slide-right">
+                        <div class="footer_col">
+                            <h5>App is no available</h5>
+                            <div class="footer_logo">
+                                <ul>
+                                    <li> <img src="~/images/footerlogo1.png" alt="img"> </li>
+                                    <li> <img src="~/images/footerlogo1.png" alt="img"> </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="copyright">MyOnlineClinic <i class="fa fa-copyright"></i>Copyright 2015 </div>
+                </div>
+            </div>
+        </div>
+
+        <script src="/AdminAssets/js/bootstrap.min.js"></script>
+        <!-- gauge js -->
+        <script type="text/javascript" src="~/AdminAssets/js/gauge/gauge.min.js"></script>
+        <script type="text/javascript" src="~/AdminAssets/js/gauge/gauge_demo.js"></script>
+        <!-- chart js -->
+        <script src="~/AdminAssets/js/chartjs/chart.min.js"></script>
+        <!-- bootstrap progress js -->
+        <script src="~/AdminAssets/js/progressbar/bootstrap-progressbar.min.js"></script>
+        <script src="~/AdminAssets/js/nicescroll/jquery.nicescroll.min.js"></script>
+        <!-- icheck -->
+        <script src="~/AdminAssets/js/icheck/icheck.min.js"></script>
+        <!-- daterangepicker -->
+        <script type="text/javascript" src="~/AdminAssets/js/moment.min.js"></script>
+        <script type="text/javascript" src="~/AdminAssets/js/datepicker/daterangepicker.js"></script>
+        <script src="~/AdminAssets/js/custom.js"></script>
+        <!-- flot js -->
+        <!--[if lte IE 8]><script type="text/javascript" src="js/excanvas.min.js"></script><![endif]-->
+        <script type="text/javascript" src="~/AdminAssets/js/flot/jquery.flot.js"></script>
+        <script type="text/javascript" src="~/AdminAssets/js/flot/jquery.flot.pie.js"></script>
+        <script type="text/javascript" src="~/AdminAssets/js/flot/jquery.flot.orderBars.js"></script>
+        <script type="text/javascript" src="~/AdminAssets/js/flot/jquery.flot.time.min.js"></script>
+        <script type="text/javascript" src="~/AdminAssets/js/flot/date.js"></script>
+        <script type="text/javascript" src="~/AdminAssets/js/flot/jquery.flot.spline.js"></script>
+        <script type="text/javascript" src="~/AdminAssets/js/flot/jquery.flot.stack.js"></script>
+        <script type="text/javascript" src="~/AdminAssets/js/flot/curvedLines.js"></script>
+        <script type="text/javascript" src="~/AdminAssets/js/flot/jquery.flot.resize.js"></script>
+        <script>
+            $(document).ready(function () {
+                // [17, 74, 6, 39, 20, 85, 7]
+                //[82, 23, 66, 9, 99, 6, 2]
+                var data1 = [[gd(2012, 1, 1), 17], [gd(2012, 1, 2), 74], [gd(2012, 1, 3), 6], [gd(2012, 1, 4), 39], [gd(2012, 1, 5), 20], [gd(2012, 1, 6), 85], [gd(2012, 1, 7), 7]];
+
+                var data2 = [[gd(2012, 1, 1), 82], [gd(2012, 1, 2), 23], [gd(2012, 1, 3), 66], [gd(2012, 1, 4), 9], [gd(2012, 1, 5), 119], [gd(2012, 1, 6), 6], [gd(2012, 1, 7), 9]];
+                $("#canvas_dahs").length && $.plot($("#canvas_dahs"), [
+                    data1, data2
+                ], {
+                    series: {
+                        lines: {
+                            show: false,
+                            fill: true
+                        },
+                        splines: {
+                            show: true,
+                            tension: 0.4,
+                            lineWidth: 1,
+                            fill: 0.4
+                        },
+                        points: {
+                            radius: 0,
+                            show: true
+                        },
+                        shadowSize: 2
+                    },
+                    grid: {
+                        verticalLines: true,
+                        hoverable: true,
+                        clickable: true,
+                        tickColor: "#d5d5d5",
+                        borderWidth: 1,
+                        color: '#fff'
+                    },
+                    colors: ["rgba(38, 185, 154, 0.38)", "rgba(3, 88, 106, 0.38)"],
+                    xaxis: {
+                        tickColor: "rgba(51, 51, 51, 0.06)",
+                        mode: "time",
+                        tickSize: [1, "day"],
+                        //tickLength: 10,
+                        axisLabel: "Date",
+                        axisLabelUseCanvas: true,
+                        axisLabelFontSizePixels: 12,
+                        axisLabelFontFamily: 'Verdana, Arial',
+                        axisLabelPadding: 10
+                        //mode: "time", timeformat: "%m/%d/%y", minTickSize: [1, "day"]
+                    },
+                    yaxis: {
+                        ticks: 8,
+                        tickColor: "rgba(51, 51, 51, 0.06)",
+                    },
+                    tooltip: false
+                });
+
+                function gd(year, month, day) {
+                    return new Date(year, month - 1, day).getTime();
+                }
+            });
+        </script>
+        <!-- worldmap -->
+        <script type="text/javascript" src="~/AdminAssets/js/maps/jquery-jvectormap-2.0.1.min.js"></script>
+        <script type="text/javascript" src="~/AdminAssets/js/maps/gdp-data.js"></script>
+        <script type="text/javascript" src="~/AdminAssets/js/maps/jquery-jvectormap-world-mill-en.js"></script>
+        <script type="text/javascript" src="~/AdminAssets/js/maps/jquery-jvectormap-us-aea-en.js"></script>
+        <script>
+            $(function () {
+                $('#world-map-gdp').vectorMap({
+                    map: 'world_mill_en',
+                    backgroundColor: 'transparent',
+                    zoomOnScroll: false,
+                    series: {
+                        regions: [{
+                            values: gdpData,
+                            scale: ['#E6F2F0', '#149B7E'],
+                            normalizeFunction: 'polynomial'
+                        }]
+                    },
+                    onRegionTipShow: function (e, el, code) {
+                        el.html(el.html() + ' (GDP - ' + gdpData[code] + ')');
+                    }
+                });
+            });
+        </script>
+        <!-- skycons -->
+        <script src="js/skycons/skycons.js"></script>
+        <script>
+            var icons = new Skycons({
+                "color": "#73879C"
+            }),
+                list = [
+                    "clear-day", "clear-night", "partly-cloudy-day",
+                    "partly-cloudy-night", "cloudy", "rain", "sleet", "snow", "wind",
+                    "fog"
+                ],
+                i;
+
+            for (i = list.length; i--;)
+                icons.set(list[i], list[i]);
+
+            icons.play();
+        </script>
+        <!-- dashbord linegraph -->
+        <script>
+            var doughnutData = [
+                {
+                    value: 30,
+                    color: "#455C73"
+                },
+                {
+                    value: 30,
+                    color: "#9B59B6"
+                },
+                {
+                    value: 60,
+                    color: "#BDC3C7"
+                },
+                {
+                    value: 100,
+                    color: "#26B99A"
+                },
+                {
+                    value: 120,
+                    color: "#3498DB"
+                }
+            ];
+            var myDoughnut = new Chart(document.getElementById("canvas1").getContext("2d")).Doughnut(doughnutData);
+        </script>
+        <!-- /dashbord linegraph -->
+        <!-- datepicker -->
+        <script type="text/javascript">
+            $(document).ready(function () {
+
+                var cb = function (start, end, label) {
+                    console.log(start.toISOString(), end.toISOString(), label);
+                    console.log("jsoidjsia");
+                    $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+                    //alert("Callback has fired: [" + start.format('MMMM D, YYYY') + " to " + end.format('MMMM D, YYYY') + ", label = " + label + "]");
+                }
+
+                var optionSet1 = {
+                    startDate: moment().subtract(29, 'days'),
+                    endDate: moment(),
+                    minDate: '01/01/2012',
+                    maxDate: '12/31/2015',
+                    dateLimit: {
+                        days: 60
+                    },
+                    showDropdowns: true,
+                    showWeekNumbers: true,
+                    timePicker: false,
+                    timePickerIncrement: 1,
+                    timePicker12Hour: true,
+                    ranges: {
+                        'Today': [moment(), moment()],
+                        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                        'This Month': [moment().startOf('month'), moment().endOf('month')],
+                        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                    },
+                    opens: 'left',
+                    buttonClasses: ['btn btn-default'],
+                    applyClass: 'btn-small btn-primary',
+                    cancelClass: 'btn-small',
+                    format: 'MM/DD/YYYY',
+                    separator: ' to ',
+                    locale: {
+                        applyLabel: 'Submit',
+                        cancelLabel: 'Clear',
+                        fromLabel: 'From',
+                        toLabel: 'To',
+                        customRangeLabel: 'Custom',
+                        daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+                        monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                        firstDay: 1
+                    }
+                };
+                $('#reportrange span').html(moment().subtract(29, 'days').format('MMMM D, YYYY') + ' - ' + moment().format('MMMM D, YYYY'));
+                $('#reportrange').daterangepicker(optionSet1, cb);
+                $('#reportrange').on('show.daterangepicker', function () {
+                    console.log("show event fired");
+                });
+                $('#reportrange').on('hide.daterangepicker', function () {
+                    console.log("hide event fired");
+                });
+                $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
+                    console.log("apply event fired, start/end dates are " + picker.startDate.format('MMMM D, YYYY') + " to " + picker.endDate.format('MMMM D, YYYY'));
+                });
+                $('#reportrange').on('cancel.daterangepicker', function (ev, picker) {
+                    console.log("cancel event fired");
+                });
+                $('#options1').click(function () {
+                    $('#reportrange').data('daterangepicker').setOptions(optionSet1, cb);
+                });
+                $('#options2').click(function () {
+                    $('#reportrange').data('daterangepicker').setOptions(optionSet2, cb);
+                });
+                $('#destroy').click(function () {
+                    $('#reportrange').data('daterangepicker').remove();
+                });
+            });
+        </script>
+        <script>
+            NProgress.done();
+        </script>
+    </div>
+    <script src="~/js/include_script.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+</body>
+</html>

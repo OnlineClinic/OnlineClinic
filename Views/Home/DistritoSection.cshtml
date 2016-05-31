@@ -1,0 +1,125 @@
+﻿@model MyOnlineClinic.Web.Models.DistritoNewsViewModel
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8" id="main">
+            <div class="row">
+                <div class="col-md-12">
+                    <p>News</p>
+                    <ul class="item-listing">
+                        @foreach (var item in Model.NewsList)
+                        {
+
+                            var photoUrl = "/images/noImage.jpg";
+                            if (item.NewsPhotos != null)
+                            {
+                                var photos = item.NewsPhotos.FirstOrDefault();
+                                if (photos != null)
+                                {
+                                    photoUrl = "../../UploadedFiles/NewsPhoto/Thumb/" + photos.ThumbPath;
+                                }
+                            }
+                            var title = item.Title.Length > 48 ? item.Title.Substring(0, 45) + "..." : item.Title;
+                            var summary = item.Summary.Length > 100 ? item.Summary.Substring(0, 100) + "..." : item.Summary;
+                            @*<div class="wp-block article list">
+                                    <div class="article-image" style="width: 20%;">
+                                        <img src="@photoUrl" alt="" class="img-responsive">
+                                    </div>
+                                    <div class="wp-block-body">
+                                        <h3 class="title">
+                                            <a href="/Home/NewsDetails/@item.Title" hidefocus="true">@title</a>
+                                        </h3>
+                                        <p>
+                                            @Html.Raw(summary)
+                                        </p>
+                                    </div>
+                                </div>
+                            <li class="clearfix">
+                                <a href="/Home/NewsDetails/@item.Title" class="post-thumb"><img src="@photoUrl" alt=" " /></a>
+                                <h3 class="title">
+                                    <a href="/Home/NewsDetails/@item.Title" hidefocus="true">@title</a>
+                                </h3>
+                                <p>
+                                    @Html.Raw(summary)
+                                </p>
+                            </li>
+                        }
+                    </ul>
+                </div>
+                <div class="col-md-12">
+                    <p>Classified</p>
+                    <ul class="item-listing">
+                        @foreach (var classified in Model.ClassifiedsList)
+                        {
+                            var title = classified.Title.Length > 48 ? classified.Title.Substring(0, 45) + "..." : classified.Title;
+                            var summary = classified.Summary.Length > 100 ? classified.Summary.Substring(0, 100) + "..." : classified.Summary;
+                            var photoUrl = "/images/noImage.jpg";
+                            if (Model.ClassifiedPhotos != null)
+                            {
+                                var photos = classified.ClassifiedPhotos.FirstOrDefault();
+                                if (photos != null)
+                                {
+                                    photoUrl = Model.ClassifiedPhotos.ThumbPath;
+                                }
+                            }
+                            <li class="clearfix">
+                                <a href="/Home/NewsDetails/@title" class="post-thumb"><img src="@photoUrl" alt=" " /></a>
+                                <h3 class="title">
+                                    <a href="/Home/NewsDetails/@classified.Title" hidefocus="true">@title</a>
+                                </h3>
+                                <p>
+                                    @Html.Raw(summary)
+                                </p>
+                            </li>
+                        }
+                    </ul>
+                </div>
+                <div class="col-md-12">
+                    <p>Events</p>
+                    <ul class="item-listing">
+                        @foreach (var item in Model.EventList)
+                        {
+
+                            var title = item.Title.Length > 48 ? item.Title.Substring(0, 45) + "..." : item.Title;
+                            var summary = item.Summary.Length > 100 ? item.Summary.Substring(0, 100) + "..." : item.Summary;
+                            var photoUrl = "/images/noImage.jpg";
+                            if (item.EventPhotos != null)
+                            {
+                                var photos = item.EventPhotos.FirstOrDefault();
+                                if (photos != null)
+                                {
+                                    photoUrl = photos.ThumbPath;
+                                }
+                            }
+                            @*<div class="wp-block article list">
+                                    <div class="article-image" style="width: 20%;">
+                                        <img src="@photoUrl" alt="" class="img-responsive">
+                                    </div>
+                                    <div class="wp-block-body">
+                                        <h3 class="title">
+                                            <a href="/Home/NewsDetails/@item.EzEventsId" hidefocus="true">@title</a>
+                                        </h3>
+                                        <p>
+                                            @summary
+                                        </p>
+                                    </div>
+                                </div>*@
+                            <li class="clearfix">
+                                <a href="/Home/NewsDetails/@item.TitleUrl" class="post-thumb"><img src="@photoUrl" alt=" " /></a>
+                                <h3 class="title">
+                                    <a href="/Home/NewsDetails/@item.TitleUrl" hidefocus="true">@title</a>
+                                </h3>
+                                <p>
+                                    @Html.Raw(summary)
+                                </p>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+
+        </div>
+    </div>
+</div>

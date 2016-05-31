@@ -1,0 +1,127 @@
+﻿@model List<MyOnlineClinic.Web.Models.DeviceViewModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Organizations/Views/Shared/_OrganizationLayout.cshtml";
+}
+@using MyOnlineClinic.Entity;
+@using MyOnlineClinic.Web.Helper;
+@using MyOnlineClinic.Web.Models;
+@{
+    var usermodel = ViewBag.LoginUserModel as LoginUserViewModel;
+}
+<section class="content-header" style="margin-top:45px;">
+    <h1 class="underline21">
+        Find Device
+    </h1>
+    <ol class="breadcrumb">
+        @if (MyOnlineClinic.Web.Helper.PermissionHelper.CheckPermission("Add Devices", (int)MyOnlineClinic.Entity.ModuleNames.ManageDevices, usermodel.LoginId))
+        {
+            <li style="margin-right: -10px !important;"><button type="button" id="btnDelete" class="btn btn-success new">Add New Device</button></li>
+        }
+        @if (MyOnlineClinic.Web.Helper.PermissionHelper.CheckPermission("Assign Devices", (int)MyOnlineClinic.Entity.ModuleNames.ManageDevices, usermodel.LoginId))
+        {
+            <li style="margin-right: -10px !important;"><button type="button" id="btnActivate" class="btn btn-success new">Assign Device</button></li>
+        }
+        @if (MyOnlineClinic.Web.Helper.PermissionHelper.CheckPermission("Active/Inactive Devices", (int)MyOnlineClinic.Entity.ModuleNames.ManageDevices, usermodel.LoginId))
+        {
+            <li style="margin-right: -10px !important;"><button type="button" class="btn btn-success new">Inactive</button></li>
+        }
+        <li style="margin-right: 5px !important;"><button type="button" id="btnBack" class="btn btn-success new">Back</button></li>
+    </ol>
+</section>
+<div class="row">
+    @{MyOnlineClinic.Web.Models.SearchParametersViewModel objSearchModel = new MyOnlineClinic.Web.Models.SearchParametersViewModel();
+    objSearchModel.ActionName = "Index";
+    objSearchModel.ControllerName = "ManageDevice";
+    objSearchModel.AreaName = "Admin";
+    objSearchModel.ShowDeviceName = true;
+    objSearchModel.ShowDeviceNumber = true;
+    objSearchModel.ShowPatientName = true;
+    objSearchModel.ShowAssignDate = true;
+    // objSearchModel.ShowPatientName = true;
+    //  objSearchModel.ShowPostCode = false;
+
+    objSearchModel.PageTitle = "Device";
+    }
+    @{Html.RenderPartial("_SearchPartial", objSearchModel);}
+</div>
+
+
+<div class="container-fulid">
+    <div class="row">
+        <div class="col-md-12 thirteen_layer">
+            <div class="table-responsive data">
+                <table id="mytable" class="table table-hover table-bordered">
+                    <thead style="color:#fff;">
+                        <tr>
+                            <th class="top">No.</th>
+                            <th class="top">Logo</th>
+                            <th class="top">Name</th>
+                            <th class="top">Number</th>
+                            <th class="top">Created Date</th>
+                            <th class="top">Status</th>
+                            <th class="top"><input type="checkbox" id="checkall" style="box-shadow: none !important;" /><span style="margin-left:3px;">Action</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{ int count = 1;}
+                        @foreach (var item in Model)
+                        {
+
+                            <tr class="info">
+                                <td>@count</td>
+                                <td><img src="@item.ProfilePic" class="img-circle img-responsive" /></td>
+
+                                <td>@item.DeviceName</td>
+                                <td>@item.DeviceNumber</td>
+                                <td>@item.TimeZoneDisplayName<br />@item.CreatedDateInString</td>
+                                <td>
+                                    <div class="btn-group btn-toggle">
+                                        <button class="btn btn-xs btn-default">ON</button>
+                                        <button class="btn btn-xs btn-danger active">OFF</button>
+                                    </div>
+                                </td>
+                                <td>
+                                    <ul class="list-inline" style="position:relative;top:10px;">
+                                        @if (MyOnlineClinic.Web.Helper.PermissionHelper.CheckPermission("Active/Inactive Devices", (int)MyOnlineClinic.Entity.ModuleNames.ManageDevices, usermodel.LoginId))
+                                        {
+                                            <li><input type="checkbox" class="checkthis" style="width: 24px; height: 23px; box-shadow: none !important;" /></li>
+                                        }
+                                        @if (MyOnlineClinic.Web.Helper.PermissionHelper.CheckPermission("Edit Devices", (int)MyOnlineClinic.Entity.ModuleNames.ManageDevices, usermodel.LoginId))
+                                        {
+                                            <li><p data-placement="top" data-toggle="tooltip" title="Edit"><a href="/Organizations/ManageDevice/add/@item.PatientDeviceId"><button class="btn btn-primary btn-xs edit"><span class="glyphicon glyphicon-pencil"></span></button></a></p></li>
+                                        }
+                                    </ul>
+                                </td>
+                            </tr>
+                                        count = count + 1;
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script src="~/AdminAssets/js/datatables/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+        var oTable = $('#example').dataTable({
+            "bProcessing": true,
+            "iDisplayLength": 10,
+            "bPaginate": true,
+            "sPaginationType": "full_numbers",
+            "bSort": false
+        });
+        $('[data-toggle="tooltip"]').tooltip();
+        $("#btnDelete").click(function () {
+            window.location.href = "/Organizations/ManageDevice/add";
+        });
+        $("#btnActivate").click(function () {
+            window.location.href = "/Organizations/ManageDevice/Assign";
+        });
+    })
+</script>
+
+
+

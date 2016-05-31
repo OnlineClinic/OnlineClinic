@@ -1,0 +1,53 @@
+﻿@model List<MyOnlineClinic.Entity.LookUpCompany>
+@{
+    Layout = null;
+}
+@if (Model.Count > 0)
+{
+    foreach (var item in Model)
+    {
+        var companyName = item.LookUpCompanyName.Length > 25 ? item.LookUpCompanyName.Substring(0, 25) + "..." : item.LookUpCompanyName;
+        var morada = item.Morada.Length > 45 ? item.Morada.Substring(0, 45) + "..." : item.Morada;
+        var classifiedImageUrl = "/images/noImage.jpg";
+        if (item.CompanyLogo != null)
+        {
+            var newsPhotos = item.CompanyLogo;
+            if (newsPhotos != null)
+            {
+                classifiedImageUrl = newsPhotos.Replace("/images/", "/UploadedFiles/");
+            }
+        }
+
+        <div class="col-md-6">
+            <div class="wp-block featured article list">
+                <div class="wp-block-body">
+                    <div class="article-image">
+                        <img src="@classifiedImageUrl" alt="">
+                    </div>
+                    <div class="wp-block-content">
+                        <p class="title">
+                            <a href="/home/empressadetail/@item.LookUpCompanyId" hidefocus="true">@companyName</a>
+                        </p>
+                        <p>
+                            @morada
+                        </p>
+                        <p>
+                            @item.CodPostal
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*<div class="widget-recent widget-recent-comments light-gray ba classified-aside">
+                <div class="inner p-15">
+                    <div class="col-md-2">
+                        <a href="#" hidefocus="true"><img src="@classifiedImageUrl" alt="@item.LookUpCompanyName" class="img-responsive"></a>
+                        <span class="comment-author"><a href="#" hidefocus="true">@item.LookUpCompanyName</a></span>
+                    </div>
+                </div>
+            </div>*@
+    }
+}
+
+
+

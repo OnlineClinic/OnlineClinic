@@ -1,0 +1,10 @@
+﻿@model List<MyOnlineClinic.Entity.LookUpState>
+
+
+<ul>
+    @foreach (var item in Model)
+{
+    <a href="/home/Empresas?distrito=@item.LookUpStateName">@item.LookUpStateName</a>
+}
+</ul>
+

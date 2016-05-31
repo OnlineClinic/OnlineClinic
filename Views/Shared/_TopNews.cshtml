@@ -1,0 +1,110 @@
+﻿@model List<MyOnlineClinic.Entity.News>
+@{
+    var siteUrl = System.Web.Configuration.WebConfigurationManager.AppSettings["SiteUrl"];
+}
+@if (Model.Count > 0)
+{
+    @*<div class="section-title-wr">
+            <h3 class="section-title left"><span></span></h3>
+            <div class="aux-nav">
+                <a href="#"> <i class="fa fa-paperclip"></i> See all News</a>
+            </div>
+        </div>*@
+
+    foreach (var item in Model)
+    {
+        var newsPhotos = item.NewsPhotos.FirstOrDefault();
+        var title = item.Title.Length > 28 ? item.Title.Substring(0, 28) + "..." : item.Title;
+        var newsSummary = item.Summary.Length > 130 ? item.Summary.Substring(0, 130) + "..." : item.Summary;
+        var newsImageUrl = "/images/noImage.jpg";
+        if (newsPhotos != null)
+        {
+            newsImageUrl = siteUrl+"UploadedFiles/NewsPhoto/image/" + newsPhotos.ImagePath;
+        }
+        <div class="row">
+            <div class="col-md-12">
+                <div class="wp-block article list">
+                    <div class="article-image">
+                        <img src="@newsImageUrl" alt="" />
+                    </div>
+                    <div class="wp-block-body">
+                        @switch (item.NewsSubCategory.LookUpNewsCategory.LookUpNewsCategoryName)
+                        { 
+                            case "Dinheiro":
+                            <h4 class="article-label text-caps base-alt" id="@ViewBag.Name">Dinheiro</h4>
+                            break;
+                            
+                            case "Tecnologia":
+                            <h4 class="article-label text-caps base-alt red" id="@ViewBag.Name">Tecnologia</h4>
+                            break;
+                            
+                            case "Entretenimento":
+                            <h4 class="article-label text-caps base-alt yellow" id="@ViewBag.Name">Entretenimento</h4>
+                            break;
+                            
+                            case "Carros":
+                            <h4 class="article-label text-caps base-alt orange" id="@ViewBag.Name">Carros</h4>
+                            break;
+                            case "Atualidade":
+                            <h4 class="article-label text-caps base-alt base" id="@ViewBag.Name">Atualidade</h4>
+                            break;
+                            case "Mundo":
+                            <h4 class="article-label text-caps base-alt base" id="@ViewBag.Name">Mundo</h4>
+                            break;
+                        }
+                       
+                       
+                        @*else if (ViewBag.Name == "Entretenimento")
+                        {
+                            <h4 class="article-label text-caps base-alt yellow" id="@ViewBag.Name">@ViewBag.Name</h4>
+                        }
+                        else if (ViewBag.Name == "Carros")
+                        {
+                            <h4 class="article-label text-caps base-alt orange" id="@ViewBag.Name">@ViewBag.Name</h4>
+                        }*@
+                        @*else if (ViewBag.Name == "Atualidade")
+                        {
+                            <h4 class="article-label text-caps base-alt base" id="@ViewBag.Name">@ViewBag.Name</h4>
+                        }
+                        else if (ViewBag.Name == "Mundo")
+                        {
+                            <h4 class="article-label text-caps base-alt base" id="@ViewBag.Name">@ViewBag.Name</h4>
+                        }*@
+                        <h3 class="title">
+                            <a href="javascript:void(0);" data-category=@ViewBag.Name data-titleurl="@item.TitleUrl" class="category-news" title="Continue reading">@title</a>
+                        </h3>
+                        <p>
+                            @newsSummary <small><a href="javascript:void(0);" data-category=@ViewBag.Name data-titleurl="@item.TitleUrl" class="category-news" title="Continue reading">Ler Mais..</a></small>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
+
+<script>
+    $(document).ready(function () {
+        switch ('@ViewBag.Name'.toLowerCase())
+        {
+            case 'dinheiro':
+                $("#" + '@ViewBag.Name' + "").addClass("red");
+                break;
+            case 'tecnologia':
+                $("#" + '@ViewBag.Name' + "").addClass("yellow");
+                break;
+            case 'entretenimento':
+                $("#" + '@ViewBag.Name' + "").addClass("orange");
+                break;
+            case 'carros':
+                $("#" + '@ViewBag.Name' + "").addClass("blue");
+                break;
+            case 'atualidade':
+                $("#" + '@ViewBag.Name' + "").addClass("purple");
+                break;
+            case 'mundo':
+                $("#" + '@ViewBag.Name' + "").addClass("brown");
+                break;
+        }
+    });
+</script>

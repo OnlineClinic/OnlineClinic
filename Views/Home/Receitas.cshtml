@@ -1,0 +1,82 @@
+﻿@model PagedList.IPagedList<MyOnlineClinic.Entity.Recipes>
+@using PagedList.Mvc
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8" id="main">
+
+                <div class="row">
+                    <div class="col-sm-12 full-img">
+                        <img src="~/images/boacomida_hr.jpg" />
+                    </div>
+                </div>
+
+                <div class="navbar-collapse collapse inner-nav mb-15" style="margin-top:0px !important;">
+                    <ul class="nav navbar-nav navbar-left">
+                        @{
+                            foreach (var recCat in ViewBag.lstRecipesCategory)
+                            {
+                                <li><a href="@Url.Action("receitas", "Home", new { @category = recCat.CategoryName })">@recCat.CategoryName</a></li>
+                            }
+                        }
+                    </ul>
+                </div>
+
+
+                <div class="row">
+                    @if (Model.Count > 0)
+                    {
+                        foreach (var recipe in Model)
+                        {
+                            var recipeImageUrl = string.Empty;
+                            if (recipe.RecipePhotos.FirstOrDefault() != null)
+                            {
+                                recipeImageUrl = "/UploadedFiles/RecepiesPhotos/Image/" + recipe.RecipePhotos.FirstOrDefault().ImagePath;
+                            }
+                            <div class="col-md-4">
+                                <div class="wp-block article receitas-list-img">
+                                    <div class="article-image">
+                                        <img src="@recipeImageUrl" class="newsimg" alt="@recipe.SlugTitle">
+                                        <h4 class="article-label text-caps base-alt" id="@ViewBag.Name">@recipe.RecipeCategory.CategoryName</h4>
+                                    </div>
+                                    <h3 class="title">
+                                        @*<strong>@Html.ActionLink(recipe.Title, "receitas", new {Id = recipe.RecipeId, recipename = recipe.CategoryName, subcategory = recipe.Title.Replace(" ", "_")}, htmlAttributes: new {style = "text-decoration: none"})</strong>*@
+                                        <a href="/Receitas/@recipe.SlugTitle">@recipe.Title</a>
+                                    </h3>
+                                </div>
+                            </div>
+                        }
+                        <div class="col-md-12" id="divPager">
+                            @Html.PagedListPager(Model, page => Url.Action("receitas", new { Page = page, @category = ViewBag.Name, @subcategory = ViewBag.SubCategory }))
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-md-12">
+                            <div style="color: red; font-weight: bold; margin-top: 20px;">No record found</div>
+                        </div>
+                    }
+
+                </div>
+            </div>
+
+            <div class="col-md-4" id="sidebar">
+                @{Html.RenderAction("Banner", "Home", new { @page = "RECEITAS", @bannerType = "RightSide1" });}
+
+                @{Html.RenderAction("Banner", "Home", new { @page = "RECEITAS", @bannerType = "RightSide2" });}
+                <!-- Category news 1 -->
+                <div class="section-title-wr">
+                    <h3 class="section-title left"><span>MERCADO</span></h3>
+                </div>
+
+                <div class="mb-20">
+                    @{Html.RenderAction("Mercado", "Home");}
+                </div>
+
+                @{Html.RenderAction("Banner", "Home", new { @page = "RECEITAS", @bannerType = "RightSide3" });}
+
+                @{Html.RenderAction("Banner", "Home", new { @page = "RECEITAS", @bannerType = "RightSide4" });}
+            </div>
+        </div>
+    </div>
+</section>

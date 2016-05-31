@@ -1,0 +1,164 @@
+﻿@model List<MyOnlineClinic.Web.Models.UnregisteredClinicViewModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Organizations/Views/Shared/_OrganizationLayout.cshtml";
+}
+<section class="content-header" style="margin-top:45px;">
+    <h1 class="underline6">
+        Unapproved Clinic List
+    </h1>
+    <ol class="breadcrumb">
+        <li style="margin-right: 5px !important;"><button type="submit" class="btn btn-success new" id="btnBack">Back</button></li>
+    </ol>
+</section>
+<div class="container-fulid">
+    <div class="row">
+        <div class="col-md-12 ten_layer">
+            <div class="table-responsive data">
+                <table id="mytable" class="table table-hover table-bordered">
+                    <thead style="color:#fff;">
+                        <tr>
+                            <th class="top">No.</th>
+                            <th class="top">Organisation Name</th>
+                            <th class="top">Name</th>
+                            <th class="top">Address </th>
+                            <th class="top">Added By</th>
+                            <th class="top">Last Updated</th>
+                            <th class="top">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{ int count = 1;}
+                        @foreach (var item in Model)
+                        {
+                            <tr class="info">
+                                <td>@count</td>
+                                <td>MOC</td>
+                                <td>@item.Name</td>
+                                <td>@item.AddressLine1</td>
+                                <td>@item.addedby</td>
+                                <td>@item.ModifiedDate</td>
+
+                                <td>
+
+
+                                    <ul class="list-inline" style="position:relative;top:10px;">
+                                        <li><p data-placement="top" data-toggle="tooltip" title="Edit"><a href="/Organizations/UnregisteredClinic/Edit/@item.Id"><button class="btn btn-primary btn-xs edit"><span class="glyphicon glyphicon-pencil"></span></button></a></p></li>
+                                        <li><p data-placement="top" data-toggle="tooltip" title="Details"><a href="#" data-toggle="modal" data-target="#myModal"><button class="btn btn-info btn-xs edit"><span class="glyphicon glyphicon-info-sign"></span></button></a></p></li>
+                                        <li>
+                                            <div class="btn-group btn-toggle" style="margin-top:-19px;">
+                                                <a href="/Organizations/UnregisteredClinic/Lock/@item.Id">
+                                                    <button class="btn btn-xs btn-default" style="height:26px;">Lock</button>
+                                                </a>
+                                                <a href="/Organizations/UnregisteredClinic/Edit/@item.Id" style="margin-left:-4px;"><button class="btn btn-xs btn-danger active" style="height:26px;">Unlock</button></a>
+                                            </div>
+                                        </li>
+                                    </ul>
+
+                                    @*<p data-placement="top" data-toggle="tooltip" title="Details"><a href="details.html"><button class="btn btn-info btn-xs edit"><span class="glyphicon glyphicon-info-sign"></span></button></a></p>*@
+
+                                </td>
+                            </tr>
+                            count = count + 1;
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <br />
+    <br />
+    <br />
+</div>
+<script src="~/AdminAssets/js/datatables/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+
+
+        if ('@ViewBag.Message' != '') {
+            alert('@ViewBag.Message');
+        }
+    });
+    $(document).ready(function () {
+        var oTable = $('#example').dataTable({
+            "bProcessing": true,
+            "iDisplayLength": 10,
+            "bPaginate": true,
+            "sPaginationType": "full_numbers"
+        });
+        $('[data-toggle="tooltip"]').tooltip();
+        $("#btnNew").click(function () {
+           // window.location.href = "/admin/City/add";
+
+            //ViewBag.errormsg
+        });
+        DisableButton();
+        var favorite = [];
+        $("#selecctall").click(function (event) {  //on click
+            if (this.checked) {
+                $("input[name='UserApproval']").each(function () { //loop through each checkbox
+                    if (this.checked !== true) {
+                        this.checked = true;  //select all checkboxes with class "checkbox1"
+                        favorite.push($(this).val());
+                    }
+                });
+            } else {
+                $("input[name='UserApproval']").each(function () { //loop through each checkbox
+                    this.checked = false; //deselect all checkboxes with class "checkbox1"
+                    favorite.pop($(this).val());
+                });
+            }
+            $("#serviceIds").val(favorite);
+            $("#ActivateIds").val(favorite);
+            DisableButton();
+
+        });
+
+         $(document).on('click', "input[name='UserApproval']", function (event) {
+            if (this.checked == true) {
+                favorite.push($(this).val());
+            }
+            else {
+                favorite.pop();
+            }
+            $("#serviceIds").val(favorite);
+            $("#ActivateIds").val(favorite);
+            DisableButton();
+        });
+
+        $("#btnDelete").click(function () {
+            var options = {
+                "backdrop": "static"
+            };
+            $('#basicModal').modal(options);
+        });
+
+        $("#btnActivate").click(function () {
+            var options = {
+                "backdrop": "static"
+            };
+            $('#ActivateModal').modal(options);
+        });
+        $("#btnBack").on("click", function () {
+            window.history.back();
+        });
+    });
+
+    function DisableButton() {
+        if ($("#serviceIds").val() == '') {
+            $("#btnDelete").attr('disabled', 'disabled');
+        }
+        else {
+            $("#btnDelete").removeAttr('disabled', 'disabled');
+        }
+        if ($("#ActivateIds").val() == '') {
+            $("#btnActivate").attr('disabled', 'disabled');
+        }
+        else {
+            $("#btnActivate").removeAttr('disabled', 'disabled');
+        }
+    }
+
+
+</script>
+

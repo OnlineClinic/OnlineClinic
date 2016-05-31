@@ -1,0 +1,32 @@
+﻿@{
+    var path = HttpContext.Current.Request.Url.AbsolutePath;
+    var topMenu = new MenuHelper().menuItems;
+}
+
+<div class="col-lg-6 col-md-6 col-sm-9">
+    <div class="menuarea">
+        <ul class="slimmenu">
+            @foreach (var item in topMenu)
+            {
+                string activeClass = string.Empty;
+                if (((path == "/" || path.Contains("Home")) && item.Key == "Home") || path.Contains(item.Key))
+                {
+                    activeClass = "active";
+                }
+                if (item.Value == "#btdivces")
+                {
+                    <li class="dropdown dropdown-meganav mega-dropdown-fluid @activeClass">
+                        <a href="@item.Value" class="animate-click top-menu">@item.Key</a>
+                    </li>
+                }
+                else
+                {
+                    <li class="dropdown dropdown-meganav mega-dropdown-fluid @activeClass">
+                        <a href="@Url.Action(item.Key, item.Value)" class="animate-click top-menu">@item.Key</a>
+                    </li>
+                }
+            }
+        </ul>
+    </div>
+</div>
+

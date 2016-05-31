@@ -1,0 +1,315 @@
+
+body {
+    background: url("../mocimages/bg.jpg") no-repeat scroll center top / cover rgba(0, 0, 0, 0);
+}
+body, input, textarea, select {
+    font-family: "Myriad Pro";
+    font-size: 14px;
+    font-weight: 300;
+    margin: 0;
+    padding: 0;
+}
+.clear {
+    clear: both;
+    display: block;
+    height: 10px;
+    overflow: hidden;
+    visibility: hidden;
+    width: 0;
+}
+a {
+    text-decoration: none;
+}
+img {
+    border: medium none;
+    max-width: 100%;
+}
+.main {
+    margin: 0 auto;
+    width: 70%;
+}
+.header {
+    float: left;
+    margin: 15px 0;
+    width: 100%;
+}
+.logo {
+    float: right;
+}
+.site_name {
+    float: left;
+    margin-top: 60px;
+    width: 100%;
+}
+.site_name h1 {
+    background-color: #231f1f;
+    border-radius: 30px 30px 30px 0;
+    box-sizing: border-box;
+    color: #fff;
+    font-family: "Trebuchet MS";
+    font-size: 42px;
+    font-weight: normal;
+    margin: 0;
+    padding: 20px 5px;
+    text-align: center;
+    width: 360px;
+}
+.telemedicine_bx {
+    float: left;
+    margin: 0;
+    width: 100%;
+}
+.telemedicine_bx h2 {
+    background-color: #77bfbc;
+    border-radius: 30px 30px 0;
+    box-sizing: border-box;
+    color: #fff;
+    font-family: "Trebuchet MS";
+    font-size: 40px;
+    font-weight: normal;
+    line-height: 35px;
+    margin: 10px 0;
+    padding: 25px;
+    width: 360px;
+}
+.screen_img {
+    float: left;
+    margin-top: 15px;
+    width: 80%;
+}
+.doctor_img {
+    background-image: url("../mocimages/doctor_img.png");
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    height: 540px;
+    margin-top: 105px;
+    position: absolute;
+    right: 0;
+    width: 45%;
+    z-index: -1;
+}
+.comingsoon_line {
+    background-image: url("../mocimages/line_bg.png");
+    border-bottom: 1px solid rgb(0, 0, 0);
+    float: left;
+    height: 155px;
+    margin-top: 1px;
+    position: relative;
+    width: 100%;
+}
+.coming_soon_text {
+    float: left;
+    margin-top: 25px;
+    width: 100%;
+}
+.newsletter_bx {
+    float: left;
+    margin-left: 15px;
+    margin-top: 25px;
+    text-align: left;
+}
+.dvLogin {
+    float: right;
+    position: absolute;
+    right: 0;
+    top: 10px;
+}
+.newsletter_bx h2 {
+    color: #fff;
+    float: left;
+    font-size: 46px;
+    line-height: 46px;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+}
+.news_text {
+    color: #fff;
+    float: left;
+    font-family: "Trebuchet MS";
+    font-size: 13px;
+    font-weight: bold;
+    text-align: center;
+}
+.news_input_bx {
+    float: left;
+    margin-top: 7px;
+    width: 100%;
+}
+.input_text {
+    border: 1px solid #fff;
+    border-radius: 5px;
+    box-sizing: border-box;
+    color: #9b9b9b;
+    float: left;
+    font-size: 14px;
+    padding: 8px 10px;
+    width: 200px;
+}
+.send_btn {
+    background-color: #000;
+    border: 1px solid #000;
+    border-radius: 0 6px 6px 0;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    float: left;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 7px 15px;
+}
+.footer_bx {
+    float: left;
+    margin-bottom: 10px;
+    margin-top: 45px;
+    width: 100%;
+}
+.copyright_txt {
+    color: #fff;
+    float: right;
+    font-family: Trebuchet MS;
+    font-size: 15px;
+    font-weight: bold;
+    margin-right: 5px;
+    margin-top: 30px;
+}
+.social_bx {
+    float: left;
+    margin-left: 15px;
+    margin-top: 15px;
+}
+.social_bx a {
+    float: right;
+    margin-right: 3px;
+}
+.social_bx img {
+    width: 34px;
+}
+.Sign_up_bnew {
+    float: left;
+    margin-top: 15px;
+    position: relative;
+    width: 40%;
+}
+.new_link1 {
+    background: none repeat scroll 0 0 #000;
+    border: 0 solid #959595;
+    border-radius: 5px;
+    color: #fff;
+    float: left;
+    font-family: "Trebuchet MS";
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 30px;
+    padding: 3px 18px;
+    text-transform: uppercase;
+}
+.both_links {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.4);
+    border-radius: 1px 10px 10px 0;
+    display: none;
+    float: left;
+    left: 215px;
+    padding: 8px 8px 3px;
+    position: absolute;
+    width: 173px;
+}
+.both_links a {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0.4);
+    border: 1px solid #fff;
+    border-radius: 5px;
+    box-sizing: border-box;
+    color: #fff;
+    float: left;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 27px;
+    margin-bottom: 5px;
+    padding: 2px 0 0;
+    text-align: center;
+    text-transform: uppercase;
+    width: 100%;
+}
+.left_side_from {
+    float: left;
+    margin-left: 15px;
+    margin-top: 25px;
+    min-height: 330px;
+    text-align: left;
+    width: 400px;
+}
+.title_txt {
+    float: left;
+    font-size: 30px;
+    width: 100%;
+}
+.from_bx {
+    background: none repeat scroll 0 0 rgba(255, 255, 255, 0.4);
+    box-sizing: border-box;
+    float: left;
+    padding: 20px 15px 10px;
+    width: 100%;
+}
+.tr_tx {
+    float: left;
+    margin-bottom: 10px;
+    width: 100%;
+}
+.lbl_txt {
+    color: #fff;
+    float: left;
+    font-size: 14px;
+    width: 140px; line-height: 26px;
+}
+.input_txt {
+    border: 1px solid #ffffff;
+    box-sizing: border-box;
+    float: left;
+    padding: 3px;
+    width: 200px;
+}
+.download_txt {
+    float: left;
+}
+.download_txt a {
+    background-color: #000;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    color: #fff;
+    float: left;
+    font-size: 14px;
+    line-height: 18px;
+    margin-right: 4px;
+    padding: 5px 15px 2px 10px;
+}
+.input_sReset {
+      background: none repeat scroll 0 0 #000;
+    border: 1px solid #ccc;
+    color: #fff;
+    float: left;
+    font-size: 14px;
+    font-weight: bold;
+    margin-left: 10px;
+    padding: 6px 10px 2px;
+    text-transform: uppercase;
+    cursor:pointer;
+}
+.input_submit {
+    background: none repeat scroll 0 0 #000;
+    border: 1px solid #ccc;
+    color: #fff;
+    float: left;
+    font-size: 14px;
+    font-weight: bold;
+    margin-left: 140px;
+    padding: 6px 10px 2px;
+    text-transform: uppercase;
+    cursor:pointer;
+}
+@media only screen and (min-width: 1200px) {
+.main {
+    margin: 0 auto;
+    position: relative;
+    width: 1100px;
+}
+}

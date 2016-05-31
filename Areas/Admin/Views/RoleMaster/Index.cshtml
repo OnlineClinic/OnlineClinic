@@ -1,0 +1,233 @@
+﻿@model List<MyOnlineClinic.Entity.LookUpUserRoles>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<style>
+    div.dataTables_paginate {
+        float: right;
+        /*margin: 50px;*/
+    }
+
+    .sorting, .sorting_asc, .sorting_desc {
+        background: none;
+    }
+
+    div {
+        text-transform: capitalize;
+    }
+</style>
+<section class="content-header" style="margin-top:45px;">
+    <h1 class="underline54">
+        Roles List
+    </h1>
+    <ol class="breadcrumb">
+        <li style="margin-right: -10px !important;"><button type="button" id="btnNew" class="btn btn-success new">Add New </button></li>
+        <li style="margin-right: -10px !important;"><button type="button" id="btnActivate" class="btn btn-success new">Activate</button></li>
+        <li style="margin-right: -10px !important;"><button type="button" id="btnDelete" class="btn btn-success new">Inactive</button></li>
+        <li style="margin-right: 5px !important;"><button type="button" id="btnBack" class="btn btn-success new">Back</button></li>
+    </ol>
+</section>
+<div class="container-fulid">
+    <div class="row">
+        <div class="col-md-12 thirteen_layer">
+            <div class="table-responsive data">
+                <table id="mytable" class="table table-hover table-bordered">
+
+                    <thead style="color:#fff;">
+                        <tr>
+
+                            <th class="top">No.</th>
+                            <th class="top">Name</th>
+                            <th class="top">Staff Role For</th>
+                            <th class="top">Status</th>
+                            <th class="top"><input type="checkbox" id="selecctall" style="box-shadow: none !important;" /><span style="margin-left:3px;">Action</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{ int count = 1;}
+                        @foreach (var item in Model)
+                        {
+                            <tr class="info">
+                                <td>@count</td>
+                                <td>@item.RoleName</td>
+                                <td>@item.RoleType.RoleTypeName</td>
+                                <td>
+                                    <div class="btn-group btn-toggle">
+                                        @if (item.IsActive)
+                                        {
+                                            <button class="btn btn-xs btn-primary" id="on">ON</button>
+                                            <button class="btn btn-xs btn-default ">OFF</button>
+
+                                        }
+                                        else
+                                        {
+                                            <button class="btn btn-xs btn-default">ON</button>
+                                            <button class="btn btn-xs btn-danger" id="off">OFF</button>
+                                        }
+                                    </div>
+                                </td>
+                                <td>
+                                    <ul class="list-inline" style="position:relative;top:10px;">
+                                        <li><input type="checkbox" class="checkthis" name="UserApproval" data-role=@item.IsActive value=@item.Id style="width: 24px; height: 23px; box-shadow: none !important;" /></li>
+                                        <li><p data-placement="top" data-toggle="tooltip" title="Edit"><a href="/Admin/RoleMaster/add/@item.Id"><button class="btn btn-primary btn-xs edit"><span class="glyphicon glyphicon-pencil"></span></button></a></p></li>
+
+                                    </ul>
+
+
+                                </td>
+
+                            </tr>
+                                        count = count + 1;
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+@using (Html.BeginForm("Inactive", "RoleMaster", FormMethod.Post))
+{
+    <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">
+                        <label id="lblTitle">Inactive Role</label>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div id="CreateEditForm">
+                        <label>Are you sure to Inactive the Role</label>
+                        <input type="text" name="serviceIds" id="serviceIds" style="display: none" />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Ok</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+}
+
+@using (Html.BeginForm("Acitvate", "RoleMaster", FormMethod.Post))
+{
+    <div class="modal fade" id="ActivateModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">
+                        <label id="lblTitle">Activate Role </label>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div id="CreateEditForm">
+                        <label>Are you sure to Active the Role</label>
+                        <input type="text" name="ActivateIds" id="ActivateIds" style="display: none" />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Ok</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+}
+
+<script src="~/AdminAssets/js/datatables/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+        var oTable = $('#mytable').dataTable({
+            "bProcessing": true,
+            "iDisplayLength": 5,
+            "bPaginate": true,
+            "bInfo": false,
+            "bLengthChange": false,
+            "sPaginationType": "full_numbers",
+        });
+        $('[data-toggle="tooltip"]').tooltip();
+        $("#btnNew").click(function () {
+            window.location.href = "/Admin/RoleMaster/add";
+        });
+
+        DisableButton();
+        var favorite = [];
+        $("#selecctall").click(function (event) {  //on click
+            if (this.checked) {
+                $("input[name='UserApproval']").each(function () { //loop through each checkbox
+                    if (this.checked !== true) {
+                        this.checked = true;  //select all checkboxes with class "checkbox1"
+                        favorite.push($(this).val());
+                    }
+                });
+            } else {
+                $("input[name='UserApproval']").each(function () { //loop through each checkbox
+                    this.checked = false; //deselect all checkboxes with class "checkbox1"
+                    favorite.pop($(this).val());
+                });
+            }
+            $("#serviceIds").val(favorite);
+            $("#ActivateIds").val(favorite);
+            DisableButton();
+
+        });
+
+         $(document).on('click', "input[name='UserApproval']", function (event) {
+            if (this.checked == true) {
+                favorite.push($(this).val());
+            }
+            else {
+                favorite.pop();
+            }
+            $("#serviceIds").val(favorite);
+            $("#ActivateIds").val(favorite);
+            DisableButton();
+        });
+
+        $("#btnDelete").click(function () {
+            var options = {
+                "backdrop": "static"
+            };
+            $('#basicModal').modal(options);
+        });
+
+        $("#btnActivate").click(function () {
+            var options = {
+                "backdrop": "static"
+            };
+            $('#ActivateModal').modal(options);
+        });
+        $("#btnBack").on("click", function () {
+            window.history.back();
+        });
+    });
+
+    function DisableButton() {
+        if ($("#serviceIds").val() == '') {
+            $("#btnDelete").attr('disabled', 'disabled');
+        }
+        else {
+            $("#btnDelete").removeAttr('disabled', 'disabled');
+        }
+        if ($("#ActivateIds").val() == '') {
+            $("#btnActivate").attr('disabled', 'disabled');
+        }
+        else {
+            $("#btnActivate").removeAttr('disabled', 'disabled');
+        }
+    }
+</script>
+

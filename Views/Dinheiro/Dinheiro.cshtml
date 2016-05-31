@@ -1,0 +1,200 @@
+﻿@model MyOnlineClinic.Web.Models.NewsViewModel
+@if (Model != null)
+{
+    <section class="slice bg-white">
+        <div class="wp-section shop">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="msg">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="row">
+                            <div class="col-md-12"><input type="button" class="btn-primary pull-right" id="btnback" value="voltar" /></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="product-gallery">
+                                    @if (Model.PhotosList.Count > 0)
+                                    {
+                                        <div class="news-details primary-image">
+                                            <a href="../../UploadedFiles/NewsPhoto/Image/@Model.PhotosList.FirstOrDefault().ImagePath" class="theater" rel="group">
+                                                <img src="../../UploadedFiles/NewsPhoto/Image/@Model.PhotosList.FirstOrDefault().ImagePath" class=" img-responsive" alt="">
+                                            </a>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                            <div class="col-md-7">
+                                <div class="owl-carousel owl-carousel-5 thumbnail-images">
+                                    @if (Model.PhotosList.Count > 0)
+                                    {
+                                        foreach (var image in Model.PhotosList.Take(8).ToList())
+                                        {
+                                            <div class="item">
+                                                <a href="../../UploadedFiles/NewsPhoto/Image/@image.ImagePath" class="theater" rel="group">
+                                                    <img src="../../UploadedFiles/NewsPhoto/Thumb/@image.ThumbPath" style="height:59px;" alt="">
+                                                </a>
+                                            </div>
+                                        }
+                                    }
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                        <div class="row mt-15">
+                            <div class="col-md-12">
+                                <div class="product-info">
+                                    <h3 class="product-title">@Model.Title</h3>
+                                    @Convert.ToDateTime(Model.DateFrom).ToString("dd/MM/yyyy")
+                                    <span class="clearfix"></span>
+                                    <p>
+                                        @Html.Raw(Model.Detail)
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-20">
+                            <div class="col-md-12">
+                                @if (!string.IsNullOrEmpty(Model.Avatar))
+                                {
+                                    <img src="@Model.Avatar" class="img-responsive img-circle" style="height:50px;width:50px;" />
+                                }
+                                else
+                                {
+                                    <img src="~/images/user-profile.jpg" class="img-responsive img-circle" style="height:50px;width:50px;" />
+                                }
+                                <span>@Model.UserName</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table class="table table-bordered table-striped table-hover table-responsive">
+                                    <tbody>
+                                        <tr>
+                                            @if (!string.IsNullOrEmpty(Model.CountryName))
+                                            {
+                                                <td><strong><strong>País:</strong> @Model.CountryName</strong></td>}
+                                            @if (!string.IsNullOrEmpty(Model.DistritoName))
+                                            {
+                                                <td><strong>Distrito:</strong> @Model.DistritoName</td>}
+                                            @if (!string.IsNullOrEmpty(Model.ConcelhoName))
+                                            {
+                                                <td><strong>Concelho:</strong> @Model.ConcelhoName</td>}
+                                            @if (!string.IsNullOrEmpty(Model.FregusiaName))
+                                            {
+                                                <td><strong>Fregusia:</strong> @Model.FregusiaName</td>}
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12 mt-15 mb-15">
+                                <div class="panel-group" id="accordionThree">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h4 class="panel-title">
+                                                <a data-toggle="collapse" data-parent="#accordionThree" href="#collapse3a">
+                                                    Comentários (@Model.CommentsList.Count())
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="collapse3a" class="panel-collapse collapse in">
+                                            <div class="panel-body">
+                                                <div class="col-md-12">
+                                                    @{var count = 1;}
+                                                    @foreach (var item in Model.CommentsList)
+                                                    {
+                                                        if (count > 1)
+                                                        {
+                                                            <hr />
+                                                        }
+                                                        <div class="row mt-5">
+                                                            <div class="col-md-3">
+                                                                <strong>@item.Name</strong>
+                                                                <p>@item.CreatedDate.ToString("dd/MM/yyyy")</p>
+                                                            </div>
+                                                            <div class="col-md-9">
+                                                                @item.UserComments
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12 mt-15 mb-15">
+                                @{
+                                                    var commentModel = new MyOnlineClinic.Web.Models.CommentViewModel();
+                                                    commentModel.RedirectingActionName = "Dinheiro";
+                                                    commentModel.Section = "Dinheiro";
+                                                    commentModel.Title = Model.TitleUrl;
+                                                    commentModel.SectionId = Model.NewsId;
+                                                    { Html.RenderPartial("CommentsPartial", commentModel); }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 faq-banner">
+                        <div class="script-banner">
+                            @{Html.RenderAction("Banner", "Home", new { @page = "INÍCIO", @bannerType = "RightSide1" });}
+
+                            @{Html.RenderAction("Banner", "Home", new { @page = "INÍCIO", @bannerType = "RightSide2" });}
+
+
+
+                            <div class="section-title-wr">
+                                <h3 class="section-title left"><span>MERCADO</span></h3>
+                            </div>
+
+                            <div class="mb-20">
+                                @{Html.RenderAction("Mercado", "Home");}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+        $(document).ready(function () {
+            if ('@ViewBag.Msg' != '') {
+                if ('@ViewBag.Msg' == 'Comentário enviado com sucesso.') {
+                    $(".msg").append("<div class='alert alert-success'>@ViewBag.Msg</div>");
+                    window.setTimeout(function () {
+                        $(".alert-success").fadeTo(500, 0).slideUp(500, function () {
+                            $(this).remove();
+                        });
+                    }, 5000);
+
+                }
+                else {
+                    $(".msg").append("<div class='alert alert-danger'>@ViewBag.Msg</div>");
+                    window.setTimeout(function () {
+                        $(".alert-danger").fadeTo(500, 0).slideUp(500, function () {
+                            $(this).remove();
+                        });
+                    }, 5000);
+                }
+            }
+            $("#btnback").click(function () {
+                window.history.back();
+            });
+
+        });
+    </script>
+}

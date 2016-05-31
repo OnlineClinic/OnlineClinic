@@ -1,0 +1,118 @@
+﻿@*@using MyOnlineClinic.Web.Models;
+@{
+    var userModel = ViewBag.LoginUserModel as LoginUserViewModel;
+
+}*@
+@model MyOnlineClinic.Web.Models.LoginViewModel
+<script src="js/bootstrap-dropdownhover.min.js"></script>
+<div id="toTop">TOP</div>
+
+<div class="header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <div class="logo"> <a href=""> <img src="/images/logo.png" alt="img"> </a>  </div>
+            </div>
+            @Html.Partial("_PartialMenu")
+            <div class="col-lg-2 col-md-2 col-sm-3">
+                <div class="rightnav">
+                    <ul>
+                        <li>
+                            @*<a href="/Account/Login" title="">Login</a>*@
+                            <a href="#" title="" id='modal-launcher' data-toggle="modal" data-target="#login-modal">Login</a>
+                        </li>
+                        <li><a href="#Register" title="">Register</a></li>
+                        @*<li><a href="/Account/RegisterDoctor">Doctor Register</a></li>
+                            <li><a href="/Account/RegisterPatient">Patient Register</a></li>*@
+
+                    </ul>
+                </div>
+            </div>
+            @*<div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" data-hover="dropdown">
+                        Register <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="/Account/RegisterDoctor">Doctor Register</a></li>
+                        <li><a href="/Account/RegisterPatient">Patient Register</a></li>
+
+                    </ul>
+                </div>*@
+
+
+
+        </div>
+    </div>
+    <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header login_modal_header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body login-modal">
+
+                    <div class="clearfix"></div>
+                    <div id='social-icons-conatainer'>
+                        <div class="loginarea loign_popup">
+                            <div class="innerbody_area">
+                                <div class="loginleft_col">
+                                    <h2>Login</h2>
+                                    @using (Html.BeginForm("Login", "Home", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                    {
+                                      
+                                        <span class="text-danger">@TempData["ErrorMessage"]</span>
+                                        <span class="text-success">@ViewBag.SuccessMsg</span>
+                                        @Html.ValidationSummary(true)
+                                        <div class="login_inputarea">
+                                            <div class="input_bx">
+                                                <span class="input_icon"><i class="fa fa-envelope"></i></span>
+                                                @Html.TextBoxFor(m => m.Username, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(m => m.Username)
+                                          
+                                            </div>
+                                        </div>
+
+                                        <div class="login_inputarea">
+                                            <div class="input_bx">
+                                                <span class="input_icon"><i class="fa fa-lock"></i></span>
+                                                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(m => m.Password)
+                                        
+                                            </div>
+                                        </div>
+
+                                        <div class="login_inputarea">
+                                            <div class="input_bx">
+                                                <div class="chack checkboxes">
+                                                    @Html.CheckBoxFor(m => m.RememberMe)
+                                                   
+                                                    <label class="css-label">Remember me </label>
+                                                </div>
+
+                                                <div class="for_got">
+                                                    <a href="#">Forgot password?</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="login_inputarea">
+                                            <div class="input_bx">
+                                                <div class="data_centerd">
+                                                    <input type="submit" value="Login" class="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="clearfix"></div>
+                <div class="modal-footer login_modal_footer">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

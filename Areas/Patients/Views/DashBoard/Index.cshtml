@@ -1,0 +1,965 @@
+﻿@model MyOnlineClinic.Web.Models.RegisterViewModel
+@{
+    ViewBag.Title = "DashBoard";
+    Layout = "/Areas/Patients/Views/Shared/_PatientPartial.cshtml";
+}
+<style>
+    div{
+        text-transform:capitalize;
+    }
+</style>
+<!-- page content -->
+<div id="content-wrapper">
+    <ul id="boxes">
+        <li class="box2_2 sky_color_dark">
+            <div class="box_size2">
+                <span class="play_icon">
+                    <a href="https://youtu.be/IGaqFvDZwSM" target="_blank">
+                        <img src="~/images/play_icon.png" alt="">
+                    </a>
+                </span>
+                <div class="img_box">
+                    <a href="/Patients/DashBoard/updatepatientprofile">
+                        <img src="~/images/100x100/my-details.png" alt="">
+                    </a>
+                </div>
+                <div class="name_box">
+                    <a href="/Patients/DashBoard/updatepatientprofile">
+                        My Profile
+                    </a>
+                </div>
+            </div>
+        </li>
+        <li class="box2_2 sky_color_dark">
+            <div class="box_size2 ">
+                <span class="play_icon">
+                    <a href="https://youtu.be/dqHgiEB3NyM" target="_blank">
+                        <img src="~/images/play_icon.png" alt="">
+                    </a>
+                </span>
+                <div class="img_box">
+                    <a href="/Patients/PatientHistory">
+                        <img src="~/images/100x100/history.png" alt="">
+                    </a>
+                </div>
+                <div class="name_box">
+                    <a href="/Patients/PatientHistory">
+                        My History
+                    </a>
+                </div>
+
+            </div>
+        </li>
+        <li class="box4_4 sky_color_dark">
+            <div class="box_size4">
+                <span class="play_icon">
+                    <a href="https://youtu.be/T1m-bs93XUo" target="_blank">
+                        <img src="~/images/play_icon.png" alt="">
+                    </a>
+                </span>
+                <div class="img_box">
+                    <a href="#">
+                        <img src="~/images/100x100/messages.png" alt="">
+                    </a>
+                </div>
+                <div class="name_box">
+                    <a href="#">My Messages</a>
+                </div>
+            </div>
+        </li>
+        <li class="box3_3 sky_color_dark">
+            <div class="box_size4">
+                <span class="play_icon">
+                    <a href="https://youtu.be/-a-1FYDkQ8g" target="_blank">
+                        <img src="~/images/play_icon.png" alt="">
+                    </a>
+                </span>
+                <div class="img_box">
+                    <a href="#">
+                        <img src="~/images/100x100/book-appointment.png" alt="">
+                    </a>
+                </div>
+                <div class="name_box">
+                    <a href="#">
+                        Book Appointment
+                    </a>
+                </div>
+            </div>
+        </li>
+        <li class="box3_3 sky_color_dark">
+            <div class="box_size4">
+                <div class="img_box">
+                    <a href="#">
+                        <img src="~/images/100x100/prescription.png" alt="">
+                    </a>
+                </div>
+                <div class="name_box">
+                    <a href="#">
+                        Request Prescription
+                    </a>
+                </div>
+            </div>
+        </li>
+        <li class="box4_4 sky_color">
+            <div class="box_size4">
+                <div class="img_box">
+                    <a href="#">
+                        <img src="~/images/100x100/measure-weight.png" alt="">
+                    </a>
+                </div>
+                <div class="name_box">
+                    <a href="#">
+                        Check Weight
+                    </a>
+                </div>
+            </div>
+        </li>
+        <li class="box4_4 sky_color">
+            <div class="box_size4">
+                <div class="img_box">
+                    <a href="#">
+                        <img src="~/images/100x100/measure-oxygen.png" alt="">
+                    </a>
+                </div>
+                <div class="name_box">
+                    <a href="#">
+                        Check Blood Oxygen
+                    </a>
+                </div>
+            </div>
+        </li>
+        <li class="box4_4 sky_color">
+            <div class="box_size4">
+                <div class="img_box">
+                    <a href="#">
+                        <img src="~/images/100x100/measure-temp 2.png" alt="">
+                    </a>
+                </div>
+                <div class="name_box">
+                    <a href="#">
+                        Check Temperature
+                    </a>
+                </div>
+            </div>
+        </li>
+        <li class="box4_4 sky_color">
+            <div class="box_size4">
+                <div class="img_box">
+                    <a href="#">
+                       <img src="~/images/100x100/check-blood-pressure.png" alt=""></a>
+                </div>
+                <div class="name_box">
+                    <a href="#">
+                        Check Blood Pressure
+                    </a>
+                </div>
+            </div>
+        </li>
+        <li class="box4_4 sky_color">
+            <div class="box_size4">
+                <div class="img_box">
+                    <a href="#" onclick="return CheckBloodSugerShowModalPopup()">
+                        <img src="~/images/100x100/measure-blood-sugar.png" alt="">
+                    </a>
+                </div>
+                <div class="name_box">
+                    <a href="#">
+                        Check Blood Sugar
+                    </a>
+                </div>
+            </div>
+        </li>
+        <li class="box4_4 sky_color">
+            <div class="box_size4">
+                <div class="img_box">
+                    <a href="#">
+                        <img src="~/images/100x100/heart and lungs.png" alt="">
+                    </a>
+                </div>
+                <div class="name_box" style="width: 92%;">
+                    <a href="#">
+                        Check Heart & Lung Sounds
+                    </a>
+                </div>
+            </div>
+        </li>
+        <li class="box4_4 gary_color">
+            <div class="box_size4">
+                <span class="play_icon">
+                    <a href="https://youtu.be/OMYYUjLyx1o" target="_blank">
+                        <img src="/images/play_icon.png" alt="">
+                    </a>
+                </span>
+                <div class="img_box">
+                    <a href="#">
+                        <img src="~/images/100x100/test-room.png" alt="">
+                    </a>
+                </div>
+                <div class="name_box">
+                    <a href="#">
+                        Test My Room
+                    </a>
+                </div>
+            </div>
+        </li>
+        <li class="box4_4">
+            <div class="box_size4" style="border: solid 8px gray; box-sizing: border-box; height: 190px;">
+                <div class="img_box img_box_new1">
+                    <a href="#">
+                        <img id="ContentPlaceHolder1_imgUser" src="UploadImage/patient/e30f97df_0c97_41fa_a6a6_2e78c0b9716b.png" style="height:145px;" />
+                    </a>
+                </div>
+            </div>
+        </li>
+        <li class="box4_4 sky_color">
+            <div class="box_size4">
+                <div class="img_box">
+                    <a href="#">
+                        <img src="~/images/100x100/look-mouth.png" alt="">
+                    </a>
+                </div>
+                <div class="name_box">
+                    <a href="#">
+                        Check ENT
+                    </a>
+                </div>
+            </div>
+        </li>
+        <li class="box4_4">
+            <div class="box_size4" align="center" style="border: solid 8px gray; box-sizing: border-box;
+                        height: 190px;">
+                <div class="name_box time_box">
+                    <span id="ContentPlaceHolder1_UpdateTimer" style="visibility:hidden;display:none;"></span>
+                    <div id="ContentPlaceHolder1_TimedPanel">
+
+                        <div id="ContentPlaceHolder1_dvTimer" class="jCountdown ">
+                            <div class="group ">
+                                <div class="container_time">
+                                    <div class="text">
+                                        <span id="ContentPlaceHolder1_lblDayPart1">0</span>
+                                    </div>
+                                </div>
+                                <div class="container_time">
+                                    <div class="text">
+                                        <span id="ContentPlaceHolder1_lblDayPart2">0</span>
+                                    </div>
+                                </div>
+                                <div class="label">
+                                    Day
+                                </div>
+                            </div>
+                            <div class="group ">
+                                <div class="container_time">
+                                    <div class="text">
+                                        <span id="ContentPlaceHolder1_lblHoursPart1">0</span>
+                                    </div>
+                                </div>
+                                <div class="container_time">
+                                    <div class="text">
+                                        <span id="ContentPlaceHolder1_lblHoursPart2">0</span>
+                                    </div>
+                                </div>
+                                <div class="label">
+                                    Hrs
+                                </div>
+                            </div>
+                            <div class="group ">
+                                <div class="container_time">
+                                    <div class="text">
+                                        <span id="ContentPlaceHolder1_lblMinPart1">0</span>
+                                    </div>
+                                </div>
+                                <div class="container_time">
+                                    <div class="text">
+                                        <span id="ContentPlaceHolder1_lblMinPart2">4</span>
+                                    </div>
+                                </div>
+                                <div class="label">
+                                    Min
+                                </div>
+                            </div>
+                            <div class="today_name">
+                                <span id="ContentPlaceHolder1_lblDate">Saturday, 16 Apr 16, 3:15 PM</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li class="box2_2 gary_color">
+            <div class="box_size3">
+                <span class="play_icon">
+                    <a href="https://youtu.be/jtBke8FXfqk" target="_blank">
+                        <img src="~/images/play_icon.png" alt="">
+                    </a>
+                </span>
+                <div class="img_box">
+                    <a href="#">
+                        <img src="~/images/100x100/go-to-appointment.png" alt="">
+                    </a>
+                </div>
+                <a href="#">
+                    <div class="name_box">
+                        <span id="lblGoToMyAppointment">My Future Appointments</span>
+                    </div>
+                </a>
+            </div>
+        </li>
+        <li class="box4_4 sky_color">
+            <div class="box_size4">
+                <div class="img_box">
+                    <a href="#">
+                        <img src="~/images/100x100/check-skin.png" alt="">
+                    </a>
+                </div>
+                <div class="name_box">
+                    <a href="#">
+                        Check Skin
+                    </a>
+                </div>
+            </div>
+        </li>
+        <li class="box4_4 sky_color">
+            <div class="box_size4">
+                <div class="img_box">
+                    <a href="#">
+                        <img src="~/images/100x100/Height.png" alt="">
+                    </a>
+                </div>
+                <div class="name_box">
+                    <a href="#">
+                        Height
+                    </a>
+                </div>
+            </div>
+        </li>
+        <li class="box4_4 sky_color">
+            <div class="box_size4">
+                <div class="img_box">
+                    <a href="#">
+                        <img src="~/images/100x100/waist_circum.png" alt="">
+                    </a>
+                </div>
+                <div class="name_box">
+                    <a href="#">
+                        Waist
+                    </a>
+                </div>
+            </div>
+        </li>
+        <li class="box4_4 sky_color">
+            <div class="box_size4">
+                <div class="img_box">
+                    <a href="#">
+                        <img src="~/images/100x100/ecg.png" alt="">
+                    </a>
+                </div>
+                <div class="name_box">
+                    <a href="#">
+                        ECG
+                    </a>
+                </div>
+            </div>
+        </li>
+        <li class="box4_4 sky_color" style="display: none;">
+            <div class="box_size4">
+                <div class="img_box">
+                    <a href="#">
+                        <img src="~/images/spirometer_icon.png" alt="">
+                    </a>
+                </div>
+                <div class="name_box">
+                    <a href="#">
+                        Spirometer
+                    </a>
+                </div>
+            </div>
+        </li>
+        <li class="box4_4 sky_color_dark">
+            <div class="box_size4">
+                <span class="play_icon">
+                    <a href="https://youtu.be/vcz8b1-Te2w" target="_blank">
+                        <img src="~/images/play_icon.png" alt="">
+                    </a>
+                </span>
+                <div class="img_box">
+                    <a href="#">
+                        <img src="~/images/100x100/report-a-problem.png" alt="">
+                    </a>
+                </div>
+                <a href="#">
+                    <div class="name_box"><span style="color:black; font-size:16px;"> <span style="font-size:24px;">Report a Problem</span> (7)</span></div>
+                </a>
+            </div>
+        </li>
+        <li class="box4_4 sky_color_dark">
+            <div class="box_size4">
+                <span class="play_icon">
+                    <a href="https://youtu.be/bXMeMwztflw" target="_blank">
+                        <img src="~/images/play_icon.png" alt="">
+                    </a>
+                </span>
+                <div class="img_box">
+                    <a href="#">
+                        <img src="~/images/100x100/my-billing.png" alt="">
+                    </a>
+                </div>
+                <div class="name_box">
+                    <a href="#">
+                        My Billing
+                    </a>
+                </div>
+            </div>
+        </li>
+        <li class="box4_4 sky_color_dark">
+            <div class="box_size4">
+                <span class="play_icon">
+                    <a href="https://youtu.be/qQJ-xtsJxGI" target="_blank">
+                        <img src="~/images/play_icon.png" alt="">
+                    </a>
+                </span>
+                <div class="img_box">
+                    <a href="#">
+                        <img src="~/images/100x100/results.png" alt="">
+                    </a>
+                </div>
+                <div class="name_box">
+                    <a href="#">
+                        My Results
+                    </a>
+                </div>
+            </div>
+        </li>
+        <li class="box4_4 sky_color_dark">
+            <div class="box_size4">
+                <span class="play_icon">
+                    <a href="https://youtu.be/aOsNIpMrucw" target="_blank">
+                        <img src="~/images/play_icon.png" alt="">
+                    </a>
+                </span>
+                <div class="img_box">
+                    <a href="#">
+                        <img src="~/images/100x100/contact-us.png" alt="">
+                    </a>
+                </div>
+                <a href="#">
+                    <div class="name_box">
+                        Contact Us
+                    </div>
+                </a>
+            </div>
+        </li>
+    </ul>
+
+</div>
+@*<div class="col-sm-9">
+    <div class="profilebody_rightcol">
+        <div class="profilebodycol_heading">
+            Patient Information
+            <div class="topheading_btnarea">
+                <a class="editbtn" href="dashboard/updatepatientprofile/@Model.MemberId"><i class="fa fa-edit"></i> Edit</a>
+            </div>
+
+        </div>
+        <div class="tab-content">
+            <div class="x_panel">
+                <div class="">
+                    <div class="clearfix"></div>
+                    <div class="form-horizontal form-label-left">
+                        <fieldset style="border: groove 0px; padding: 7px 0px; font-size: 12px; ">
+
+                            <div class="col-md-4 col-xs-12">
+                                <div class="form-horizontal form-label-left">
+
+                                    <div class="item form-group">
+                                        <label class=" col-md-6 col-sm-4 col-xs-12">
+                                            Organization Name:
+                                        </label>
+                                        <div class="col-md-6 col-sm-8 col-xs-12">
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class=" col-md-6 col-sm-4 col-xs-12">
+                                            First Name:
+                                        </label>
+                                        <div class="col-md-6 col-sm-8 col-xs-12">
+                                            @Model.FirstName
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class="col-md-6 col-sm-4 col-xs-12">
+                                            Last Name:
+                                        </label>
+                                        <div class="col-md-6 col-sm-8 col-xs-12">
+                                            @Model.SurName
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class=" col-md-6 col-sm-4 col-xs-12">
+                                            Email:
+                                        </label>
+                                        <div class="col-md-6 col-sm-8 col-xs-12">
+                                            @Model.Email
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class=" col-md-6 col-sm-4 col-xs-12">
+                                            Home Phone :
+                                        </label>
+                                        <div class="col-md-6 col-sm-8 col-xs-12">
+                                            @Model.PhoneNumber
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class=" col-md-6 col-sm-4 col-xs-12">
+                                            Mobile Number:
+                                        </label>
+                                        <div class="col-md-6 col-sm-8 col-xs-12">
+                                            @Model.MobileNumber
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class=" col-md-6 col-sm-4 col-xs-12">
+                                            Gender:
+                                        </label>
+                                        <div class="col-md-6 col-sm-8 col-xs-12">
+                                            @Model.Gender
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class=" col-md-6 col-sm-4 col-xs-12">
+                                            Fax Number:
+                                        </label>
+                                        <div class="col-md-6 col-sm-8 col-xs-12">
+                                            @Model.FaxNumber
+                                        </div>
+                                    </div>
+
+                                    <div class="item form-group">
+                                        <label class=" col-md-6 col-sm-4 col-xs-12">
+                                            Address Line1:
+                                        </label>
+                                        <div class="col-md-6 col-sm-8 col-xs-12">
+                                            @Model.Address1
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class=" col-md-6 col-sm-4 col-xs-12">
+                                            Address Line2:
+                                        </label>
+                                        <div class="col-md-6 col-sm-8 col-xs-12">
+                                            @Model.Address2
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class=" col-md-6 col-sm-4 col-xs-12">
+                                            Country :
+                                        </label>
+                                        <div class="col-md-6 col-sm-8 col-xs-12">
+                                           
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class=" col-md-6 col-sm-4 col-xs-12">
+                                            State :
+                                        </label>
+                                        <div class="col-md-6 col-sm-8 col-xs-12">
+                                           
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class=" col-md-6 col-sm-4 col-xs-12">
+                                            City :
+                                        </label>
+                                        <div class="col-md-6 col-sm-8 col-xs-12">
+                                           
+                                        </div>
+                                    </div>
+
+
+                                    <div class="item form-group">
+                                        <label class=" col-md-6 col-sm-4 col-xs-12">
+                                            Post code:
+                                        </label>
+                                        <div class="col-md-6 col-sm-8 col-xs-12">
+                                            @Model.PostCode
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-xs-12">
+                                <div class="form-horizontal form-label-left">
+                                    <div class="item form-group" style="display:none;">
+                                        <div class="col-md-6 col-sm-8 col-xs-12">
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class=" col-md-6 col-sm-4 col-xs-12">
+                                            Medicare Number :
+                                        </label>
+                                        <div class="col-md-6 col-sm-8 col-xs-12">
+                                            @Model.MedicareNumber
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class=" col-md-6 col-sm-4 col-xs-12">
+                                            Dav Card Color :
+                                        </label>
+                                        <div class="col-md-6 col-sm-8 col-xs-12">
+                                            @Model.DavCardColor
+                                        </div>
+                                    </div>
+
+
+                                    <div class="item form-group">
+                                        <label class=" col-md-6 col-sm-4 col-xs-12">
+                                            Dav Disablities:
+                                        </label>
+                                        <div class="col-md-6 col-sm-8 col-xs-12">
+                                            @Model.DavDisablities
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class=" col-md-6 col-sm-4 col-xs-12">
+                                            Private Fund :
+                                        </label>
+                                        <div class="col-md-6 col-sm-8 col-xs-12">
+                                            @Model.PrivateFund
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class=" col-md-6 col-sm-4 col-xs-12">
+                                            Private Fund Membership No  :
+                                        </label>
+                                        <div class="col-md-6 col-sm-8 col-xs-12">
+                                            @Model.PrivateFundMembershipNo
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class=" col-md-6 col-sm-4 col-xs-12">
+                                            HCC Pansion Number  :
+                                        </label>
+                                        <div class="col-md-6 col-sm-8 col-xs-12">
+                                            @Model.HCCPensionNo
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class=" col-md-6 col-sm-4 col-xs-12">
+                                            HCC Pension No Expiry  :
+                                        </label>
+                                        <div class="col-md-6 col-sm-8 col-xs-12">
+                                            @Model.HCCPensionNoExpiry
+                                        </div>
+                                    </div>
+
+                                    <div class="item form-group" style="color: green; font-size: 14px; ">
+                                        <label class=" col-md-6 col-sm-4 col-xs-12">
+                                            Usual GP Details  :
+                                        </label>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class="col-md-6 col-sm-4 col-xs-12">
+                                            GP Name  :
+                                        </label>
+                                        <div class="col-md-6 col-sm-8 col-xs-12">
+                                            @Model.UsualGPName
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class=" col-md-6 col-sm-4 col-xs-12">
+                                            Address 1 :
+                                        </label>
+                                        <div class="col-md-6 col-sm-8 col-xs-12">
+                                            @Model.UsualGPAddress
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class=" col-md-6 col-sm-4 col-xs-12">
+                                            Address 2  :
+                                        </label>
+                                        <div class="col-md-6 col-sm-8 col-xs-12">
+                                            @Model.GPAddress2
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class=" col-md-6 col-sm-4 col-xs-12">
+                                            Clinic Name  :
+                                        </label>
+                                        <div class="col-md-6 col-sm-8 col-xs-12">
+                                            @Model.UsualGPClinicName
+                                        </div>
+                                    </div>
+
+                                    <div class="item form-group">
+                                        <label class=" col-md-6 col-sm-4 col-xs-12">
+                                            Country :
+                                        </label>
+                                        <div class="col-md-6 col-sm-8 col-xs-12">
+                                            @Model.CountryName
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class="col-md-6 col-sm-4 col-xs-12">
+                                            State :
+                                        </label>
+                                        <div class="col-md-6 col-sm-8 col-xs-12">
+                                            @Model.UsualGpState
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class=" col-md-6 col-sm-4 col-xs-12">
+                                            Post Code  :
+                                        </label>
+                                        <div class="col-md-6 col-sm-8 col-xs-12">
+                                            @Model.UsualGpPostCode
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-xs-12">
+                                <div class="form-horizontal form-label-left">
+                                    <div class="item form-group">
+                                        <label class=" col-md-6 col-sm-4 col-xs-12">
+                                            Ref :
+                                        </label>
+                                        <div class="col-md-6 col-sm-8 col-xs-12">
+                                        </div>
+                                    </div>
+                                    <div class="item form-group" style=" margin-bottom: 41px;">
+                                        <label class=" col-md-6 col-sm-4 col-xs-12">
+                                            Dav Number:
+                                        </label>
+                                        <div class="col-md-6 col-sm-8 col-xs-12">
+                                            @Model.DavNumber
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-9">
+                                    <button type="submit" class="btn btn-primary" onclick="window.history.back()">Back</button>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+
+                </div>
+
+            </div>
+            <div id="menu1" class="tab-pane fade">
+                <div class="col-sm-4">
+                    <div class="dashbord_cta">
+                        <div class="dashbord_ctaicon">
+                            <i class="fa fa-usd"></i>
+                        </div>
+
+                        <div class="dashbord_ctatext">
+                            <span class="dashbord_ctaheading">Consultation Fees</span>
+                            Lorem Ipsum is simply dummy text of the printing.
+
+                        </div>
+
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="dashbord_cta">
+                        <div class="dashbord_ctaicon">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+
+                        <div class="dashbord_ctatext">
+                            <span class="dashbord_ctaheading">Schedule</span>
+                            Lorem Ipsum is simply dummy text of the printing.
+
+                        </div>
+
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="dashbord_cta">
+                        <div class="dashbord_ctaicon">
+                            <i class="fa fa-usd"></i>
+                        </div>
+
+                        <div class="dashbord_ctatext">
+                            <span class="dashbord_ctaheading">Consultation Fees</span>
+                            Lorem Ipsum is simply dummy text of the printing.
+
+                        </div>
+
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="dashbord_cta">
+                        <div class="dashbord_ctaicon">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+
+                        <div class="dashbord_ctatext">
+                            <span class="dashbord_ctaheading">Schedule</span>
+                            Lorem Ipsum is simply dummy text of the printing.
+
+                        </div>
+
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+
+
+            </div>
+
+            <div id="menu2" class="tab-pane fade">
+
+
+
+
+
+                <div class="col-sm-4">
+                    <div class="dashbord_cta">
+                        <div class="dashbord_ctaicon">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+
+                        <div class="dashbord_ctatext">
+                            <span class="dashbord_ctaheading">Schedule</span>
+                            Lorem Ipsum is simply dummy text of the printing.
+
+                        </div>
+
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="dashbord_cta">
+                        <div class="dashbord_ctaicon">
+                            <i class="fa fa-usd"></i>
+                        </div>
+
+                        <div class="dashbord_ctatext">
+                            <span class="dashbord_ctaheading">Consultation Fees</span>
+                            Lorem Ipsum is simply dummy text of the printing.
+
+                        </div>
+
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="dashbord_cta">
+                        <div class="dashbord_ctaicon">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+
+                        <div class="dashbord_ctatext">
+                            <span class="dashbord_ctaheading">Schedule</span>
+                            Lorem Ipsum is simply dummy text of the printing.
+
+                        </div>
+
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+
+
+            </div>
+
+            <div id="menu3" class="tab-pane fade">
+
+
+
+                <div class="col-sm-4">
+                    <div class="dashbord_cta">
+                        <div class="dashbord_ctaicon">
+                            <i class="fa fa-usd"></i>
+                        </div>
+
+                        <div class="dashbord_ctatext">
+                            <span class="dashbord_ctaheading">Consultation Fees</span>
+                            Lorem Ipsum is simply dummy text of the printing.
+
+                        </div>
+
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="dashbord_cta">
+                        <div class="dashbord_ctaicon">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+
+                        <div class="dashbord_ctatext">
+                            <span class="dashbord_ctaheading">Schedule</span>
+                            Lorem Ipsum is simply dummy text of the printing.
+
+                        </div>
+
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+
+
+            </div>
+
+            <div id="menu4" class="tab-pane fade">
+
+                <div class="col-sm-4">
+                    <div class="dashbord_cta">
+                        <div class="dashbord_ctaicon">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+
+                        <div class="dashbord_ctatext">
+                            <span class="dashbord_ctaheading">Schedule</span>
+                            Lorem Ipsum is simply dummy text of the printing.
+
+                        </div>
+
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="dashbord_cta">
+                        <div class="dashbord_ctaicon">
+                            <i class="fa fa-usd"></i>
+                        </div>
+
+                        <div class="dashbord_ctatext">
+                            <span class="dashbord_ctaheading">Consultation Fees</span>
+                            Lorem Ipsum is simply dummy text of the printing.
+
+                        </div>
+
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+
+
+
+
+            </div>
+
+        </div>
+    </div>
+</div>*@
+
+<!-- /page content -->

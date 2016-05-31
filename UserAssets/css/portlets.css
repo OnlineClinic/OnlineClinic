@@ -1,0 +1,73 @@
+
+#all_open
+{
+	display: none;
+}
+
+
+
+#container
+{
+	margin: 0 auto;
+	width: 750px;
+}
+
+#controls
+{
+	float: right;
+}
+
+
+
+#columns td
+{
+	padding: 0 5px;
+	vertical-align: top;
+	width: 240px;
+}
+
+.portlet
+{
+	
+	cursor: move;
+	margin: 0 0 10px;
+	 
+}
+
+.portlet_topper
+{
+	background: #eed;
+	padding: 5px 10px;
+}
+
+.portlet_topper a
+{
+	color: #443;
+	font-weight: bold;
+}
+
+.portlet_content
+{
+	border-top: 1px solid #998;
+	padding: 10px;
+}
+
+.portlet_content p
+{
+	line-height: 150%;
+	text-align: justify;
+}
+
+.portlet_bottom
+{
+	background: #ccc;
+	font-size: 1px;
+	line-height: 1px;
+	overflow: hidden;
+	height: 5px;
+}
+
+.sort_placeholder
+{
+	background: #bba;
+}

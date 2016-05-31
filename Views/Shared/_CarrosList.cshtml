@@ -1,0 +1,41 @@
+﻿@model PagedList.IPagedList<MyOnlineClinic.Entity.News>
+@using PagedList.Mvc
+@foreach (var item in Model)
+{
+    <div class="col-md-6">
+        <div class="wp-block article grid">
+            <div class="carros-list-img">
+
+                @{
+    string imagePath = "/images/noImage.jpg";
+    var newsPhotos = item.NewsPhotos.FirstOrDefault();
+    string summary = string.Empty;
+    string title = string.Empty;
+    if (item.Summary.Length > 110)
+    {
+        summary = item.Summary.Substring(0, 110) + "....";
+    }
+    else { summary = item.Summary; }
+    title = item.Title.Length > 32 ? item.Title.Substring(0, 32) + ".." : item.Title;
+    if (newsPhotos != null)
+    {
+
+        imagePath = "/UploadedFiles/NewsPhoto/Image/" + newsPhotos.ImagePath;
+    }
+                }
+                <div class="article-image">
+                    <a href="/Home/NewsDetails/@item.TitleUrl"> <img src="@imagePath" alt=""></a>
+                </div>
+            </div>
+            <h3 class="title">
+                <a href="/Home/NewsDetails/@item.TitleUrl">@title</a>
+            </h3>
+            <p>
+                @Html.Raw(summary)
+            </p>
+        </div>
+    </div>
+}
+<div class="col-md-12">
+    @Html.PagedListPager(Model, page => Url.Action("Carros", new { Page = page, @category = ViewBag.Name, @subcategory = ViewBag.SubCategory }))
+</div>

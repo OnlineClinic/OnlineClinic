@@ -1,0 +1,91 @@
+﻿@model IEnumerable<MyOnlineClinic.Web.Models.NewsViewModel>
+
+@if (Model != null)
+{
+    if (Model.Any())
+    {
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                var photoUrl = "/images/noImage.jpg";
+                if (item.Photo != null)
+                {
+                    photoUrl = "/UploadedFiles/NewsPhoto/373x240/" + item.Photo.ImagePath;
+                }
+
+                if (item.Position == "bottom")
+                {
+                    <div class="col-md-4">
+                        <div class="wp-block article grid">
+                            <div class="article-image home-img-height">
+                                @if (item.Photo != null)
+                                {
+                                    <img src="@photoUrl" alt="@item.Title" style="width: 373px; height: 240px;">
+                                }
+                                else
+                                {
+                                    <img src="@photoUrl" style="width: 373px; height: 240px;" alt="@item.Title">
+                                }
+                                <h4 class="image-title base-alt">@item.SubCategoryName</h4>
+                            </div>
+
+                            <h3 class="title">
+                                <a href="/News/@item.TitleUrl">@item.Title</a>
+                            </h3>
+                            @*<p>
+                                    @item.Summary
+                                </p>*@
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="col-md-12">
+                        <div class="light-gray p-15 ba mb-20">
+                            <div class="wp-block article grid">
+                                <div class="article-image">
+                                    <img src="@photoUrl" alt="">
+                                </div>
+                                <span class="article-category">@item.SubCategoryName</span>
+                                <h3 class="title">
+                                    @*<a href="/News/@item.TitleUrl">@item.Title</a>*@
+                                    <a href="javascript:void(0);" class="news-category" data-category="@item.CategoryName" data-titleurl="@item.TitleUrl"> @item.Title</a>
+                                </h3>
+                                @*<p>
+                                        @item.Summary
+                                    </p>*@
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+
+    }
+}
+
+<script>
+    $(document).ready(function () {
+        $(".news-category").on("click", function () {
+
+            var category = $(this).data("category");
+            var titleurl = $(this).data("titleurl");
+           
+            if (category == "Dinheiro") {
+                window.location.href = "/Dinheiro/" + titleurl;
+            }
+            else if (category == "Tecnologia") {
+                window.location.href = "/Tecnologia/" + titleurl;
+            }
+            else if (category == "Saúde") {
+                window.location.href = "/Saúde/" + titleurl;
+            }
+            else {
+                window.location.href = "/News/" + titleurl;
+            }
+        });
+    });
+</script>
+
+
+

@@ -1,0 +1,184 @@
+﻿@model List<MyOnlineClinic.Web.Models.VoucherViewModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+@using JQueryUIHelpers;
+<div id="msg"></div>
+<div class="right_col" role="main">
+    <div class="">
+        @*<div class="page-title">
+            <div class="title_left">
+            </div>
+            <div class="title_right pull-right">
+                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search for...">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">Go!</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="row">
+                        <div class="col-sm-7">
+                            <h2 class="default-title">Voucher List</h2>
+                        </div>
+                        <div class="col-sm-5 text-right">
+                            <button type="button" id="btnNew" class="btn btn-primary btn-sm">New</button>
+                            <button type="button" id="btnDelete" class="btn btn-primary btn-sm">
+                                Approve
+                            </button>
+                            <button type="button" id="btnActivate" class="btn btn-primary btn-sm">
+                                Active
+                            </button>
+                            <button type="button" id="btnBack" class="btn btn-primary btn-sm">Back</button>
+                        </div>
+                    </div>
+                    <div class="x_content">
+                        <table id="example" class="table table-striped responsive-utilities jambo_table">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <input type="checkbox" id="selecctall">
+                                    </th>
+                                    <th>S.No.</th>
+                                    <th>Voucher No</th>
+                                    <th>Voucher Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{ int count = 1;}
+                                @foreach (var item in Model)
+                                {
+
+                                    <tr>
+                                        <td class="table-icons" style="width:110px!important;">
+                                            <input type="checkbox" class="checkbox1" name="UserApproval" value=@item.VoucherID>
+                                            @*@if (item.IsActive)
+                                            {<span class="glyphicon glyphicon-ok-circle green" aria-hidden="true" data-toggle="tooltip" data-placement="left" title="Active"></span>}
+                                            else
+                                            {<span class="glyphicon glyphicon-remove-circle red" aria-hidden="true" data-toggle="tooltip" data-placement="left" title="Active"></span>}*@
+                                            <a href="/admin/Gender/add/@item.VoucherID" data-toggle="tooltip" data-placement="left" title="Edit"> <span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                                        </td>
+                                        <td>@count</td>
+                                        <td>@item.VoucherNo</td>
+                                        <td>
+                                        @if(item.Status==1)
+                                        {
+                                            <span>Not Used</span>
+                                        }
+                                        else
+                                        {
+                                              <span>Used</span>
+                                        }
+                                        </td>
+                                    </tr>
+                                            count = count + 1;
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <br />
+            <br />
+        </div>
+    </div>
+</div>
+
+<script src="~/AdminAssets/js/datatables/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+        if ('@ViewBag.Errormessage' != '') {
+            $("#msg").append("<div class='alert alert-danger'><p>" + '@ViewBag.Errormessage' + "</p></div>").delaye(5000).fade();
+        }
+        var oTable = $('#example').dataTable({
+            "bProcessing": true,
+            "iDisplayLength": 10,
+            "bPaginate": true,
+            "sPaginationType": "full_numbers"
+        });
+        $('[data-toggle="tooltip"]').tooltip();
+        $("#btnNew").click(function () {
+            window.location.href = "/admin/Voucher/add";
+        });
+        DisableButton();
+        var favorite = [];
+        $("#selecctall").click(function (event) {  //on click
+            if (this.checked) {
+                $("input[name='UserApproval']").each(function () { //loop through each checkbox
+                    if (this.checked !== true) {
+                        this.checked = true;  //select all checkboxes with class "checkbox1"
+                        favorite.push($(this).val());
+                    }
+                });
+            } else {
+                $("input[name='UserApproval']").each(function () { //loop through each checkbox
+                    this.checked = false; //deselect all checkboxes with class "checkbox1"
+                    favorite.pop($(this).val());
+                });
+            }
+            $("#serviceIds").val(favorite);
+            $("#ActivateIds").val(favorite);
+            DisableButton();
+
+        });
+
+        $("input[name='UserApproval']").on("click", function () {
+            if (this.checked == true) {
+                favorite.push($(this).val());
+            }
+            else {
+                favorite.pop();
+            }
+            $("#serviceIds").val(favorite);
+            $("#ActivateIds").val(favorite);
+            DisableButton();
+        });
+
+        $("#btnDelete").click(function () {
+            var options = {
+                "backdrop": "static"
+            };
+            $('#basicModal').modal(options);
+        });
+
+        $("#btnActivate").click(function () {
+            var options = {
+                "backdrop": "static"
+            };
+            $('#ActivateModal').modal(options);
+        });
+        $("#btnBack").on("click", function () {
+            window.history.back();
+        });
+    });
+
+    function DisableButton() {
+        if ($("#serviceIds").val() == '') {
+            $("#btnDelete").attr('disabled', 'disabled');
+        }
+        else {
+            $("#btnDelete").removeAttr('disabled', 'disabled');
+        }
+        if ($("#ActivateIds").val() == '') {
+            $("#btnActivate").attr('disabled', 'disabled');
+        }
+        else {
+            $("#btnActivate").removeAttr('disabled', 'disabled');
+        }
+    }
+
+
+</script>
+
+
+
+

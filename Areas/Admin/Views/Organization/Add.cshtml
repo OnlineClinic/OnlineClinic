@@ -1,0 +1,582 @@
+﻿@model MyOnlineClinic.Web.Models.OrganizationViewModel
+@{
+    ViewBag.Title = "Add";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+@using JQueryUIHelpers;
+@using Share.Bonnet.AjaxDropDownList;
+@Scripts.Render("~/bundles/bonnet")
+<style>
+    disabled:disabled;
+</style>
+<script src="/scripts/jquery.plugin.js"></script>
+<script src="/scripts/jquery.datepick.js"></script>
+<link href="~/Scripts/jquery.datepick.css" rel="stylesheet" />
+<h1 class="underline8">
+    Create Organisation
+</h1>
+<div class="row" style="margin-top:20px;">
+    <div class="col-md-12">
+        <nav class="navbar navbar-inverse navbar-fixed">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <div>
+                    <div class="collapse navbar-collapse" id="myNavbar">
+                        <ul class="nav navbar-nav">
+                            <li class="active"><a href="#">Organisation Details</a></li>
+                            <li><a href="#Admin">Organisation Admin Details</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+</div>
+@using (Html.BeginForm("Add", "Organization", FormMethod.Post, new { @class = "form-horizontal form-label-left", enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(m => m.OrganizationId)
+    @Html.HiddenFor(m => m.LoginId)
+    @Html.HiddenFor(m => m.OrganizationUser.LoginId)
+    @Html.HiddenFor(m => m.OrganizationUser.UserId)
+    @*@Html.HiddenFor(m => m.OrganizationUser.ProfilePic)*@
+    @Html.HiddenFor(m => m.OrganizationLogo)
+
+    <div class="row" id="Organisation">
+        <div class="section-head text-center" style="margin-top:0px;"><h3><span class="frist"> </span>Organisation Details<span class="second"> </span></h3></div>
+        <div class="col-md-12">
+            <div class="col-md-12 fifteen_layer">
+                <div class="col-md-6">
+                    <div class="col-md-12">
+                        <div class="form-horizontal">
+                            <div class="form-group role">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Organisation Name:</label>
+                                <div class="col-sm-6">
+                                    @Html.TextBoxFor(x => x.OrganizationName, new { @class = "form-control col-md-7 col-xs-12", name = "OrganizationName", required = "required" })
+                                </div>
+                            </div>
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <label id="lblmsg" class="form-control col-md-7 col-xs-12 red">OrganizationName is Already Available</label>
+                            </div>
+                            <div class="form-group role">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Organisation Type:</label>
+                                <div class="col-sm-6">
+                                    @Html.DropDownListFor(model => model.OrganizationType, new SelectList(Model.OrganizationTypeList, "Id", "OrganizationTypeName"), "---Select organization Type", new { @class = "form-control" })
+                                    
+                                </div>
+                            </div>
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Phone Number:</label>
+                                <div class="col-sm-6">
+                                    @Html.TextBoxFor(x => x.PhoneNumber, new { @class = "form-control col-md-7 col-xs-12", name = "PhoneNumber", onkeypress = "return isNumber(event)" })
+                                </div>
+                            </div>
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Fax Number:</label>
+                                <div class="col-sm-6">
+                                    @Html.TextBoxFor(x => x.FaxNumber, new { @class = "form-control col-md-7 col-xs-12", name = "FaxNumber", onkeypress = "return isNumber(event)" })
+                                </div>
+                            </div>
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Address 1:</label>
+                                <div class="col-sm-6">
+                                    @Html.TextBoxFor(x => x.Address1, new { @class = "form-control col-md-7 col-xs-12", name = "Address1", required = "required" })
+                                </div>
+                            </div>
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Address 2:</label>
+                                <div class="col-sm-6">
+                                    @Html.TextBoxFor(x => x.Address2, new { @class = "form-control col-md-7 col-xs-12", name = "Address2"})
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-md-6">
+                    <div class="col-md-12">
+                        <div class="form-horizontal">
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Country:</label>
+                                <div class="col-sm-6">
+                                    @Html.DropDownListFor(x => x.Country, new SelectList(Model.Countries, "CountryId", "CountryName"), "---Select Country---", new { @class = "form-control text_row", required = "required" })
+
+                                    @Html.ValidationMessageFor(x => x.OrganizationUser.CountryId)
+
+                                </div>
+                            </div>
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-4 control-label">State:</label>
+                                <div class="col-sm-6">
+                                    @Html.DropDownListFor(x => x.State, new SelectList(Model.Statelist, "Id", "StateName"), "---Select State---", new { @class = "form-control text_row", required = "required" })
+
+                                    @Html.ValidationMessageFor(m => m.State)
+                                </div>
+                            </div>
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-4 control-label">City:</label>
+                                <div class="col-sm-6">
+                                    @Html.DropDownListFor(x => x.City, new SelectList(Model.Cities, "LookUpCityId", "LookUpCityName"), "---Select City---", new { @class = "form-control col-md-7 col-xs-12", @id = "City", required = "required" })
+                                </div>
+                            </div>
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Post Code:</label>
+                                <div class="col-sm-6">
+                                    @Html.TextBoxFor(x => x.PostCode, new { @class = "form-control col-md-7 col-xs-12", name = "PostCode" })
+                                </div>
+                            </div>
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Time Zone:</label>
+                                <div class="col-sm-6">
+                                    @Html.DropDownListFor(x => x.TimeZoneId, ViewBag.TimeZone as IEnumerable<SelectListItem>, new { @class = "form-control col-md-7 col-xs-12", name = "Timezone" })
+                                </div>
+                            </div>
+
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Logo:</label>
+                                <div class="col-sm-6" style="margin-top: 9px; margin-left: 8px;">
+                                    <img src="@Model.OrganizationLogo" id="ImgOrganizationLogo" height="25" width="25" />
+                                    Logo
+                                    <input type="file" name="OrganizationLogo" id="OrganizationLogo" onchange="ShowPreviewOrg(this)" />
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" id="Admin">
+        <div class="section-head text-center" style="margin-top:0px;"><h3><span class="frist"> </span>Organisation Admin Details<span class="second"> </span></h3></div>
+        <div class="col-md-12">
+            <div class="col-md-12 fifteen_layer">
+                <div class="col-md-6">
+                    <div class="col-md-12">
+                        <div class="form-horizontal">
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Title:</label>
+                                <div class="col-sm-6">
+                                    @Html.DropDownListFor(x => x.OrganizationUser.Titleid, new SelectList(Model.TitleList, "TitleId", "TitleName"), "---Select Title---", new { @class = "form-control col-md-7 col-xs-12 text_row", required = "required" })
+                                </div>
+                            </div>
+
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-4 control-label">First Name:</label>
+                                <div class="col-sm-6">
+                                    @Html.TextBoxFor(x => x.OrganizationUser.FirstName, new { @class = "form-control col-md-7 col-xs-12", name = "FirstName", required = "required" })
+                                </div>
+                            </div>
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Middle Name:</label>
+                                <div class="col-sm-6">
+                                    @Html.TextBoxFor(x => x.OrganizationUser.MiddleName, new { @class = "form-control col-md-7 col-xs-12", name = "FirstName" })
+                                </div>
+                            </div>
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Last Name:</label>
+                                <div class="col-sm-6">
+                                    @Html.TextBoxFor(x => x.OrganizationUser.SurName, new { @class = "form-control col-md-7 col-xs-12", name = "LastName", required = "required" })
+                                </div>
+                            </div>
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Email:-</label>
+                                <div class="col-sm-6">
+
+                                    @if (Model.OrganizationId == 0)
+                                    {
+                                        @Html.TextBoxFor(x => x.OrganizationUser.Email, new { @class = "form-control col-md-7 col-xs-12 email", name = "Email", required = "required", type = "email" })
+                                        @Html.ValidationMessageFor(x => x.OrganizationUser.Email)
+                                    }
+                                    else if (Model.OrganizationUser.Email != null)
+                                    {
+                                        @Html.TextBoxFor(x => x.OrganizationUser.Email, new { @class = "form-control col-md-7 col-xs-12", name = "Email", required = "required", @readonly = "readonly" })
+                                    }
+                                    else
+                                    {
+                                        @Html.TextBoxFor(x => x.OrganizationUser.Email, new { @class = "form-control col-md-7 col-xs-12", name = "Email", required = "required" })
+                                    }
+                                    @*@Html.TextBoxFor(x => x.OrganizationUser.Email, new { @class = "form-control col-md-7 col-xs-12", name = "Email", placeholder = "Email", required = "required",type="email" })*@
+                                    @Html.ValidationMessage("Email")
+                                </div>
+                            </div>
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Phone Number:</label>
+                                <div class="col-sm-6">
+                                    @Html.TextBoxFor(x => x.OrganizationUser.PhoneNumber, new { @class = "form-control col-md-7 col-xs-12", name = "PhoneNumber", onkeypress = "return isNumber(event)" })
+                                </div>
+                            </div>
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Fax Number:</label>
+                                <div class="col-sm-6">
+                                    @Html.TextBoxFor(x => x.OrganizationUser.FaxNumber, new { @class = "form-control col-md-7 col-xs-12", name = "FaxNumber" })
+                                </div>
+                            </div>
+
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Address 1:</label>
+                                <div class="col-sm-6">
+                                    @Html.TextBoxFor(x => x.OrganizationUser.Address1, new { @class = "form-control col-md-7 col-xs-12", name = "Address1", required = "required" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="col-md-12">
+                        <div class="form-horizontal">
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Address 2:</label>
+                                <div class="col-sm-6">
+                                    @Html.TextBoxFor(x => x.OrganizationUser.Address2, new { @class = "form-control col-md-7 col-xs-12", name = "Address2", required = "required" })
+                                </div>
+                            </div>
+
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Country:</label>
+                                <div class="col-sm-6">
+
+                                    @Html.DropDownListFor(x => x.OrganizationUser.CountryId, new SelectList(Model.Countries, "CountryId", "CountryName"), "---Select Country---", new { @class = "form-control text_row", required = "required" })
+
+                                    @Html.ValidationMessageFor(x => x.OrganizationUser.CountryId)
+
+                                </div>
+                            </div>
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-4 control-label">State:</label>
+                                <div class="col-sm-6">
+                                    @Html.DropDownListFor(x => x.OrganizationUser.State, new SelectList(Model.Statelist, "Id", "StateName"), "---Select State---", new { @class = "form-control text_row", required = "required" })
+
+                                    @Html.ValidationMessageFor(m => m.State)
+
+                                    @*@Html.DropDownListFor(x => x.OrganizationUser.State, new SelectList(Model.Statelist, "LookUpCityId", "LookUpCityName"), "---Select State---", new { @class = "form-control col-md-7 col-xs-12", required = "required" })*@
+                                </div>
+                            </div>
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-4 control-label">City:</label>
+                                <div class="col-sm-6">
+                                    @Html.DropDownListFor(x => x.OrganizationUser.City, new SelectList(Model.Cities, "LookUpCityId", "LookUpCityName"), "---Select City---", new { @class = "form-control col-md-7 col-xs-12", required = "required" })
+                                </div>
+                            </div>
+
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Post Code:</label>
+                                <div class="col-sm-6">
+                                    @Html.TextBoxFor(x => x.OrganizationUser.PostCode, new { @class = "form-control col-md-7 col-xs-12", name = "PostCode", required = "required" })
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Date of Birth:</label>
+                                <div class="col-sm-6">
+                                    @Html.JQueryUI().DatepickerFor(x => x.OrganizationUser.DOB, new { @class = " form-control col-md-7 col-xs-12", name = "DOB", required = "required" }).DateFormat("dd-MM-yyyy")
+                                    @*@Html.TextBoxFor(x => x.OrganizationUser.DOB, new { @class = "form-control col-md-7 col-xs-12", name = "DOB", maxlength = "0", required = "required" }).DateFormat("dd-MM-yyyy")*@
+                                </div>
+                            </div>
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-4 control-label"> Time Zone:</label>
+                                <div class="col-sm-6">
+                                    @Html.DropDownListFor(x => x.OrganizationUser.TimeZone, ViewBag.TimeZone as IEnumerable<SelectListItem>, new { @class = "form-control col-md-7 col-xs-12", name = "Timezone" })
+                                </div>
+                            </div>
+
+                            <div class="form-group role" style="margin-top:-3px;">
+                                <label for="inputEmail3" class="col-sm-4 control-label">Profile Pic:</label>
+                                <div class="col-sm-6" style="margin-top: 9px; margin-left: 8px;">
+                                    <img src="@Model.OrganizationUser.ProfilePic" id="ImgOrganizationLogo1" height="25" width="25" />
+                                    Logo
+                                    <input type="file" name="ProfilePic" id="ProfilePic" onchange="ShowPreviewOrg1(this)" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="ln_solid"></div>
+    <div class="row" style="margin-top:34px; margin-bottom:10px;">
+        <div class="col-md-12">
+            <div class="form-group">
+                <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3" style="text-align:center;">
+                    <button type="submit" class="btn btn-primary">Cancel</button>
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a id="back-to-top" href="#" class="btn btn-primary btn-lg back-to-top" role="button" title="Click to return on the top page" data-toggle="tooltip" data-placement="left"><span class="glyphicon glyphicon-chevron-up"></span></a>
+}
+@*<script>
+    $('#Country').change(function () {
+
+        $("#State").empty();
+        $("#City").empty();
+        //var countryid();
+
+        $.ajax({
+            type: 'GET',
+            url: '/Home/Getstate',
+            dataType: 'json',
+            data: { countyid: $("#Country").val() },
+            success: function (data) {
+                //fillState($("#State").val(), $("#City").val())
+                $("#State").append($("<option></option>").val(0).html('Select State'));
+                $("#City").append($("<option></option>").val(0).html('Select City'));
+                $.each(data, function (key, value) {
+                    $("#State").append($("<option></option>").val(value.Id).html(value.StateName));
+                });
+            },
+            error: function (ex) {
+            }
+        });
+    });
+    $('#State').change(function () {
+        $("#City").empty();
+        $.ajax({
+            type: 'GET',
+            url: '/Home/GetCity',
+            dataType: 'json',
+            data: { StateId: $("#State").val() },
+            success: function (data) {
+                //fillCity($("#City").val());
+                $("#City").append($("<option></option>").val(0).html('Select City'));
+                $.each(data, function (key, value) {
+                    $("#City").append($("<option></option>").val(value.LookUpCityId).html(value.LookUpCityName));
+                });
+            },
+            error: function (ex) {
+            }
+        });
+    });
+    $('#OrganizationUser_CountryId').change(function () {
+
+        $("#OrganizationUser_State1").empty();
+        $("#City1").empty();
+        //var countryid();
+
+        $.ajax({
+            type: 'GET',
+            url: '/Home/Getstate',
+            dataType: 'json',
+            data: { countyid: $("#OrganizationUser_CountryId").val() },
+            success: function (data) {
+                //fillState($("#State").val(), $("#City").val())
+                $("#OrganizationUser_State1").append($("<option></option>").val(0).html('Select State'));
+                $("#City1").append($("<option></option>").val(0).html('Select City'));
+                $.each(data, function (key, value) {
+                    $("#OrganizationUser_State1").append($("<option></option>").val(value.Id).html(value.StateName));
+                });
+            },
+            error: function (ex) {
+            }
+        });
+    });
+    $('#OrganizationUser_State1').change(function () {
+        $("#City1").empty();
+        $.ajax({
+            type: 'GET',
+            url: '/Home/GetCity',
+            dataType: 'json',
+            data: { StateId: $("#OrganizationUser_State1").val() },
+            success: function (data) {
+                //fillCity($("#City").val());
+                $("#City1").append($("<option></option>").val(0).html('Select City'));
+                $.each(data, function (key, value) {
+                    $("#City1").append($("<option></option>").val(value.LookUpCityId).html(value.LookUpCityName));
+                });
+            },
+            error: function (ex) {
+            }
+        });
+    });
+</script>*@
+<script src="~/Scripts/CascadingDropDown.js"></script>
+<script>
+    $('#Country').change(function () {
+        fillState($("#State").attr('id'), $("#City").attr('id'), $("#Country").val());
+    });
+    $('#State').change(function () {
+        fillCity($("#City").attr('id'), $("#State").val());
+    });
+
+    $('#OrganizationUser_CountryId').change(function () {
+        fillState($("#OrganizationUser_State").attr('id'), $("#OrganizationUser_City").attr('id'), $("#OrganizationUser_CountryId").val());
+
+    });
+    $('#OrganizationUser_State').change(function () {
+        fillCity($("#OrganizationUser_City").attr('id'), $("#OrganizationUser_State").val());
+    });
+
+</script>
+
+<script src="/AdminAssets/js/validator/validator.js"></script>
+<script>
+    $(document).ready(function () {
+        //$('#OrganizationUser_DOB').val('');
+        $('#OrganizationUser_DOB').datepick({ dateFormat: 'dd-mm-yyyy', maxDate: 0 });
+        $("#lblmsg").hide();
+
+    });
+    $('#btnCancel').click(function () {
+        window.location = "/admin/Organization/index";
+    })
+    $(document).ready(function () {
+
+
+        //function unpickcalender() {
+        //    $("#OrganizationUser_DOB").prop('disabled', true);
+        //    event.preventDefault();
+        //$('.datepick').remove();
+        //}
+        $('#OrganizationName').blur(function () {
+
+            $.ajax({
+                type: "get",
+                url: '/Admin/Organization/getOrganizationName',
+                data: ({ Organizationname: $('#OrganizationName').val() }),
+                datatype: "json",
+                success: function (data) {
+                    // alert("done");
+                    console.log(data);
+                    if (data) {
+                        $("#lblmsg").show();
+                        //$("#msg").append("<div class='alert alert-danger'><p>" + "PKI Medicare No is Already Available" + "</p></div>").delaye(5000).fade();
+                    }
+                    else {
+                        $("#lblmsg").hide();
+                    }
+                },
+                error: function () {
+
+                }
+            });
+        });
+
+        // initialize the validator function
+        validator.message['date'] = 'not a real date';
+
+        // validate a field on "blur" event, a 'select' on 'change' event & a '.reuired' classed multifield on 'keyup':
+        $('form')
+            .on('blur', 'input[required], input.optional, select.required', validator.checkField)
+            .on('change', 'select.required', validator.checkField)
+            .on('keypress', 'input[required][pattern]', validator.keypress);
+
+        $('.multi.required')
+            .on('keyup blur', 'input', function () {
+                validator.checkField.apply($(this).siblings().last()[0]);
+            });
+
+        // bind the validation to the form submit event
+        //$('#send').click('submit');//.prop('disabled', true);
+
+        $('form').submit(function (e) {
+            e.preventDefault();
+            var submit = true;
+            // evaluate the form using generic validaing
+            if (!validator.checkAll($(this))) {
+                submit = false;
+            }
+
+            if (submit)
+                this.submit();
+            return false;
+        });
+
+        /* FOR DEMO ONLY */
+        $('#vfields').change(function () {
+            $('form').toggleClass('mode2');
+        }).prop('checked', false);
+
+        $('#alerts').change(function () {
+            validator.defaults.alerts = (this.checked) ? false : true;
+            if (this.checked)
+                $('form .alert').remove();
+        }).prop('checked', false)
+
+    });
+    function isNumber(evt) {
+        evt = (evt) ? evt : window.event;
+        var charCode = (evt.which) ? evt.which : evt.keyCode;
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+        return true;
+    }
+    function ShowPreview(input) {
+        if (input.files && input.files[0]) {
+            var ImageDir = new FileReader();
+            ImageDir.onload = function (e) {
+                $('#imgProfilePic').attr('src', e.target.result);
+
+            }
+            ImageDir.readAsDataURL(input.files[0]);
+        }
+    }
+    function ShowPreviewOrg(input) {
+        if (input.files && input.files[0]) {
+            var ImageDir = new FileReader();
+            ImageDir.onload = function (e) {
+
+                $('#ImgOrganizationLogo').attr('src', e.target.result);
+            }
+            ImageDir.readAsDataURL(input.files[0]);
+        }
+    }
+
+    function ShowPreviewOrg1(input) {
+        if (input.files && input.files[0]) {
+            var ImageDir = new FileReader();
+            ImageDir.onload = function (e) {
+
+                $('#ImgOrganizationLogo1').attr('src', e.target.result);
+            }
+            ImageDir.readAsDataURL(input.files[0]);
+        }
+    }
+    $(document).ready(function () {
+        $(window).scroll(function () {
+            if ($(this).scrollTop() > 50) {
+                $('#back-to-top').fadeIn();
+            } else {
+                $('#back-to-top').fadeOut();
+            }
+        });
+        // scroll body to 0px on click
+        $('#back-to-top').click(function () {
+            $('#back-to-top').tooltip('hide');
+            $('body,html').animate({
+                scrollTop: 0
+            }, 800);
+            return false;
+        });
+
+        $('#back-to-top').tooltip('show');
+
+    });
+    function scrollNav() {
+        $('.nav a').click(function () {
+            //Toggle Class
+            $(".active").removeClass("active");
+            $(this).closest('li').addClass("active");
+            var theClass = $(this).attr("class");
+            $('.' + theClass).parent('li').addClass('active');
+            //Animate
+            $('html, body').stop().animate({
+                scrollTop: $($(this).attr('href')).offset().top - 160
+            }, 400);
+            return false;
+        });
+        $('.scrollTop a').scrollTop();
+    }
+    scrollNav();
+</script>

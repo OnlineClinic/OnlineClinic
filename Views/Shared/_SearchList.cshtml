@@ -1,0 +1,218 @@
+﻿@model MyOnlineClinic.Web.Models.SearchViewModel
+
+<style>
+    article {
+        border: 2px solid #E6E9ED;
+        padding: 20px 0px;
+    }
+
+    .search-result .thumbnail {
+        border-radius: 50%;
+        width: 180px;
+        height: 180px;
+        margin-bottom: 0px;
+        margin: auto;
+    }
+
+        .search-result .thumbnail img {
+            width: 100%;
+            height: 100%;
+        }
+
+    .search-result:first-child {
+        margin-top: 0 !important;
+    }
+
+    .search-result {
+        margin-top: 20px;
+    }
+
+        .search-result .col-md-2 {
+            border-right: 1px dotted #ccc;
+            min-height: 140px;
+        }
+
+        .search-result ul {
+            padding-left: 0 !important;
+            list-style: none;
+            font-size: 20px;
+        }
+
+            .search-result ul li {
+                font: 400 normal .85em "Roboto",Arial,Verdana,sans-serif;
+                line-height: 30px;
+            }
+
+                .search-result ul li i {
+                    padding-right: 5px;
+                }
+
+        .search-result .col-md-7 {
+            position: relative;
+        }
+
+        .search-result h3 {
+            font: 500 normal 1.375em "Roboto",Arial,Verdana,sans-serif;
+            margin-top: 0 !important;
+            margin-bottom: 10px !important;
+        }
+
+            .search-result h3 > a, .search-result i {
+                color: #248dc1 !important;
+            }
+
+        .search-result p {
+            font: normal normal 1.125em "Roboto",Arial,Verdana,sans-serif;
+        }
+
+        .search-result span.plus {
+            position: absolute;
+            right: 20px;
+            top: 126px;
+        }
+
+            .search-result span.plus a {
+                background-color: #248dc1;
+                padding: 5px 5px 3px 5px;
+            }
+
+                .search-result span.plus a:hover {
+                    background-color: #414141;
+                }
+
+                .search-result span.plus a i {
+                    color: #fff !important;
+                }
+
+        .search-result span.border {
+            display: block;
+            width: 97%;
+            margin: 0 15px;
+            border-bottom: 1px dotted #ccc;
+        }
+    body {
+        margin: 0px;
+    }
+
+    a:link {
+        color: #000;
+        font-size: 1.1em;
+        font-weight: 600;
+        font-family: arial, helvetica, sans-serif;
+        text-decoration: none;
+    }
+
+    a:visited {
+        color: #000;
+        font-size: 1.1em;
+        font-weight: 600;
+        font-family: arial, helvetica, sans-serif;
+        text-decoration: none;
+    }
+
+    a:hover {
+        color: #000;
+        font-size: 1.1em;
+        font-weight: 600;
+        font-family: arial, helvetica, sans-serif;
+        text-decoration: none;
+    }
+
+    a:active {
+        color: #000;
+        font-size: 1.1em;
+        font-weight: 600;
+        font-family: arial, helvetica, sans-serif;
+        text-decoration: none;
+    }
+
+    a img {
+        border: none;
+    }
+</style>
+@if (Model.Search != null)
+{
+    foreach (var item in Model.Search)
+    {
+        <article class="search-result row">
+            <div class="col-xs-12 col-sm-12 col-md-3">
+                <a href="#" title="Lorem ipsum" class=""><img src="" height="150" width="150" alt=""></a>
+            </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-3">
+                <ul class="meta-search">
+                    <li><i class="glyphicon glyphicon-pencil"></i> <span>@item.FirstName @item.SurName </span></li>
+                    <li><i class="glyphicon glyphicon-lock"></i> <span> @item.qualification</span></li>
+                    <li><i class="glyphicon glyphicon-phone"></i> <span>@item.PhoneNumber</span></li>
+                </ul>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-6 excerpet">
+                <h3><a href="#" title="">Description</a></h3>
+                <p>
+                    @item.DoctorProfile
+                </p>
+                <span class="plus"><button type="submit" class="btn btn-success book-appointment" data-id="@item.MemberId">Book Appointment</button></span>
+         
+            </div>
+            <span class="clearfix borda"></span>
+        </article>
+
+
+    }
+}
+
+@using (Html.BeginForm("BookAppointment", "Patient",FormMethod.Post ))
+{
+    <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog ">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">
+                        <label id="lblTitle">Book an appointment</label>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div id="CreateEditForm">
+                        <a class="btn btn-default btn-block consult" data-role="@((int)MyOnlineClinic.Entity.ConsultTime.StandardConsult)">Standard Consult(< 15 Min) </a>
+                        <a class="btn btn-default btn-block consult" data-role="@((int)MyOnlineClinic.Entity.ConsultTime.LongConsult)">Long Consult(< 30 Min)</a>
+                        <a class="btn btn-default btn-block consult" data-role="@((int)MyOnlineClinic.Entity.ConsultTime.VeryLongConsult)">Very Long Consult(< 45 Min)</a>
+                      @Html.HiddenFor(x => x.MemberId);
+                          <input type="hidden" id="hdnDoctorId" />
+                        <input type="hidden" id="hdnConsultType" />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Ok</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".book-appointment").on("click", function () {
+            var MemberId = document.getElementById('MemberId');
+            MemberId.value = $(this).attr('data-id');
+            alert(MemberId.value);
+
+           // $("#apppointmentId").val($(this).data("data-id"))
+           
+        
+            var options = {
+                "backdrop": "static"
+            };
+           
+            $('#basicModal').modal(options);
+        });
+    });
+
+     
+
+</script>

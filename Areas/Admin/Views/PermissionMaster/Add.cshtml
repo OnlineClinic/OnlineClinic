@@ -1,0 +1,103 @@
+﻿@model MyOnlineClinic.Web.Models.PermissionViewModel
+@{
+    ViewBag.Title = "Add";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<section class="content-header staff">
+    <h1 class="underline19">
+        Add Permission
+    </h1>
+</section>
+
+                        @using (Html.BeginForm("Add", "PermissionMaster", FormMethod.Post, new { @class = "form-horizontal form-label-left" }))
+                        {
+                            @Html.HiddenFor(m => m.Id)
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-7 first_layer">
+                <div class="form-horizontal" id="style-3">
+                    <div class="box-body">
+                        <div class="form-group role" style="margin-top:-3px;">
+                            <label for="inputEmail3" class="col-sm-4 control-label">Module</label>
+                            <div class="col-sm-6">
+                                @Html.DropDownListFor(model => model.ModuleId, new SelectList(Model.ModulesList, "Id", "ModuleName"), "---Select Module", new { @class = "form-control", required = "required" })
+                            </div>
+                        </div>
+
+                        <div class="form-group role" style="margin-top:-3px;">
+                            <label for="inputEmail3" class="col-sm-4 control-label"> Permission Name</label>
+                            <div class="col-sm-6">
+                                @Html.TextBoxFor(x => x.PermissionName, new { @class = "form-control col-md-7 col-xs-12", name = "PermissionName",  required = "required" })
+                                @*<input id="name" class="form-control col-md-7 col-xs-12" data-validate-length-range="6" data-validate-words="2" name="name" placeholder="both name(s) e.g Jon Doe" required="required" type="text">*@
+                                @Html.ValidationMessage("UserName")
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3" style="text-align:center;">
+                                <button type="button" id="btnCancel" class="btn btn-primary" onclick="window.history.back()">Cancel</button>
+                                <button id="send" type="submit" class="btn btn-success">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  }
+
+<script src="/AdminAssets/js/validator/validator.js"></script>
+<script>
+   
+
+    $(document).ready(function () {
+        $('.date-picker').daterangepicker({
+            singleDatePicker: true,
+            calender_style: "picker_4"
+        }, function (start, end, label) {
+
+        });
+    });
+    // initialize the validator function
+    validator.message['date'] = 'not a real date';
+
+    // validate a field on "blur" event, a 'select' on 'change' event & a '.reuired' classed multifield on 'keyup':
+    $('form')
+        .on('blur', 'input[required], input.optional, select.required', validator.checkField)
+        .on('change', 'select.required', validator.checkField)
+        .on('keypress', 'input[required][pattern]', validator.keypress);
+
+    $('.multi.required')
+        .on('keyup blur', 'input', function () {
+            validator.checkField.apply($(this).siblings().last()[0]);
+        });
+
+    // bind the validation to the form submit event
+    //$('#send').click('submit');//.prop('disabled', true);
+
+    $('form').submit(function (e) {
+        e.preventDefault();
+        var submit = true;
+        // evaluate the form using generic validaing
+        if (!validator.checkAll($(this))) {
+            submit = false;
+        }
+
+        if (submit)
+            this.submit();
+        return false;
+    });
+
+    /* FOR DEMO ONLY */
+    $('#vfields').change(function () {
+        $('form').toggleClass('mode2');
+    }).prop('checked', false);
+
+    $('#alerts').change(function () {
+        validator.defaults.alerts = (this.checked) ? false : true;
+        if (this.checked)
+            $('form .alert').remove();
+    }).prop('checked', false);
+</script>
+

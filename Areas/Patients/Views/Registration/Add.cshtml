@@ -1,0 +1,114 @@
+﻿@model MyOnlineClinic.Web.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "/Areas/Patients/Views/Shared/_PatientPartial.cshtml";
+}
+
+<script src="/scripts/jquery.plugin.js"></script>
+<script src="/scripts/jquery.datepick.js"></script>
+<link href="~/Scripts/jquery.datepick.css" rel="stylesheet" />
+<script src="~/AdminAssets/js/validator/validator.js"></script>
+
+<div id="NewConsultation">
+    <h3 class="from_title">New Patient</h3>
+    <div class="container-fluid">
+        <div class="row table">
+            <div class="content_boxs" style=" height: 420px; width: 99%; ">
+                <div align="left">
+                    <div class="from_box">
+                        <fieldset>
+                            @using (Html.BeginForm("Add", "Registration", FormMethod.Post, new { @class = "form-horizontal form-label-left", enctype = "multipart/form-data" }))
+                            {
+                                <div class="tr_box">
+                                    <div class="td_1">
+                                        <span class="lbl_text">
+                                            Title :
+                                        </span>
+                                    </div>
+                                    <div class="input_box1">
+                                        <div class=" col-sm-8 col-xs-12">
+                                            @Html.DropDownListFor(x => x.TitleId, new SelectList(Model.TitleList, "TitleId", "TitleName"), "---Select Title---", new { @class = "form-control col-md-7 col-xs-12 text_row", required = "required" })
+                                        </div>
+                                    </div>
+                                    <span id="" style="color:Red;font-weight:bold;display:inline-block;margin-top:6px;margin-left:155px;visibility:hidden;">Please enter reason for contact</span>
+                                </div>
+                                <div class="tr_box">
+                                    <div class="td_1">
+                                        <span class="lbl_text">
+                                            First Name
+                                        </span>
+                                    </div>
+                                    <div class="input_box1 rel1">
+                                        <div class=" col-sm-8 col-xs-12">
+                                            @Html.TextBoxFor(x => x.FirstName, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "FirstName", required = "required" })
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="tr_box">
+                                    <div class="td_1">
+                                        <span class="lbl_text">
+                                            Surn Name
+                                        </span>
+                                    </div>
+                                    <div class="input_box1 rel1">
+                                        <div class=" col-sm-8 col-xs-12">
+                                            @Html.TextBoxFor(x => x.SurName, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "FirstName", required = "required" })
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="tr_box">
+                                    <div class="td_1">
+                                        <span class="lbl_text">
+                                            Email
+                                        </span>
+                                    </div>
+                                    <div class="input_box1 rel1">
+                                        <div class=" col-sm-8 col-xs-12">
+                                            @Html.TextBoxFor(x => x.Email, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "FirstName", required = "required" })
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="tr_box">
+                                    <div class="td_1">
+                                        <span class="lbl_text">
+                                            DOB
+                                        </span>
+                                    </div>
+                                    <div class="input_box1 rel1">
+                                        <div class=" col-sm-8 col-xs-12">
+                                            @Html.TextBoxFor(x => x.DOB, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "FirstName", required = "required" ,type="date"})
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="tr_box">
+                                    <div class="td_1">
+                                        <span class="lbl_text">
+                                            Phone Number
+                                        </span>
+                                    </div>
+                                    <div class="input_box1 rel1">
+                                        <div class=" col-sm-8 col-xs-12">
+                                            @Html.TextBoxFor(x => x.PhoneNumber, new { @class = "form-control col-md-7 col-xs-12 text_row", name = "FirstName", required = "required" })
+                                        </div>
+
+                                    </div>
+                                </div>
+                                 <input class="btn btn-default pull-right personal" type="submit" id="savenewconsult" value="Save">
+                            }
+                        </fieldset>
+
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,48 @@
+﻿@model List<MyOnlineClinic.Entity.Classified>
+@if (Model.Count > 0)
+{
+    <div class="section-title-wr">
+        <h3 class="section-title left"><span> @ViewBag.Name</span></h3>
+        <div class="aux-nav">
+            @*<a href="#"> <i class="fa fa-paperclip"></i> See all News</a>*@
+        </div>
+    </div>
+    <div class="widget-recent widget-recent-comments light-gray ba classified-aside">
+        <div class="inner p-15">
+            <ul>
+                @foreach (var item in Model)
+                {
+                    var newsPhotos = item.ClassifiedPhotos.FirstOrDefault();
+                    var classifiedImageUrl = string.Empty;
+                    if (newsPhotos != null)
+                    {
+                        classifiedImageUrl = newsPhotos.ThumbPath;
+                    }
+                    <li class="clearfix">
+                        <a href="/Home/ClassifiedDetails?id=@item.Title" class="post-thumb" hidefocus="true"><img src="@classifiedImageUrl" alt="@item.Title" class="img-responsive"></a>
+                        <span class="comment-author"><a href="/Home/ClassifiedDetails?id=@item.Title" hidefocus="true">@item.Title</a></span>
+                        <span class="comment-entry">@item.SubCategory.LookUpSubCategoryTitle</span>
+                        <span class="comment-entry">@item.Price</span>
+                    </li>
+                    @*<div class="row">
+                            <div class="col-md-4">
+                                <div class="wp-block article list">
+                                    <div class="article-image">
+                                        <img src="@classifiedImageUrl" alt="@item.Title" class="img-responsive">
+                                    </div>
+                                    <div class="wp-block-body">
+                                        <h3 class="title">
+                                            <a href="" hidefocus="true">@item.Title</a>
+                                        </h3>
+                                        <p>
+                                            @item.Summary <small><a href="#" title="Continue reading">[...]</a></small>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>*@
+                }
+            </ul>
+        </div>
+    </div>
+}

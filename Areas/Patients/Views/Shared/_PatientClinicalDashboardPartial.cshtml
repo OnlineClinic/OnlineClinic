@@ -1,0 +1,878 @@
+﻿@{
+    Layout = null;
+}
+<script src="/scripts/jquery.plugin.js"></script>
+<script src="/scripts/jquery.datepick.js"></script>
+<link href="~/Scripts/jquery.datepick.css" rel="stylesheet" />
+<script src="~/AdminAssets/js/validator/validator.js"></script>
+<link href="~/css/bootstrap.min.css" rel="stylesheet" />
+
+<script src="~/AdminAssets/js/common.js"></script>
+<style>
+    input.form-control {
+        box-shadow: 2px 2px 5px #888888;
+        width: 81%;
+        border: 1px solid;
+        border-radius: 5px;
+        margin-left: 25px;
+    }
+
+    li.input_box {
+        width: 39%;
+    }
+</style>
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xs-offset-0 col-sm-offset-0 toppad" style="margin-top:0px;margin-left: -10px;">
+    <div class="panel panel-info doctor">
+        <div class="panel-heading">
+            <h3 class="panel-title">Clinical Dashboard: <b>Mrs. Emily Rose</b> </h3>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+                <div class=" col-md-12 col-lg-12">
+                    <div class="tabbable-panel">
+                        <div class="tabbable-line">
+                            <ul class="nav nav-tabs examantion" style="background: #08A39B !important;">
+                                <li class="active">
+                                    <a id="lnkExamination" href="#tab_default_a" data-toggle="tab">
+                                        Examinations
+                                    </a>
+                                </li>
+                                <li>
+                                    <a id="lnkSetStandards" href="#tab_default_b" data-toggle="tab">
+                                        Standards
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#tab_default_c" data-toggle="tab">
+                                        Medication
+                                    </a>
+                                </li>
+                                <li>
+                                    <a id="lnkPathology" href="#tab_default_d" data-toggle="tab">
+                                        Pathology
+                                    </a>
+                                </li>
+                                <li>
+                                    <a id="lnkRadiology" href="#tab_default_e" data-toggle="tab">
+                                        Radiology
+                                    </a>
+                                </li>
+                                <li>
+                                    <a id="lnkConsultation" href="#tab_default_f" data-toggle="tab">
+                                        Consultation
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="tab_default_a">
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            <div class="content_boxs">
+                                                <div class="col-md-4">
+                                                    <div class="col-md-12 first_box">
+                                                        <a class="title_name" href="#">Blood Pressure</a>
+                                                        <div class="col-md-12">
+                                                            <div class="pull-left">
+                                                                <p class="no"><span id="lblblooodsystolic"></span>/<span id="lblDiastolic"></span><small>mmHg</small><br><span is="lblblooodbpm"></span> <small>bpm</small></p>
+                                                            </div>
+                                                            <div class="pull-right">
+                                                                <p class="date "<span id="lblbloodPresureDate"></span><br><span class="pull-right"></span></p>
+                                                            </div>
+                                                            <div class="clearfix"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="col-md-12 first_box">
+                                                        <a class="title_name" href="#">Blood Glucose</a>
+                                                        <div class="col-md-12">
+                                                            <div class="pull-left">
+                                                                <p class="no"><span id="lblblooodSugarValue"></span><small>mmHg</small><br><small></small></p>
+                                                            </div>
+                                                            <div class="pull-right">
+                                                                <p class="date "><span id="MainContent_ucClinicalDeshBoard_TabContainer1_tbpnluser_TabContainer6_TabPanel21_presDate"></span><br><span class="pull-right"></span></p>
+                                                            </div>
+                                                            <div class="clearfix"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="col-md-12 first_box">
+                                                        <a class="title_name" href="#">Oxygen Saturation</a>
+                                                        <div class="col-md-12">
+                                                            <div class="pull-left">
+                                                                <p class="no"><span id="lblOxygenValue"></span><small>bpm</small><br><small></small></p>
+                                                            </div>
+                                                            <div class="pull-right">
+                                                                <p class="date "><span id="MainContent_ucClinicalDeshBoard_TabContainer1_tbpnluser_TabContainer6_TabPanel21_presDate"></span><br><span class="pull-right"></span></p>
+                                                            </div>
+                                                            <div class="clearfix"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="clearfix"></div>
+                                                <div class="row second">
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-4">
+                                                            <div class="col-md-12 first_box">
+                                                                <a class="title_name" href="#">BMI</a>
+                                                                <div class="col-md-12">
+                                                                    <div class="pull-left">
+                                                                        <p class="no">136 /88<small>kg/m2</small><br><small></small></p>
+                                                                    </div>
+                                                                    <div class="pull-right">
+                                                                        <p class="date ">March 22, 2016<br><span class="pull-right"></span></p>
+                                                                    </div>
+                                                                    <div class="clearfix"></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="col-md-12 first_box">
+                                                                <a class="title_name" href="#">ECG</a>
+                                                                <div class="col-md-12">
+                                                                    <div class="pull-left">
+                                                                        <p class="no">136 /88<small>mmHg</small><br>106 <small>bpm</small></p>
+                                                                    </div>
+                                                                    <div class="pull-right">
+                                                                        <p class="date ">March 22, 201<br><span class="pull-right"> 7:45PM</span></p>
+                                                                    </div>
+                                                                    <div class="clearfix"></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="col-md-12 first_box">
+                                                                <a class="title_name" href="#">Check Throat</a>
+                                                                <div class="col-md-12">
+                                                                    <div class="pull-left">
+                                                                        <p class="no">136 /88<small>mmHg</small><br>106 <small>bpm</small></p>
+                                                                    </div>
+                                                                    <div class="pull-right">
+                                                                        <p class="date ">March 22, 201<br><span class="pull-right"> 7:45PM</span></p>
+                                                                    </div>
+                                                                    <div class="clearfix"></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                                <div class="row second">
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-4">
+                                                            <div class="col-md-12 first_box">
+                                                                <a class="title_name" href="#">Check Skin</a>
+                                                                <div class="col-md-12">
+                                                                    <div class="pull-left">
+                                                                        <p class="no">136 /88<small>mmHg</small><br>106 <small>bpm</small></p>
+                                                                    </div>
+                                                                    <div class="pull-right">
+                                                                        <p class="date ">March 22, 201<br><span class="pull-right"> 7:45PM</span></p>
+                                                                    </div>
+                                                                    <div class="clearfix"></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="col-md-12 first_box">
+                                                                <a class="title_name" href="#">Heart && Lung Sounds</a>
+                                                                <div class="col-md-12">
+                                                                    <div class="pull-left">
+                                                                        <p class="no">136 /88<small>mmHg</small><br>106 <small>bpm</small></p>
+                                                                    </div>
+                                                                    <div class="pull-right">
+                                                                        <p class="date ">March 22, 201<br><span class="pull-right"> 7:45PM</span></p>
+                                                                    </div>
+                                                                    <div class="clearfix"></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="col-md-12 first_box">
+                                                                <a class="title_name" href="#">Heart Rate</a>
+                                                                <div class="col-md-12">
+                                                                    <div class="pull-left">
+                                                                        <p class="no"><span id="lblHeartRate"></span><small>bpm</small><br><small></small></p>
+                                                                    </div>
+                                                                    <div class="pull-right">
+                                                                        <p class="date "><span id="MainContent_ucClinicalDeshBoard_TabContainer1_tbpnluser_TabContainer6_TabPanel21_presDate"></span><br><span class="pull-right"></span></p>
+                                                                    </div>
+                                                                    <div class="clearfix"></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="clearfix"></div>
+                                                <div class="row second">
+                                                    <div class="col-md-12">
+                                                        
+                                                        <div class="col-md-4">
+                                                            <div class="col-md-12 first_box">
+                                                                <a class="title_name" href="#">Height</a>
+                                                                <div class="col-md-12">
+                                                                    <div class="pull-left">
+                                                                        <p class="no"><span id="lblHeightValue"></span><small> cm</small><br> <small></small></p>
+                                                                    </div>
+                                                                    <div class="pull-right">
+                                                                        <p class="date "><span id="MainContent_ucClinicalDeshBoard_TabContainer1_tbpnluser_TabContainer6_TabPanel21_presDate"></span><br><span class="pull-right"></span></p>
+                                                                    </div>
+                                                                    <div class="clearfix"></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="col-md-12 first_box">
+                                                                <a class="title_name" href="#">Temperature</a>
+                                                                <div class="col-md-12">
+                                                                    <div class="pull-left">
+                                                                        <p class="no"><span id="lblTemperature"></span><small> &deg;C</small><br> <small></small></p>
+                                                                    </div>
+                                                                    <div class="pull-right">
+                                                                        <p class="date "><span id="MainContent_ucClinicalDeshBoard_TabContainer1_tbpnluser_TabContainer6_TabPanel21_presDate"></span><br><span class="pull-right"></span></p>
+                                                                    </div>
+                                                                    <div class="clearfix"></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <div class="col-md-12 first_box">
+                                                                <a class="title_name" href="#">Waist Circumference</a>
+                                                                <div class="col-md-12">
+                                                                    <div class="pull-left">
+                                                                        <p class="no"><span id="lblWaist"></span><small> cm</small><br><small></small></p>
+                                                                    </div>
+                                                                    <div class="pull-right">
+                                                                        <p class="date "><span id="MainContent_ucClinicalDeshBoard_TabContainer1_tbpnluser_TabContainer6_TabPanel21_presDate"></span><br><span class="pull-right"></span></p>
+                                                                    </div>
+                                                                    <div class="clearfix"></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="clearfix"></div>
+                                                <div class="row second">
+                                                    <div class="col-md-12">
+                                                        
+                                                        <div class="col-md-4">
+                                                            <div class="col-md-12 first_box">
+                                                                <a class="title_name" href="#">Weight</a>
+                                                                <div class="col-md-12">
+                                                                    <div class="pull-left">
+                                                                        <p class="no"><span id="lblWeight"></span><small> kg</small><br> <small></small></p>
+                                                                    </div>
+                                                                    <div class="pull-right">
+                                                                        <p class="date "><span id="MainContent_ucClinicalDeshBoard_TabContainer1_tbpnluser_TabContainer6_TabPanel21_presDate"></span><br><span class="pull-right"></span></p>
+                                                                    </div>
+                                                                    <div class="clearfix"></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        @*<div class="col-md-4">
+                        <div class="col-md-12 first_box">
+                            <a class="title_name" href="#">Temperature</a>
+                            <div class="col-md-12">
+                                <div class="pull-left">
+                                    <p class="no"><span id="lblTemperature"></span><small> &deg;C</small><br> <small></small></p>
+                                </div>
+                                <div class="pull-right">
+                                    <p class="date "><span id="MainContent_ucClinicalDeshBoard_TabContainer1_tbpnluser_TabContainer6_TabPanel21_presDate"></span><br><span class="pull-right"></span></p>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    </div>*@
+                                                    </div>
+                                                </div>
+                                            </div>
+                                                </div>
+                                            </div>
+                                </div>
+                                <div class="clearfix"></div>
+
+                                <div class="tab-pane" id="tab_default_b">
+                                    <div class="col-md-12 eight_layer">
+                                        <div class="table-responsive data">
+                                            <table id="mytable" class="table table-hover table-bordered">
+                                                <thead style="color:#fff;">
+                                                    <tr>
+                                                        <th class="top">Items</th>
+                                                        <th class="top">Detailed Items</th>
+                                                        <th class="top">Standard</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr class="info">
+                                                        <td rowspan="6" style="vertical-align:middle;">Blood Glucose</td>
+                                                        <td style="vertical-align:middle;">Before Breakfast(BB)</td>
+                                                        <td style="vertical-align:middle;">
+                                                            <ul class="list-inline">
+                                                                <li class="input_box"><input type="text" class="form-control" id="BgBeforBreakfastMin" style="margin-left: 12px;"></li>
+                                                                <li><label for="exampleInputEmail2" id="dash">-</label></li>
+                                                                <li class="input_box"><input type="text" class="form-control" id="BgBeforBreakfastMax" style="margin-left: 12px;"></li>
+                                                                <li><label for="exampleInputEmail2">mmol/l </label></li>
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="info">
+                                                        <td style="vertical-align:middle;">After Breakfast(AB)</td>
+                                                        <td style="vertical-align:middle;">
+                                                            <ul class="list-inline">
+                                                                <li class="input_box"><input type="text" class="form-control" id="BgAfterBreakfastMin" style="margin-left: 12px;"></li>
+                                                                <li><label for="exampleInputEmail2" id="dash">-</label></li>
+                                                                <li class="input_box"><input type="text" class="form-control" id="BgAfterBreakfastMax" style="margin-left: 12px;"></li>
+                                                                <li><label for="exampleInputEmail2">mmol/l </label></li>
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="info">
+                                                        <td style="vertical-align:middle;">Before Lunch(BL)</td>
+                                                        <td style="vertical-align:middle;">
+                                                            <ul class="list-inline">
+                                                                <li class="input_box"><input type="text" class="form-control" id="BgBeforeLunchMin" style="margin-left: 12px;"></li>
+                                                                <li><label for="exampleInputEmail2" id="dash">-</label></li>
+                                                                <li class="input_box"><input type="text" class="form-control" id="BgBeforeLunchMax" style="margin-left: 12px;"></li>
+                                                                <li><label for="exampleInputEmail2">mmol/l </label></li>
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="info">
+                                                        <td style="vertical-align:middle;">After Lunch(AL)</td>
+                                                        <td style="vertical-align:middle;">
+                                                            <ul class="list-inline">
+                                                                <li class="input_box"><input type="text" class="form-control" id="BgAfterLunchMin" style="margin-left: 12px;"></li>
+                                                                <li><label for="exampleInputEmail2" id="dash">-</label></li>
+                                                                <li class="input_box"><input type="text" class="form-control" id="BgAfterLunchMax" style="margin-left: 12px;"></li>
+                                                                <li><label for="exampleInputEmail2">mmol/l </label></li>
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="info">
+                                                        <td style="vertical-align:middle;">Before Dinner(BD)</td>
+                                                        <td style="vertical-align:middle;">
+                                                            <ul class="list-inline">
+                                                                <li class="input_box"><input type="text" class="form-control" id="BgBeforeDinnerMin" style="margin-left: 12px;"></li>
+                                                                <li><label for="exampleInputEmail2" id="dash">-</label></li>
+                                                                <li class="input_box"><input type="text" class="form-control" id="BgBeforeDinnerMax" style="margin-left: 12px;"></li>
+                                                                <li><label for="exampleInputEmail2">mmol/l </label></li>
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="info">
+                                                        <td style="vertical-align:middle;">Before Bed(BBD)</td>
+                                                        <td style="vertical-align:middle;">
+                                                            <ul class="list-inline">
+                                                                <li class="input_box"><input type="text" class="form-control" id="BgBeforeBedMin" style="margin-left: 12px;"></li>
+                                                                <li><label for="exampleInputEmail2" id="dash">-</label></li>
+                                                                <li class="input_box"><input type="text" class="form-control" id="BgBeforeBedMax" style="margin-left: 12px;"></li>
+                                                                <li><label for="exampleInputEmail2">mmol/l </label></li>
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="info">
+                                                        <td rowspan="2" style="vertical-align:middle;">Blood Pressure</td>
+                                                        <td style="vertical-align:middle;">Systolic</td>
+                                                        <td style="vertical-align:middle;">
+                                                            <ul class="list-inline">
+                                                                <li class="input_box"><input type="text" class="form-control" id="BpSystolicMin" style="margin-left: 12px;"></li>
+                                                                <li><label for="exampleInputEmail2" id="dash">-</label></li>
+                                                                <li class="input_box"><input type="text" class="form-control" id="BpSystolicMax" style="margin-left: 12px;"></li>
+                                                                <li><label for="exampleInputEmail2">mmol/l </label></li>
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+
+                                                    <tr class="info">
+                                                        <td style="vertical-align:middle;">Before Breakfast(BB</td>
+                                                        <td style="vertical-align:middle;">
+                                                            <ul class="list-inline">
+                                                                <li class="input_box"><input type="text" class="form-control" id="BpBeforeBrekfastMin" style="margin-left: 12px;"></li>
+                                                                <li><label for="exampleInputEmail2" id="dash">-</label></li>
+                                                                <li class="input_box"><input type="text" class="form-control" id="BpBeforeBrekfastMax" style="margin-left: 12px;"></li>
+                                                                <li><label for="exampleInputEmail2">mmol/l </label></li>
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="info">
+                                                        <td style="vertical-align:middle;">Oxygen</td>
+                                                        <td style="vertical-align:middle;"></td>
+                                                        <td>
+                                                            <ul class="list-inline">
+                                                                <li class="input_box"><input type="text" class="form-control" id="OxygenMin" style="margin-left: 12px;"></li>
+                                                                <li><label for="exampleInputEmail2" id="dash">-</label></li>
+                                                                <li class="input_box"><input type="text" class="form-control" id="OxygenMax" style="margin-left: 12px;"></li>
+                                                                <li><label for="exampleInputEmail2">mmol/l </label></li>
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="info">
+                                                        <td style="vertical-align:middle;">Heart Rate</td>
+                                                        <td style="vertical-align:middle;"></td>
+                                                        <td>
+                                                            <ul class="list-inline">
+                                                                <li class="input_box"><input type="text" class="form-control" id="HeartRatemin" style="margin-left: 12px;"></li>
+                                                                <li><label for="exampleInputEmail2" id="dash">-</label></li>
+                                                                <li class="input_box"><input type="text" class="form-control" id="HeartRatemax" style="margin-left: 12px;"></li>
+                                                                <li><label for="exampleInputEmail2">mmol/l </label></li>
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="info">
+                                                        <td style="vertical-align:middle;">Temperature</td>
+                                                        <td style="vertical-align:middle;"></td>
+                                                        <td>
+                                                            <ul class="list-inline">
+                                                                <li class="input_box"><input type="text" class="form-control" id="TempMin" style="margin-left: 12px;"></li>
+                                                                <li><label for="exampleInputEmail2" id="dash">-</label></li>
+                                                                <li class="input_box"><input type="text" class="form-control" id="TempMax" style="margin-left: 12px;"></li>
+                                                                <li><label for="exampleInputEmail2">mmol/l </label></li>
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="info">
+                                                        <td style="vertical-align:middle;">BMI</td>
+                                                        <td style="vertical-align:middle;"></td>
+                                                        <td>
+                                                            <ul class="list-inline">
+                                                                <li class="input_box"><input type="text" class="form-control" id="BMIMin" style="margin-left: 12px;"></li>
+                                                                <li><label for="exampleInputEmail2" id="dash">-</label></li>
+                                                                <li class="input_box"><input type="text" class="form-control" id="BMIMax" style="margin-left: 12px;"></li>
+                                                                <li><label for="exampleInputEmail2">mmol/l </label></li>
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                    <tr class="info">
+                                                        <td style="vertical-align:middle;">Weight</td>
+                                                        <td style="vertical-align:middle;"></td>
+                                                        <td>
+                                                            <ul class="list-inline">
+                                                                <li class="input_box"><input type="text" class="form-control" id="WeightMin" style="margin-left: 12px;"></li>
+                                                                <li><label for="exampleInputEmail2" id="dash">-</label></li>
+                                                                <li class="input_box"><input type="text" class="form-control" id="WeightMax" style="margin-left: 12px;"></li>
+                                                                <li><label for="exampleInputEmail2">mmol/l </label></li>
+                                                            </ul>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="tab-pane" id="tab_default_c">
+                                    <div class="container-fulid">
+                                        <div class="row">
+                                            <div class="col-md-12 thirteen_layer">
+                                                <div class="table-responsive data">
+                                                    <table id="tblmedication" class="table table-hover table-bordered table_layout">
+                                                        <thead style="color:#fff;">
+                                                            <tr>
+                                                                <th class="top">No.</th>
+                                                                <th class="top">Name</th>
+                                                                <th class="top">Strength</th>
+                                                                <th class="top">Dose</th>
+                                                                <th class="top">Frequency</th>
+                                                                <th class="top">Route</th>
+                                                                <th class="top">No Needed</th>
+                                                                <th class="top">PRN</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+
+
+                                                            @*<tr class="info">
+                                                                    <td style="vertical-align:middle;">10</td>
+                                                                    <td style="vertical-align:middle;">Diabex 850 mg tablet: film-coated</td>
+                                                                    <td style="vertical-align:middle;"></td>
+                                                                    <td style="vertical-align:middle;">1</td>
+                                                                    <td style="vertical-align:middle;">Twice a day</td>
+                                                                    <td style="vertical-align:middle;">Oral</td>
+                                                                    <td style="vertical-align:middle;">Yes</td>
+                                                                    <td style="vertical-align:middle;">No</td>
+                                                                </tr>*@
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="tab-pane" id="tab_default_d">
+                                    <div class="container-fulid">
+                                        <div class="row">
+                                            <div class="col-md-12 thirteen_layer">
+                                                <div class="table-responsive data">
+                                                    <table id="tblPathology" class="table table-hover table-bordered table_layout">
+                                                        <thead style="color:#fff;">
+                                                            <tr>
+                                                                <th class="top">No.</th>
+                                                                <th class="top">Test Name</th>
+                                                                <th class="top">Clinical Notes</th>
+                                                                <th class="top">Instruction For Patient</th>
+                                                                <th class="top">Urgent</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+
+                                                            @*<tr class="info">
+                                                                    <td style="vertical-align:middle;">4</td>
+                                                                    <td style="vertical-align:middle;">MSU</td>
+                                                                    <td style="vertical-align:middle;">	UTI</td>
+                                                                    <td style="vertical-align:middle;">	MSU</td>
+                                                                    <td style="vertical-align:middle;">Non Urgent</td>
+                                                                </tr>*@
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="tab-pane" id="tab_default_e">
+                                    <div class="container-fulid">
+                                        <div class="row">
+                                            <div class="col-md-12 thirteen_layer">
+                                                <div class="table-responsive data">
+                                                    <table id="tblRadiology" class="table table-hover table-bordered table_layout">
+                                                        <thead style="color:#fff;">
+                                                            <tr>
+                                                                <th class="top">No.</th>
+                                                                <th class="top">Radiology</th>
+                                                                <th class="top">Region Name</th>
+                                                                <th class="top">Request Print</th>
+                                                                <th class="top">Clinical Notes</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+
+                                                            @*<tr class="info">
+                                                                    <td style="vertical-align:middle;">4</td>
+                                                                    <td style="vertical-align:middle;">Ultrasound</td>
+                                                                    <td style="vertical-align:middle;">Abdomen</td>
+                                                                    <td style="vertical-align:middle;">Ultrasound Right Abdomen</td>
+                                                                    <td style="vertical-align:middle;">TCYFHGFUYF</td>
+                                                                </tr>*@
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                                <div class="tab-pane" id="tab_default_f">
+                                    <div class="container-fluid">
+                                        <div id="dvconsult" class="row">
+                                         
+                                            @*<div class="col-md-12 future">
+                                                <div class="col-md-6" style="margin-bottom:13px;">
+                                                    <p class="consultaion"><b>Submit Date</b>: 26/04/2016 3:17 PM</span></p>
+                                                    <p class="text"><b>Reason</b>: Test</p>
+                                                    <p class="text"><b>Diagnosis</b> : Asdravirus </p>
+                                                    <a href="#" class="soap"><p class="text">Click On The Notes(SOAP)</p></a>
+                                                </div>
+
+                                            </div>*@
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+@*previous code*@
+
+<input type="hidden" id="hdnActionName" />
+<div class="modal fade" id="examinationModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" style="text-align:center;">
+                    <label id="lblTitle" style="color:red;"></label>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div id="CreateEditForm">
+
+                </div>
+                <div class="modal-footer">
+                    <button id="btnSaveExamination" type="button" class="btn btn-primary">Save</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<script id="bloodPressureTemplate" type="text/template">
+    <div class="row">
+        <div class="col-sm-4">Systolic Value (mmHg)</div>
+        <div class="col-sm-8">
+            <input id="txtBpSystolic" type="text" class="form-control" onkeypress="return numericWithDotOnly(this.id,event);" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">Diastolic Value (mmHg)</div>
+        <div class="col-sm-8">
+            <input id="txtBpDiastolic" type="text" class="form-control" onkeypress="return numericWithDotOnly(this.id,event);" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">Pulse Value (bpm) </div>
+        <div class="col-sm-8">
+            <input id="txtBpPulse" type="text" class="form-control" onkeypress="return numericWithDotOnly(this.id,event);" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">Measure Date (dd/mm/yyyy)  </div>
+        <div class="col-sm-8">
+            <input id="txtBpMeasureDate" type="text" class="form-control" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">Time HH:MM</div>
+        <div class="col-sm-8">
+            <input id="txtBpMeasurTime" type="text" class="form-control" style="width:200px; float:left;" onblur="MaskTimeFormat(this.id);" />
+            <select id="ddlBpAmPm" tabindex="0" class="form-control" style="width:65px; float:left; margin-left:10px;">
+                <option value="AM" selected="selected">AM</option>
+                <option value="PM">PM</option>
+            </select>
+        </div>
+    </div>
+</script>
+
+<script id="bloodSugarTemplate" type="text/template">
+    <div class="row">
+        <div class="col-sm-4">Blood Sugar Value(mmol/l)</div>
+        <div class="col-sm-8">
+            <input type="text" id="txtBloodSugarValue" class="form-control" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">Meal</div>
+        <div class="col-sm-8">
+            <label style="width: 95px;">
+                <input type="radio" name="optionBloodSugarMeal" class="rad" checked="" value="1">
+                Before
+            </label>
+            <label>
+                <input type="radio" name="optionBloodSugarMeal" class="rad" checked="" value="2">
+                After
+            </label>
+            <select id="ddlBloodSugarTime" class="form-control" style="width: 120px; float: right; margin-right: 82px;">
+                <option value="1" selected="selected">Breakfast</option>
+                <option value="2">Lunch</option>
+                <option value="3">Dinner</option>
+                <option value="4">Bed</option>
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">Measure Date</div>
+        <div class="col-sm-8">
+            <input id="txtBloodSugarMeasureDate" type="text" class="form-control" />
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-sm-4">Time HH:MM</div>
+        <div class="col-sm-8">
+            <input id="txtBloodSugarMeasureTime" type="text" class="form-control" style="width: 158px; float: left;" />
+            <select id="ddlBloodSugarAmPm" tabindex="0" class="form-control" style="width:65px; float:left; margin-left:10px;">
+                <option value="AM" selected="selected">AM</option>
+                <option value="PM">PM</option>
+            </select>
+        </div>
+    </div>
+</script>
+
+<script id="bloodOxygenTemplate" type="text/template">
+    <div class="row">
+        <div class="col-sm-4">OxygenValue %</div>
+        <div class="col-sm-8">
+            <input type="text" id="txtOxygenValue" class="form-control" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">Pulse Value </div>
+        <div class="col-sm-8">
+            <input type="text" id="txtOxygenPulseValue" class="form-control" />
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-4">Measure Date  </div>
+        <div class="col-sm-8">
+            <input type="text" id="txtOxygenMeasureDate" class="form-control" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">Time HH:MM</div>
+        <div class="col-sm-8">
+            <input type="text" id="txtOxygenMeasureTime" class="form-control" style="width:200px; float:left;" />
+            <select id="ddlOxygenAmPm" tabindex="0" class="form-control" style="width:65px; float:left; margin-left:10px;">
+                <option value="AM" selected="selected">AM</option>
+                <option value="PM">PM</option>
+            </select>
+        </div>
+    </div>
+</script>
+
+<script id="ecgTemplate" type="text/template">
+    <div class="row">
+        <div class="col-sm-4">Subject</div>
+        <div class="col-sm-8">
+            <input id="txtEcgSubject" type="text" class="form-control" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">Upload File</div>
+        <div class="col-sm-8">
+            <input type="file" id="ecgFile" name="ecgFile" class="form-control" /><br />
+            (Only doc, docx , ecg and pdf extension allow)
+        </div>
+    </div>
+</script>
+
+<script id="heartRateTemplate" type="text/template">
+    <div class="row">
+        <div class="col-sm-4">Pulse Value </div>
+        <div class="col-sm-8">
+            <input id="txtHeartRatePulseValue" type="text" class="form-control" />
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-sm-4">Measure Date  </div>
+        <div class="col-sm-8">
+            <input id="txtHeartRateMeasureDate" type="text" class="form-control" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">Time HH:MM</div>
+        <div class="col-sm-8">
+            <input id="txtHeartRateMeasureTime" type="text" class="form-control" style="width:200px; float:left;" />
+            <select id="ddlHeartRateAmPm" tabindex="0" class="form-control" style="width:65px; float:left; margin-left:10px;">
+                <option value="AM" selected="selected">AM</option>
+                <option value="PM">PM</option>
+            </select>
+        </div>
+    </div>
+</script>
+
+<script id="heightTemplate" type="text/template">
+    <div class="row">
+        <div class="col-sm-4">Height</div>
+        <div class="col-sm-8">
+            <input id="txtHeight" type="text" class="form-control" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">Measure Date  </div>
+        <div class="col-sm-8">
+            <input id="txtHeightMeasureDate" type="text" class="form-control" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">Time HH:MM</div>
+        <div class="col-sm-8">
+            <input id="txtHeightMeasureTime" type="text" class="form-control" style="width:200px; float:left;" />
+            <select id="ddlHeightAmPm" tabindex="0" class="form-control" style="width:65px; float:left; margin-left:10px;">
+                <option value="AM" selected="selected">AM</option>
+                <option value="PM">PM</option>
+            </select>
+        </div>
+    </div>
+</script>
+
+<script id="temperatureTemplate" type="text/template">
+    <div class="row">
+        <div class="col-sm-4">Temperature (°C)</div>
+        <div class="col-sm-8">
+            <input id="txtTemperature" type="text" class="form-control" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">Measure Date  </div>
+        <div class="col-sm-8">
+            <input id="txtTemperatureMeasureDate" type="text" class="form-control" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">Time HH:MM</div>
+        <div class="col-sm-8">
+            <input id="txtTemperatureMeasureTime" type="text" class="form-control" style="width:200px; float:left;" />
+            <select id="ddlTemperatureAmPm" tabindex="0" class="form-control" style="width:65px; float:left; margin-left:10px;">
+                <option value="AM" selected="selected">AM</option>
+                <option value="PM">PM</option>
+            </select>
+        </div>
+    </div>
+</script>
+
+<script id="waistTemplate" type="text/template">
+    <div class="row">
+        <div class="col-sm-4">Waist</div>
+        <div class="col-sm-8">
+            <input id="txtWaist" type="text" class="form-control" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">Measure Date</div>
+        <div class="col-sm-8">
+            <input id="txtWaistMeasureDate" type="text" class="form-control" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">Time HH:MM</div>
+        <div class="col-sm-8">
+            <input id="txtWaistMeasureTime" type="text" class="form-control" style="width:200px; float:left;" />
+            <select id="ddlWaistAmPm" tabindex="0" class="form-control" style="width:65px; float:left; margin-left:10px;">
+                <option value="AM" selected="selected">AM</option>
+                <option value="PM">PM</option>
+            </select>
+        </div>
+    </div>
+</script>
+
+<script id="weightTemplate" type="text/template">
+    <div class="row">
+        <div class="col-sm-4">Weight(kg)</div>
+        <div class="col-sm-8">
+            <input id="txtWeight" type="text" class="form-control" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4">Measure Date</div>
+        <div class="col-sm-8">
+            <input id="txtWeightMeasureDate" type="text" class="form-control" />
+        </div>
+    </div>
+</script>

@@ -1,0 +1,52 @@
+﻿@model List<MyOnlineClinic.Entity.Mercado>
+@if (Model.Count > 0)
+{
+    <div class="widget-recent widget-recent-comments light-gray ba classified-aside">
+        <div class="inner p-15">
+            <ul>
+                @foreach (var item in Model)
+                {
+                    var classifiedImageUrl = "/images/noImage.jpg";
+                    if (!string.IsNullOrEmpty(item.Icon))
+                    {
+                        classifiedImageUrl = item.Icon;
+
+                    }
+                    <li class="clearfix">
+                        <a href="javascript:void(0);" data-returnurl="@item.LinkUrl" data-id="@item.MercadoId" class="post-thumb count-click"><img src="@classifiedImageUrl" alt="@item.Title" class="img-responsive"></a>
+                        <span class="comment-author"><a href="javascript:void(0);" data-id="@item.MercadoId" data-returnurl="@item.LinkUrl" class="count-click-link">@item.Title</a></span>
+                        <span class="comment-entry" style="line-height:15px;">@item.Description</span>
+                        @*<span class="comment-entry">&#36;@item.Price</span>*@
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+}
+
+<script>
+    $(function () {
+        $(".count-click-link").on("click",function () {
+            var id = $(this).attr("data-id");
+            var returnUrl = $(this).attr("data-returnurl");
+            SetClick(id, returnUrl);
+        });
+        $(".count-click").on("click",function () {
+            var id = $(this).attr("data-id");
+            var returnUrl = $(this).attr("data-returnurl");
+            SetClick(id, returnUrl);
+        });
+    });
+    function SetClick(id, returnUrl) {       
+        $.get("/Home/MercadoClick",
+        {
+            Id: id,
+            async: false
+        },
+        function (data, status) {
+            window.open( returnUrl, '_blank');
+        });
+    }
+</script>
+
+

@@ -1,0 +1,109 @@
+﻿@model MyOnlineClinic.Web.Models.DoctorMembershipViewModel
+@{
+    ViewBag.Title = "DoctorMembership";
+    Layout = "~/Areas/Organizations/Views/Shared/_OrganizationLayout.cshtml";
+}
+@using JQueryUIHelpers;
+@using Share.Bonnet.AjaxDropDownList;
+@Scripts.Render("~/bundles/bonnet")
+<script src="/scripts/jquery.plugin.js"></script>
+<script src="/scripts/jquery.datepick.js"></script>
+<link href="~/Scripts/jquery.datepick.css" rel="stylesheet" />
+<section class="content-header staff">
+    <h1 class="underline40">
+        Doctor Membership
+    </h1>
+</section>
+<div class="row">
+    <div class="col-md-12">
+        <div class="col-md-7 first_layer">
+            <div class="form-horizontal" id="style-3">
+                <div class="box-body">
+                    @using (Html.BeginForm("DoctorMembership", "Doctor", FormMethod.Post, new { @class = "form-horizontal form-label-left" }))
+                    {
+                        @Html.HiddenFor(m => m.DoctorId)
+                        @Html.HiddenFor(m => m.LoginId)
+                        <div class="form-group role" style="margin-top:-3px;">
+                  <label for="inputEmail3" class="col-sm-4 control-label">Membership StartDate:</label>
+                            
+                            <div class="col-sm-6">
+                                @Html.TextBoxFor(x => x.StartDate, new { @class = "form-control", name = "StartDate", placeholder = "Select Membership Start Date", required = "required" })
+                            </div>
+                        </div>
+                        <div class="form-group role" style="margin-top:-3px;">
+                  <label for="inputEmail3" class="col-sm-4 control-label">Voucher No:</label>
+                            <div class="col-sm-6">
+                                @Html.TextBoxFor(x => x.VoucherNo, new { @class = "form-control", name = "VoucherNo", placeholder = "Enter Voucher No", required = "required" })
+                            </div>
+                        </div>
+                        <div class="item form-group" style="text-align:center; font-weight:bold; color:red;">
+                            @(Convert.ToString(TempData["ErrorMessage"]))
+                        </div>
+                        <div class="ln_solid"></div>
+                        <div class="form-group">
+                                            <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3" style="text-align:center;">
+                                                <button type="submit" class="btn btn-primary">Cancel</button>
+                                                <button type="submit" class="btn btn-success">Submit</button>
+                                            </div>
+                                        </div>    
+                    }
+                </div>
+        </div>
+    </div>
+</div>
+    </div>
+<script src="/AdminAssets/js/validator/validator.js"></script>
+<script>
+    $('#btnCancel').click(function () {
+        window.location = "/admin/Doctor/DoctorList";
+    })
+
+    $(document).ready(function () {
+        var currentDateTime = new Date();
+        var year = currentDateTime.getFullYear();
+        var month = currentDateTime.getMonth();
+        var date = currentDateTime.getDate();
+
+        $('#StartDate').datepick({ dateFormat: 'dd/mm/yyyy', minDate: 0 });
+    });
+    // initialize the validator function
+    validator.message['date'] = 'not a real date';
+
+    // validate a field on "blur" event, a 'select' on 'change' event & a '.reuired' classed multifield on 'keyup':
+    $('form')
+        .on('blur', 'input[required], input.optional, select.required', validator.checkField)
+        .on('change', 'select.required', validator.checkField)
+        .on('keypress', 'input[required][pattern]', validator.keypress);
+
+    $('.multi.required')
+        .on('keyup blur', 'input', function () {
+            validator.checkField.apply($(this).siblings().last()[0]);
+        });
+
+    // bind the validation to the form submit event
+    //$('#send').click('submit');//.prop('disabled', true);
+
+    $('form').submit(function (e) {
+        e.preventDefault();
+        var submit = true;
+        // evaluate the form using generic validaing
+        if (!validator.checkAll($(this))) {
+            submit = false;
+        }
+        if (submit)
+            this.submit();
+        return false;
+    });
+
+    /* FOR DEMO ONLY */
+    $('#vfields').change(function () {
+        $('form').toggleClass('mode2');
+    }).prop('checked', false);
+
+    $('#alerts').change(function () {
+        validator.defaults.alerts = (this.checked) ? false : true;
+        if (this.checked)
+            $('form .alert').remove();
+    }).prop('checked', false);
+</script>
+

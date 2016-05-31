@@ -1,0 +1,83 @@
+﻿@model IEnumerable<MyOnlineClinic.Web.Models.CommentViewModel>
+
+@if (Model == null)
+{
+    return;
+}
+else
+{
+    <div class="col-md-12">
+        <div class="widget-recent widget-recent-comments light-gray ba">
+            <div class="inner p-15">
+                <ul>
+                    @foreach (var item in Model)
+                    {
+                        var userImageUrl = "/images/noImage.jpg";
+                        var comments = item.Comments.Length > 50 ? item.Comments.Substring(0, 50) + "..." : item.Comments;
+                        //var userPhotos = item.UserAvatar;
+                        //var userImageUrl = "/images/noImage.jpg";
+                        //if (userPhotos != null)
+                        //{
+                        //    userImageUrl = userPhotos;
+                        //}
+                        <li class="clearfix">
+                            @*<a href="#" class="post-thumb"><img src=@userImageUrl alt=""></a>*@
+                            <span class="comment-author"><span>@item.Name</span></span>
+                            <span class="comment-entry">@comments <a class="section-comment" data-category="@item.CategoryName" data-title="@item.Title" data-section="@item.Section" data-sectionid="@item.SectionId" data-commentid="@item.CommentId" href="javascript:void(0);">Ler Mais..</a></span>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    $(document).ready(function () {
+        
+        $(".section-comment").on("click", function () { 
+            var title = $(this).attr("data-title");           
+            var sectionName = $(this).attr("data-section");
+            var sectionId = $(this).attr("data-sectionId");
+            var commentId = $(this).attr("data-commentId");
+            var category = $(this).attr("data-category");
+          
+            switch (sectionName)
+            {
+                case "Receitas": url = "/Receitas/" + title;
+                    break;
+                case "News":
+                   
+                    if (category == "Dinheiro") {
+                        window.location.href = "/Dinheiro/" + title;
+                    }
+                    else if (category == "Tecnologia") {
+                        window.location.href = "/Tecnologia/" + title;
+                    }
+                    else if (category == "Saúde") {
+                        window.location.href = "/Saúde/" + title;
+                    }
+                    else if (category == "Entretenimento") {
+                        
+                        window.location.href = "/Entretenimento/" + title;
+                    }
+                    else if (category == "Atualidade") {
+
+                        window.location.href = "/Atualidade/" + title;
+                    }
+                    else if (category == "Mundo") {
+
+                        window.location.href = "/Mundo/" + title;
+                    }
+                    else if (category == "Viajar") {
+                        window.location.href = "/Viajar/" + title;
+                    }
+                    break;
+                case "Empresas": url = "/Home/EmpressaDetail/" + sectionId;
+                    break;
+                    
+            }
+            window.location.href = url;            
+        });
+    });
+</script>

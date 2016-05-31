@@ -1,0 +1,17 @@
+﻿@using MyOnlineClinic.Web.Models
+@{
+    var userModel = ViewBag.LoginUserModel as LoginUserViewModel;
+}
+<div class="">
+    <a href="/admin/Dashboard">
+        @if (string.IsNullOrEmpty(userModel.Avatar))
+        {
+            <img src="~/images/user-profile.jpg" class="img-responsive img-circle" style="height:50px;width:50px;" />
+        }
+        else
+        {
+            <img src="@userModel.Avatar" class="img-responsive img-circle" style="height:50px;width:50px;" />
+        }
+        <span>@userModel.FullName</span>
+    </a>
+</div>

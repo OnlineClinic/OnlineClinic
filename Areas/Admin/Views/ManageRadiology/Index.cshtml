@@ -1,0 +1,380 @@
+﻿@model List<MyOnlineClinic.Web.Models.RadiologyViewModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<style>
+    div.dataTables_paginate {
+        float: right;
+        /*margin: 50px;*/
+    }
+
+    .sorting, .sorting_asc, .sorting_desc {
+        background: none;
+    }
+
+    div {
+        text-transform: capitalize;
+    }
+</style>
+<section class="content-header" style="margin-top:45px;">
+    <h1 class="underline51">
+        Radiology
+    </h1>
+    <ol class="breadcrumb">
+
+
+        <li style="margin-right: 5px !important;"><button type="button" id="btnBack" class="btn btn-success new">Back</button></li>
+    </ol>
+</section>
+@{MyOnlineClinic.Web.Models.SearchParametersViewModel objSearchModel = new MyOnlineClinic.Web.Models.SearchParametersViewModel();
+objSearchModel.ActionName = "Index";
+objSearchModel.ControllerName = "ManageDevice";
+objSearchModel.AreaName = "Admin";
+
+objSearchModel.ShowPatientName = true;
+objSearchModel.ShowDoctorName = true;
+// objSearchModel.ShowPatientName = true;
+//  objSearchModel.ShowPostCode = false;
+
+objSearchModel.PageTitle = "Device";
+}
+@{Html.RenderPartial("_SearchPartial", objSearchModel);}
+<div class="container-fulid">
+    <div class="row">
+        <div class="col-md-12 thirteen_layer">
+            <div class="table-responsive data">
+                <table id="mytable" class="table table-hover table-bordered">
+
+                    <thead style="color:#fff;">
+                        <tr>
+
+                            <th class="top">Nr</th>
+                            <th class="top">Organisation Name</th>
+                            <th class="top">Patient Name</th>
+                            <th class="top">Doctor Name</th>
+                            <th class="top">Request print</th>
+                            <th class="top">Clinical Notes</th>
+                            <th class="top">Action</th>
+                            <th class="top">Send To Patient</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{ int count = 1;}
+                        @foreach (var item in Model)
+                        {
+
+                            <tr class="info">
+
+                                <td>@count</td>
+                                <td>@item.OrganizationName</td>
+                                <td>@item.PatientName</td>
+                                <td>@item.DoctorName</td>
+                                <td>@item.RequestPrint</td>
+                                <td>@item.ClinicalNotes</td>
+                                <td>
+                                    <ul class="list-inline" style="position: relative; top: 10px;">
+                                        <li> <p data-placement="top" data-toggle="tooltip" title="" data-original-title="View"><a class="radiologyyview" href="#" data-toggle="modal" data-target="#ContentPlaceHolder1_pnlPrintPathology" data-copyresult="@item.CopyResult" data-requestno="@item.RequestNo" data-patientid="@item.PatientId" data-clinicalnotes="@item.ClinicalNotes" data-doctorid="@item.DoctorId"><button class="btn btn-primary btn-xs edit"><span class="glyphicon glyphicon-eye-open"></span></button></a></p></li>
+                                    </ul> 
+                                </td>
+                                <td><a href="#" style="color:red;">Send</a></td>
+
+                            </tr>
+                            count = count + 1;
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <br />
+    <br />
+    <br />
+</div>
+<div class="modal fade" id="ContentPlaceHolder1_pnlPrintPathology" style="width: 520px; margin-top:100px; padding: 20px 20px 20px 20px; border-radius: 5px; overflow-y: scroll; max-height: 600px; position: fixed; z-index: 100001; left: 394.5px; top: -94.5px; background-color: white;">
+    <div class="modal-header" style="padding: 15px 0px 5px 0px; background-color: #f5f5f5; border-radius:5px;">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style=" margin-top: 6px !important;">×</button>
+    </div>
+    @*<input type="image" name="ctl00$ContentPlaceHolder1$imgClosePopup" id="ContentPlaceHolder1_imgClosePopup" class="close closes" src="images/closebox.png" style="margin: -20px;">*@
+    <div id="dvPrint" style="height: 100%; width: 100%; background-color:White; margin: 0 auto; padding-left:20px;">
+        <div id="ContentPlaceHolder1_dvPrint1" style="width: 100%; height: 100%; background-color: White;">
+
+            <div style="background-image: #AEEDFF; height: auto; margin-bottom: 5px;text-align:center;">
+                <img src="../bootstrap/img/logo.png" alt="" style="margin-top: 0px; width: 50px; height: 50px">
+                &nbsp;
+            </div>
+            <div style="background-color: #AEEDFF; text-align: center; min-height: 95px; height: auto;
+                            width: 98%; border-radius: 10px; border: solid 1px black; font-size: 14px;
+                            margin-bottom: 12px;">
+                My Online Clinic<br>
+
+                PO Box 514, Biggera Waters,<br>
+                QLD, 4216
+                <br>
+                Phone: (+61) 1300 900 863
+                <br>
+                FAX: (+61) 0755 744 439
+            </div>
+            <div style="background-color: #CBB7E9; min-height: 150px; height: auto; width: 98%;
+                        border-radius: 10px; border: solid 1px black; font-size: 14px; margin-bottom: 15px;">
+                <table style="width: 100%;" cellpadding="5px">
+                    <tbody>
+                        <tr>
+                            <td style="width:35%">
+                                Patient Name:
+                            </td>
+                            <td>
+                                <span id="ContentPlaceHolder1_lblPatientName">Miss. moc patient</span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                DOB:
+                            </td>
+                            <td>
+                                <span id="ContentPlaceHolder1_lblDateOfBirth">27/02/1992</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Sex :
+                            </td>
+                            <td>
+                                <span id="ContentPlaceHolder1_lblSex">Female</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Address:
+                            </td>
+                            <td>
+                                <span id="ContentPlaceHolder1_lblAddress">6550 Newell Hwy 1</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Phone:
+                            </td>
+                            <td>
+                                <span id="ContentPlaceHolder1_lblPhoneNumber">98765432101</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Medicare Number :
+                            </td>
+                            <td>
+                                <span id="ContentPlaceHolder1_lblMedicareNumber"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Expiry Date:
+                            </td>
+                            <td>
+                                <span id="ContentPlaceHolder1_lblExpiryDate">02/2015</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Request Number:
+                            </td>
+                            <td>
+                                <span id="ContentPlaceHolder1_lblrequestNumber">1348</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Request Date Time:
+                            </td>
+                            <td>
+                                <span id="ContentPlaceHolder1_lblRequestDateTime">5/3/2016 6:34:08 AM</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Result:
+                            </td>
+                            <td>
+                                Via HealthLink EDI: myoclinp
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Copy Result:
+                            </td>
+                            <td>
+                                <span id="ContentPlaceHolder1_lblcopyresult">DFGDFG</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div style="background-color: #DFFDB7; min-height: 55px; height: auto; width: 98%;
+                            border-radius: 10px; border: solid 1px black; font-size: 14px; margin-bottom: 12px;">
+                <table style="width: 100%;" cellpadding="10px">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <b style="font-size: 16px; text-decoration: underline;">Test Requested</b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span id="ContentPlaceHolder1_lblTestRequested">Ultrasound Right   Abdomen</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div style="background-color: #C9DBFF; min-height: 55px; height: auto; width: 98%;
+                            border-radius: 10px; border: solid 1px black; font-size: 14px; margin-bottom: 12px;">
+                <table style="width: 100%;" cellpadding="10px">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <b style="font-size: 16px; text-decoration: underline;">
+                                    ClinicalNotes
+                                </b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span id="ContentPlaceHolder1_lblClinicalNotes">test</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div style="background-color: #D4D4D4; min-height: 50px; height: auto;
+                            width: 98%; border-radius: 10px; border: solid 1px black; font-size: 14px;
+                            margin-bottom: 12px;">
+                <table style="width: 100%;" cellpadding="10px">
+                    <tbody>
+                        <tr>
+                            <td style="width: 25%;">
+                                Doctor Name:
+                            </td>
+                            <td>
+                                <span id="ContentPlaceHolder1_lblDoctorName">Mr. Admin</span>
+                            </td>
+                            <td>
+                                Date:
+                            </td>
+                            <td>
+                                <span id="ContentPlaceHolder1_lbldate">30/05/2016</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Provider Number:
+                            </td>
+                            <td>
+                                <span id="ContentPlaceHolder1_lblProviderNumber"></span>
+                            </td>
+                            <td>
+                                Sign:
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Result :
+                            </td>
+                            <td>
+                                Via HealthLink EDI: myoclinr
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+    <div style="text-align: center; margin-top: 46px">
+        <a onclick="return printRecord();" id="ContentPlaceHolder1_lnkPrint" href="javascript:__doPostBack('ctl00$ContentPlaceHolder1$lnkPrint','')" style="text-decoration: none; color: Black;
+        border: solid 1px black; border-radius: 5px; width: 85px; float: left; margin-left: 215px;">Print</a>
+    </div>
+</div>
+<script>
+    $('.radiologyyview').click(function () {
+      
+        console.log($(this).attr('data-patientId'));
+        var patientId = $(this).attr('data-patientId');
+        var DoctorId = $(this).attr('data-DoctorId');
+        var id = $(this).attr('id');
+        var copyResult = $(this).attr('data-copyresult');
+        //var patientinstruction = $(this).attr('data-patientinstruction');
+        //var fasting = $(this).attr('data-fasting');
+        var requestno = $(this).attr('data-requestno');
+
+        var clinicalNotes = $(this).attr('data-clinicalNotes');
+        //
+      //  $('#ContentPlaceHolder1_lblpatientInst_value').html(patientinstruction);
+        $('#ContentPlaceHolder1_lblPatientName').html('');
+        $('#ContentPlaceHolder1_lblSex').html('');
+        $('#ContentPlaceHolder1_lblDateOfBirth').html('');
+        $('#ContentPlaceHolder1_lblAddress').html('');
+        $('#ContentPlaceHolder1_lblPhoneNumber').html('');
+        $('#ContentPlaceHolder1_lblMedicareNumber').html('');
+        $('#ContentPlaceHolder1_lblExpiryDate').html('');
+        $('#ContentPlaceHolder1_lblrequestNumber').html(requestno);
+        //$('#ContentPlaceHolder1_lblRequestDateTime').html('');
+        $('#ContentPlaceHolder1_lblcopyresult').html(copyResult);
+        //$('#ContentPlaceHolder1_lblClinicalNotes').html(clinicalNotes);
+        //$('#ContentPlaceHolder1_imgSign').html(clinicalNotes);
+        //ContentPlaceHolder1_lblTestRequested
+       // $('#ContentPlaceHolder1_lblTestRequested').html(fasting);
+       
+        $.ajax({
+            type: "POST",
+            url: '/Admin/ManageRadiology/GetPatientDetail',
+            datatype: "json",
+            data: { PatientId: patientId, doctorId: DoctorId },
+            success: function (data1) {
+                console.log(data1);
+                //console.log(data1);
+                $('#ContentPlaceHolder1_lblPatientName').html(data1.FullName);
+                $('#ContentPlaceHolder1_lblSex').html(data1.GenderName);
+                $('#ContentPlaceHolder1_lblDateOfBirth').html(getCreatedDate(data1.DOB));
+                $('#ContentPlaceHolder1_lblAddress').html(data1.Address1 + " " + data1.Address2);
+                $('#ContentPlaceHolder1_lblPhoneNumber').html(data1.PhoneNumber);
+                $('#ContentPlaceHolder1_lblMedicareNumber').html(data1.MedicareNumber);
+                $('#ContentPlaceHolder1_lblExpiryDate').html(data1.MedicareExpire);
+                $('#ContentPlaceHolder1_imgSign').attr('src', data1.SignaturePic);
+                // $('#ContentPlaceHolder1_lblrequestNumber').html('');
+                //  $('#ContentPlaceHolder1_lblRequestDateTime').html('');
+                //  $('#ContentPlaceHolder1_lblcopyresult').html('');
+            },
+            error: function () {
+            }
+        });
+    });
+
+</script>
+<script>
+    function printRecord() {
+        var printContents = document.getElementById('dvPrint').innerHTML;
+        var originalContents = document.body.innerHTML;
+        document.body.innerHTML = printContents;
+        window.print();
+        document.body.innerHTML = originalContents;
+    }
+    function getCreatedDate(inputDate) {
+        var today = new Date(parseInt(inputDate.substr(6)));
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1; //January is 0!
+        var yyyy = today.getFullYear();
+        if (dd < 10) {
+            dd = '0' + dd
+        }
+        if (mm < 10) {
+            mm = '0' + mm
+        }
+
+        var SubmitDate = dd + '/' + mm + '/' + yyyy;
+        return SubmitDate;
+    }
+</script>
+

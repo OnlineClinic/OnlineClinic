@@ -1,0 +1,116 @@
+﻿@model List<MyOnlineClinic.Web.Models.PaymentHistoryResponseModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<style>
+    div.dataTables_paginate {
+        float: right;
+        /*margin: 50px;*/
+    }
+
+    .sorting, .sorting_asc, .sorting_desc {
+        background: none;
+    }
+
+    div {
+        text-transform: capitalize;
+    }
+</style>
+<section class="content-header" style="margin-top:45px;">
+    <h1 class="underline54">
+        Payment History
+    </h1>
+</section>
+<div class="container-fulid">
+    <div class="row">
+        <div class="col-md-12 thirteen_layer">
+            <div class="table-responsive data">
+                <table id="mytable" class="table table-hover table-bordered">
+                    <thead style="color:#fff;">
+                        <tr>
+                            <th class="top">S. No</th>
+                            <th class="top">Patient Name</th>
+                            <th class="top">Doctor Name</th>
+                            <th class="top">Appointment Date</th>
+                            <th class="top">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{ int count = 1;}
+                        @foreach (var item in Model)
+                        {
+                            <tr class="info">
+                                <td>@count</td>
+                                <td>@item.PatientOrganization @item.PatientName</td>
+                                <td>@item.DoctorOrganization @item.doctorname</td>
+                                <td>
+                                    @item.AppointmentDateUtc
+                                </td>
+                                <td>
+                                    @if (item.CaptureStatus == "Show")
+                                    {
+                                        <a href="javascript:;" class="capture-payment" data-paymenthistoryid="@item.PaymentHistoryId" data-authorization="@item.AuthorizationId" data-amount="@item.ConsultFee">Capture Payment</a>
+                                    }
+                                    @if (item.RefundStatus == "Show")
+                                    {
+                                        <a href="javascript:;" class="Refund-payment" data-paymenthistoryid="@item.PaymentHistoryId" data-captureid="@item.CaptureId" data-amount="@item.ConsultFee">Refund Payment</a>
+                                    }
+                                </td>
+                            </tr>
+                                    count = count + 1;
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script>
+    $(function () {
+        $(".capture-payment").on("click", function () {
+            var authorizationId = $(this).attr("data-authorization");
+            var ConsultFee = $(this).attr("data-Amount");
+            var paymenthistoryid = $(this).attr("data-paymenthistoryid");
+            var model = JSON.stringify({ Amount: ConsultFee, AuthorizationId: authorizationId, Currency: "USD", paymenthistoryid: paymenthistoryid });
+            $.ajax({
+                url: '@Url.Action("CapturePayment","Patient")',
+                type: 'POST',
+                data: model,
+                dataType: 'json',
+                processData: false,
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    alert('Capture payement successfully');
+                    location.reload(true);
+                },
+                error: function () {
+                    alert("error");
+                }
+            });
+        });
+
+        $(".Refund-payment").on("click", function () {
+            var captureid = $(this).attr("data-captureid");
+            var ConsultFee = $(this).attr("data-Amount");
+            var paymenthistoryid = $(this).attr("data-paymenthistoryid");
+            var model = JSON.stringify({ Amount: ConsultFee, CaptureId: captureid, Currency: "USD", paymenthistoryid: paymenthistoryid });
+            $.ajax({
+                url: '@Url.Action("RefundPayment", "Patient")',
+                type: 'POST',
+                data: model,
+                dataType: 'json',
+                processData: false,
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    alert('Refund payement successfully');
+                    location.reload(true);
+                },
+                error: function () {
+                    alert("error");
+                }
+            });
+        });
+    });
+</script>

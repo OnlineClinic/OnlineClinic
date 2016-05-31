@@ -1,0 +1,121 @@
+﻿
+@model List<MyOnlineClinic.Web.Models.AppointmentViewModel>
+
+@{
+    ViewBag.Title = "PendingAppointment";
+   // Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-fulid">
+    <div class="row">
+        <div class="col-md-12 third_layer">
+            <div class="table-responsive data">
+                <table id="mytable" class="table table-hover table-bordered">
+                    <thead style="color:#fff;">
+                        <tr>
+                            <th class="top">No.</th>
+                            <th class="top">Organisation Name</th>
+                            <th class="top">Patient Name</th>
+                            <th class="top">Doctor Name</th>
+                            <th class="top">Appointment Type</th>
+                            <th class="top">Appointment Status</th>
+                            <th class="top">Appointment Date</th>
+                            <th class="top">Time Record</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{ int count = 1;}
+                        @foreach (var item in Model)
+                        {
+                            <tr class="info">
+                                <td>@count</td>
+                                <td>
+                                    <input type="hidden" id="hidAppointmentId" value="@item.AppointmentId" />
+                                    @item.OrganizationName
+                                    @if (item.AppointmentType == 3 && item.HomeVisitDetail.Count > 0)
+                                    {
+                                        <input type="hidden" id="hidlat_@item.AppointmentId" value="@item.HomeVisitDetail.FirstOrDefault().latitude" />
+                                        <input type="hidden" id="hidlong_@item.AppointmentId" value="@item.HomeVisitDetail.FirstOrDefault().longitude" />
+                                    }
+                                </td>
+                                <td>@item.PatientName</td>
+                                @if (item.DoctorFullName == "")
+                                {
+                                    if (item.AvailabileDoctorList != null && item.AvailabileDoctorList.Count > 0)
+                                    {
+                                        <td id="td_@item.AppointmentId">
+                                            <select id="ddlAllocatedDoctorList_@item.AppointmentId" class="form-control col-md-7 col-xs-12 text_row" style="width: 71%;">
+                                                <option value="0">-Allocated Doctor-</option>
+                                                @foreach (var jando in item.AvailabileDoctorList)
+                                                {
+                                                    <option value="@jando.DoctorAvailabilitys.Doctors.MemberId">@(StringCipher.Decrypt(jando.DoctorAvailabilitys.Doctors.FirstName) + " " + StringCipher.Decrypt(jando.DoctorAvailabilitys.Doctors.SurName))</option>
+                                                }
+                                            </select>
+                                            <div style="float: left; width: 71%; text-align: center;">
+                                                <button type="submit" id="btnAssign" data-role="@item.AppointmentId" class="btn btn-success btnAssign">Submit</button>
+                                            </div>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>@item.DoctorFullName</td>
+                                    }
+                                }
+                                else
+                                {
+                                    <td>@item.DoctorFullName</td>
+                                }
+                                <td>@item.AppointmentTypeText</td>
+                                <td>@item.AppointmentStatusName</td>
+                                <td>
+                                    @item.AppointmentDateLocalText
+                                    <input type="hidden" id="hidappdate_@item.AppointmentId" value="@item.AppointmentDateLocalText" />
+                                </td>
+                                <td>
+                                    <a href="/Admin/Appointment/AppointmentRecord/@item.AppointmentId" class="time" data-toggle="tooltip" data-placement="left" title="Appointment Record">
+                                        <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                    </a>
+                                </td>
+
+                            </tr>
+                                count = count + 1;
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <br />
+        <button type="submit" class="btn btn-primary">Populate</button>
+        <div style="float: left; width: 100%; margin-bottom: 4%;">
+            <table width="100%">
+                <tr>
+                    <td>
+                        <div id="map_canvas_key" style="display: none;">
+                        </div>
+                        <div id="map_canvas" style="height: 440px; width: 98%;">
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="divDoctor" style="display: none;">
+
+        </div>
+    </div>
+
+
+</div>
+
+
+
+<div class="container-fulid">
+
+
+    <div id="empInfoDetails">
+    </div>
+</div>
+
+
+<script src="~/AdminAssets/js/datatables/js/jquery.dataTables.js"></script>
+
+

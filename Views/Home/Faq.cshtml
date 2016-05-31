@@ -1,0 +1,84 @@
+﻿@model MyOnlineClinic.Web.Models.FaqViewModel
+@{
+    ViewBag.Title = "Faq";
+}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h3>FAQ</h3>
+        </div>
+        <div class="col-md-6">
+            <ol class="breadcrumb">
+                <li><a href="#">Home</a></li>
+                <li class="active">FAQ</li>
+            </ol>
+        </div>
+    </div>
+    <section class="slice bg-base">
+        <div class="wp-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="text-center">
+                            <h2>Frequently asked questions</h2>
+                            <p>
+                                Obtenha aqui respostas rápidas para as suas questões.<br />
+                                Este FAQ contém todas as respostas básicas para o uso dos nossos serviços. Se mesmo assim não encontrar as respostas, use o formulário de contacto
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="slice bg-white">
+        <div class="wp-section">
+            <div class="row">
+                <div class="col-md-8">
+
+                    @foreach (var item in Model.FaqSectionList)
+                    {
+                        var count = 1;
+                        <div class="section-title-wr">
+                            <h3 class="section-title left"><span>@item.SectionName</span></h3>
+                        </div>
+                        foreach (var subSection in Model.FaqSubSectionList.Where(x => x.FaqSectionId == item.FaqSectonId))
+                        {
+                            <div class="panel-group" id="@subSection.FaqSubSectionId">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#@subSection.FaqSubSectionId" href="#@subSection.FaqSubSectionId@count">
+                                                @subSection.SubSectionName
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="@subSection.FaqSubSectionId@count" class="panel-collapse collapse in">
+                                        <div class="panel-body">
+                                            @Html.Raw(subSection.Description)
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            count = count + 1;
+                        }
+                    }
+                </div>
+
+                <div class="col-md-4 faq-banner">
+                    <div class="section-title-wr">
+                        <h3 class="section-title left"></h3>
+                    </div>
+                    <div class="script-banner">
+                        @{Html.RenderAction("Banner", "Home", new { @page = "INÍCIO", @bannerType = "RightSide1" });}
+
+                        <br />
+                        @{Html.RenderAction("Banner", "Home", new { @page = "INÍCIO", @bannerType = "RightSide2" });}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</div>
+

@@ -1,0 +1,7 @@
+﻿@model  IEnumerable<MyOnlineClinic.Entity.LookUpCountry>
+
+<ul> @foreach (var item in Model)
+{
+    <a href="/home/Empresas?country=@item.CountryName">@item.CountryName</a>
+}
+</ul>

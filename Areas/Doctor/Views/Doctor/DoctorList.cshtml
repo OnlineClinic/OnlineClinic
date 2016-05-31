@@ -1,0 +1,335 @@
+﻿@model List<MyOnlineClinic.Web.Models.RegisterViewModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<style>
+    .sorting, .sorting_asc, .sorting_desc {
+        background: none;
+    }
+
+    .onoffswitch {
+        position: relative;
+        width: 50px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+    }
+
+    .onoffswitch-checkbox {
+        display: none;
+    }
+
+    .onoffswitch-label {
+        display: block;
+        overflow: hidden;
+        cursor: pointer;
+        border: 2px solid #F7F7F7;
+        border-radius: 7px;
+    }
+
+    .onoffswitch-inner {
+        display: block;
+        width: 200%;
+        margin-left: -100%;
+        transition: margin 0.3s ease-in 0s;
+    }
+
+        .onoffswitch-inner:before, .onoffswitch-inner:after {
+            display: block;
+            float: left;
+            width: 50%;
+            height: 32px;
+            padding: 0;
+            line-height: 32px;
+            font-size: 14px;
+            color: white;
+            font-family: Trebuchet, Arial, sans-serif;
+            font-weight: normal;
+            box-sizing: border-box;
+        }
+
+        .onoffswitch-inner:before {
+            content: "ON";
+            padding: 0px;
+            background-color: #0aa49c;
+            color: #FFFFFF;
+            text-align: center;
+        }
+
+        .onoffswitch-inner:after {
+            content: "OFF";
+            padding: 0px;
+            background-color: #FF0505;
+            color: #FFFFFF;
+            text-align: center;
+        }
+    /*.onoffswitch-switch {
+        display: block; width: 18px; margin: 7px;
+        background: #FFFFFF;
+        position: absolute; top: 0; bottom: 0;
+        right: 53px;
+        border: 2px solid #F7F7F7; border-radius: 13px;
+        transition: all 0.3s ease-in 0s;
+    }*/
+    .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+        margin-left: 0;
+    }
+
+    .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+        right: 0px;
+    }
+</style>
+<div class="right_col" role="main">
+    <div class="">
+        <div class="page-title">
+            <div class="title_left">
+            </div>
+            @*<div class="title_right pull-right">
+                    <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search for...">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">Go!</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>*@
+        </div>
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="row">
+                        <div class="col-sm-7">
+                            <h2 class="default-title">Doctor List</h2>
+                        </div>
+                        <div class="col-sm-5 text-right">
+                            <button type="button" id="btnNew" class="btn btn-primary btn-sm">New</button>
+                            <button type="button" id="btnActivate" class="btn btn-primary btn-sm">
+                                Active
+                            </button>
+                            <button type="button" id="btnDelete" class="btn btn-primary btn-sm">
+                                Inactive
+                            </button>
+                            <button type="button" id="btnBack" class="btn btn-primary btn-sm">Back</button>
+                        </div>
+                    </div>
+                    <div class="x_content">
+                        <table id="example" class="table table-striped responsive-utilities jambo_table">
+                            <thead style="font-size:11px">
+                                <tr>
+
+                                    @*<th>Nr</th>*@
+                                    <th style="font-size: 11px; text-align: center; padding: 10px 5px;">Photo</th>
+                                    <th style="width: 10%; font-size: 11px; text-align: center; padding: 10px 5px; ">Doctor Name</th>
+                                    <th style="width: 14%; font-size: 11px; padding: 10px 5px; text-align: center; ">Organization/Clinic</th>
+                                    <th style="width: 10%; font-size: 11px; padding: 10px 5px; text-align: center; ">Mail ID</th>
+                                    <th style="width: 10%; font-size: 11px; padding: 10px 5px; text-align: center; ">Last Updated</th>
+
+                                    <th style="width: 13%; font-size: 11px; padding: 10px 5px; text-align: center; ">View Patient List </th>
+                                    <th style="width: 10%; font-size: 11px; padding: 10px 5px; text-align: center; ">Assign Voucher</th>
+                                    @*<th style="width: 10%; font-size: 11px; padding: 10px 5px; text-align: center; ">Details</th>*@
+                                    @*<th>Edit</th>*@
+                                    <th style="width: 10%; font-size: 12px; padding: 10px 5px; text-align: center; ">Approve </th>
+                                    <th style="width: 10%; font-size: 12px; padding: 10px 5px; text-align: center; ">
+                                        <input type="checkbox" id="selecctall">
+                                        Actions
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody style="font-size:11px;text-align:center">
+                                @{ int count = 1;}
+                                @foreach (var item in Model)
+                                {
+
+                                    <tr>
+
+                                        <td><img src="@item.ProfilePic" height="25" width="25" /></td>
+                                        <td>@item.FullName</td>
+                                        <td>@item.organizationName</td>
+                                        <td>@item.Email</td>
+                                        <td>@item.ModyfiedDate</td>
+                                        <td><img src="~/images/130-1.png" height="25" width="25" /></td>
+                                        <td>  <img src="~/images/newwwwwww.png" height="25" width="25" /> </td>
+
+
+                                        <td>
+                                            @if (item.IsActive)
+                                            {
+                                                <img src="~/images/on.png" height="35" width="35" />
+                                            }
+                                            else
+                                            {
+                                                <img src="~/images/off.png" height="33" width="33" />
+                                            }
+                                        </td>
+                                        <td class="table-icons" style="width:110px!important; text-align: center;">
+                                            <input type="checkbox" class="checkbox1" name="UserApproval" value=@item.MemberId>
+                                            <a href="/Doctor/Doctor/Add/@item.MemberId" data-toggle="tooltip" data-placement="left" title="Edit"> <span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                                            <a href="/Doctor/Doctor/DoctorDetail/@item.MemberId" data-toggle="tooltip" data-placement="left" title="Details"> <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span></a>
+                                            <a href="/admin/DoctorAvailability/index/@item.MemberId" data-toggle="tooltip" data-placement="left" title="Set Availability">Set Availability</a>
+                                        </td>
+                                    </tr>
+                                            count = count + 1;
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <br />
+            <br />
+        </div>
+    </div>
+</div>
+@using (Html.BeginForm("Delete", "Doctor", FormMethod.Post))
+{
+    <div class="modal fade" id="basicModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">
+                        <label id="lblTitle">Inactive Doctor</label>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div id="CreateEditForm">
+                        <label>Are you sure to Inactive this Doctor</label>
+                        <input type="text" name="serviceIds" id="serviceIds" style="display: none" />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Ok</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+}
+
+@using (Html.BeginForm("Acitvate", "Doctor", FormMethod.Post))
+{
+    <div class="modal fade" id="ActivateModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">
+                        <label id="lblTitle">Activate Doctor </label>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <div id="CreateEditForm">
+                        <label>Are you sure to activate this Doctor</label>
+                        <input type="text" name="ActivateIds" id="ActivateIds" style="display: none" />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Ok</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+}
+<script src="~/AdminAssets/js/datatables/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+
+        var oTable = $('#example').dataTable({
+            "bProcessing": true,
+            "iDisplayLength": 10,
+            "bPaginate": true,
+            "sPaginationType": "full_numbers"
+        });
+
+        $('[data-toggle="tooltip"]').tooltip();
+
+        $("#btnAddNewUsers").click(function () {
+            window.location.href = "/admin/DashBoard/RegisterPatientByAdmin";
+        });
+
+        $("#btnNew").click(function () {
+            window.location.href = "/Doctor/Doctor/add";
+        });
+
+        DisableButton();
+        var favorite = [];
+        $("#selecctall").click(function (event) {  //on click
+            if (this.checked) {
+                $("input[name='UserApproval']").each(function () { //loop through each checkbox
+                    if (this.checked !== true) {
+                        this.checked = true;  //select all checkboxes with class "checkbox1"
+                        favorite.push($(this).val());
+                    }
+                });
+            } else {
+                $("input[name='UserApproval']").each(function () { //loop through each checkbox
+                    this.checked = false; //deselect all checkboxes with class "checkbox1"
+                    favorite.pop($(this).val());
+                });
+            }
+            $("#serviceIds").val(favorite);
+            $("#ActivateIds").val(favorite);
+            DisableButton();
+
+        });
+
+         $(document).on('click', "input[name='UserApproval']", function (event) {
+            if (this.checked == true) {
+                favorite.push($(this).val());
+            }
+            else {
+                favorite.pop();
+            }
+            $("#serviceIds").val(favorite);
+            $("#ActivateIds").val(favorite);
+            DisableButton();
+        });
+
+        $("#btnDelete").click(function () {
+            var options = {
+                "backdrop": "static"
+            };
+            $('#basicModal').modal(options);
+        });
+
+        $("#btnActivate").click(function () {
+            var options = {
+                "backdrop": "static"
+            };
+            $('#ActivateModal').modal(options);
+        });
+        $("#btnBack").on("click", function () {
+            window.history.back();
+        });
+    });
+
+    function DisableButton() {
+        if ($("#serviceIds").val() == '') {
+            $("#btnDelete").attr('disabled', 'disabled');
+        }
+        else {
+            $("#btnDelete").removeAttr('disabled', 'disabled');
+        }
+        if ($("#ActivateIds").val() == '') {
+            $("#btnActivate").attr('disabled', 'disabled');
+        }
+        else {
+            $("#btnActivate").removeAttr('disabled', 'disabled');
+        }
+    }
+
+</script>
+

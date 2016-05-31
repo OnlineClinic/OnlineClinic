@@ -1,0 +1,1052 @@
+﻿@model List<MyOnlineClinic.Web.Models.AppointmentViewModel>
+
+@{
+    ViewBag.Title = "PendingAppointment";
+    Layout = "~/Areas/Clinic/Views/Shared/_ClinicLayout.cshtml";
+}
+<style>
+    .labels {
+        color: white; /* background-color: red; */
+        font-family: "Lucida Grande", "Arial", sans-serif;
+        font-size: 12px;
+        text-align: center;
+        z-index: 9999;
+        width: 30px;
+        white-space: nowrap;
+    }
+
+    div.dataTables_paginate {
+        float: right;
+        /*margin: 50px;*/
+    }
+
+    .sorting, .sorting_asc, .sorting_desc {
+        background: none;
+    }
+
+    div {
+        text-transform: capitalize;
+    }
+
+    button.close {
+        float: right;
+        font-size: 21px;
+        font-weight: 700;
+        line-height: 0;
+        color: #fff;
+        text-shadow: 0 1px 0 #fff;
+        opacity: 1;
+        margin-top: -10px !important;
+        margin-right: 4px;
+    }
+</style>
+<script src="/scripts/jquery.plugin.js"></script>
+<script src="~/AdminAssets/js/common.js"></script>
+<script src="/scripts/jquery.plugin.js"></script>
+<script src="/scripts/jquery.datepick.js"></script>
+<link href="~/Scripts/jquery.datepick.css" rel="stylesheet" />
+<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
+@using JQueryUIHelpers;
+@*<script type="text/javascript" src="https://google-maps-utility-library-v3.googlecode.com/svn/trunk/markerwithlabel/src/markerwithlabel.js"></script>*@
+@using MyOnlineClinic.Entity;
+@using MyOnlineClinic.Web.Helper;
+@using MyOnlineClinic.Web.Models;
+@{
+    var usermodel = ViewBag.LoginUserModel as LoginUserViewModel;
+}
+<section class="content-header" style="margin-top:45px;">
+    <h1 class="underline14">
+        Pending Appointments
+    </h1>
+    <ol class="breadcrumb">
+        @if (MyOnlineClinic.Web.Helper.PermissionHelper.CheckPermission("Book Appointment", (int)ModuleNames.ManageAppointment, usermodel.LoginId))
+        {
+            <li style="margin-right: 5px !important;"><a href="#"><button type="button" class="btn btn-success new">Book An Appointment</button></a></li>
+        }
+    </ol>
+</section>
+<div class="container" style="width:1086px;">
+    <div class="row">
+        <div class="col-md-12 fifth layer">
+            <div class="col-md-2">
+                <input type="text" class="form-control" id="txtOrgname" placeholder="Organisation Name" style="margin-left: -16px; width: 173px;">
+            </div>
+            <div class="col-md-2">
+                <input type="text" class="form-control" id="txtDoctorName" placeholder="Doctor Name" style="margin-left: -16px; width: 173px;">
+            </div>
+            <div class="col-md-2">
+                <input type="text" class="form-control" id="txtpatientname" placeholder="Patient Name" style="margin-left: -15px; width: 173px;">
+            </div>
+            <div class="col-md-2" style="">
+                @Html.DropDownList("AppointmentType", new List<SelectListItem>
+                                    {
+                                          new SelectListItem{ Text="Appointment Type", Value = "0" },
+                                        new SelectListItem{ Text="Video Consult", Value = "1" },
+                                        new SelectListItem{ Text="Clinic Visit", Value = "2" },
+                                         new SelectListItem{ Text="Home Visit", Value = "3" },
+                                     }, new { @class = "form-control select", style = "margin-left: -14px; width: 173px;", required = "required" })
+            </div>
+            <div class="col-md-2" style="">
+                @Html.DropDownList("AppointmentStatus", new List<SelectListItem>
+                                    {
+                                        new SelectListItem{ Text="Appointment Status", Value = "0" },
+                                           new SelectListItem{ Text="Pending", Value = "1" },
+                                        new SelectListItem{ Text="Completed", Value = "2" },
+                                         new SelectListItem{ Text="Approved", Value = "3" },
+                                            new SelectListItem{ Text="Rejected", Value = "6" },
+                                             new SelectListItem{ Text="Cancelled By Doctor", Value = "6" },
+                                              new SelectListItem{ Text="Cancelled By Patient", Value = "6" },
+                                               new SelectListItem{ Text="Approved Not Completed", Value = "6" },
+                                                new SelectListItem{ Text="Not Completed", Value = "6" },
+                                    }, new { @class = "form-control select", style = "margin-left: -14px; width: 173px;", required = "required" })
+            </div>
+            <div class="col-md-2">
+                <input type="text" class="form-control" id="country" placeholder="Country" style="margin-left: -11px; width: 173px;">
+            </div>
+            <div class="col-md-2">
+                <input type="text" class="form-control" id="state" placeholder="State" style="margin-left: -16px;width: 173px;margin-top: 10px;">
+            </div>
+            @*<div class="col-md-2">
+                    <input type="text" class="form-control" id="inputEmail" placeholder="Post Code" style="margin-left: -16px;width: 173px;margin-top: 10px;">
+                </div>*@
+            <div class="col-md-2">
+                <input type="text" class="form-control" id="FromDate" placeholder="From Date" style="margin-left: -14px;width: 173px;margin-top: 10px;">
+            </div>
+            <div class="col-md-2">
+                <input type="text" class="form-control" id="ToDate" placeholder="To Date" style="margin-left: -12px;width: 173px;margin-top: 10px;">
+            </div>
+
+            <span class="input-group-btn" id="input">
+                <button class="btn btn-default search" type="submit" id="checksearching" name="search"><i class="fa fa-search" style="color:#fff;"></i></button>
+            </span>
+        </div>
+    </div>
+</div>
+<div class="container-fulid">
+    <div class="row">
+        <div class="col-md-12 third_layer" style="height:auto !important">
+            <div class="table-responsive data">
+                <table id="mytable" class="table table-hover table-bordered">
+                    <thead style="color:#fff;">
+                        <tr>
+                            <th class="top">No.</th>
+                            <th class="top">Organisations</th>
+                            <th class="top">Patient Details</th>
+                            <th class="top">Doctor Details</th>
+                            <th class="top">Pharmacy Details</th>
+                            <th class="top">Type</th>
+                            <th class="top">Status</th>
+                            <th class="top">Time Zone</th>
+                            <th class="top">Edit</th>
+                            <th class="top">View Reports</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{ int count = 1;}
+                        @foreach (var item in Model)
+                        {
+                            <tr class="info">
+                                <td>@count</td>
+                                <td>
+                                    <input type="hidden" id="hidAppointmentId" value="@item.AppointmentId" />
+                                    @item.OrganizationName -P
+                                    <br />
+                                    @item.DoctorOrgname -D
+                                    @if (item.AppointmentType == 3 && item.HomeVisitDetail.Count > 0)
+                                    {
+                                        <input type="hidden" id="hidlat_@item.AppointmentId" value="@item.HomeVisitDetail.FirstOrDefault().latitude" />
+                                        <input type="hidden" id="hidlong_@item.AppointmentId" value="@item.HomeVisitDetail.FirstOrDefault().longitude" />
+                                    }
+                                </td>
+                                <td>
+                                    <label class="patientdetail" id=@item.PatientLoginId>
+                                        @item.PatientName
+                                    </label>
+                                    <br />
+                                    @*@if(@item.AppointmentStatus==(int)AppointmentStatus.Pending)
+                                        {*@
+                                    <a href="#" class="patientdetail" data-toggle="modal" data-target="#myModal"><button class="btn btn-info btn-xs edit patientdetail" id=@item.PatientLoginId style="margin-top:5px;background:none;border:none;font-size:20px;"><span class="glyphicon glyphicon-info-sign" style="background: #222222;border-radius: 11px;"></span></button></a>
+                                    @*}*@
+                                    @*<a href="#" data-toggle="modal" data-target="#myModal"><button class="btn btn-info btn-xs edit" style="margin-top:5px;background:none;border:none;font-size:20px;"><span class="glyphicon glyphicon-info-sign" style="background: #222222;border-radius: 11px;"></span></button></a>*@
+                                </td>
+                                @if (item.DoctorFullName == "")
+                                {
+                                    if (item.AvailabileDoctorList != null && item.AvailabileDoctorList.Count > 0)
+                                    {
+                                        <td id="td_@item.AppointmentId">
+                                            <select id="ddlAllocatedDoctorList_@item.AppointmentId" class="form-control col-md-7 col-xs-12 text_row" style="width: 100%;">
+                                                <option value="0">-Allocated Doctor-</option>
+                                                @foreach (var jando in item.AvailabileDoctorList)
+                                                {
+                                                    <option value="@jando.DoctorAvailabilitys.Doctors.MemberId">@(StringCipher.Decrypt(jando.DoctorAvailabilitys.Doctors.FirstName) + " " + StringCipher.Decrypt(jando.DoctorAvailabilitys.Doctors.SurName))</option>
+                                                }
+                                            </select>
+                                            <div style="float: left; width: 71%; text-align: center;">
+                                                <button type="submit" id="btnAssign" data-role="@item.AppointmentId" class="btn btn-success btnAssign" style="margin-top: 16px;margin-left: 45px;">
+                                                    Submit
+                                                </button>
+                                            </div>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>@item.DoctorFullName</td>
+                                    }
+                                }
+                                else
+                                {
+                                    <td>
+
+                                        <label>
+                                            @item.DoctorFullName
+
+                                        </label>
+                                        <br />
+                                        <a href="#" class="doctordetail" data-toggle="modal" data-target="#myModal"><button class="btn btn-info btn-xs edit doctordetail" id=@item.DoctorLoginId style="margin-top:5px;background:none;border:none;font-size:20px;"><span class="glyphicon glyphicon-info-sign" style="background: #222222;border-radius: 11px;"></span></button></a>
+                                    </td>
+                                }
+                                <td>
+                                    Pharmacy Name
+                                    <br />
+
+                                    <a href="#" data-toggle="modal" data-target="#PharmacyModel"><button id=@item.PatientLoginId class="btn btn-info btn-xs edit pharmacydetail" style="margin-top:5px;background:none;border:none;font-size:20px;"><span class="glyphicon glyphicon-info-sign" style="background: #222222;border-radius: 11px;"></span></button></a>
+                                </td>
+                                <td>@item.AppointmentTypeText</td>
+                                <td>@item.AppointmentStatusName</td>
+                                @*<td>
+                                    <br />
+                                    D-TimeZone
+                                    <br />
+                                    P-TimeZone
+                                    </td>*@
+                                <td>
+                                    <div class="col-md-12">
+                                        <ul class="list-inline" style="border-bottom: 1px solid;">
+                                            <li><img src="../bootstrap/img/a.png" class="img-responsive" style=""></li>
+                                            <li><p> @item.ATimeZoneDisplayName<br />@item.ADminTimezone</p></li>
+                                        </ul>
+                                        <ul class="list-inline" style="border-bottom:1px solid;">
+                                            <li><img src="../bootstrap/img/p.png" class="img-responsive" style=""></li>
+                                            <li><p> @item.PTimeZoneDisplayName <br />@item.PatientTimezone</p></li>
+                                        </ul>
+                                        <ul class="list-inline">
+                                            <li><img src="../bootstrap/img/d.png" class="img-responsive" style=""></li>
+                                            <li><p> @item.DTimeZoneDisplayName<br />@item.DoctorTimezone</p></li>
+                                        </ul>
+                                    </div>
+                                    @*@item.AppointmentDateLocalText
+                                        <input type="hidden" id="hidappdate_@item.AppointmentId" value="@item.AppointmentDateLocalText" />
+                                        <br />
+                                        A-timezone
+                                        <br />
+                                        D-timezone*@
+                                </td>
+                                <td><a href="#" data-toggle="modal" data-target="#EditAvailabilityModel" data-role="@item.AppointmentId" class="editclick"><button class="btn btn-primary btn-xs edit" style="margin-top:15px;width:30px; height:30px;"><span class="glyphicon glyphicon-pencil"></span></button></a></td>
+                                <td>
+                                    <div class="btn-group-vertical">
+                                        <button type="button" class="btn btn-primary appot">Precription</button>
+                                        <button type="button" class="btn btn-primary appot">Pathology</button>
+                                        <button type="button" class="btn btn-primary appot">Radiology</button>
+                                        <button type="button" class="btn btn-primary appot">Cosult Report</button>
+                                    </div>
+                                    @*<a href="/Admin/Appointment/AppointmentRecord/@item.AppointmentId" class="time" data-toggle="tooltip" data-placement="left" title="Appointment Record">
+                                            <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                        </a>*@
+                                </td>
+
+                            </tr>
+                                count = count + 1;
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="empInfoDetails">
+</div>
+<div class="modal fade" id="EditAvailabilityModel" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog" style="margin:8% auto;">
+        <div class="modal-content" style="width: 350px; margin: auto;">
+            <div class="modal-header" style="padding: 15px 0px 5px 0px; background-color: #f5f5f5; border-radius:5px;">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style=" margin-top: 8px !important;">×</button>
+                <h4 class="modal-title text-center">
+                    <label id="lblTitle">Edit Appointment</label>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div id="CreateEditForm">
+                    <div class="row">
+                        <div class="col-sm-12 ">
+                            <div class="popup_name" style="float: left; width: 25%; margin-bottom: 15px; padding: 4px;">
+                                Date<br /><br /> time
+                            </div>
+                            <div class="popup_name_2" style="float: left; width: 75%;">
+                                <div id="divMaindateandtime">
+                                    <div>
+
+                                        <input type="text" class="form-control col-md-7 col-xs-12 " name="FromMainDateLocal1" id="FromMainDateLocal1" style="width:214px;margin-right:10px;">&nbsp;&nbsp;&nbsp;                                <br><br>                                <select id="FromMainHour" name="FromMainHour" style="width:70px;margin-right:2px;" class="form-control col-md-7 col-xs-12 valid">                                    <option value="01">01</option>                                    <option value="02">02</option>                                    <option value="03">03</option>                                    <option value="04">04</option>                                    <option value="05">05</option>                                    <option value="06">06</option>                                    <option value="07">07</option>                                    <option value="08">08</option>                                    <option value="09">09</option>                                    <option value="10">10</option>                                    <option value="11">11</option>                                    <option value="12">12</option>                                </select>                                <select id="FromMainMin" name="FromMainMin" style="width:70px;margin-right:2px;" class="form-control col-md-7 col-xs-12">                                    <option value="00">00</option>                                    <option value="15">15</option>                                    <option value="30">30</option>                                    <option value="45">45</option>                                </select>                                <select id="FromMainAMPM" name="FromMainAMPM" style="width:70px;margin-right:2px;" class="form-control col-md-7 col-xs-12">                                    <option value="AM">AM</option>                                    <option value="PM">PM</option>                                </select>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                        <div class="col-sm-12 ">
+                            <div class="ln_solid"></div>
+                            <div class="form-group">
+                                <div class="col-md-12" style=" margin-top: 15px;">
+                                    <button id="btnCancel" type="button" class="btn btn-primary">Cancel Appointment</button>
+                                    <button id="send" type="button" class="btn btn-success">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <input type="hidden" name="hdnAvailabilityId" id="hdnAvailabilityId" value="16">
+                </div>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body" style="padding:0px;">
+
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xs-offset-0 col-sm-offset-0 toppad">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><label id="lblUname"></label></h3>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-3 col-lg-3 " align="center">
+                                    <img alt="User Pic" src="bootstrap/img/clinic-logo.gif" class="img-circle img-responsive">
+                                </div>
+                                <div class=" col-md-9 col-lg-9 ">
+                                    <table class="table table-user-information">
+                                        <tbody>
+                                            <tr>
+                                                <td>Organisation Name:</td>
+                                                <td><label id="lblOrganization"></label></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>Email:</td>
+                                                <td><label id="lbluEmail"></label></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Phone Number:</td>
+                                                <td><label id="lblUPhone"></label></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fax Number:</td>
+                                                <td><label id="lblUFax"></label></td>
+                                            </tr>
+
+                                            <tr>
+                                            <tr>
+                                                <td>Address 1:</td>
+                                                <td><label id="lblAddress1"></label></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Address 2:</td>
+                                                <td><label id="lblUAddress2"></label></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Country:</td>
+                                                <td><label id="lblUCountry"></label></td>
+                                            </tr>
+                                            <tr>
+                                                <td>State:</td>
+                                                <td>
+                                                    <label id="lblUStateName"></label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>City:</td>
+                                                <td>
+                                                    <label id="lblUCity"></label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Post Code:</td>
+                                                <td>
+                                                    <label id="lblUPostcode"></label>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="PharmacyModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div class="modal-body" style="padding:0px;">
+
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xs-offset-0 col-sm-offset-0 toppad">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><label id="lblpharmacyName"></label></h3>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        </div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-md-3 col-lg-3 " align="center">
+                                    <img alt="User Pic" src="bootstrap/img/clinic-logo.gif" class="img-circle img-responsive">
+                                </div>
+                                <div class=" col-md-9 col-lg-9 ">
+                                    <table class="table table-user-information">
+                                        <tbody>
+                                            <tr>
+                                                <td>Address 1:</td>
+                                                <td><label id="lblAddress1"></label></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Address 2:</td>
+                                                <td><label id="lblAddress2"></label></td>
+                                            </tr>
+                                            @*<tr>
+                                                    <td>Organisation Name:</td>
+                                                    <td><label id="lblOrgName"></label></td>
+                                                </tr>*@
+                                            <tr>
+                                                <td>Phone Number:</td>
+                                                <td><label id="lblPhoneNo"></label></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fax Number:</td>
+                                                <td><label id="lblFax"></label></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>Country:</td>
+                                                <td><label id="lblCountry"></label></td>
+                                            </tr>
+                                            <tr>
+                                                <td>State:</td>
+                                                <td>
+                                                    <label id="lblState"></label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>City:</td>
+                                                <td>
+                                                    <label id="lblCity"></label>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Post Code:</td>
+                                                <td>
+                                                    <label id="lblPostCode"></label>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<script src="~/AdminAssets/js/datatables/js/jquery.dataTables.js"></script>
+<script>
+    //function distance(lat1, lon1, lat2, lon2, unit) {
+    //    alert("yes");
+    //    var radlat1 = Math.PI * lat1 / 180
+    //    var radlat2 = Math.PI * lat2 / 180
+    //    var theta = lon1 - lon2
+    //    var radtheta = Math.PI * theta / 180
+    //    var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+    //    dist = Math.acos(dist)
+    //    dist = dist * 180 / Math.PI
+    //    dist = dist * 60 * 1.1515
+    //    dist = dist * 0.8684 // distance in  'N' is nautical miles
+    //    //if (unit == "K") { dist = dist * 1.609344 }
+    //    //if (unit == "N") { dist = dist * 0.8684 }
+    //    return dist
+    //}
+
+    $(document).ready(function () {
+        //var hidAppointmentId = $('#hidAppointmentId').val();
+        //var hidlat1 = $('#hidlat_' + hidAppointmentId).val();
+        //var hidlong1 = $('#hidlong_' + hidAppointmentId).val();
+        //var unit = 'N';
+        //distance(hidlat1, hidlong1, lat2, lon2, unit);
+        var oTable = $('#example').dataTable({
+            "bProcessing": true,
+            "iDisplayLength": 10,
+            "bPaginate": true,
+            "sPaginationType": "full_numbers",
+            "bSort": false
+        });
+    });
+
+    $('#checksearching').click(function () {
+        $.ajax({
+            type: "POST",
+            url: '/Clinic/Appointment/Search',
+            data: {
+                DoctorName: $('#txtDoctorName').val(),
+                PatientName: $('#txtpatientname').val(),
+                OrganizationName: $('#txtOrgname').val(),
+                FroMDate: $('#FromDate').val(),
+                TOdate: $('#ToDate').val(),
+                AppointmentStatus: $('#AppointmentStatus').val(),
+                AppointmentType: $('#AppointmentType').val()
+            },
+            datatype: "json",
+            success: function (data) {
+                $('.x_content').hide('fast');
+                $('#empInfoDetails').html("");
+                $('#empInfoDetails').html(data);
+            },
+            error: function () {
+            }
+        });
+    });
+    $('.btnAssign').click(function () {
+        var appointmentId = $(this).attr('data-role');
+        var ddlallcatedDoctors = $('#ddlAllocatedDoctorList_' + appointmentId)
+        var doctorId = ddlallcatedDoctors.val();
+        if (doctorId != 0) {
+            alert(doctorId);
+            ajaxParam.url = '/Clinic/Appointment/AssignDoctorForHomeVisitAppointment';
+            ajaxParam.requestType = 'GET';
+            ajaxParam.dataType = 'json';
+            ajaxParam.data = { AppointmentId: appointmentId, DoctorId: doctorId };
+            ajaxParam.successCallbackFunction = AssignDoctor;
+            doAjax(ajaxParam);
+        }
+        else {
+            alert("Please select Doctor");
+        }
+    });
+    function AssignDoctor(data) {
+        alert("Doctor Assigned")
+        window.location.reload();
+    }
+</script>
+
+@*google map marker*@
+<script type="text/javascript">
+    $(document).on('click', '.btn-primary', function () {
+        ajaxParam.url = '/Clinic/Appointment/GetDoctorAndPatientOnMap';
+        ajaxParam.requestType = 'GET';
+        ajaxParam.dataType = 'json';
+        ajaxParam.data = {};
+        ajaxParam.successCallbackFunction = GetdoctorDetailByStateId;
+        doAjax(ajaxParam);
+    });
+    function GetdoctorDetailByStateId(data) {
+        var stateBoundaries = new Array();
+        var area = new Array();
+        var color = ["Red", "Blue", "Yellow", "Green", "Maroon", "BlueViolet", "Orange", "Pink"];
+        // New South Wales
+        stateBoundaries[0] = [{ lng: 140.974915, lat: -28.998531 }, { lng: 148.983948, lat: -28.998531 }, { lng: 149.544250, lat: -28.574875 }, { lng: 150.258362, lat: -28.536276 }, { lng: 150.467102, lat: -28.661671 }, { lng: 150.763733, lat: -28.632748 }, { lng: 151.280090, lat: -28.921631 }, { lng: 151.367981, lat: -29.171349 }, { lng: 151.708557, lat: -28.892778 }, { lng: 152.005188, lat: -28.912016 }, { lng: 151.972229, lat: -28.555576 }, { lng: 152.488586, lat: -28.265682 }, { lng: 153.103821, lat: -28.333395 }, { lng: 153.499329, lat: -28.168875 }, { lng: 153.598206, lat: -28.275358 }, { lng: 153.554260, lat: -28.594170 }, { lng: 153.598206, lat: -28.892778 }, { lng: 153.367493, lat: -29.343876 }, { lng: 153.235657, lat: -30.031055 }, { lng: 153.004944, lat: -30.704058 }, { lng: 153.092834, lat: -30.911652 }, { lng: 152.917053, lat: -31.541090 }, { lng: 152.576477, lat: -32.045334 }, { lng: 152.554504, lat: -32.435612 }, { lng: 151.774475, lat: -32.944149 }, { lng: 151.335022, lat: -33.587166 }, { lng: 150.917542, lat: -34.461277 }, { lng: 150.741760, lat: -34.876919 }, { lng: 150.851624, lat: -35.056980 }, { lng: 150.741760, lat: -35.200745 }, { lng: 150.478088, lat: -35.236645 }, { lng: 150.159485, lat: -35.853439 }, { lng: 150.148499, lat: -36.315125 }, { lng: 149.950745, lat: -36.730080 }, { lng: 149.873840, lat: -36.985004 }, { lng: 150.027649, lat: -37.239075 }, { lng: 149.983704, lat: -37.509727 }, { lng: 148.138000, lat: -36.782890 }, { lng: 148.214905, lat: -36.597889 }, { lng: 148.050110, lat: -36.332829 }, { lng: 147.963043, lat: -36.053539 }, { lng: 147.699371, lat: -35.929092 }, { lng: 147.592667, lat: -35.975784 }, { lng: 147.397659, lat: -35.955776 }, { lng: 147.315262, lat: -36.064644 }, { lng: 147.188919, lat: -36.042439 }, { lng: 147.109268, lat: -36.024670 }, { lng: 147.032364, lat: -36.109035 }, { lng: 146.960953, lat: -36.084621 }, { lng: 146.941727, lat: -36.109035 }, { lng: 146.601151, lat: -35.986897 }, { lng: 146.502274, lat: -35.958000 }, { lng: 146.406143, lat: -35.971336 }, { lng: 146.373184, lat: -36.035774 }, { lng: 146.244095, lat: -36.018005 }, { lng: 145.963943, lat: -36.009117 }, { lng: 145.928238, lat: -35.964668 }, { lng: 145.788162, lat: -35.980228 }, { lng: 145.518997, lat: -35.808903 }, { lng: 145.373428, lat: -35.860119 }, { lng: 144.969681, lat: -35.862343 }, { lng: 144.931229, lat: -35.973560 }, { lng: 144.983414, lat: -36.077961 }, { lng: 144.873550, lat: -36.060200 }, { lng: 144.782913, lat: -36.126781 }, { lng: 144.373672, lat: -35.802223 }, { lng: 143.719986, lat: -35.386810 }, { lng: 143.643082, lat: -35.393528 }, { lng: 143.568924, lat: -35.328571 }, { lng: 143.582657, lat: -35.268047 }, { lng: 143.560684, lat: -35.205235 }, { lng: 143.398636, lat: -35.189522 }, { lng: 143.340958, lat: -34.802528 }, { lng: 142.794388, lat: -34.563122 }, { lng: 142.618607, lat: -34.759666 }, { lng: 142.486771, lat: -34.658062 }, { lng: 142.354935, lat: -34.406910 }, { lng: 142.396133, lat: -34.338902 }, { lng: 142.148941, lat: -34.159546 }, { lng: 141.660049, lat: -34.100433 }, { lng: 141.528214, lat: -34.204987 }, { lng: 140.998123, lat: -34.018517 }, { lng: 140.974915, lat: -28.998531 }];
+        // Northern Territory
+        stateBoundaries[1] = [{ lng: 128.9729, lat: -14.774883 }, { lng: 129.060791, lat: -25.997549 }, { lng: 138.025635, lat: -25.997549 }, { lng: 137.937744, lat: -16.509832 }, { lng: 135.301025, lat: -14.902322 }, { lng: 136.00415, lat: -13.880746 }, { lng: 136.970947, lat: -12.21118 }, { lng: 136.575439, lat: -11.824341 }, { lng: 134.993408, lat: -12.125264 }, { lng: 134.729736, lat: -11.953349 }, { lng: 133.762939, lat: -11.781325 }, { lng: 133.19165, lat: -11.652236 }, { lng: 132.312744, lat: -11.135287 }, { lng: 131.961182, lat: -11.178402 }, { lng: 130.37915, lat: -11.307708 }, { lng: 130.203369, lat: -11.781325 }, { lng: 130.510986, lat: -12.554564 }, { lng: 129.368408, lat: -14.392118 }, { lng: 129.676025, lat: -14.732386 }, { lng: 128.9729, lat: -14.774883 }];
+        // Queensland
+        stateBoundaries[2] = [{ lng: 140.995224, lat: -28.979309 }, { lng: 149.037231, lat: -28.979309 }, { lng: 149.498657, lat: -28.574869 }, { lng: 150.948853, lat: -28.671310 }, { lng: 151.281738, lat: -28.960089 }, { lng: 151.347656, lat: -29.166552 }, { lng: 151.457520, lat: -29.123373 }, { lng: 151.556396, lat: -28.955282 }, { lng: 151.715698, lat: -28.873539 }, { lng: 151.814575, lat: -28.955282 }, { lng: 152.012329, lat: -28.878349 }, { lng: 152.037048, lat: -28.661671 }, { lng: 151.973877, lat: -28.524208 }, { lng: 152.495728, lat: -28.260843 }, { lng: 152.740173, lat: -28.345482 }, { lng: 152.855530, lat: -28.304380 }, { lng: 153.094482, lat: -28.345482 }, { lng: 153.196106, lat: -28.241489 }, { lng: 153.227692, lat: -28.260843 }, { lng: 153.288116, lat: -28.236649 }, { lng: 153.366394, lat: -28.246328 }, { lng: 153.499603, lat: -28.149504 }, { lng: 153.437805, lat: -28.056227 }, { lng: 153.422699, lat: -27.910700 }, { lng: 153.538055, lat: -27.432728 }, { lng: 153.432312, lat: -27.330296 }, { lng: 153.455658, lat: -27.035887 }, { lng: 153.237305, lat: -27.112923 }, { lng: 153.102173, lat: -26.372181 }, { lng: 153.069763, lat: -26.182554 }, { lng: 153.168640, lat: -25.955576 }, { lng: 153.053284, lat: -25.819672 }, { lng: 153.105469, lat: -25.572176 }, { lng: 153.231812, lat: -25.299337 }, { lng: 153.347168, lat: -25.020906 }, { lng: 153.255981, lat: -24.706909 }, { lng: 153.138428, lat: -24.801695 }, { lng: 153.204346, lat: -25.030861 }, { lng: 152.935181, lat: -25.269535 }, { lng: 152.759399, lat: -25.264568 }, { lng: 152.611084, lat: -25.130365 }, { lng: 152.402344, lat: -24.781748 }, { lng: 152.072754, lat: -24.592085 }, { lng: 151.913452, lat: -24.231937 }, { lng: 151.732178, lat: -24.031414 }, { lng: 151.408081, lat: -23.976215 }, { lng: 151.100464, lat: -23.498514 }, { lng: 150.897217, lat: -23.569021 }, { lng: 150.754395, lat: -23.142885 }, { lng: 150.839539, lat: -22.687517 }, { lng: 150.746155, lat: -22.492256 }, { lng: 150.534668, lat: -22.202663 }, { lng: 150.441284, lat: -22.238260 }, { lng: 150.614319, lat: -22.535391 }, { lng: 150.501709, lat: -22.502407 }, { lng: 150.117188, lat: -22.177233 }, { lng: 149.974365, lat: -22.177233 }, { lng: 150.018311, lat: -22.603868 }, { lng: 149.567871, lat: -22.289097 }, { lng: 149.436035, lat: -21.565502 }, { lng: 149.139404, lat: -21.022984 }, { lng: 148.619751, lat: -20.529930 }, { lng: 148.963623, lat: -20.329176 }, { lng: 148.974609, lat: -20.179724 }, { lng: 148.831787, lat: -20.287960 }, { lng: 148.562622, lat: -20.220966 }, { lng: 148.414307, lat: -20.195190 }, { lng: 147.788086, lat: -19.833893 }, { lng: 147.389282, lat: -19.414789 }, { lng: 147.189331, lat: -19.435514 }, { lng: 147.002563, lat: -19.290405 }, { lng: 146.524658, lat: -19.124411 }, { lng: 146.321411, lat: -18.937464 }, { lng: 146.285706, lat: -18.711292 }, { lng: 146.282959, lat: -18.404049 }, { lng: 145.983582, lat: -18.260653 }, { lng: 146.137390, lat: -17.625698 }, { lng: 145.939087, lat: -17.266720 }, { lng: 145.420532, lat: -16.446623 }, { lng: 145.357361, lat: -15.858316 }, { lng: 145.213974, lat: -15.156970 }, { lng: 145.299683, lat: -14.976627 }, { lng: 144.887695, lat: -14.623451 }, { lng: 144.662476, lat: -14.506485 }, { lng: 144.635010, lat: -14.352209 }, { lng: 144.525146, lat: -14.216464 }, { lng: 144.371338, lat: -14.301647 }, { lng: 144.217529, lat: -14.277692 }, { lng: 144.137878, lat: -14.424040 }, { lng: 143.874207, lat: -14.559659 }, { lng: 143.665466, lat: -14.046002 }, { lng: 143.528137, lat: -13.742053 }, { lng: 143.580322, lat: -13.402979 }, { lng: 143.508911, lat: -12.865360 }, { lng: 143.355103, lat: -12.851971 }, { lng: 143.396301, lat: -12.632298 }, { lng: 143.250732, lat: -12.490214 }, { lng: 143.234253, lat: -12.388294 }, { lng: 143.080444, lat: -12.348051 }, { lng: 143.077698, lat: -12.176280 }, { lng: 143.173828, lat: -11.999025 }, { lng: 143.088684, lat: -11.929165 }, { lng: 142.863464, lat: -11.872727 }, { lng: 142.844238, lat: -11.377724 }, { lng: 142.575073, lat: -10.760461 }, { lng: 142.426758, lat: -10.722683 }, { lng: 142.168579, lat: -10.968157 }, { lng: 141.990051, lat: -11.789391 }, { lng: 141.632446, lat: -12.490210 }, { lng: 141.503906, lat: -13.880746 }, { lng: 141.456665, lat: -15.686510 }, { lng: 140.863403, lat: -17.308680 }, { lng: 140.072372, lat: -17.748680 }, { lng: 138.951782, lat: -17.014759 }, { lng: 137.963013, lat: -16.573021 }, { lng: 137.984985, lat: -25.977791 }, { lng: 140.995224, lat: -26.017290 }, { lng: 140.995224, lat: -28.979309 }];
+        // South Australia
+        stateBoundaries[3] = [{ lng: 128.954224, lat: -31.653381 }, { lng: 128.954224, lat: -25.977798 }, { lng: 141.017212, lat: -25.977798 }, { lng: 140.951294, lat: -38.065392 }, { lng: 140.687622, lat: -38.065392 }, { lng: 140.050415, lat: -37.527153 }, { lng: 139.67688, lat: -36.94989 }, { lng: 139.852661, lat: -36.686043 }, { lng: 139.501099, lat: -35.960224 }, { lng: 138.732056, lat: -35.496456 }, { lng: 138.490356, lat: -35.639442 }, { lng: 138.116821, lat: -35.657295 }, { lng: 138.512329, lat: -35.155846 }, { lng: 138.468384, lat: -34.777718 }, { lng: 138.050903, lat: -34.161819 }, { lng: 137.94104, lat: -34.506557 }, { lng: 137.743286, lat: -35.101933 }, { lng: 137.19397, lat: -35.245621 }, { lng: 136.908325, lat: -35.245621 }, { lng: 136.996216, lat: -34.939983 }, { lng: 137.413696, lat: -34.867905 }, { lng: 137.391724, lat: -34.470333 }, { lng: 137.655396, lat: -33.83392 }, { lng: 137.897095, lat: -33.541393 }, { lng: 137.787231, lat: -33.2295 }, { lng: 137.963013, lat: -33.119148 }, { lng: 137.699341, lat: -32.953369 }, { lng: 137.391724, lat: -33.247875 }, { lng: 137.106079, lat: -33.706062 }, { lng: 136.315063, lat: -34.089062 }, { lng: 136.007446, lat: -34.56086 }, { lng: 136.029419, lat: -34.957996 }, { lng: 135.633911, lat: -34.939983 }, { lng: 135.260376, lat: -34.597042 }, { lng: 135.238403, lat: -34.125446 }, { lng: 135.084595, lat: -33.742615 }, { lng: 134.776978, lat: -33.578014 }, { lng: 134.79895, lat: -33.302986 }, { lng: 134.447388, lat: -33.13755 }, { lng: 134.271606, lat: -33.13755 }, { lng: 134.029907, lat: -32.787273 }, { lng: 134.205688, lat: -32.639374 }, { lng: 134.029907, lat: -32.472694 }, { lng: 133.876099, lat: -32.509762 }, { lng: 133.634399, lat: -32.101189 }, { lng: 133.282837, lat: -32.212803 }, { lng: 132.250122, lat: -32.026707 }, { lng: 131.151489, lat: -31.428663 }, { lng: 130.755981, lat: -31.615967 }, { lng: 128.954224, lat: -31.653381 }];
+        // Tasmania
+        stateBoundaries[4] = [{ lng: 144.655334, lat: -40.647305 }, { lng: 144.688293, lat: -40.896908 }, { lng: 144.611389, lat: -40.946712 }, { lng: 144.754211, lat: -41.343826 }, { lng: 144.90802, lat: -41.623653 }, { lng: 145.149719, lat: -41.926804 }, { lng: 145.23761, lat: -42.195969 }, { lng: 145.303528, lat: -42.650124 }, { lng: 146.028625, lat: -43.564472 }, { lng: 146.248352, lat: -43.516689 }, { lng: 146.566956, lat: -43.540585 }, { lng: 146.874573, lat: -43.667873 }, { lng: 147.072327, lat: -43.428989 }, { lng: 147.30304, lat: -43.524654 }, { lng: 147.368958, lat: -43.333168 }, { lng: 147.357971, lat: -43.028744 }, { lng: 147.478821, lat: -43.028744 }, { lng: 147.577698, lat: -42.892063 }, { lng: 147.643616, lat: -43.084938 }, { lng: 147.742493, lat: -43.229195 }, { lng: 148.017151, lat: -43.237198 }, { lng: 147.951233, lat: -42.996613 }, { lng: 148.039124, lat: -42.916206 }, { lng: 147.907288, lat: -42.787338 }, { lng: 148.028137, lat: -42.738945 }, { lng: 148.148987, lat: -42.625877 }, { lng: 147.951233, lat: -42.561172 }, { lng: 148.083069, lat: -42.114525 }, { lng: 148.269836, lat: -42.122673 }, { lng: 148.236877, lat: -42.31794 }, { lng: 148.313782, lat: -42.334183 }, { lng: 148.357727, lat: -42.122673 }, { lng: 148.280823, lat: -41.492123 }, { lng: 148.357727, lat: -41.253033 }, { lng: 148.302795, lat: -40.996483 }, { lng: 148.19458, lat: -40.838749 }, { lng: 148.062744, lat: -40.763901 }, { lng: 147.962219, lat: -40.763901 }, { lng: 147.830383, lat: -40.888599 }, { lng: 147.621643, lat: -40.822124 }, { lng: 147.445862, lat: -41.021355 }, { lng: 147.248108, lat: -40.963306 }, { lng: 146.995422, lat: -41.004776 }, { lng: 146.391174, lat: -41.170383 }, { lng: 145.874817, lat: -41.054501 }, { lng: 145.633118, lat: -40.921814 }, { lng: 145.479309, lat: -40.880295 }, { lng: 145.270569, lat: -40.797176 }, { lng: 144.973938, lat: -40.738934 }, { lng: 144.919006, lat: -40.580585 }, { lng: 144.809143, lat: -40.705627 }, { lng: 144.655334, lat: -40.647305 }];
+        // Victoria
+        stateBoundaries[5] = [{ lat: -34.016243, lng: 140.985901 }, { lat: -38.048092, lng: 140.963928 }, { lat: -38.393337, lng: 141.546204 }, { lat: -38.246807, lng: 141.601135 }, { lat: -38.341656, lng: 142.205383 }, { lat: -38.83115, lng: 143.556702 }, { lat: -38.246807, lng: 144.459229 }, { lat: -38.496593, lng: 144.887695 }, { lat: -38.625454, lng: 145.535889 }, { lat: -39.070377, lng: 146.413147 }, { lat: -38.616871, lng: 146.876221 }, { lat: -37.900864, lng: 147.797424 }, { lat: -37.762032, lng: 149.500305 }, { lat: -37.501011, lng: 149.950745 }, { lat: -36.791691, lng: 148.236877 }, { lat: -36.791691, lng: 148.105042 }, { lat: -36.597889, lng: 148.181946 }, { lat: -36.044659, lng: 147.963043 }, { lat: -35.995785, lng: 147.810059 }, { lat: -35.924644, lng: 147.699371 }, { lat: -36.040215, lng: 147.336823 }, { lat: -36.102375, lng: 147.018219 }, { lat: -35.982452, lng: 146.545807 }, { lat: -36.040215, lng: 146.320587 }, { lat: -35.995785, lng: 145.947052 }, { lat: -35.964668, lng: 145.705353 }, { lat: -35.808903, lng: 145.518585 }, { lat: -35.862343, lng: 145.337311 }, { lat: -35.817814, lng: 145.151367 }, { lat: -35.862343, lng: 144.974762 }, { lat: -35.986897, lng: 144.930817 }, { lat: -36.075741, lng: 144.969269 }, { lat: -36.120129, lng: 144.755035 }, { lat: -35.742054, lng: 144.271637 }, { lat: -35.375614, lng: 143.694855 }, { lat: -35.160336, lng: 143.392731 }, { lat: -34.786739, lng: 143.337799 }, { lat: -34.587997, lng: 142.772003 }, { lat: -34.759666, lng: 142.623688 }, { lat: -34.728069, lng: 142.502838 }, { lat: -34.347973, lng: 142.387482 }, { lat: -34.093609, lng: 142.079865 }, { lat: -34.116352, lng: 141.893097 }, { lat: -34.107258, lng: 141.68985 }, { lat: -34.198174, lng: 141.530548 }, { lat: -34.075413, lng: 141.195465 }, { lat: -34.016243, lng: 140.985901 }];
+        // Western Australia
+        stateBoundaries[6] = [{ lng: 128.9729, lat: -14.85985 }, { lng: 128.9729, lat: -31.802893 }, { lng: 127.066223, lat: -32.287132 }, { lng: 125.506165, lat: -32.556072 }, { lng: 124.715149, lat: -32.898037 }, { lng: 124.23175, lat: -32.999451 }, { lng: 123.957092, lat: -33.532238 }, { lng: 123.561584, lat: -33.925129 }, { lng: 123.221008, lat: -33.998028 }, { lng: 122.155334, lat: -33.979809 }, { lng: 121.99054, lat: -33.806538 }, { lng: 121.386292, lat: -33.815666 }, { lng: 120.815002, lat: -33.897778 }, { lng: 120.430481, lat: -33.952473 }, { lng: 120.002014, lat: -33.916012 }, { lng: 119.782288, lat: -33.970699 }, { lng: 119.485657, lat: -34.334366 }, { lng: 119.26593, lat: -34.506557 }, { lng: 118.903381, lat: -34.452217 }, { lng: 118.617737, lat: -34.678394 }, { lng: 118.354065, lat: -34.876919 }, { lng: 118.156311, lat: -35.003002 }, { lng: 117.925598, lat: -35.110924 }, { lng: 117.288391, lat: -35.038994 }, { lng: 116.794006, lat: -35.05698 }, { lng: 116.024963, lat: -34.822823 }, { lng: 115.552551, lat: -34.352509 }, { lng: 115.190002, lat: -34.343437 }, { lng: 115.124084, lat: -34.388779 }, { lng: 114.970276, lat: -33.988918 }, { lng: 115.003235, lat: -33.541393 }, { lng: 115.266907, lat: -33.660355 }, { lng: 115.552551, lat: -33.51392 }, { lng: 115.70636, lat: -33.119148 }, { lng: 115.673401, lat: -32.565334 }, { lng: 115.761292, lat: -31.989443 }, { lng: 115.574524, lat: -31.447411 }, { lng: 115.025208, lat: -30.268557 }, { lng: 114.992249, lat: -29.40132 }, { lng: 114.596741, lat: -28.767658 }, { lng: 114.201233, lat: -28.081675 }, { lng: 114.157288, lat: -27.683529 }, { lng: 113.97052, lat: -27.137367 }, { lng: 113.300354, lat: -26.39187 }, { lng: 112.904846, lat: -25.601902 }, { lng: 113.003723, lat: -25.48295 }, { lng: 113.278381, lat: -26.096254 }, { lng: 113.388245, lat: -26.066652 }, { lng: 113.728821, lat: -26.568876 }, { lng: 113.871643, lat: -26.441067 }, { lng: 113.410217, lat: -25.681137 }, { lng: 113.509094, lat: -25.512699 }, { lng: 113.750793, lat: -25.839449 }, { lng: 114.102356, lat: -26.460737 }, { lng: 114.267151, lat: -26.303265 }, { lng: 114.234192, lat: -25.88888 }, { lng: 113.629944, lat: -24.956181 }, { lng: 113.410217, lat: -24.457151 }, { lng: 113.542053, lat: -23.765238 }, { lng: 113.805725, lat: -23.453169 }, { lng: 113.706848, lat: -22.614012 }, { lng: 113.97052, lat: -21.892084 }, { lng: 114.190247, lat: -21.790108 }, { lng: 114.069397, lat: -22.177233 }, { lng: 114.278137, lat: -22.502407 }, { lng: 114.585754, lat: -21.963425 }, { lng: 115.014221, lat: -21.667639 }, { lng: 116.156799, lat: -20.992214 }, { lng: 116.804993, lat: -20.622501 }, { lng: 117.508118, lat: -20.735565 }, { lng: 118.156311, lat: -20.375526 }, { lng: 118.859436, lat: -20.25189 }, { lng: 119.167053, lat: -19.973349 }, { lng: 119.639465, lat: -20.076571 }, { lng: 121.320374, lat: -19.590843 }, { lng: 121.858704, lat: -18.500446 }, { lng: 122.353088, lat: -18.0832 }, { lng: 122.276184, lat: -17.94738 }, { lng: 122.177307, lat: -17.308687 }, { lng: 123.001282, lat: -16.39393 }, { lng: 123.429749, lat: -17.319176 }, { lng: 123.81427, lat: -16.909683 }, { lng: 123.374817, lat: -16.509832 }, { lng: 123.583557, lat: -16.045813 }, { lng: 124.374573, lat: -16.38339 }, { lng: 124.440491, lat: -16.130262 }, { lng: 124.47345, lat: -15.30538 }, { lng: 124.846985, lat: -15.262989 }, { lng: 125.165588, lat: -14.881087 }, { lng: 125.264465, lat: -14.583583 }, { lng: 125.638, lat: -14.253735 }, { lng: 125.868713, lat: -14.487871 }, { lng: 126.000549, lat: -14.232438 }, { lng: 126.582825, lat: -13.902076 }, { lng: 126.560852, lat: -14.157882 }, { lng: 126.780579, lat: -13.795406 }, { lng: 127.154114, lat: -13.848747 }, { lng: 128.175842, lat: -14.721761 }, { lng: 128.131897, lat: -15.082732 }, { lng: 128.461487, lat: -14.806749 }, { lng: 128.9729, lat: -14.85985 }];
+        // Australian Capital Territory
+        //stateBoundaries[7] = [{ lng: 148.809021, lat: -35.308399 }, { lng: 149.091919, lat: -35.142372 }, { lng: 149.120071, lat: -35.124962 }, { lng: 149.148224, lat: -35.146301 }, { lng: 149.16333, lat: -35.142372 }, { lng: 149.188736, lat: -35.164265 }, { lng: 149.196686, lat: -35.190365 }, { lng: 149.190857, lat: -35.203548 }, { lng: 149.209396, lat: -35.212246 }, { lng: 149.202179, lat: -35.224586 }, { lng: 149.205963, lat: -35.228516 }, { lng: 149.213852, lat: -35.21954 }, { lng: 149.235138, lat: -35.2215 }, { lng: 149.246124, lat: -35.227673 }, { lng: 149.233765, lat: -35.242535 }, { lng: 149.257797, lat: -35.258514 }, { lng: 149.272903, lat: -35.260197 }, { lng: 149.274277, lat: -35.275333 }, { lng: 149.280807, lat: -35.270851 }, { lng: 149.289383, lat: -35.275616 }, { lng: 149.299347, lat: -35.271973 }, { lng: 149.312042, lat: -35.278976 }, { lng: 149.322693, lat: -35.285706 }, { lng: 149.327835, lat: -35.28318 }, { lng: 149.340195, lat: -35.286545 }, { lng: 149.349121, lat: -35.29467 }, { lng: 149.360458, lat: -35.306438 }, { lng: 149.362518, lat: -35.308964 }, { lng: 149.394104, lat: -35.303356 }, { lng: 149.397186, lat: -35.312603 }, { lng: 149.397186, lat: -35.325489 }, { lng: 149.366287, lat: -35.340336 }, { lng: 149.363892, lat: -35.348457 }, { lng: 149.349121, lat: -35.351536 }, { lng: 149.337448, lat: -35.341454 }, { lng: 149.304489, lat: -35.336132 }, { lng: 149.300369, lat: -35.332771 }, { lng: 149.281494, lat: -35.338375 }, { lng: 149.248535, lat: -35.330254 }, { lng: 149.227936, lat: -35.342854 }, { lng: 149.214539, lat: -35.340336 }, { lng: 149.205612, lat: -35.345936 }, { lng: 149.148285, lat: -35.411999 }, { lng: 149.137634, lat: -35.429066 }, { lng: 149.140381, lat: -35.434101 }, { lng: 149.153778, lat: -35.433819 }, { lng: 149.153091, lat: -35.44249 }, { lng: 149.134888, lat: -35.453678 }, { lng: 149.146912, lat: -35.480522 }, { lng: 149.151718, lat: -35.492264 }, { lng: 149.151031, lat: -35.507637 }, { lng: 149.132492, lat: -35.551224 }, { lng: 149.142441, lat: -35.590878 }, { lng: 149.140381, lat: -35.592274 }, { lng: 149.128372, lat: -35.590878 }, { lng: 149.124939, lat: -35.587528 }, { lng: 149.085114, lat: -35.580547 }, { lng: 149.078934, lat: -35.586967 }, { lng: 149.084076, lat: -35.615723 }, { lng: 149.08786, lat: -35.639999 }, { lng: 149.095413, lat: -35.640556 }, { lng: 149.095062, lat: -35.678493 }, { lng: 149.109146, lat: -35.696617 }, { lng: 149.10022, lat: -35.716133 }, { lng: 149.103989, lat: -35.725056 }, { lng: 149.100906, lat: -35.735088 }, { lng: 149.091293, lat: -35.765736 }, { lng: 149.09198, lat: -35.774651 }, { lng: 149.096786, lat: -35.777435 }, { lng: 149.093002, lat: -35.786346 }, { lng: 149.099869, lat: -35.790249 }, { lng: 149.097122, lat: -35.798882 }, { lng: 149.101929, lat: -35.80389 }, { lng: 149.09198, lat: -35.836464 }, { lng: 149.094727, lat: -35.84676 }, { lng: 149.084076, lat: -35.85038 }, { lng: 149.061768, lat: -35.881538 }, { lng: 149.052155, lat: -35.903511 }, { lng: 149.057648, lat: -35.908241 }, { lng: 149.046661, lat: -35.920753 }, { lng: 149.012329, lat: -35.901009 }, { lng: 148.998245, lat: -35.902679 }, { lng: 148.996872, lat: -35.896004 }, { lng: 148.971817, lat: -35.892387 }, { lng: 148.964264, lat: -35.896839 }, { lng: 148.959457, lat: -35.895168 }, { lng: 148.907272, lat: -35.848988 }, { lng: 148.903488, lat: -35.834236 }, { lng: 148.905899, lat: -35.828949 }, { lng: 148.896286, lat: -35.817535 }, { lng: 148.886322, lat: -35.808903 }, { lng: 148.897308, lat: -35.79554 }, { lng: 148.894562, lat: -35.770752 }, { lng: 148.903152, lat: -35.757656 }, { lng: 148.898346, lat: -35.750969 }, { lng: 148.894913, lat: -35.750969 }, { lng: 148.88736, lat: -35.73481 }, { lng: 148.891479, lat: -35.730072 }, { lng: 148.885635, lat: -35.717808 }, { lng: 148.878082, lat: -35.715019 }, { lng: 148.866409, lat: -35.7323 }, { lng: 148.86676, lat: -35.739548 }, { lng: 148.861603, lat: -35.750134 }, { lng: 148.861954, lat: -35.757656 }, { lng: 148.857483, lat: -35.76128 }, { lng: 148.854736, lat: -35.754871 }, { lng: 148.853027, lat: -35.751804 }, { lng: 148.836548, lat: -35.743446 }, { lng: 148.831741, lat: -35.734249 }, { lng: 148.820068, lat: -35.719479 }, { lng: 148.813538, lat: -35.720314 }, { lng: 148.788483, lat: -35.698849 }, { lng: 148.797745, lat: -35.677101 }, { lng: 148.799118, lat: -35.666222 }, { lng: 148.789169, lat: -35.658413 }, { lng: 148.773376, lat: -35.654507 }, { lng: 148.77063, lat: -35.649204 }, { lng: 148.771652, lat: -35.639999 }, { lng: 148.783325, lat: -35.626884 }, { lng: 148.768219, lat: -35.602882 }, { lng: 148.789505, lat: -35.588924 }, { lng: 148.771652, lat: -35.567421 }, { lng: 148.777832, lat: -35.560997 }, { lng: 148.768906, lat: -35.543121 }, { lng: 148.77269, lat: -35.529713 }, { lng: 148.767197, lat: -35.522167 }, { lng: 148.763763, lat: -35.491703 }, { lng: 148.773712, lat: -35.484997 }, { lng: 148.766846, lat: -35.465984 }, { lng: 148.775436, lat: -35.453117 }, { lng: 148.773026, lat: -35.448086 }, { lng: 148.789505, lat: -35.416473 }, { lng: 148.785385, lat: -35.409199 }, { lng: 148.796036, lat: -35.40612 }, { lng: 148.793976, lat: -35.39185 }, { lng: 148.803589, lat: -35.387932 }, { lng: 148.808044, lat: -35.380932 }, { lng: 148.805649, lat: -35.365536 }, { lng: 148.797058, lat: -35.357414 }, { lng: 148.799118, lat: -35.348736 }, { lng: 148.792938, lat: -35.338375 }, { lng: 148.802216, lat: -35.328571 }, { lng: 148.809021, lat: -35.308399 }];
+
+        //console.log(data);
+        var patientdata = data.PatientDetail;
+        var doctordata = data.DoctorDetail
+        //console.log(data.PatientDetail);
+
+        var mapOptions = {
+            //center: new google.maps.LatLng(-33.865143, 151.209900),
+            zoom: 2,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        var infoWindow = new google.maps.InfoWindow();
+        var latlngbounds = new google.maps.LatLngBounds();
+        var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+        if (patientdata.length > 0) {
+            var markers = patientdata;
+            var i = 0;
+            var interval = setInterval(function () {
+                var dataMark = markers[i];
+                var city = dataMark.CityName + ',aus';
+                var geocoder = new google.maps.Geocoder();
+                var myLatlng = new google.maps.LatLng(dataMark.latitude, dataMark.longitude);
+                //var myLatlng = new google.maps.LatLng('-30.0901', '145.9375');
+                var icon = "";
+                var color = "";
+                var marker = "";
+                var iconPath = "";
+                color = "Red";
+                iconPath = 'M 0,0 C -2,-20 -10,-22 -10,-30 A 10,10 0 1,1 10,-30 C 10,-22 2,-20 0,0 z';
+                //var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
+                marker = new MarkerWithLabel({
+                    animation: google.maps.Animation.DROP,
+                    position: myLatlng,
+                    map: map,
+                    fullname: dataMark.PatientName,
+                    phone: dataMark.PhoneNo,
+                    problem: dataMark.HomeVisitDetail[0].ReasonForContact,
+                    fulladdress: dataMark.Location,
+                    AppointmentDate: dataMark.AppointmentDateLocalText,
+                    //EndDateTime: data.ToDateLocalString,
+                    //problem_and_time: data.problem_and_time,
+                    labelContent: dataMark.DoctorID,
+                    //appointId: data.appointId,
+                    labelAnchor: new google.maps.Point(15, 35),
+                    labelClass: "labels", // the CSS class for the label
+                    labelInBackground: false,
+                    icon: pinSymbol(color, iconPath)
+                    //icon: image
+                });
+                var divDoctor = document.getElementById('divDoctor').innerHTML;
+                (function (marker, dataMark) {
+                    google.maps.event.addListener(marker, "click", function (e) {
+                        //GetDoctorsOfPatientArea(data.country_name, data.state_name);
+                        //GetDoctorsOfPatientAreaInNextHours(data.country_name, data.state_name);
+
+                        //infoWindow.setContent(data.description);
+                        infoWindow.open(map, marker);
+                        infoWindow.setContent('<p>Name: <b>' + this.fullname +
+                                                      '</b></p><p>Phone: <b>' + this.phone +
+                                                      '</b></p><p>Address: <b> ' + this.fulladdress +
+                                                      '</b></p><p>Problem: <b> ' + this.problem +
+                                                       '</b></p><p>Appointment Date: <b>' + this.AppointmentDate +
+                                                      '</p>'
+                                                      );
+                        infoWindow.open(map, this);
+                    });
+                })
+                (marker, dataMark);
+                latlngbounds.extend(marker.position);
+                i++;
+                if (i == markers.length) {
+                    clearInterval(interval);
+                    var bounds = new google.maps.LatLngBounds();
+                    map.setCenter(latlngbounds.getCenter());
+                    map.fitBounds(latlngbounds);
+                    map.setZoom(4);
+                }
+            }, 800);
+
+
+
+            //var markers1 = doctordata;
+            for (var k = 0; k < doctordata.length; k++) {
+                var dataMark = doctordata[k];
+                console.log(dataMark);
+                var myLatlng = new google.maps.LatLng(dataMark.latitude, dataMark.longitude);
+                //var myLatlng = new google.maps.LatLng('-30.0901', '145.9375');
+                var icon = "";
+                var color = "";
+                var marker = "";
+                var iconPath = "";
+                color = "Blue";
+                iconPath = 'M 0,0 C -2,-20 -10,-22 -10,-30 A 10,10 0 1,1 10,-30 C 10,-22 2,-20 0,0 z';
+
+                marker = new MarkerWithLabel({
+                    animation: google.maps.Animation.DROP,
+                    position: myLatlng,
+                    map: map,
+                    fullname: dataMark.DoctorName,
+                    //phone: dataMark.PhoneNo,
+                    //problem: dataMark.HomeVisitDetail[0].ReasonForContact,
+                    //fulladdress: dataMark.Location,
+                    //AppointmentDate: dataMark.AppointmentDateLocalText,
+                    //EndDateTime: data.ToDateLocalString,
+                    //problem_and_time: data.problem_and_time,
+                    //labelContent: dataMark.DoctorID,
+                    //appointId: data.appointId,
+                    //labelAnchor: new google.maps.Point(15, 35),
+                    //labelClass: "labels", // the CSS class for the label
+                    //labelInBackground: false,
+                    icon: pinSymbol(color, iconPath)
+                    //icon: image
+                });
+                var divDoctor = document.getElementById('divDoctor').innerHTML;
+                (function (marker, dataMark) {
+                    google.maps.event.addListener(marker, "click", function (e) {
+                        //GetDoctorsOfPatientArea(data.country_name, data.state_name);
+                        //GetDoctorsOfPatientAreaInNextHours(data.country_name, data.state_name);
+
+                        //infoWindow.setContent(data.description);
+                        infoWindow.open(map, marker);
+                        infoWindow.setContent('<p>Name: <b>' + this.fullname +
+                                                      '</b></p><p>Phone: <b>' + this.phone +
+                                                      '</b></p><p>Address: <b> ' + this.fulladdress +
+                                                      '</b></p><p>Problem: <b> ' + this.problem +
+                                                       '</b></p><p>Appointment Date: <b>' + this.AppointmentDate +
+                                                      '</p>'
+                                                      );
+                        infoWindow.open(map, this);
+                    });
+                })
+                (marker, dataMark);
+                latlngbounds.extend(marker.position);
+            }
+
+            //var j = 0;
+            //var doctorinterval = setInterval(function () {
+            //    var dataMark = doctordata[j];
+            //    var city = dataMark.CityName + ',aus';
+            //    var geocoder = new google.maps.Geocoder();
+            //    var myLatlng = new google.maps.LatLng(dataMark.latitude, dataMark.longitude);
+            //    //var myLatlng = new google.maps.LatLng('-30.0901', '145.9375');
+            //    var icon = "";
+            //    var color = "";
+            //    var marker = "";
+            //    var iconPath = "";
+            //    color = "Red";
+            //    iconPath = 'M 0,0 C -2,-20 -10,-22 -10,-30 A 10,10 0 1,1 10,-30 C 10,-22 2,-20 0,0 z';
+            //    //var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
+            //    marker = new MarkerWithLabel({
+            //        animation: google.maps.Animation.DROP,
+            //        position: myLatlng,
+            //        map: map,
+            //        fullname: dataMark.DoctorName,
+            //        //phone: dataMark.PhoneNo,
+            //        //problem: dataMark.HomeVisitDetail[0].ReasonForContact,
+            //        //fulladdress: dataMark.Location,
+            //        //AppointmentDate: dataMark.AppointmentDateLocalText,
+            //        //EndDateTime: data.ToDateLocalString,
+            //        //problem_and_time: data.problem_and_time,
+            //        //labelContent: dataMark.DoctorID,
+            //        //appointId: data.appointId,
+            //        //labelAnchor: new google.maps.Point(15, 35),
+            //        //labelClass: "labels", // the CSS class for the label
+            //        //labelInBackground: false,
+            //        icon: pinSymbol(color, iconPath)
+            //        //icon: image
+            //    });
+            //    var divDoctor = document.getElementById('divDoctor').innerHTML;
+            //    (function (marker, dataMark) {
+            //        google.maps.event.addListener(marker, "click", function (e) {
+            //            //GetDoctorsOfPatientArea(data.country_name, data.state_name);
+            //            //GetDoctorsOfPatientAreaInNextHours(data.country_name, data.state_name);
+
+            //            //infoWindow.setContent(data.description);
+            //            infoWindow.open(map, marker);
+            //            infoWindow.setContent('<p>Name: <b>' + this.fullname +
+            //                                          '</b></p><p>Phone: <b>' + this.phone +
+            //                                          '</b></p><p>Address: <b> ' + this.fulladdress +
+            //                                          '</b></p><p>Problem: <b> ' + this.problem +
+            //                                           '</b></p><p>Appointment Date: <b>' + this.AppointmentDate +
+            //                                          '</p>'
+            //                                          );
+            //            infoWindow.open(map, this);
+            //        });
+            //    })
+            //    (marker, dataMark);
+            //    latlngbounds.extend(marker.position);
+            //    j++;
+            //    if (j == doctordata.length) {
+            //        clearInterval(doctorinterval);
+            //        var bounds = new google.maps.LatLngBounds();
+            //        map.setCenter(latlngbounds.getCenter());
+            //        map.fitBounds(latlngbounds);
+            //        map.setZoom(4);
+            //    }
+            //}, 800);
+        }
+        //else {
+        //    if (ctrlId == 1) {
+        //        ctrlId = 0;
+        //    }
+        //    else {
+        //        ctrlId = ctrlId - 1;
+        //    }
+        //    var mapOptions = {
+        //        center: new google.maps.LatLng(-33.865143, 151.209900),
+        //        zoom: 4,
+        //        mapTypeId: google.maps.MapTypeId.ROADMAP
+        //    };
+        //    var infoWindow = new google.maps.InfoWindow();
+        //    var latlngbounds = new google.maps.LatLngBounds();
+        //    var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+
+        //    area[ctrlId] = new google.maps.Polygon({
+        //        path: stateBoundaries[ctrlId],
+        //        strokeColor: color[ctrlId],
+        //        strokeOpacity: 0.2,
+        //        strokeWeight: 2,
+        //        //fillColor: color[i],
+        //        //fillOpacity: 0.1
+        //    });
+        //    area[ctrlId].setMap(map);
+        //}
+    }
+
+    function pinSymbol(color, iconPath) {
+        return {
+            path: iconPath,
+            fillColor: color,
+            fillOpacity: 1,
+            strokeColor: '#000',
+            strokeWeight: 1,
+            scale: 1
+        };
+    }
+</script>
+<script>
+    $(document).ready(function () {
+        if ('@ViewBag.Errormessage' != '') {
+            $('#FromDate').datepick({ dateFormat: 'dd/mm/yyyy' });
+            $("#msg").append("<div class='alert alert-danger'><p>" + '@ViewBag.Errormessage' + "</p></div>").delaye(5000).fade();
+            $('#FromMainDateLocal').datepick({ dateFormat: 'dd/mm/yyyy' });
+        }
+        var oTable = $('#mytable').dataTable({
+            "bProcessing": true,
+            "iDisplayLength": 4,
+            "bPaginate": true,
+            "bInfo": false,
+            "bLengthChange": false,
+            "sPaginationType": "full_numbers",
+            "order": [[3, "desc"]]
+        });
+        $('[data-toggle="tooltip"]').tooltip();
+        $("#btnNew").click(function () {
+            window.location.href = "/admin/Voucher/add";
+        });
+        //DisableButton();
+        var favorite = [];
+        //Fromdate: $('#txtFromDate').val(), ToDate: $('#txtToDate').val(), VoucherStatus: $('#txtUserId').val(), UserID: $('#Assignedto').val(), LoginName: $('#txtLoginName').val()
+        //$('#btnSearch').click(function () {
+
+        //    $.ajax({
+        //        type: "get",
+        //        url: '/Admin/Voucher/GetSearchlist',
+        //        contentType: "application/html; charset=utf-8",
+        //        data: ({ id:2 }),
+        //        datatype: "json",
+        //        success: function (data) {
+        //            $.getJSON("/Voucher/GetSearchlist"),
+        //            $('#PartialView').load(data);
+        //            alert("ok");
+        //        },
+        //        error: function () {
+        //        }
+        //    });
+        //});
+
+    });
+</script>
+<script>
+    $('.doctordetail').click(function () {
+        var id = $(this).attr('id');
+        $('#lblUname').html('');
+        $('#lbluEmail').html('');
+        $('#lblOrganization').html('');
+        $('#lblUPhone').html('');
+        $('#lblUFax').html('');
+        $('#lblAddress1').html('');
+        $('#lblUAddress2').html('');
+        $('#lblUPostcode').html('');
+        $('#lblUCity').html('');
+        $('#lblUStateName').html('');
+        $('#lblUCountry').html('');
+        $.ajax({
+            type: "POST",
+            url: '/Admin/Appointment/GetDoctorDetail',
+            datatype: "json",
+            data: { UserId: id },
+            success: function (data1) {
+                console.log(data1);
+
+                $('#lblUname').html(data1.FullName);
+                $('#lbluEmail').html(data1.Email);
+                $('#lblOrganization').html(data1.organizationName);
+                $('#lblUPhone').html(data1.PhoneNumber);
+                $('#lblUFax').html(data1.FaxNumber);
+                $('#lblAddress1').html(data1.Address1);
+                $('#lblUAddress2').html(data1.Address2);
+
+                $('#lblUPostcode').html(data1.PostCode);
+                $('#lblUCity').html(data1.CityName);
+                $('#lblUStateName').html(data1.StateName);
+                $('#lblUCountry').html(data1.CountryName);
+            },
+            error: function () {
+
+            }
+        });
+    });
+    $('.patientdetail').click(function () {
+        var id = $(this).attr('id');
+        $('#lblUname').html('');
+        $('#lbluEmail').html('');
+        $('#lblOrganization').html('');
+        $('#lblUPhone').html('');
+        $('#lblUFax').html('');
+        $('#lblAddress1').html('');
+        $('#lblUAddress2').html('');
+        $('#lblUPostcode').html('');
+        $('#lblUCity').html('');
+        $('#lblUStateName').html('');
+        $('#lblUCountry').html('');
+        $.ajax({
+            type: "POST",
+            url: '/Admin/Appointment/GetPatientDetail',
+            datatype: "json",
+            data: { UserId: id },
+            success: function (data1) {
+                $('#lblUname').html(data1.FullName);
+                $('#lbluEmail').html(data1.Email);
+                $('#lblOrganization').html(data1.organizationName);
+                $('#lblUPhone').html(data1.PhoneNumber);
+                $('#lblUFax').html(data1.FaxNumber);
+                $('#lblAddress1').html(data1.Address1);
+                $('#lblUAddress2').html(data1.Address2);
+                $('#lblUPostcode').html(data1.PostCode);
+                $('#lblUCity').html(data1.CityName);
+                $('#lblUStateName').html(data1.StateName);
+                $('#lblUCountry').html(data1.CountryName);
+            },
+            error: function () {
+
+            }
+        });
+    });
+    $('.pharmacydetail').click(function () {
+        var id = $(this).attr('id');
+        $('#lblpharmacyName').html('');
+        $('#lblPhoneNo').html('');
+        $('#lblFax').html('');
+        $('#lblAddress1').html('');
+        $('#lblAddress2').html('');
+        $('#lblPostCode').html('');
+        $('#lblCity').html('');
+        $('#lblState').html('');
+        $('#lblCountry').html('');
+        $.ajax({
+            type: "POST",
+            url: '/Admin/Appointment/GetPharmacyDetail',
+            datatype: "json",
+            data: { UserId: id },
+            success: function (data1) {
+                $('#lblpharmacyName').html(data1.PharmacyName);
+                $('#lblPhoneNo').html(data1.PharmacyPhoneNumber);
+                $('#lblFax').html(data1.PharmacyFaxNumber);
+                $('#lblAddress1').html(data1.PharmacyAddress1);
+                $('#lblAddress2').html(data1.PharmacyAddress2);
+                $('#lblPostCode').html(data1.PharmacyPostCode);
+                $('#lblCity').html(data1.CityName);
+                $('#lblState').html(data1.StateName);
+                $('#lblCountry').html(data1.CountryName);
+            },
+            error: function () {
+            }
+        });
+    });
+    $('.editclick').click(function () {
+        //$('#FromMainDateLocal').datepick({ dateFormat: 'dd/mm/yyyy' });
+        var id = $(this).attr('data-role');
+        $('#hdnAppointmentId').val(id);
+        $.ajax(
+            {
+                type: "POST",
+                url: '/Admin/Appointment/GetAppointmentdate',
+                datatype: "json",
+                data: { appointmentId: $('#hdnAppointmentId').val() },
+                success: function (str) {
+                    console.log(str);
+                    if (str) {
+                        $('#FromMainDateLocal1').val(str[3]);
+                        $('#FromMainHour').val(str[1]);
+                        $('#FromMainMin').val(str[2]);
+                        $('#FromMainAMPM').val(str[0]);
+                        //$('#send').attr("data-dismiss", "modal");
+
+                        //alert("Appointment Updated Successfully");
+                    }
+                    else {
+                        //alert("Appointment Not Updated");
+                    }
+                    //$('#FromMainAMPM').cl
+                    //$('#lblUCountry').html(data1.CountryName);
+                    //FromMainMin
+                },
+                error: function () {
+                }
+            }
+        );
+
+    })
+    $('#send').click(function () {
+        $.ajax(
+            {
+                type: "POST",
+                url: '/Admin/Appointment/ChangeDate',
+                datatype: "json",
+                data: { selectedDate: $('#FromMainDateLocal').val(), mainHour: $('#FromMainHour').val(), mainMin: $('#FromMainMin').val(), MainAmPm: $('#FromMainAMPM').val(), appointmentId: $('#hdnAppointmentId').val() },
+                success: function (data) {
+                    if (data) {
+                        $('#EditAvailabilityModel').modal('hide');
+                        alert("Appointment Updated Successfully");
+                    }
+                    else {
+                        alert("Appointment Not Updated");
+                    }
+                    //$('#FromMainAMPM').cl
+                    //$('#lblUCountry').html(data1.CountryName);
+                    //FromMainMin
+                },
+                error: function () {
+                }
+            }
+        );
+    });
+    //CancelAppointment
+    $('#btnCancel').click(function () {
+        $.ajax(
+            {
+                type: "POST",
+                url: '/Admin/Appointment/CancelAppointment',
+                datatype: "json",
+                data: { appointmentId: $('#hdnAppointmentId').val() },
+                success: function (data) {
+                    if (data) {
+                        $('#EditAvailabilityModel').modal('hide');
+                        alert("Appointment Cancelled");
+                    }
+                    else {
+                        alert("Appointment Not Cancelled");
+                    }
+                },
+                error: function () {
+                }
+            }
+        );
+    });
+
+</script>
+
+

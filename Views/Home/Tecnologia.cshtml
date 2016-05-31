@@ -1,0 +1,63 @@
+﻿@model PagedList.IPagedList<MyOnlineClinic.Web.Models.NewsViewModel>
+@{
+
+    var siteUrl = System.Web.Configuration.WebConfigurationManager.AppSettings["SiteUrl"];
+
+    var CategoryName = ViewBag.Name;
+    var SubCategoryList = ViewBag.SubCategories as List<MyOnlineClinic.Entity.LookUpNewsSubCategory>;
+}
+
+
+
+@using PagedList.Mvc
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8" id="main">
+            <div class="row">
+                <div class="col-sm-12 full-img">
+                    <img src="~/images/tecnologia_hr.jpg" />
+                </div>
+            </div>
+
+            <div class="navbar-collapse collapse inner-nav mb-20" style="margin-top:0px !important;">
+                <ul class=" nav navbar-nav navbar-left">
+                <li><a href="@Url.Action(CategoryName, "Home", new { @category = @CategoryName })">@CategoryName</a></li>
+                @foreach (var item in SubCategoryList)
+                {
+                    <li><a href="@Url.Action(CategoryName, "Home", new { @subCategory = @item.LookUpNewsSubCategoryName })">@item.LookUpNewsSubCategoryName</a></li>
+                }
+
+                </ul>
+            </div>
+
+            @{Html.RenderPartial("~/Views/Home/CategoryNewsPartial.cshtml", Model);}
+        </div>
+        <div class="col-md-4" id="sidebar">
+            @{Html.RenderAction("Banner", "Home", new { @page = "Tecnologia", @bannerType = "RightSide1" });}
+
+            @{Html.RenderAction("Banner", "Home", new { @page = "Tecnologia", @bannerType = "RightSide2" });}
+
+
+            <!-- Category news 1 -->
+            <div class="section-title-wr">
+                <h3 class="section-title left"><span>MERCADO</span></h3>
+            </div>
+            <div class="mb-20">
+                @{Html.RenderAction("Mercado", "Home");}
+            </div>
+
+            <!-- Category news 2 -->
+            @*<div class="section-title-wr">
+                <h3 class="section-title left"><span>RECENT CLASSIFIEDS</span></h3>
+            </div>
+            @{Html.RenderAction("RecentClassifieds", "Home");}*@
+            <div class="top-margin">
+                @{Html.RenderAction("Banner", "Home", new { @page = "Tecnologia", @bannerType = "RightSide3" });}
+
+                @{Html.RenderAction("Banner", "Home", new { @page = "Tecnologia", @bannerType = "RightSide4" });}
+            </div>
+        </div>
+    </div>
+</div>
+

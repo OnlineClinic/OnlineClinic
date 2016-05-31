@@ -1,0 +1,368 @@
+﻿@model MyOnlineClinic.Web.Models.ManagePrescriptionViewModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<style>
+    div.dataTables_paginate {
+        float: right;
+        /*margin: 50px;*/
+    }
+
+    .sorting, .sorting_asc, .sorting_desc {
+        background: none;
+    }
+
+    div {
+        text-transform: capitalize;
+    }
+    /* Tabs panel */
+    .tabbable-panel {
+        border: 1px solid #eee;
+        padding: 10px;
+    }
+
+    /* Default mode */
+    .tabbable-line > .nav-tabs {
+        border: none;
+        margin: 0px;
+    }
+
+        .tabbable-line > .nav-tabs > li {
+            margin-right: 2px;
+        }
+
+            .tabbable-line > .nav-tabs > li > a {
+                border: 0;
+                margin-right: 0;
+                color: #737373;
+            }
+
+                .tabbable-line > .nav-tabs > li > a > i {
+                    color: #a6a6a6;
+                }
+
+            .tabbable-line > .nav-tabs > li.open, .tabbable-line > .nav-tabs > li:hover {
+                border-bottom: 4px solid #fbcdcf;
+            }
+
+                .tabbable-line > .nav-tabs > li.open > a, .tabbable-line > .nav-tabs > li:hover > a {
+                    border: 0;
+                    background: none !important;
+                    color: #333333;
+                }
+
+                    .tabbable-line > .nav-tabs > li.open > a > i, .tabbable-line > .nav-tabs > li:hover > a > i {
+                        color: #a6a6a6;
+                    }
+
+                .tabbable-line > .nav-tabs > li.open .dropdown-menu, .tabbable-line > .nav-tabs > li:hover .dropdown-menu {
+                    margin-top: 0px;
+                }
+
+    ul.nav.nav-tabs.appont {
+        background: none !important;
+    }
+
+    .tabbable-line > .nav-tabs > li.active {
+        border-bottom: 4px solid #08A39B;
+        position: relative;
+    }
+
+        .tabbable-line > .nav-tabs > li.active > a {
+            border: 0;
+        }
+
+            .tabbable-line > .nav-tabs > li.active > a > i {
+                color: #404040;
+            }
+
+    .tabbable-line > .tab-content {
+        margin-top: -3px;
+        border: 0;
+        border-top: 1px solid #eee;
+        padding: 15px 0;
+    }
+
+    .portlet .tabbable-line > .tab-content {
+        padding-bottom: 0;
+    }
+
+    table > tbody > tr > td {
+        vertical-align: baseline !important;
+    }
+</style>
+
+<section class="content-header" style="margin-top:35PX;"></section>
+<div class="row">
+    <div class="col-md-12">
+        <h3>Manage Prescription</h3>
+
+        <div class="tabbable-panel">
+            <div class="tabbable-line">
+                <ul class="nav nav-tabs appont ">
+                    <li class="active">
+                        <a href="#tab_default_1" data-toggle="tab">
+                            Appointment Prescription
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#tab_default_2" data-toggle="tab">
+                            My Patient Prescription
+                        </a>
+                    </li>
+                    @*<li>
+                        <a href="#tab_default_3" data-toggle="tab">
+                            Prescription Request
+                        </a>
+                    </li>*@
+                </ul>
+                <div class="tab-content">
+                    @*<div class="tab-pane" id="tab_default_3">
+                        <p>
+                            Howdy, I'm in Tab 3.
+                        </p>
+                    </div>*@
+                    <div class="row">
+                        @{MyOnlineClinic.Web.Models.SearchParametersViewModel objSearchModel = new MyOnlineClinic.Web.Models.SearchParametersViewModel();
+                        objSearchModel.ActionName = "Index";
+                        objSearchModel.ControllerName = "ManagePrescription";
+                        objSearchModel.AreaName = "Admin";
+                        objSearchModel.ShowDoctorName = true;
+                        objSearchModel.ShowPatientName = true;
+                        objSearchModel.ShowPostCode = true;
+                        }
+                        @{Html.RenderPartial("_SearchPartial", objSearchModel);}
+                    </div>
+                    <div class="tab-pane active" id="tab_default_1">
+                        <div class="row">
+                            <div class="col-md-12 seven_layer">
+                                <div class="table-responsive data">
+                                    <table id="mytable" class="table table-hover table-bordered">
+                                        <thead style="color:#fff;">
+                                            <tr>
+                                                <th class="top">No</th>
+                                                <th class="top">Organization Name</th>
+                                                <th class="top">Patient Name</th>
+                                                <th class="top">Doctor Name</th>
+                                                <th class="top">Appointment Date</th>
+                                                <th class="top">Appointment Status</th>
+                                                <th class="top">Action</th>
+                                                <th class="top">Printed</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{ int count = 1;}
+                                            @foreach (var item in Model.AppointmentPrescription)
+                                            {
+
+                                                <tr class="info">
+                                                    <td style="vertical-align:middle;text-transform: capitalize">@count</td>
+                                                    <td style="vertical-align:middle;text-transform: capitalize">@item.OrganizatioName</td>
+                                                    <td style="vertical-align:middle; text-transform: capitalize;">@item.PatientFullName</td>
+                                                    <td style="vertical-align:middle; text-transform: capitalize;">@item.DoctorFullName</td>
+                                                    <td style="vertical-align:middle;">@Convert.ToDateTime(item.AppointmentDatetime).ToString("dd-MMM-yyyy hh:mm tt")</td>
+                                                    <td style="vertical-align:middle; text-transform: capitalize;">@item.AppointmentStatus</td>
+                                                    <td style="vertical-align:middle; text-transform: capitalize;"><label class="glyphicon glyphicon-print printpop" data-role="@item.ManagePrescriptionId"></label></td>
+                                                    <td style="vertical-align:middle; text-transform: capitalize;">0</td>
+                                                    <input type="hidden" id="ManagePrescriptionId" value="@item.ManagePrescriptionId" />
+
+                                                </tr>
+                                                count = count + 1;
+
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane" id="tab_default_2">
+                        <div class="row">
+                            <div class="col-md-12 seven_layer">
+                                <div class="table-responsive data">
+
+
+
+
+                                    <table id="mytable" class="table table-hover table-bordered">
+                                        <thead style="color:#fff;">
+                                            <tr>
+                                                <th class="top">No</th>
+                                                <th class="top">Organization Name</th>
+                                                <th class="top">Patient Name</th>
+                                                <th class="top">Doctor Name</th>
+                                                <th class="top">Action</th>
+                                                <th class="top">Printed</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{ int count1 = 1;}
+                                            @foreach (var item in Model.MyPatientPrescription)
+                                            {
+
+                                                <tr class="info">
+                                                    <td style="vertical-align:middle;text-transform: capitalize">@count1</td>
+                                                    <td style="vertical-align:middle;text-transform: capitalize">@item.OrganizatioName</td>
+                                                    <td style="vertical-align:middle; text-transform: capitalize;">@item.PatientFullName</td>
+                                                    <td style="vertical-align:middle; text-transform: capitalize;">@item.DoctorFullName</td>
+                                                    <td style="vertical-align:middle; text-transform: capitalize;"><label class="glyphicon glyphicon-print printpop" data-role="@item.ManagePrescriptionId"></label></td>
+                                                    <td style="vertical-align:middle; text-transform: capitalize;">0</td>
+
+                                                </tr>
+                                                count = count + 1;
+
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<asp:HiddenField ID="hdnPrescriptionId" runat="server" />
+<div id="spinner" class="spinner" style="width: 256px; float: left; left: 50%; display: none; top: 42%; position: absolute;">
+    <img id="img-spinner" src="~/AdminAssets/images/default.gif" />
+</div>
+<div class="modal fade" id="MedicinePopUp" tabindex="-1" aria-hidden="true">    
+    <div class="modal-dialog">
+        <div class="modal-content" style="width: 224%;position: relative;left: -62%;">
+            <div class="modal-body">
+               
+                <div id="CreateEditForm" style="color:#000 !important;text-align:left !important; ">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="margin-top: 0px !important; COLOR: #000; font-size:26px;">×</button>
+                    
+                    <div id="dvView" style="height: 100%; width: 100%; background-color: White; margin: 0 auto;">
+                    </div>
+                    <div id="dvPrint" style="height: 100%; width: 100%; background-color: White; margin: 0 auto; display:none;">
+                    </div>
+                </div>
+                <div id="DivPrintfor" style="text-align: center; margin: 30px 0px;">
+                    <a href="javascript:" style="text-decoration: none; color: Black; border: solid 1px black;
+                        border-radius: 5px; width: 85px; padding: 5px 20px;" onclick="printRecord();">
+                        Print
+                    </a>
+                    @*<button type="submit" class="btn btn-primary Ptintbtn" style="display:none;">Ok</button>*@
+                </div>
+                @*<div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Ok</button>
+                    </div>*@
+            </div>
+        </div>
+
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<script src="~/AdminAssets/js/datatables/js/jquery.dataTables.js"></script>
+<script>
+    $(document).ready(function () {
+
+        var oTable = $('#mytable').dataTable({
+            "bProcessing": true,
+            "iDisplayLength": 5,
+            "bPaginate": true,
+            "bInfo": false,
+            "bLengthChange": false,
+            "sPaginationType": "full_numbers",
+            "language": {
+                "emptyTable": "No Record Found"
+            }
+        });
+
+    });
+    $(".printpop").click(function () {
+        $("#spinner").show();
+        var opDiv = document.getElementById("dvPrint");
+        var opViewDiv = document.getElementById("dvView");
+        var id = $(this).attr('data-role');
+       
+        $.ajax({
+            type: "POST",
+            url: '/admin/ManagePrescription/GetMedicationHTML',
+            data: ({ Id: id }),
+            dataType: "Json",
+            success: function (data) {
+                if (data != null) {
+                    var htmlString = data.split('¶');
+                    opViewDiv.innerHTML = htmlString[0];
+                    opDiv.innerHTML = htmlString[1];
+                    //opDiv.innerHTML = data;  
+                    $("#spinner").hide();
+                    var options = {
+                        "backdrop": "static"
+                    };
+                    $('#MedicinePopUp').modal(options);
+                }
+            },
+            error: function () {
+                alert('Error occured');
+            }
+        });       
+      
+    });
+
+
+    function printRecord() {
+        var hdnPrescriptionId = document.getElementById('hdnPrescriptionId');
+        var prescriptionId = hdnPrescriptionId.value;
+        var popuparea = $('#MedicinePopUp');
+        var printContents = document.getElementById('dvPrint').innerHTML;
+        var originalContents = document.body.innerHTML;
+
+        document.body.innerHTML = printContents;
+        var elems = document.getElementsByTagName('span');
+        for (var i = 0; i < elems.length; i++) {
+            if (elems[i].style.visibility === "visible") {
+                elems[i].style.visibility = "hidden";
+            } else {
+                elems[i].style.visibility = "hidden";
+            }
+        }
+        window.print();
+        document.body.innerHTML = originalContents;
+        popuparea.hide();
+        //document.getElementById('<%=lnkSave.ClientID%>').click();
+
+        //$.ajax({
+        //    type: "POST",
+        //    url: '/admin/ManagePrescription/UpdatePrescription',
+        //    data: ({ Id: prescriptionId }),
+        //    //data: '{"prescriptionId":"' + prescriptionId + '"}',
+        //    contentType: "application/json; charset=utf-8",
+        //    success: function (msg) {
+        //        var printContents = document.getElementById('<%=dvPrint.ClientID %>').innerHTML;
+        //        var originalContents = document.body.innerHTML;
+
+        //        document.body.innerHTML = printContents;
+        //        var elems = document.getElementsByTagName('span');
+
+        //        for (var i = 0; i < elems.length; i++) {
+        //            if (elems[i].style.visibility === "visible") {
+        //                elems[i].style.visibility = "hidden";
+        //            } else {
+        //                elems[i].style.visibility = "hidden";
+        //            }
+        //        }
+
+        //        window.print();
+        //        document.body.innerHTML = originalContents;
+        //        document.getElementById('<%=lnkSave.ClientID%>').click();
+        //    },
+        //    error: function (err) {
+
+        //    }
+        //});
+    }
+</script>
+

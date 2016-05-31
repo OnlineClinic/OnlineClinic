@@ -1,0 +1,193 @@
+﻿@model MyOnlineClinic.Web.Models.Facet
+        
+    <div class="section-title-wr">
+        <h3 class="section-title left"><span>Pesquisa Avançada</span></h3>
+    </div>
+    <form class="form-horizontal form-light p-18" role="form">
+        <div class="input-group">
+            <input type="text" id="keyword" class="form-control" value="@Model.filterParam.q" placeholder="Insira a palavra a pesquisar ...">
+            <span class="input-group-btn">
+                <button id="filterByKeyword" class="btn btn-base" type="button">Procurar</button>
+            </span>
+        </div>
+    </form>
+    <div class="subsection">
+                <div class="widget">
+                    <div class="panel-group" id="accordion">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                @{
+                                    var location = Model.filterParam.fregusia;
+                                    if (!string.IsNullOrEmpty(Model.filterParam.concelho) && string.IsNullOrEmpty(location))
+                                    { location = Model.filterParam.concelho; }
+                                    if (!string.IsNullOrEmpty(Model.filterParam.distrtito) && string.IsNullOrEmpty(location))
+                                    { location = Model.filterParam.distrtito; }
+                                    if (!string.IsNullOrEmpty(Model.filterParam.country) && string.IsNullOrEmpty(location))
+                                    { location = Model.filterParam.country; }
+                                }
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="collapsed">
+                                    <h4 class="panel-title">localização</h4>
+                                </a>
+                                <span class="" data-val="country" style="padding:10px">@location</span>
+                            </div>
+                            <div id="collapseOne" class="panel-collapse collapse" style="height: 0px;">
+                                <div class="panel panel-default panel-sidebar-1">
+                                    <ul class="categories no-border">
+                                        @{foreach (var country in Model.FacetResult.LocationFilter)
+                                        {
+                                            <li><a href="#" class="countryfilter" data-val="@country.Title"  hidefocus="true" style="outline: none;">@country.Title (@country.Count)</a></li>
+
+                                            if (country.Children != null)
+                                            {
+                                                <li>
+                                                    <ul class="categories no-border">
+                                                        @foreach (var distrito in country.Children)
+                                                        {
+                                                            <li><a href="#" class="statefilter" data-val="@distrito.Title" hidefocus="true" style="outline: none;">@distrito.Title (@distrito.Count)</a></li>
+                                                            if (distrito.Children != null)
+                                                            {
+                                                                <li>
+                                                                    <ul class="categories no-border">
+                                                                        @foreach (var concelho in distrito.Children)
+                                                                        {
+                                                                            <li><a href="#" class="provincefilter" style="padding-left: 40px;" data-val="@concelho.Title" hidefocus="true" style="outline: none;">@concelho.Title (@concelho.Count)</a></li>
+                                                                            if (concelho.Children != null)
+                                                                            {
+                                                                                <li>
+                                                                                    <ul class="categories no-border">
+                                                                                        @foreach (var fregrusia in concelho.Children)
+                                                                                        {
+                                                                                            <li><a href="#" class="cityfilter" style="padding-left: 55px;" data-val="@fregrusia.Title" hidefocus="true" style="outline: none;">@fregrusia.Title (@fregrusia.Count)</a></li>
+                                                                                        }
+                                                                                    </ul>
+                                                                                </li>
+                                                                            }
+
+                                                                        }
+                                                                    </ul>
+                                                                </li>
+                                                            }
+                                                        }
+                                                    </ul>
+                                                </li>
+
+                                            }
+                                        }
+                                        }
+                                    </ul>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" class="collapsed">
+                                    <h4 class="panel-title">Categoria</h4>
+                                    @{
+                                        var cat=Model.filterParam.cat;
+                                        if (!string.IsNullOrEmpty(Model.filterParam.cat) && string.IsNullOrEmpty(cat))
+                                        {
+                                            cat = Model.filterParam.scat;
+                                        }
+                                    }
+
+
+                                    <span style="padding:10px">@cat</span>
+                                </a>
+                            </div>
+                            <div id="collapseTwo" class="panel-collapse collapse" style="height: 0px;">
+                                <div class="panel panel-default panel-sidebar-1" style="">
+                                    <ul class="categories no-border">
+                                        @{foreach (var category in Model.FacetResult.CategoryFilter)
+                                        {
+                                            <li><a href="#" class="catfilter" data-val="@category.Title" hidefocus="true" style="outline: none;">@category.Title (@category.Count)</a></li>
+
+                                            if (category.Children != null)
+                                            {
+                                                <li>
+                                                    <ul class="categories no-border">
+                                                        @foreach (var subcategory in category.Children)
+                                                        {
+                                                            <li><a href="#" class="scatfilter" data-val="@subcategory.Title" hidefocus="true" style="outline: none;">@subcategory.Title (@subcategory.Count)</a></li>
+                                                        }
+                                                    </ul>
+                                                </li>
+
+                                            }
+                                        }
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+       
+
+<script>
+
+    var url = "/Classified?"
+    var keyword = getUrlParameter('q');
+    function tryAddKeyword() {
+        if (keyword != undefined && keyword.length > 0) {
+            url = url + "q=" + keyword + "&";
+        }
+    }
+    $(".countryfilter").click(function () {
+        tryAddKeyword();
+        window.location.href = url + "country=" + $(this).attr("data-val");
+
+    });
+    $(".statefilter").click(function () {
+        tryAddKeyword();
+        window.location.href = url + "distrtito=" + $(this).attr("data-val");
+
+    });
+    
+    $(".provincefilter").click(function () {
+        tryAddKeyword();
+        window.location.href = url + "concelho=" + $(this).attr("data-val");
+
+    });
+  
+    $(".cityfilter").click(function () {
+        tryAddKeyword();
+        window.location.href = url + "fregrusia=" + $(this).attr("data-val");
+
+    });
+
+
+    $(".catfilter").click(function () {
+        tryAddKeyword();
+        window.location.href = url + "cat=" + $(this).attr("data-val");
+
+    });
+
+    $(".scatfilter").click(function () {
+        tryAddKeyword();
+        window.location.href = url + "scat=" + $(this).attr("data-val");
+
+    });
+
+
+    $("#filterByKeyword").click(function () {
+        var key = $("#keyword").val();
+        window.location.href = url + "q=" + key
+    });
+
+    function getUrlParameter(sParam) {
+        var sPageURL = window.location.search.substring(1);
+        var sURLVariables = sPageURL.split('&');
+        for (var i = 0; i < sURLVariables.length; i++) {
+            var sParameterName = sURLVariables[i].split('=');
+            if (sParameterName[0] == sParam) {
+                return sParameterName[1];
+            }
+        }
+    }
+
+    
+
+</script>

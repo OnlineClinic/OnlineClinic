@@ -1,0 +1,32 @@
+﻿@model IEnumerable<MyOnlineClinic.Web.Models.RecipeViewModel>
+
+@if (Model!=null)
+{
+    <div class="row">
+        @{
+    foreach (var item in Model)
+    {
+        var newsPhotos = item.ImageName;
+        var newsImageUrl = string.Empty;
+        if (newsPhotos != null)
+        {
+            newsImageUrl = "/UploadedFiles/RecepiesPhotos/Image/" + newsPhotos.ImagePath;
+        }
+        <div class="col-md-3">
+            <div class="wp-block article grid">
+                <div class="article-image">
+                    <img src="@newsImageUrl" alt="" height="240">
+                    <h4 class="image-title base-alt">@item.CategoryName</h4>
+                </div>              
+                <h3 class="title">
+                    <a href="/Receitas/@item.SlugTitle">@item.Title</a>
+                </h3>
+            </div>
+        </div>
+
+    }
+        }
+    </div>
+}
+
+

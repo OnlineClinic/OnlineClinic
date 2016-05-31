@@ -1,0 +1,377 @@
+﻿@model MyOnlineClinic.Web.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Register";
+}
+
+<<div class="container">
+    <div class="col-md-12">
+        @*<h2>Criar Perfil de utilizador particular</h2>
+            <p>Caro utilizador aproveite para definir o seu perfil de utilizador e a privacidade desejada.</p>
+            <p>
+                O seu perfil é privado e só será exposto aquilo que desejar. Poderá alterar estas definições a qualquer momento.<br>
+                Estes dados estão sujeitos às Condições de Utilização de Privacidade e, serão usados apenas para efeitos de notificações e eventual faturação de serviços.
+            </p>
+            <h3>Definir Perfil</h3>*@
+        <section class="slice bg-white">
+            <div class="wp-section">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-8 col-md-offset-2 col-sm-6 col-sm-offset-3">
+                            <div class="wp-block default user-form no-margin">
+                                <div class="form-header">
+                                    <h2>Criar Perfil de utilizador particular</h2>
+                                    <p>Caro utilizador aproveite para definir o seu perfil de utilizador e a privacidade desejada.</p>
+                                    <p>
+                                        O seu perfil é privado e só será exposto aquilo que desejar. Poderá alterar estas definições a qualquer momento.<br>
+                                        Estes dados estão sujeitos às Condições de Utilização de Privacidade e, serão usados apenas para efeitos de notificações e eventual faturação de serviços.
+                                    </p>
+                                    <h3>Definir Perfil</h3>
+                                </div>
+                                <div class="form-body">
+
+                                    @using (Html.BeginForm("RegisterCompany", "Account", FormMethod.Post, new { @class = "sky-form", role = "form", id = "frmRegister" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <div class="form-group" id="Message" style="display:none;">
+                                            <div class="col-md-offset-3 col-md-9">
+                                                <label style="color:red;">@ViewBag.Message</label>
+                                            </div>
+                                        </div>
+                                        @Html.HiddenFor(m => m.UserName)
+                                        @Html.HiddenFor(m => m.Password)
+                                        @Html.HiddenFor(m => m.ConfirmPassword)
+                                        @Html.HiddenFor(m => m.RoleId)
+                                        @Html.HiddenFor(m => m.Accept)
+                                        <div id="member-div">
+                                            <fieldset class="no-padding">
+                                                <section>
+                                                    <div class="row">
+                                                        <div class="col-xs-6">
+                                                            <div class="form-group">
+                                                                <label class="label">Nome*</label>
+                                                                <label class="input">
+                                                                    <i class="icon-append fa fa-user"></i>
+                                                                    @Html.TextBoxFor(x => x.FullName)
+                                                                    @Html.ValidationMessageFor(x => x.FullName)
+                                                                    <b class="tooltip tooltip-bottom-right">Needed to enter the website</b>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xs-6">
+                                                            <div class="form-group">
+                                                                <div class="form-group">
+                                                                    <label class="label">Morada</label>
+                                                                    <label class="input">
+                                                                        <i class="icon-append fa fa-envelope-o"></i>
+                                                                        @Html.TextBoxFor(x => x.Address)
+                                                                        @Html.ValidationMessageFor(x => x.Address)
+                                                                        <b class="tooltip tooltip-bottom-right">Needed to verify your account</b>
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="label">Localidade</label>
+                                                                <label class="input">
+                                                                    <i class="icon-append fa fa-lock"></i>
+                                                                    @Html.TextBoxFor(x => x.PostalLocal)
+                                                                    @Html.ValidationMessageFor(x => x.PostalLocal)
+                                                                    <b class="tooltip tooltip-bottom-right">Needed to enter the website</b>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="label">Cód. Postal</label>
+                                                                <label class="input">
+                                                                    <i class="icon-append fa fa-lock"></i>
+                                                                    @Html.TextBoxFor(x => x.PostalCode)
+                                                                    @Html.ValidationMessageFor(x => x.PostalCode)
+                                                                    <b class="tooltip tooltip-bottom-right">Needed to verify your account</b>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </section>
+                                                <hr>
+                                                <section>
+                                                    <div class="row">
+                                                        <section class="col-xs-6">
+                                                            <label class="label">Contribuinte*</label>
+                                                            <label class="input">
+                                                                <i class="icon-append fa fa-user"></i>
+                                                                @Html.TextBoxFor(x => x.TaxId, new { @class = "form-control" })
+                                                                @Html.ValidationMessageFor(x => x.TaxId)
+                                                            </label>
+                                                        </section>
+                                                        @*<section class="col-xs-6">
+                                            <label class="label">Last name</label>
+                                            <label class="input">
+                                                <i class="icon-append fa fa-user"></i>
+                                                <input type="text" name="lname" placeholder="">
+                                            </label>
+                                        </section>*@
+                                                    </div>
+                                                    <div class="row">
+                                                        <section class="col-xs-6">
+                                                            <label class="select">
+                                                                País
+                                                                @Html.DropDownListFor(x => x.CountryId, new SelectList(Model.CountryList, "CountryId", "CountryName"), "-Country-")
+                                                                @Html.ValidationMessageFor(x => x.CountryId)
+                                                            </label>
+                                                        </section>
+                                                        <section class="col-xs-6">
+                                                            <label class="select">
+                                                                Distrito
+                                                                @Html.DropDownListFor(x => x.DistritosId, new SelectList(Model.StateList, "LookUpStateId", "LookUpStateName"), "-Distrito-")
+                                                                @Html.ValidationMessageFor(x => x.DistritosId)
+                                                            </label>
+                                                        </section>
+                                                    </div>
+                                                    <div class="row">
+                                                        <section class="col-xs-6">
+                                                            <label class="select">
+                                                                Concelho
+                                                                @Html.DropDownListFor(x => x.ConcelhosId, new SelectList(Model.ProvinceList, "LookUpProvinceId", "LookUpProvinceName"), "-Concelho-")
+                                                                @Html.ValidationMessageFor(x => x.ConcelhosId)
+                                                            </label>
+                                                        </section>
+                                                        <section class="col-xs-6">
+                                                            <label class="select">
+                                                                Freguesia
+                                                                @Html.DropDownListFor(x => x.FergusiaId, new SelectList(Model.CityList, "LookUpCityId", "LookUpCityName"), "-Freguesia-")
+                                                                @Html.ValidationMessageFor(x => x.FergusiaId)
+                                                            </label>
+                                                        </section>
+                                                    </div>
+                                                    <div class="row">
+                                                        <section class="col-xs-6">
+                                                            <label class="label">Telephone</label>
+                                                            <label class="input">
+                                                                <i class="icon-append fa fa-user"></i>
+                                                                @Html.TextBoxFor(x => x.Telephone1)
+                                                                @Html.ValidationMessageFor(x => x.Telephone1)
+                                                            </label>
+                                                        </section>
+                                                        <section class="col-xs-6">
+                                                            <label class="label">Telephone2</label>
+                                                            <label class="input">
+                                                                <i class="icon-append fa fa-user"></i>
+                                                                @Html.TextBoxFor(x => x.Telephone2)
+                                                            </label>
+                                                        </section>
+                                                    </div>
+                                                    <div class="row">
+                                                        <section class="col-xs-6">
+                                                            <label class="label">Email</label>
+                                                            <label class="input">
+                                                                <i class="icon-append fa fa-envelope-o"></i>
+                                                                @Html.TextBoxFor(x => x.Email)
+                                                                @Html.ValidationMessageFor(x => x.Email)
+                                                            </label>
+                                                        </section>
+                                                        <section class="col-xs-6">
+                                                            <label class="label">Email2</label>
+                                                            <label class="input">
+                                                                <i class="icon-append fa fa-envelope-o"></i>
+                                                                @Html.TextBoxFor(x => x.Email2)
+                                                                @Html.ValidationMessageFor(x => x.Email2)
+                                                            </label>
+                                                        </section>
+                                                    </div>
+                                                    <div class="row">
+                                                        <section class="col-xs-6">
+                                                            <label class="label">Website</label>
+                                                            <label class="input">
+                                                                <i class="icon-append fa fa-phone"></i>
+                                                                @Html.TextBoxFor(x => x.Website)
+                                                                @Html.ValidationMessageFor(x => x.Website)
+                                                            </label>
+                                                        </section>
+
+                                                    </div>
+                                                    <div class="row">
+                                                        <section class="col-xs-12">
+                                                            <label class="label">Descrição</label>
+                                                            <label class="textarea">
+                                                                @Html.TextAreaFor(x => x.Description)
+                                                                @Html.ValidationMessageFor(x => x.Description)
+                                                            </label>
+                                                        </section>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <button type="submit" class="btn btn-base btn-icon btn-icon-right btn-sign-in pull-right">
+                                                            <span>Register Now</span>
+                                                        </button>
+                                                    </div>
+                                                </section>
+                                            </fieldset>
+
+
+                                        </div>
+                                    }
+                                </div>
+                                <div class="form-footer">
+                                    <p>Already have an account? <a href="sign-in-1.html">Click here to sign in.</a></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+
+
+
+        @*@using (Html.BeginForm("RegisterCompany", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="form-group" id="Message" style="display:none;">
+                    <div class="col-md-offset-3 col-md-9">
+                        <label style="color:red;">@ViewBag.Message</label>
+                    </div>
+                </div>
+                @Html.HiddenFor(m => m.UserName)
+                @Html.HiddenFor(m => m.Password)
+                @Html.HiddenFor(m => m.ConfirmPassword)
+                @Html.HiddenFor(m => m.RoleId)
+                @Html.HiddenFor(m => m.Accept)
+                <div id="member-div">
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Nome*</label>
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(x => x.FullName, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.FullName)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Morada</label>
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(x => x.Address, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.Address)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Localidade</label>
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(x => x.PostalLocal, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.PostalLocal)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Cód. Postal</label>
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(x => x.PostalCode, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.PostalCode)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Contribuinte*</label>
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(x => x.TaxId, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.TaxId)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">País</label>
+                        <div class="col-md-6">
+                            @Html.DropDownListFor(x => x.CountryId, new SelectList(Model.CountryList, "CountryId", "CountryName"), "-Country-", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.CountryId)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Distrito</label>
+                        <div class="col-md-6">
+                            @Html.DropDownListFor(x => x.DistritosId, new SelectList(Model.StateList, "LookUpStateId", "LookUpStateName"), "-Distrito-", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.DistritosId)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Concelho</label>
+                        <div class="col-md-6">
+                            @Html.DropDownListFor(x => x.ConcelhosId, new SelectList(Model.ProvinceList, "LookUpProvinceId", "LookUpProvinceName"), "-Concelho-", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.ConcelhosId)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Freguesia</label>
+                        <div class="col-md-6">
+                            @Html.DropDownListFor(x => x.FergusiaId, new SelectList(Model.CityList, "LookUpCityId", "LookUpCityName"), "-Freguesia-", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.FergusiaId)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Telefones</label>
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(x => x.Telephone1, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.Telephone1)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label"></label>
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(x => x.Telephone2, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Fax, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(x => x.Fax, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.Fax)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Emails</label>
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(x => x.Email, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.Email)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label"></label>
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(x => x.Email2, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Internet</label>
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(x => x.Website, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.Website)
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">Biografia</label>
+                        <div class="col-md-6">
+                            @Html.TextAreaFor(x => x.Description, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.Description)
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-3 col-md-9">
+                        <input type="submit" class="btn btn-sign-in" value="Register" />
+                    </div>
+                </div>
+
+            }*@
+    </div>
+    <div class="col-md-4">
+        @{Html.RenderAction("Banner", "Home");}
+
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        if ('@ViewBag.Message' != '') {
+            $("#Message").show();
+        }
+        else { $("#Message").hide(); }
+    });
+</script>

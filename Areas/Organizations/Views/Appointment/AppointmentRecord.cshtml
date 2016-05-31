@@ -1,0 +1,110 @@
+﻿@model MyOnlineClinic.Web.Models.AppointmentViewModel
+@{
+    ViewBag.Title = "DoctorDetail";
+    Layout = "~/Areas/Organizations/Views/Shared/_OrganizationLayout.cshtml";
+}
+<style>
+    p.add {
+        margin-top: 12px;
+        font-size: 14px;
+        text-transform: capitalize;
+        font-weight: 600;
+    }
+</style>
+<div class="right_col" role="main">
+    <div class="">
+        <div class="page-title">
+            <div class="title_left">
+            </div>
+            <div class="title_right pull-right">
+                <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search for...">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">Go!</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                    <div class="row">
+                        <div class="col-sm-7">
+                            <h2 class="default-title" style=" color: #0aa49c">Appointment Record</h2>
+                        </div>
+                        
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="col-sm-4">
+                                <p class="patient" style="color: #1A86BB;">Patient Address:</p>
+                                <img src="@Model.PatientProfilePic" class="img-circle" id="circle" style="height:100px;width:100px;" />
+                                <p class="name pull-right" style=" margin-right: 37%;">@Model.PatientName</p>
+                                
+                                <br />
+                                <p class="add">@Model.PatientAddress<br />
+                                    @Model.PatientCountryname<br />
+                                 </p>
+                            </div>
+
+                            <div class="col-sm-4 pull-right">
+                                <p class="patient" style="color: #1A86BB;">Doctor Address:</p>
+                                <img src="@Model.DoctorProfilePic" class="img-circle" id="circle" style="height:100px;width:100px;" />
+                                <p class="name pull-right" style=" margin-right: 37%;">@Model.DoctorName</p>
+
+                                <br />
+                                <p class="add">
+                                    @Model.DoctorAddress<br />
+                                   @Model.DoctorCountryname<br />
+                            
+                                </p>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="x_content">
+                       
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                  
+
+                                    <th>Organization </th>
+                                    <th>Patient Name</th>
+                                    <th>Patient TimeZone</th>
+                                    <th>Doctor Name</th>
+                                    <th>Doctor Timezone </th>
+                                    <th>Admin Timezone</th>
+
+
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <tr>
+                                   
+
+                                    <td>@Model.OrganizationName</td>
+                                    <td>@Model.PatientName</td>
+                                    <td>@Model.PatientTimezone</td>
+                                    <td>@Model.DoctorName</td>
+                                    <td>@Model.DoctorTimezone</td>
+                                    <td>@Model.ADminTimezone</td>
+
+
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <br />
+            <br />
+        </div>
+    </div>
+</div>
